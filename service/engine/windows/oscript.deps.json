@@ -7,14 +7,14 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {},
     ".NETCoreApp,Version=v6.0/win-x64": {
-      "oscript/2.0.0-rc6-28966891": {
+      "oscript/2.0.0-rc5-28826946": {
         "dependencies": {
-          "OneScript": "2.0.0-rc6-28966891",
-          "OneScript.DebugProtocol": "2.0.0-rc6-28966891",
-          "OneScript.DebugServices": "2.0.0-rc6-28966891",
-          "OneScript.Hosting": "2.0.0-rc6-28966891",
-          "OneScript.Language": "2.0.0-rc6-28966891",
-          "OneScript.StandardLibrary": "2.0.0-rc6-28966891",
+          "OneScript": "2.0.0-rc5-28826946",
+          "OneScript.DebugProtocol": "2.0.0-rc5-28826946",
+          "OneScript.DebugServices": "2.0.0-rc5-28826946",
+          "OneScript.Hosting": "2.0.0-rc5-28826946",
+          "OneScript.Language": "2.0.0-rc5-28826946",
+          "OneScript.StandardLibrary": "2.0.0-rc5-28826946",
           "OneScript.Core": "2.0.0.0",
           "ScriptEngine": "2.0.0.0",
           "ScriptEngine.HostedScript": "2.0.0.0",
@@ -1485,77 +1485,77 @@
           "runtime.any.System.Text.Encoding.Extensions": "4.3.0"
         }
       },
-      "OneScript/2.0.0-rc6-28966891": {
+      "OneScript/2.0.0-rc5-28826946": {
         "dependencies": {
-          "OneScript.CoreLib": "2.0.0-rc6-28966891",
-          "OneScript.Language": "2.0.0-rc6-28966891",
-          "OneScript.Native": "2.0.0-rc6-28966891"
+          "OneScript.CoreLib": "2.0.0-rc5-28826946",
+          "OneScript.Language": "2.0.0-rc5-28826946",
+          "OneScript.Native": "2.0.0-rc5-28826946"
         },
         "runtime": {
           "ScriptEngine.dll": {}
         }
       },
-      "OneScript.CoreLib/2.0.0-rc6-28966891": {
+      "OneScript.CoreLib/2.0.0-rc5-28826946": {
         "dependencies": {
-          "OneScript.Language": "2.0.0-rc6-28966891"
+          "OneScript.Language": "2.0.0-rc5-28826946"
         },
         "runtime": {
           "OneScript.Core.dll": {}
         }
       },
-      "OneScript.DebugProtocol/2.0.0-rc6-28966891": {
+      "OneScript.DebugProtocol/2.0.0-rc5-28826946": {
         "runtime": {
           "OneScript.DebugProtocol.dll": {}
         }
       },
-      "OneScript.DebugServices/2.0.0-rc6-28966891": {
+      "OneScript.DebugServices/2.0.0-rc5-28826946": {
         "dependencies": {
-          "OneScript": "2.0.0-rc6-28966891",
-          "OneScript.DebugProtocol": "2.0.0-rc6-28966891"
+          "OneScript": "2.0.0-rc5-28826946",
+          "OneScript.DebugProtocol": "2.0.0-rc5-28826946"
         },
         "runtime": {
           "OneScript.DebugServices.dll": {}
         }
       },
-      "OneScript.Hosting/2.0.0-rc6-28966891": {
+      "OneScript.Hosting/2.0.0-rc5-28826946": {
         "dependencies": {
-          "OneScript": "2.0.0-rc6-28966891",
-          "OneScript.StandardLibrary": "2.0.0-rc6-28966891",
-          "OneScript.Web.Server": "2.0.0-rc6-28966891"
+          "OneScript": "2.0.0-rc5-28826946",
+          "OneScript.StandardLibrary": "2.0.0-rc5-28826946",
+          "OneScript.Web.Server": "2.0.0-rc5-28826946"
         },
         "runtime": {
           "ScriptEngine.HostedScript.dll": {}
         }
       },
-      "OneScript.Language/2.0.0-rc6-28966891": {
+      "OneScript.Language/2.0.0-rc5-28826946": {
         "runtime": {
           "OneScript.Language.dll": {}
         }
       },
-      "OneScript.Native/2.0.0-rc6-28966891": {
+      "OneScript.Native/2.0.0-rc5-28826946": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
-          "OneScript.CoreLib": "2.0.0-rc6-28966891",
-          "OneScript.Language": "2.0.0-rc6-28966891"
+          "OneScript.CoreLib": "2.0.0-rc5-28826946",
+          "OneScript.Language": "2.0.0-rc5-28826946"
         },
         "runtime": {
           "OneScript.Native.dll": {}
         }
       },
-      "OneScript.StandardLibrary/2.0.0-rc6-28966891": {
+      "OneScript.StandardLibrary/2.0.0-rc5-28826946": {
         "dependencies": {
           "DotNetZip": "1.13.3",
           "Newtonsoft.Json": "13.0.2",
-          "OneScript": "2.0.0-rc6-28966891"
+          "OneScript": "2.0.0-rc5-28826946"
         },
         "runtime": {
           "OneScript.StandardLibrary.dll": {}
         }
       },
-      "OneScript.Web.Server/2.0.0-rc6-28966891": {
+      "OneScript.Web.Server/2.0.0-rc5-28826946": {
         "dependencies": {
-          "OneScript": "2.0.0-rc6-28966891",
-          "OneScript.StandardLibrary": "2.0.0-rc6-28966891"
+          "OneScript": "2.0.0-rc5-28826946",
+          "OneScript.StandardLibrary": "2.0.0-rc5-28826946"
         },
         "runtime": {
           "OneScript.Web.Server.dll": {}
@@ -1565,7 +1565,7 @@
         "runtime": {
           "OneScript.Core.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.541"
+            "fileVersion": "2.0.0.517"
           }
         }
       },
@@ -1573,7 +1573,7 @@
         "runtime": {
           "ScriptEngine.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.541"
+            "fileVersion": "2.0.0.517"
           }
         }
       },
@@ -1581,14 +1581,14 @@
         "runtime": {
           "ScriptEngine.HostedScript.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.541"
+            "fileVersion": "2.0.0.517"
           }
         }
       }
     }
   },
   "libraries": {
-    "oscript/2.0.0-rc6-28966891": {
+    "oscript/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1722,47 +1722,47 @@
       "path": "system.text.encoding.extensions/4.3.0",
       "hashPath": "system.text.encoding.extensions.4.3.0.nupkg.sha512"
     },
-    "OneScript/2.0.0-rc6-28966891": {
+    "OneScript/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.CoreLib/2.0.0-rc6-28966891": {
+    "OneScript.CoreLib/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.DebugProtocol/2.0.0-rc6-28966891": {
+    "OneScript.DebugProtocol/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.DebugServices/2.0.0-rc6-28966891": {
+    "OneScript.DebugServices/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.Hosting/2.0.0-rc6-28966891": {
+    "OneScript.Hosting/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.Language/2.0.0-rc6-28966891": {
+    "OneScript.Language/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.Native/2.0.0-rc6-28966891": {
+    "OneScript.Native/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.StandardLibrary/2.0.0-rc6-28966891": {
+    "OneScript.StandardLibrary/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "OneScript.Web.Server/2.0.0-rc6-28966891": {
+    "OneScript.Web.Server/2.0.0-rc5-28826946": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
