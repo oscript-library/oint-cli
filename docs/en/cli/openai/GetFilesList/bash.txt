@@ -1,0 +1,3 @@
+oint openai GetFilesList \
+ --url "https://hut.openintegrations.dev/localai/" \
+ --token "***"

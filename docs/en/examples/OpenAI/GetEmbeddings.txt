@@ -1,0 +1,7 @@
+﻿    URL   = "https://hut.openintegrations.dev/localai/";
+    Token = "12We...";
+
+    Text  = "What is 1C:Enterprise?";
+    Model = "text-embedding-ada-002";
+
+    Result = OPI_OpenAI.GetEmbeddings(URL, Token, Model, Text);

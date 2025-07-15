@@ -34,10 +34,10 @@ import TabItem from '@theme/TabItem';
 
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
-    Токен         = "ya29.a0AW4XtxhtghlL7aK7VhJX0jOgNWau4CUoOEDkQBr4uJEjPidCjKm-4r4l7AoJnODBt7yblowJtvv_3vETd6CulW4V5zxxPx8TTvQAMESj7...";
+    Токен         = "ya29.a0AS3H6Nw6rTG3pFXv17ZLXkvuvtNl_DHHXbxe2yDRIB09Sq-BA7xPQj9V7OKAaAiHRZAsVqI0UD6026Q_3gklXjU-kam0kzFCe2adXI3lS...";
     НовоеИмя      = "Обновленный файл.jpg";
-    Идентификатор = "1jnYtECZqTZpHN3SBvNxTvytyYwAk6q8d";
-    Файл          = "https://api.athenaeum.digital/test_data/picture2.jpg"; // URL, Двоичные данные или Путь к файлу
+    Идентификатор = "1EXU3VzYWlZfoXu71DWUirbJeN7AAfpkg";
+    Файл          = "https://hut.openintegrations.dev/test_data/picture2.jpg"; // URL, Двоичные данные или Путь к файлу
 
     Результат = OPI_GoogleDrive.ОбновитьФайл(Токен, Идентификатор, Файл, НовоеИмя);
 ```
@@ -49,8 +49,8 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint gdrive ОбновитьФайл \
               --token "***" \
-              --object "1mZOvJOzvuGapieFWiLH8Ubwn23FHLWpI" \
-              --file "https://github.com/Bayselonarrend/OpenIntegrations/raw/main/service/test_data/picture2.jpg" \
+              --object "1l_rtyAcfueJtiF0mAh71GRiCV6Fj-iZR" \
+              --file "https://hut.openintegrations.dev/test_data/picture2.jpg" \
               --title "Обновленный файл.jpg"
         ```
     </TabItem>
@@ -59,8 +59,8 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint gdrive ОбновитьФайл ^
               --token "***" ^
-              --object "1mZOvJOzvuGapieFWiLH8Ubwn23FHLWpI" ^
-              --file "https://github.com/Bayselonarrend/OpenIntegrations/raw/main/service/test_data/picture2.jpg" ^
+              --object "1l_rtyAcfueJtiF0mAh71GRiCV6Fj-iZR" ^
+              --file "https://hut.openintegrations.dev/test_data/picture2.jpg" ^
               --title "Обновленный файл.jpg"
         ```
     </TabItem>

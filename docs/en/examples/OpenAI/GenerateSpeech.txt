@@ -1,0 +1,9 @@
+﻿    URL   = "https://hut.openintegrations.dev/localai/";
+    Token = "12We...";
+
+    Text  = "Attack ships on fire off the shoulder of Orion bright as magnesium";
+    Model = "tts-1";
+
+    AdditionalParameters = New Structure("response_format", "wav");
+
+    Result = OPI_OpenAI.GenerateSpeech(URL, Token, Model, Text, , AdditionalParameters);

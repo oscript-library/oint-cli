@@ -1,0 +1,7 @@
+﻿    URL   = "https://hut.openintegrations.dev/localai/";
+    Токен = "12We...";
+
+    Текст  = "What is 1C:Enterprise?";
+    Модель = "text-embedding-ada-002";
+
+    Результат = OPI_OpenAI.ПолучитьПредставления(URL, Токен, Модель, Текст);

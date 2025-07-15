@@ -1,7 +1,8 @@
-﻿// OneScript: ./OInt/core/Modules/OPI_GoogleSheets.os
+// OneScript: ./OInt/core/Modules/OPI_GoogleSheets.os
 // Lib: Google Sheets
 // CLI: gsheets
 // Keywords: googlesheets, google sheets, spreadsheets
+// Depends: OPI_GoogleWorkspace
 
 // MIT License
 
@@ -30,13 +31,11 @@
 // BSLLS:LatinAndCyrillicSymbolInWord-off
 // BSLLS:IncorrectLineBreak-off
 // BSLLS:UsingServiceTag-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
-
-// Uncomment if OneScript is executed
-#Use "../../tools"
 
 #Region Public
 
@@ -417,5 +416,45 @@ Procedure FormCellNameArray(Val ArrayOfNames, Val Sheet)
    EndDo;
 
 EndProcedure
+
+#EndRegion
+
+#Region Alternate
+
+Function СоздатьКнигу(Val Токен, Val Наименование, Val МассивИменЛистов) Export
+	Return CreateSpreadsheet(Токен, Наименование, МассивИменЛистов);
+EndFunction
+
+Function ПолучитьКнигу(Val Токен, Val Идентификатор) Export
+	Return GetSpreadsheet(Токен, Идентификатор);
+EndFunction
+
+Function ИзменитьНаименованиеКниги(Val Токен, Val Книга, Val Наименование) Export
+	Return EditSpreadsheetTitle(Токен, Книга, Наименование);
+EndFunction
+
+Function ДобавитьЛист(Val Токен, Val Книга, Val Наименование) Export
+	Return AddSheet(Токен, Книга, Наименование);
+EndFunction
+
+Function УдалитьЛист(Val Токен, Val Книга, Val Лист) Export
+	Return DeleteSheet(Токен, Книга, Лист);
+EndFunction
+
+Function КопироватьЛист(Val Токен, Val Откуда, Val Куда, Val Лист) Export
+	Return CopySheet(Токен, Откуда, Куда, Лист);
+EndFunction
+
+Function УстановитьЗначенияЯчеек(Val Токен, Val Книга, Val СоответствиеЗначений, Val Лист = "", Val ОсновноеИзмерение = "COLUMNS") Export
+	Return SetCellValues(Токен, Книга, СоответствиеЗначений, Лист, ОсновноеИзмерение);
+EndFunction
+
+Function ОчиститьЯчейки(Val Токен, Val Книга, Val МассивЯчеек, Val Лист = "") Export
+	Return ClearCells(Токен, Книга, МассивЯчеек, Лист);
+EndFunction
+
+Function ПолучитьЗначенияЯчеек(Val Токен, Val Книга, Val МассивЯчеек = "", Val Лист = "") Export
+	Return GetCellValues(Токен, Книга, МассивЯчеек, Лист);
+EndFunction
 
 #EndRegion

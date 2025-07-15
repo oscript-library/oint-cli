@@ -1,7 +1,8 @@
-﻿// OneScript: ./OInt/core/Modules/OPI_GoogleCalendar.os
+// OneScript: ./OInt/core/Modules/OPI_GoogleCalendar.os
 // Lib: Google Calendar
 // CLI: gcalendar
 // Keywords: google calendar, googlecalendar, gcalendar
+// Depends: OPI_GoogleWorkspace
 
 // MIT License
 
@@ -30,13 +31,11 @@
 // BSLLS:LatinAndCyrillicSymbolInWord-off
 // BSLLS:IncorrectLineBreak-off
 // BSLLS:UsingServiceTag-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
-
-// Uncomment if OneScript is executed
-#Use "../../tools"
 
 #Region Public
 
@@ -653,5 +652,77 @@ Procedure GetEventsListRecursively(Val Headers, Val Calendar, ArrayOfEvents, Pag
     EndIf;
 
 EndProcedure
+
+#EndRegion
+
+#Region Alternate
+
+Function СоздатьКалендарь(Val Токен, Val Наименование) Export
+	Return CreateCalendar(Токен, Наименование);
+EndFunction
+
+Function ПолучитьМетаданныеКалендаря(Val Токен, Val Календарь) Export
+	Return GetCalendarMetadata(Токен, Календарь);
+EndFunction
+
+Function ИзменитьМетаданныеКалендаря(Val Токен, Val Календарь, Val Наименование = "", Val Описание = "") Export
+	Return EditCalendarMetadata(Токен, Календарь, Наименование, Описание);
+EndFunction
+
+Function ОчиститьОсновнойКалендарь(Val Токен) Export
+	Return ClearMainCalendar(Токен);
+EndFunction
+
+Function УдалитьКалендарь(Val Токен, Val Календарь) Export
+	Return DeleteCalendar(Токен, Календарь);
+EndFunction
+
+Function ПолучитьСписокКалендарей(Val Токен) Export
+	Return GetCalendarList(Токен);
+EndFunction
+
+Function ДобавитьКалендарьВСписок(Val Токен, Val Календарь) Export
+	Return AddCalendarToList(Токен, Календарь);
+EndFunction
+
+Function ПолучитьКалендарьСписка(Val Токен, Val Календарь) Export
+	Return GetListCalendar(Токен, Календарь);
+EndFunction
+
+Function УдалитьКалендарьИзСписка(Val Токен, Val Календарь) Export
+	Return DeleteCalendarFromList(Токен, Календарь);
+EndFunction
+
+Function ИзменитьКалендарьСписка(Val Токен, Val Календарь, Val ОсновнойЦвет, Val ДополнительныйЦвет, Val Скрытый = False) Export
+	Return EditListCalendar(Токен, Календарь, ОсновнойЦвет, ДополнительныйЦвет, Скрытый);
+EndFunction
+
+Function ПолучитьОписаниеСобытия(Val Пустая = False) Export
+	Return GetEventDescription(Пустая);
+EndFunction
+
+Function ПолучитьСписокСобытий(Val Токен, Val Календарь) Export
+	Return GetEventList(Токен, Календарь);
+EndFunction
+
+Function ПолучитьСобытие(Val Токен, Val Календарь, Val Событие) Export
+	Return GetEvent(Токен, Календарь, Событие);
+EndFunction
+
+Function СоздатьСобытие(Val Токен, Val Календарь, Val ОписаниеСобытия) Export
+	Return CreateEvent(Токен, Календарь, ОписаниеСобытия);
+EndFunction
+
+Function ПереместитьСобытие(Val Токен, Val КалендарьИсточник, Val КалендарьПриемник, Val Событие) Export
+	Return MoveEvent(Токен, КалендарьИсточник, КалендарьПриемник, Событие);
+EndFunction
+
+Function ИзменитьСобытие(Val Токен, Val Календарь, Val ОписаниеСобытия, Val Событие) Export
+	Return EditEvent(Токен, Календарь, ОписаниеСобытия, Событие);
+EndFunction
+
+Function УдалитьСобытие(Val Токен, Val Календарь, Val Событие) Export
+	Return DeleteEvent(Токен, Календарь, Событие);
+EndFunction
 
 #EndRegion

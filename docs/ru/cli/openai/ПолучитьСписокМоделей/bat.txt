@@ -1,0 +1,3 @@
+oint openai ПолучитьСписокМоделей ^
+  --url "https://hut.openintegrations.dev/localai/" ^
+  --token "***"

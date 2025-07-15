@@ -1,6 +1,7 @@
-﻿// OneScript: ./OInt/core/Modules/OPI_YandexMarket.os
+// OneScript: ./OInt/core/Modules/OPI_YandexMarket.os
 // Lib: Yandex Market
 // CLI: yamarket
+// Depends: OPI_YandexID
 
 // MIT License
 
@@ -32,14 +33,12 @@
 // BSLLS:NumberOfOptionalParams-off
 // BSLLS:UsingServiceTag-off
 // BSLLS:LineLength-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
 //@skip-check method-too-many-params
-
-// Uncomment if OneScript is executed
-#Use "../../tools"
 
 #Region Public
 
@@ -424,6 +423,42 @@ Function CreateRequestHeaders(Val Token)
     Headers.Insert("Api-Key", Token);
     Return Headers;
 
+EndFunction
+
+#EndRegion
+
+#Region Alternate
+
+Function ПолучитьСписокМагазинов(Val Токен, Val Страница = 1) Export
+	Return GetMarketsList(Токен, Страница);
+EndFunction
+
+Function ПолучитьМагазин(Val Токен, Val IDМагазина) Export
+	Return GetMarket(Токен, IDМагазина);
+EndFunction
+
+Function ПолучитьНастройкиКабинета(Val Токен, Val IDКабинета) Export
+	Return GetBusinessSettings(Токен, IDКабинета);
+EndFunction
+
+Function ПолучитьНастройкиМагазина(Val Токен, Val IDМагазина) Export
+	Return GetCampaignSettings(Токен, IDМагазина);
+EndFunction
+
+Function ДобавитьОбновитьТовары(Val Токен, Val IDКабинета, Val МассивТоваров, Val СвоиИзображения = False) Export
+	Return AddUpdateProducts(Токен, IDКабинета, МассивТоваров, СвоиИзображения);
+EndFunction
+
+Function ПолучитьТоварыМагазина(Val Токен, Val IDМагазина, Val Фильтры = "", Val ТокенСтраницы = "") Export
+	Return GetCampaignProducts(Токен, IDМагазина, Фильтры, ТокенСтраницы);
+EndFunction
+
+Function ПолучитьТоварыКабинета(Val Токен, Val IDКабинета, Val Фильтры = "", Val ТокенСтраницы = "") Export
+	Return GetBusinessProducts(Токен, IDКабинета, Фильтры, ТокенСтраницы);
+EndFunction
+
+Function ПолучитьСтруктуруТовара(Val Пустая = False) Export
+	Return GetProductStructure(Пустая);
 EndFunction
 
 #EndRegion

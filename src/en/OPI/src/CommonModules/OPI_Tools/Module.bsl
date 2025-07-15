@@ -30,6 +30,8 @@
 // BSLLS:UnusedLocalVariable-off
 // BSLLS:UsingServiceTag-off
 // BSLLS:NumberOfOptionalParams-off
+// BSLLS:UsingSynchronousCalls-off
+// BSLLS:MagicNumber-off
 
 //@skip-check module-unused-local-variable
 //@skip-check method-too-many-params
@@ -258,9 +260,13 @@ EndFunction
 
 Function ReadJSONFile(Val Path) Export
 
+    // BSLLS:ExternalAppStarting-off
+
     JSONReader = New JSONReader;
     JSONReader.OpenFile(Path);
     Values     = ReadJSON(JSONReader);
+
+    // BSLLS:ExternalAppStarting-on
 
     JSONReader.Close();
 
@@ -736,7 +742,11 @@ Procedure DebugInfo(Val Text) Export
     EndTry;
 
     If IsDebug = "YES" Then
+
+        // BSLLS:DeprecatedMessage-off
         Message(Text);
+        // BSLLS:DeprecatedMessage-on
+
     EndIf;
 
 EndProcedure
@@ -1134,10 +1144,10 @@ Function GetEscapeSequencesMap()
 
     CharacterMapping = New Map;
 
-    CharacterMapping.Insert("\n", Chars.LF);
-    CharacterMapping.Insert("\r", Chars.CR);
-    CharacterMapping.Insert("\f", Chars.FF);
-    CharacterMapping.Insert("\v", Chars.VTab);
+    CharacterMapping.Insert("\n" , Chars.LF);
+    CharacterMapping.Insert("\r" , Chars.CR);
+    CharacterMapping.Insert("\f" , Chars.FF);
+    CharacterMapping.Insert("\v" , Chars.VTab);
 
     Return CharacterMapping;
 

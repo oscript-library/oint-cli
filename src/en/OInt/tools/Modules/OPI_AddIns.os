@@ -1,4 +1,4 @@
-﻿// OneScript: ./OInt/tools/Modules/OPI_AddIns.os
+// OneScript: ./OInt/tools/Modules/OPI_AddIns.os
 
 // MIT License
 
@@ -34,6 +34,7 @@
 // BSLLS:DuplicateStringLiteral-off
 // BSLLS:MagicNumber-off
 // BSLLS:UsingHardcodeNetworkAddress-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check use-non-recommended-method
 //@skip-check module-structure-top-region
@@ -58,7 +59,7 @@ Function GetAddIn(Val AddInName, Val Class = "Main") Export
         AddIn = AttachAddInOnServer(AddInName, Class, Error);
 
         If ValueIsFilled(Error) Then
-            FormAddInException();
+            FormAddInException(Error);
         EndIf;
 
     EndIf;
@@ -163,7 +164,7 @@ Function AddInsFolderOS() Export
 
 EndFunction
 
-Procedure FormAddInException()
+Procedure FormAddInException(Val Error)
 
     Text = "Failed to initialize an external component. It may not be compatible with your operating system.";
 
@@ -182,10 +183,38 @@ Procedure FormAddInException()
     Text = Text
         + Chars.LF
         + Chars.LF
-        + "Read more: https://en.openintegrations.dev/docs/Start/Component-requirements";
+        + "Read more: https://en.openintegrations.dev/docs/Start/Component-requirements"
+        + Chars.LF
+        + Chars.LF
+        + "System info:"
+        + Error;
 
     Raise Text;
 
 EndProcedure
+
+#EndRegion
+
+#Region Alternate
+
+Function ПолучитьКомпоненту(Val ИмяКомпоненты, Val Класс = "Main") Export
+	Return GetAddIn(ИмяКомпоненты, Класс);
+EndFunction
+
+Function ЭтоКомпонента(Val Значение) Export
+	Return IsAddIn(Значение);
+EndFunction
+
+Function УстановитьTls(Val Компонета, Val Tls) Export
+	Return SetTls(Компонета, Tls);
+EndFunction
+
+Function ПолучитьНастройкиTls(Val ОтключитьПроверкуСертификатов, Val ПутьКСертификату = "") Export
+	Return GetTlsSettings(ОтключитьПроверкуСертификатов, ПутьКСертификату);
+EndFunction
+
+Function КаталогКомпонентOS() Export
+	Return AddInsFolderOS();
+EndFunction
 
 #EndRegion

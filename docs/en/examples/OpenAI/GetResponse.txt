@@ -1,0 +1,33 @@
+﻿    URL   = "https://hut.openintegrations.dev/localai/";
+    Token = "12We...";
+
+    // Text messages
+
+    Messages = New Array;
+    Messages.Add(OPI_OpenAI.GetMessageStructure("user"     , "What is 1C:Enterprise?"));
+    Messages.Add(OPI_OpenAI.GetMessageStructure("assistant", "1C:Enterprise is a full-stack, low-code platform"));
+    Messages.Add(OPI_OpenAI.GetMessageStructure("user"     , "When the first version was released?"));
+
+    Model = "smolvlm-256m-instruct";
+
+    Result = OPI_OpenAI.GetResponse(URL, Token, Model, Messages);
+
+    // Pictures
+
+    Model       = "moondream2-20250414";
+    File        = "https://hut.openintegrations.dev/test_data/picture.jpg"; // URL, Path or Binary Data
+    FileName    = StrTemplate("%1.png", String(New UUID()));
+    Destination = "user_data";
+
+    Messages = New Array;
+
+    ImageUpload = OPI_OpenAI.UploadFile(URL, Token, FileName, File, Destination);
+    ImageID     = ImageUpload["id"];
+
+    Description = OPI_OpenAI.GetImageMessageStructure("user", ImageID, "What is in this image?");
+
+    Messages.Add(Description);
+
+    Result = OPI_OpenAI.GetResponse(URL, Token, Model, Messages);
+
+    OPI_OpenAI.DeleteFile(URL, Token, ImageID);

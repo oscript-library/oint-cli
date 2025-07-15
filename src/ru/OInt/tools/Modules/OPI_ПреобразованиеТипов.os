@@ -1,4 +1,4 @@
-﻿// OneScript: ./OInt/tools/Modules/OPI_ПреобразованиеТипов.os
+// OneScript: ./OInt/tools/Modules/OPI_ПреобразованиеТипов.os
 
 // MIT License
 
@@ -28,6 +28,7 @@
 // BSLLS:IncorrectLineBreak-off
 // BSLLS:UnusedLocalVariable-off
 // BSLLS:UsingServiceTag-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
@@ -104,6 +105,8 @@
 
     Попытка
 
+        // BSLLS:ExternalAppStarting-off
+
         ИсходноеЗначение = Значение;
 
         Если ЭтоКоллекция(Значение) Тогда
@@ -153,6 +156,8 @@
             КонецЕсли;
 
         КонецЕсли;
+
+        // BSLLS:ExternalAppStarting-on
 
     Исключение
 
@@ -434,3 +439,47 @@
 КонецПроцедуры
 
 #КонецОбласти
+
+#Region Alternate
+
+Procedure GetBinaryData(Value, Val Force = False, Val TryB64 = True) Export
+	ПолучитьДвоичныеДанные(Value, Force, TryB64);
+EndProcedure
+
+Procedure GetBinaryOrStream(Value) Export
+	ПолучитьДвоичныеИлиПоток(Value);
+EndProcedure
+
+Procedure GetCollection(Value) Export
+	ПолучитьКоллекцию(Value);
+EndProcedure
+
+Procedure GetKeyValueCollection(Value, Val ErrorText = "The specified value is not a valid collection!") Export
+	ПолучитьКоллекциюКлючИЗначение(Value, ErrorText);
+EndProcedure
+
+Procedure GetArray(Value) Export
+	ПолучитьМассив(Value);
+EndProcedure
+
+Procedure GetBoolean(Value) Export
+	ПолучитьБулево(Value);
+EndProcedure
+
+Procedure GetLine(Value, Val FromSource = False) Export
+	ПолучитьСтроку(Value, FromSource);
+EndProcedure
+
+Procedure GetDate(Value) Export
+	ПолучитьДату(Value);
+EndProcedure
+
+Procedure GetNumber(Value) Export
+	ПолучитьЧисло(Value);
+EndProcedure
+
+Procedure GetFileOnDisk(Value, Val Extension = "tmp") Export
+	ПолучитьФайлНаДиске(Value, Extension);
+EndProcedure
+
+#EndRegion

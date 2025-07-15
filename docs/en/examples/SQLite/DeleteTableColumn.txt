@@ -1,0 +1,5 @@
+﻿    Base  = FunctionParameters["SQLite_DB"];
+    Table = "test";
+    Name  = "new_col";
+
+    Result = OPI_SQLite.DeleteTableColumn(Table, Name, Base);

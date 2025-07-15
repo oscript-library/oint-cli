@@ -34,10 +34,26 @@ Passing Tls settings together with passing an already created connection to the 
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
-    Result = OPI_MySQL.GetTlsSettings(False);
+    Result = OPI_MySQL.GetTlsSettings(True);
 ```
  
 
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint mysql GetTlsSettings \
+             --trust true
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint mysql GetTlsSettings ^
+             --trust true
+        ```
+    </TabItem>
+</Tabs>
 
 
 ```json title="Result"

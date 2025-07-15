@@ -1,4 +1,4 @@
-﻿// OneScript: ./OInt/core/Modules/OPI_RCON.os
+// OneScript: ./OInt/core/Modules/OPI_RCON.os
 // Lib: RCON
 // CLI: rcon
 // Keywords: rcon, remote console
@@ -33,14 +33,13 @@
 // BSLLS:NumberOfOptionalParams-off
 // BSLLS:UsingServiceTag-off
 // BSLLS:LineLength-off
+// BSLLS:UsingSynchronousCalls-off
+// BSLLS:MagicNumber-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
 //@skip-check method-too-many-params
-
-// Uncomment if OneScript is executed
-#Use "../../tools"
 
 #Region Public
 
@@ -160,5 +159,25 @@ Function IsConnector(Val Value) Export
 EndFunction
 
 #EndRegion
+
+#EndRegion
+
+#Region Alternate
+
+Function ОткрытьСоединение(Val ПараметрыСоединения) Export
+	Return CreateConnection(ПараметрыСоединения);
+EndFunction
+
+Function ВыполнитьКоманду(Val Команда, Val Соединение) Export
+	Return ExecuteCommand(Команда, Соединение);
+EndFunction
+
+Function СформироватьПараметрыСоединения(Val URL, Val Пароль, Val ТаймаутЧтения = 30, Val ТаймаутЗаписи = 30) Export
+	Return FormConnectionParameters(URL, Пароль, ТаймаутЧтения, ТаймаутЗаписи);
+EndFunction
+
+Function ЭтоКоннектор(Val Значение) Export
+	Return IsConnector(Значение);
+EndFunction
 
 #EndRegion

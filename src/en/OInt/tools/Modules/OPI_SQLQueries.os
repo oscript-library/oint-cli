@@ -1,4 +1,4 @@
-﻿// OneScript: ./OInt/tools/Modules/OPI_SQLQueries.os
+// OneScript: ./OInt/tools/Modules/OPI_SQLQueries.os
 
 // MIT License
 
@@ -33,6 +33,8 @@
 // BSLLS:QueryParseError-off
 // BSLLS:AssignAliasFieldsInQuery-off
 // BSLLS:NumberOfParams-off
+// BSLLS:UsingSynchronousCalls-off
+// BSLLS:MagicNumber-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
@@ -92,6 +94,105 @@ Function CreateTable(Val Module
     Result  = ExecuteSQLQuery(Module, Request, , , Connection, Tls);
 
     Return Result;
+
+EndFunction
+
+Function AddTableColumn(Val Module
+    , Val Table
+    , Val Name
+    , Val DataType
+    , Val Connection = ""
+    , Val Tls        = Undefined) Export
+
+    Scheme = NewSQLScheme("ALTERTABLEADD", Module);
+
+    SetTableName(Scheme, Table);
+
+    SetCustomField(Scheme, "name" , Name    , "String");
+    SetCustomField(Scheme, "dtype", DataType, "String");
+
+    Request = FormSQLText(Scheme);
+    Result  = ExecuteSQLQuery(Module, Request, , , Connection, Tls);
+
+    Return Result;
+
+EndFunction
+
+Function DeleteTableColumn(Val Module
+    , Val Table
+    , Val Name
+    , Val Connection = ""
+    , Val Tls        = Undefined) Export
+
+    Scheme = NewSQLScheme("ALTERTABLEDROP", Module);
+
+    SetTableName(Scheme, Table);
+    SetCustomField(Scheme, "name", Name, "String");
+
+    Request = FormSQLText(Scheme);
+    Result  = ExecuteSQLQuery(Module, Request, , , Connection, Tls);
+
+    Return Result;
+
+EndFunction
+
+Function EnsureTable(Val Module
+    , Val Table
+    , Val ColoumnsStruct
+    , Val Connection = ""
+    , Val Tls        = Undefined) Export
+
+    ErrorText = "The column structure is not a valid key-value structure";
+    OPI_TypeConversion.GetKeyValueCollection(ColoumnsStruct, ErrorText);
+    OPI_TypeConversion.GetLine(Table);
+
+    Result_ = "result";
+
+    ResultStrucutre = New Structure(Result_, True);
+
+    Connection  = CreateConnection(Module, Connection, Tls);
+    ProblemStep = ProcessRecordsStart(Module, True, Connection);
+
+    If ValueIsFilled(ProblemStep) Then
+        Return ProblemStep;
+    EndIf;
+
+    Try
+
+        TableDescription = GetTableStructure(Module, Table, Connection, Tls);
+
+        If Not TableDescription[Result_] Then
+            Return TableDescription;
+        EndIf;
+
+        TableColumns = TableDescription["data"];
+
+        If Not ValueIsFilled(TableColumns) Then
+            ResultStrucutre = CreateTable(Module, Table, ColoumnsStruct, Connection, Tls);
+        Else
+
+            Error = NormalizeTable(Module, Table, ColoumnsStruct, TableColumns, Connection, Tls);
+
+            If Error <> Undefined Then
+                Return Error;
+            EndIf;
+
+        EndIf;
+
+        Completion = Module.ExecuteSQLQuery("COMMIT;", , , Connection);
+        ResultStrucutre.Insert("commit", Completion);
+
+    Except
+
+        Rollback = Module.ExecuteSQLQuery("ROLLBACK;", , , Connection);
+
+        ResultStrucutre.Insert(Result_   , False);
+        ResultStrucutre.Insert("error"   , ErrorDescription());
+        ResultStrucutre.Insert("rollback", Rollback);
+
+    EndTry;
+
+    Return ResultStrucutre;
 
 EndFunction
 
@@ -304,6 +405,14 @@ Function NewSQLScheme(Val Action, Val Module = Undefined)
 
         Scheme = EmptySchemeTableSchema();
 
+    ElsIf Action = "ALTERTABLEADD" Then
+
+        Scheme = EmptySchemeAlterTableAdd();
+
+    ElsIf Action = "ALTERTABLEDROP" Then
+
+        Scheme = EmptySchemeAlterTableDrop();
+
     Else
 
         Scheme = New Structure;
@@ -435,6 +544,29 @@ Function EmptySchemeTableSchema()
 
 EndFunction
 
+Function EmptySchemeAlterTableAdd()
+
+    Scheme = New Structure("type", "ALTERTABLEADD");
+
+    Scheme.Insert("table", "");
+    Scheme.Insert("name" , "");
+    Scheme.Insert("dtype", "");
+
+    Return Scheme;
+
+EndFunction
+
+Function EmptySchemeAlterTableDrop()
+
+    Scheme = New Structure("type", "ALTERTABLEDROP");
+
+    Scheme.Insert("table", "");
+    Scheme.Insert("name" , "");
+
+    Return Scheme;
+
+EndFunction
+
 #EndRegion
 
 #Region Processors
@@ -492,6 +624,14 @@ Function FormSQLText(Val Scheme)
 
         QueryText = FormTextTableSchema(Scheme);
 
+    ElsIf SchemeType = "ALTERTABLEADD" Then
+
+        QueryText = FormTextAlterTableAdd(Scheme);
+
+    ElsIf SchemeType = "ALTERTABLEDROP" Then
+
+        QueryText = FormTextAlterTableDrop(Scheme);
+
     Else
 
         QueryText = "";
@@ -511,13 +651,31 @@ Function FormTextSelect(Val Scheme)
     Filters = Scheme["filter"];
     Sort    = Scheme["order"];
     Count   = Scheme["limit"];
+    DBMS    = Scheme["dbms"];
 
-    SQLTemplate = "SELECT %1 FROM %2
-    |%3;";
+    SQLTemplate = "SELECT %1 %2 FROM %3
+    |%4
+    |%5
+    |%6;";
 
-    OptionsBlock = ForSelectOptionsText(Filters, Sort, Count);
+    FilterText  = FormFilterText(Filters);
+    SortingText = FormSortingText(Sort);
 
-    TextSQL = StrTemplate(SQLTemplate, StrConcat(Fields, ", "), Table, OptionsBlock);
+    If DBMS       = "mssql" Then
+        TopText   = FormTopText(Count);
+        LimitText = "";
+    Else
+        TopText   = "";
+        LimitText = FormCountText(Count);
+    EndIf;
+
+    TextSQL = StrTemplate(SQLTemplate
+        , TopText
+        , StrConcat(Fields, ", ")
+        , Table
+        , FilterText
+        , SortingText
+        , LimitText);
 
     Return TextSQL;
 
@@ -714,6 +872,35 @@ Function FormTextTableSchema(Val Scheme)
 
 EndFunction
 
+Function FormTextAlterTableAdd(Val Scheme)
+
+    Table    = Scheme["table"];
+    Name     = Scheme["name"];
+    DataType = Scheme["dtype"];
+
+    SQLTemplate = "ALTER TABLE %1 ADD %2 %3";
+
+    TextSQL = StrTemplate(SQLTemplate, Table, Name, DataType);
+
+    Return TextSQL;
+
+EndFunction
+
+Function FormTextAlterTableDrop(Val Scheme)
+
+    Table = Scheme["table"];
+    Name  = Scheme["name"];
+    DBMS  = Scheme["dbms"];
+
+    SQLTemplate   = "ALTER TABLE %1 DROP %2 %3";
+    Clarification = ?(DBMS = "mssql", "COLUMN", "");
+
+    TextSQL = StrTemplate(SQLTemplate, Table, Clarification, Name);
+
+    Return TextSQL;
+
+EndFunction
+
 #EndRegion
 
 #Region Auxiliary
@@ -799,7 +986,8 @@ Function ProcessRecordsStart(Val Module, Val Transaction, Val Connection)
 
     If Transaction Then
 
-        Start = Module.ExecuteSQLQuery("BEGIN", , , Connection);
+        Text  = Module.GetFeatures()["TransactionStart"];
+        Start = Module.ExecuteSQLQuery(Text, , , Connection);
 
         If Not Start["result"] Then
             Return Start;
@@ -864,19 +1052,74 @@ Function AddRow(Val Module, Val Table, Val Record, Val Connection)
 
 EndFunction
 
-Function ForSelectOptionsText(Val Filters, Val Sort, Val Count)
+Function NormalizeTable(Val Module
+    , Val Table
+    , Val ColoumnsStruct
+    , Val TableColumns
+    , Val Connection
+    , Val Tls)
 
-    BlockTemplate = "%1
-    |%2
-    |%3";
+    FoundMapping = New Map;
+    FieldName    = Module.GetFeatures()["ColumnField"];
 
-    FilterText  = FormFilterText(Filters);
-    SortingText = FormSortingText(Sort);
-    CountText   = FormCountText(Count);
+    DeleteCode = 0;
+    AddCode    = 1;
+    IgnoreCode = 2;
 
-    BlockText = StrTemplate(BlockTemplate, FilterText, SortingText, CountText);
+    For Each Coloumn In TableColumns Do
 
-    Return BlockText;
+        ColumnName = Coloumn[FieldName];
+
+        If Not ValueIsFilled(ColumnName) Then
+            Continue;
+        Else
+            FoundMapping.Insert(ColumnName, DeleteCode);
+        EndIf;
+
+    EndDo;
+
+    If FoundMapping.Count() = 0 Then
+        ResponseMapping     = New Map;
+        ResponseMapping.Insert("result", "false");
+        ResponseMapping.Insert("error" , "Unsupported table schema type");
+        Return ResponseMapping;
+    EndIf;
+
+    For Each RequiredColumn In ColoumnsStruct Do
+
+        ColumnName = RequiredColumn.Key;
+        Exist      = FoundMapping.Get(ColumnName) <> Undefined;
+        Action     = ?(Exist, IgnoreCode, AddCode);
+
+        FoundMapping.Insert(ColumnName, Action);
+
+    EndDo;
+
+    For Each SchemaPart In FoundMapping Do
+
+        ActionCode = SchemaPart.Value;
+        ColumnName = SchemaPart.Key;
+
+        If ActionCode = 0 Then
+
+            Result = DeleteTableColumn(Module, Table, ColumnName, Connection, Tls);
+
+        ElsIf ActionCode = 1 Then
+
+            DataType = ColoumnsStruct[ColumnName];
+            Result   = AddTableColumn(Module, Table, ColumnName, DataType, Connection, Tls);
+
+        Else
+            Continue;
+        EndIf;
+
+        If Not Result["result"] Then
+            Raise Result["error"];
+        EndIf;
+
+    EndDo;
+
+    Return Undefined;
 
 EndFunction
 
@@ -949,6 +1192,19 @@ Function FormCountText(Val Count)
     EndIf;
 
     CountText = "LIMIT %1";
+    CountText = StrTemplate(CountText, OPI_Tools.NumberToString(Count));
+
+    Return CountText;
+
+EndFunction
+
+Function FormTopText(Val Count)
+
+    If Not ValueIsFilled(Count) Then
+        Return "";
+    EndIf;
+
+    CountText = "TOP %1";
     CountText = StrTemplate(CountText, OPI_Tools.NumberToString(Count));
 
     Return CountText;
@@ -1155,5 +1411,73 @@ Procedure ReplaceDefaultFeatures(Features)
 EndProcedure
 
 #EndRegion
+
+#EndRegion
+
+#Region Alternate
+
+Function СоздатьБазуДанных(Val Модуль, Val База, Val Соединение = "", Val Tls = Undefined) Export
+	Return CreateDatabase(Модуль, База, Соединение, Tls);
+EndFunction
+
+Function УдалитьБазуДанных(Val Модуль, Val База, Val Соединение = "", Val Tls = Undefined) Export
+	Return DeleteDatabase(Модуль, База, Соединение, Tls);
+EndFunction
+
+Function СоздатьТаблицу(Val Модуль, Val Таблица, Val СтруктураКолонок, Val Соединение = "", Val Tls = Undefined) Export
+	Return CreateTable(Модуль, Таблица, СтруктураКолонок, Соединение, Tls);
+EndFunction
+
+Function ДобавитьКолонкуТаблицы(Val Модуль, Val Таблица, Val Имя, Val ТипДанных, Val Соединение = "", Val Tls = Undefined) Export
+	Return AddTableColumn(Модуль, Таблица, Имя, ТипДанных, Соединение, Tls);
+EndFunction
+
+Function УдалитьКолонкуТаблицы(Val Модуль, Val Таблица, Val Имя, Val Соединение = "", Val Tls = Undefined) Export
+	Return DeleteTableColumn(Модуль, Таблица, Имя, Соединение, Tls);
+EndFunction
+
+Function ГарантироватьТаблицу(Val Модуль, Val Таблица, Val СтруктураКолонок, Val Соединение = "", Val Tls = Undefined) Export
+	Return EnsureTable(Модуль, Таблица, СтруктураКолонок, Соединение, Tls);
+EndFunction
+
+Function ДобавитьЗаписи(Val Модуль, Val Таблица, Val МассивДанных, Val Транзакция = True, Val Соединение = "", Val Tls = Undefined) Export
+	Return AddRecords(Модуль, Таблица, МассивДанных, Транзакция, Соединение, Tls);
+EndFunction
+
+Function ПолучитьЗаписи(Val Модуль, Val Таблица, Val Поля = "*", Val Фильтры = "", Val Сортировка = "", Val Количество = "", Val Соединение = "", Val Tls = Undefined) Export
+	Return GetRecords(Модуль, Таблица, Поля, Фильтры, Сортировка, Количество, Соединение, Tls);
+EndFunction
+
+Function ОбновитьЗаписи(Val Модуль, Val Таблица, Val СтруктураЗначений, Val Фильтры = "", Val Соединение = "", Val Tls = Undefined) Export
+	Return UpdateRecords(Модуль, Таблица, СтруктураЗначений, Фильтры, Соединение, Tls);
+EndFunction
+
+Function УдалитьЗаписи(Val Модуль, Val Таблица, Val Фильтры = "", Val Соединение = "", Val Tls = Undefined) Export
+	Return DeleteRecords(Модуль, Таблица, Фильтры, Соединение, Tls);
+EndFunction
+
+Function УдалитьТаблицу(Val Модуль, Val Таблица, Val Соединение = "", Val Tls = Undefined) Export
+	Return DeleteTable(Модуль, Таблица, Соединение, Tls);
+EndFunction
+
+Function ОчиститьТаблицу(Val Модуль, Val Таблица, Val Соединение = "", Val Tls = Undefined) Export
+	Return ClearTable(Модуль, Таблица, Соединение, Tls);
+EndFunction
+
+Function ПолучитьСтруктуруТаблицы(Val Модуль, Val Таблица, Val Соединение = "", Val Tls = Undefined) Export
+	Return GetTableStructure(Модуль, Таблица, Соединение, Tls);
+EndFunction
+
+Function ПолучитьСтруктуруФильтраЗаписей(Val Пустая = False) Export
+	Return GetRecordsFilterStrucutre(Пустая);
+EndFunction
+
+Procedure ДобавитьКолонку(Схема, Val Имя, Val Тип) Export
+	AddColoumn(Схема, Имя, Тип);
+EndProcedure
+
+Procedure ДобавитьПоле(Схема, Val Имя) Export
+	AddField(Схема, Имя);
+EndProcedure
 
 #EndRegion

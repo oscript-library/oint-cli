@@ -1,4 +1,4 @@
-﻿// OneScript: ./OInt/core/Modules/OPI_Neocities.os
+// OneScript: ./OInt/core/Modules/OPI_Neocities.os
 // Lib: Neocities
 // CLI: neocities
 // Keywords: neocities
@@ -33,14 +33,13 @@
 // BSLLS:NumberOfOptionalParams-off
 // BSLLS:UsingServiceTag-off
 // BSLLS:LineLength-off
+// BSLLS:UsingSynchronousCalls-off
+// BSLLS:MagicNumber-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
 //@skip-check method-too-many-params
-
-// Раскомментировать, если выполняется OneScript
-#Использовать "../../tools"
 
 #Область ПрограммныйИнтерфейс
 
@@ -448,3 +447,35 @@
 КонецПроцедуры
 
 #КонецОбласти
+
+#Region Alternate
+
+Function GetSiteData(Val Token, Val Website = "") Export
+	Return ПолучитьДанныеОСайте(Token, Website);
+EndFunction
+
+Function GetToken(Val Login, Val Password) Export
+	Return ПолучитьТокен(Login, Password);
+EndFunction
+
+Function UploadFile(Val Token, Val Path, Val Data) Export
+	Return ЗагрузитьФайл(Token, Path, Data);
+EndFunction
+
+Function UploadFiles(Val Token, Val FileMapping, Val Singly = False) Export
+	Return ЗагрузитьФайлы(Token, FileMapping, Singly);
+EndFunction
+
+Function DeleteSelectedFiles(Val Token, Val Paths) Export
+	Return УдалитьВыбранныеФайлы(Token, Paths);
+EndFunction
+
+Function GetFilesList(Val Token, Val Path = "") Export
+	Return ПолучитьСписокФайлов(Token, Path);
+EndFunction
+
+Function SynchronizeFolders(Val Token, Val LocalFolder, Val RemoteFolder = "") Export
+	Return СинхронизироватьКаталоги(Token, LocalFolder, RemoteFolder);
+EndFunction
+
+#EndRegion

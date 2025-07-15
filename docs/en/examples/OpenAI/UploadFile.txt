@@ -1,0 +1,9 @@
+﻿    URL   = "https://hut.openintegrations.dev/localai/";
+    Token = "12We...";
+
+    File = "https://hut.openintegrations.dev/test_data/picture.jpg"; // URL, Path or Binary Data
+
+    FileName    = StrTemplate("%1.png", String(New UUID()));
+    Destination = "assistants";
+
+    Result = OPI_OpenAI.UploadFile(URL, Token, FileName, File, Destination);

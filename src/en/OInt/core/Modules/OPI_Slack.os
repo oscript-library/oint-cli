@@ -1,4 +1,4 @@
-﻿// OneScript: ./OInt/core/Modules/OPI_Slack.os
+// OneScript: ./OInt/core/Modules/OPI_Slack.os
 // Lib: Slack
 // CLI: slack
 // Keywords: slack
@@ -30,13 +30,11 @@
 // BSLLS:IncorrectLineBreak-off
 // BSLLS:Typo-off
 // BSLLS:UsingServiceTag-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
-
-// Uncomment if OneScript is executed
-#Use "../../tools"
 
 #Region Public
 
@@ -875,17 +873,17 @@ EndFunction
 // Map Of KeyAndValue - serialized JSON response from Slack
 Function AddExternalFile(Val Token, Val URL, Val Title) Export
 
-    String_ = "String";
-    URL     = "https://slack.com/api/files.remote.add";
-    Headers = GetAuthorizationHeader(Token);
-    UID     = String(New UUID());
+    String_    = "String";
+    RequestURL = "https://slack.com/api/files.remote.add";
+    Headers    = GetAuthorizationHeader(Token);
+    UID        = String(New UUID());
 
     Parameters = New Structure;
     OPI_Tools.AddField("external_url", URL   , String_, Parameters);
     OPI_Tools.AddField("external_id" , UID   , String_, Parameters);
     OPI_Tools.AddField("title"       , Title , String_, Parameters);
 
-    Response = OPI_HTTPRequests.Get(URL, Parameters, Headers);
+    Response = OPI_HTTPRequests.Get(RequestURL, Parameters, Headers);
 
     Return Response;
 
@@ -1039,6 +1037,158 @@ Function ExternalFileManagement(Val Token, Val FileID, Val URL)
 
     Return Response;
 
+EndFunction
+
+#EndRegion
+
+#Region Alternate
+
+Function ПолучитьИнформациюОБоте(Val Токен) Export
+	Return GetBotInformation(Токен);
+EndFunction
+
+Function ПолучитьСписокРабочихОбластей(Val Токен, Val Курсор = "") Export
+	Return GetWorkspaceList(Токен, Курсор);
+EndFunction
+
+Function ПолучитьСписокПользователей(Val Токен, Val Курсор = "") Export
+	Return GetUserList(Токен, Курсор);
+EndFunction
+
+Function ОтправитьСообщение(Val Токен, Val Канал, Val Текст = "", Val ДатаОтправки = "", Val Блоки = "") Export
+	Return SendMessage(Токен, Канал, Текст, ДатаОтправки, Блоки);
+EndFunction
+
+Function ОтправитьЭфемерноеСообщение(Val Токен, Val Канал, Val Текст = "", Val Пользователь = "", Val Блоки = "") Export
+	Return SendEphemeralMessage(Токен, Канал, Текст, Пользователь, Блоки);
+EndFunction
+
+Function ИзменитьСообщение(Val Токен, Val Канал, Val Отметка, Val Текст = "", Val МассивБлоков = "") Export
+	Return EditMessage(Токен, Канал, Отметка, Текст, МассивБлоков);
+EndFunction
+
+Function УдалитьСообщение(Val Токен, Val Канал, Val Отметка, Val ЭтоОтложенное = False) Export
+	Return DeleteMessage(Токен, Канал, Отметка, ЭтоОтложенное);
+EndFunction
+
+Function ПолучитьСписокОтложенныхСообщений(Val Токен, Val Канал, Val Курсор = "") Export
+	Return GetDelayedMessageList(Токен, Канал, Курсор);
+EndFunction
+
+Function ПолучитьСсылкуНаСообщение(Val Токен, Val Канал, Val Отметка) Export
+	Return GetMessageLink(Токен, Канал, Отметка);
+EndFunction
+
+Function ПолучитьСписокОтветовНаСообщение(Val Токен, Val Канал, Val Отметка, Val Курсор = "") Export
+	Return GetMessageReplyList(Токен, Канал, Отметка, Курсор);
+EndFunction
+
+Function ПолучитьСписокКаналов(Val Токен, Val ИсключатьАрхивированные = False, Val Курсор = "") Export
+	Return GetChannelList(Токен, ИсключатьАрхивированные, Курсор);
+EndFunction
+
+Function ПолучитьСписокПользователейКанала(Val Токен, Val Канал, Val Курсор = "") Export
+	Return GetChannelUserList(Токен, Канал, Курсор);
+EndFunction
+
+Function СоздатьКанал(Val Токен, Val Название, Val Приватный = False) Export
+	Return CreateChannel(Токен, Название, Приватный);
+EndFunction
+
+Function АрхивироватьКанал(Val Токен, Val Канал) Export
+	Return ArchiveChannel(Токен, Канал);
+EndFunction
+
+Function ПолучитьКанал(Val Токен, Val Канал) Export
+	Return GetChannel(Токен, Канал);
+EndFunction
+
+Function ПолучитьИсториюКанала(Val Токен, Val Канал) Export
+	Return GetChannelHistory(Токен, Канал);
+EndFunction
+
+Function ПригласитьПользователейВКанал(Val Токен, Val Канал, Val МассивПользователей) Export
+	Return InviteUsersToChannel(Токен, Канал, МассивПользователей);
+EndFunction
+
+Function ВыгнатьПользователяИзКанала(Val Токен, Val Канал, Val Пользователь) Export
+	Return KickUserFromChannel(Токен, Канал, Пользователь);
+EndFunction
+
+Function ВступитьВКанал(Val Токен, Val Канал) Export
+	Return JoinChannel(Токен, Канал);
+EndFunction
+
+Function ПокинутьКанал(Val Токен, Val Канал) Export
+	Return LeaveChannel(Токен, Канал);
+EndFunction
+
+Function УстановитьТемуКанала(Val Токен, Val Канал, Val Тема) Export
+	Return SetChannelTopic(Токен, Канал, Тема);
+EndFunction
+
+Function УстановитьЦельКанала(Val Токен, Val Канал, Val Цель) Export
+	Return SetChannelGoal(Токен, Канал, Цель);
+EndFunction
+
+Function ПереименоватьКанал(Val Токен, Val Канал, Val Название) Export
+	Return RenameChannel(Токен, Канал, Название);
+EndFunction
+
+Function ОткрытьДиалог(Val Токен, Val МассивПользователей) Export
+	Return OpenDialog(Токен, МассивПользователей);
+EndFunction
+
+Function ЗакрытьДиалог(Val Токен, Val Диалог) Export
+	Return CloseDialog(Токен, Диалог);
+EndFunction
+
+Function ПолучитьСписокФайлов(Val Токен, Val Канал = "", Val НомерСтраницы = 1) Export
+	Return GetFilesList(Токен, Канал, НомерСтраницы);
+EndFunction
+
+Function ЗагрузитьФайл(Val Токен, Val Файл, Val ИмяФайла, Val Заголовок, Val Канал = "") Export
+	Return UploadFile(Токен, Файл, ИмяФайла, Заголовок, Канал);
+EndFunction
+
+Function ПолучитьДанныеФайла(Val Токен, Val ИдентификаторФайла) Export
+	Return GetFileData(Токен, ИдентификаторФайла);
+EndFunction
+
+Function УдалитьФайл(Val Токен, Val ИдентификаторФайла) Export
+	Return DeleteFile(Токен, ИдентификаторФайла);
+EndFunction
+
+Function СделатьФайлПубличным(Val Токен, Val ИдентификаторФайла) Export
+	Return MakeFilePublic(Токен, ИдентификаторФайла);
+EndFunction
+
+Function СделатьФайлПриватным(Val Токен, Val ИдентификаторФайла) Export
+	Return MakeFilePrivate(Токен, ИдентификаторФайла);
+EndFunction
+
+Function ПолучитьСписокВнешнихФайлов(Val Токен, Val Канал = "", Val Курсор = "") Export
+	Return GetExternalFileList(Токен, Канал, Курсор);
+EndFunction
+
+Function ПолучитьВнешнийФайл(Val Токен, Val ИдентификаторФайла) Export
+	Return GetExternalFile(Токен, ИдентификаторФайла);
+EndFunction
+
+Function ДобавитьВнешнийФайл(Val Токен, Val URL, Val Заголовок) Export
+	Return AddExternalFile(Токен, URL, Заголовок);
+EndFunction
+
+Function ОтправитьВнешнийФайл(Val Токен, Val ИдентификаторФайла, Val МассивКаналов) Export
+	Return SendExternalFile(Токен, ИдентификаторФайла, МассивКаналов);
+EndFunction
+
+Function УдалитьВнешнийФайл(Val Токен, Val ИдентификаторФайла) Export
+	Return DeleteExternalFile(Токен, ИдентификаторФайла);
+EndFunction
+
+Function СформироватьБлокКартинку(Val URL, Val АльтернативныйТекст = "") Export
+	Return GenerateImageBlock(URL, АльтернативныйТекст);
 EndFunction
 
 #EndRegion

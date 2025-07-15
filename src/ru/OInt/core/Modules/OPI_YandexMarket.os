@@ -1,6 +1,7 @@
-﻿// OneScript: ./OInt/core/Modules/OPI_YandexMarket.os
+// OneScript: ./OInt/core/Modules/OPI_YandexMarket.os
 // Lib: Yandex Market
 // CLI: yamarket
+// Depends: OPI_YandexID
 
 // MIT License
 
@@ -32,14 +33,12 @@
 // BSLLS:NumberOfOptionalParams-off
 // BSLLS:UsingServiceTag-off
 // BSLLS:LineLength-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
 //@skip-check method-too-many-params
-
-// Раскомментировать, если выполняется OneScript
-#Использовать "../../tools"
 
 #Область ПрограммныйИнтерфейс
 
@@ -427,3 +426,39 @@
 КонецФункции
 
 #КонецОбласти
+
+#Region Alternate
+
+Function GetMarketsList(Val Token, Val Page = 1) Export
+	Return ПолучитьСписокМагазинов(Token, Page);
+EndFunction
+
+Function GetMarket(Val Token, Val CampaignID) Export
+	Return ПолучитьМагазин(Token, CampaignID);
+EndFunction
+
+Function GetBusinessSettings(Val Token, Val AccountID) Export
+	Return ПолучитьНастройкиКабинета(Token, AccountID);
+EndFunction
+
+Function GetCampaignSettings(Val Token, Val CampaignID) Export
+	Return ПолучитьНастройкиМагазина(Token, CampaignID);
+EndFunction
+
+Function AddUpdateProducts(Val Token, Val AccountID, Val ProductsArray, Val OwnImages = False) Export
+	Return ДобавитьОбновитьТовары(Token, AccountID, ProductsArray, OwnImages);
+EndFunction
+
+Function GetCampaignProducts(Val Token, Val CampaignID, Val Filters = "", Val PageToken = "") Export
+	Return ПолучитьТоварыМагазина(Token, CampaignID, Filters, PageToken);
+EndFunction
+
+Function GetBusinessProducts(Val Token, Val AccountID, Val Filters = "", Val PageToken = "") Export
+	Return ПолучитьТоварыКабинета(Token, AccountID, Filters, PageToken);
+EndFunction
+
+Function GetProductStructure(Val Clear = False) Export
+	Return ПолучитьСтруктуруТовара(Clear);
+EndFunction
+
+#EndRegion

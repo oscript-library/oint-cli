@@ -28,6 +28,7 @@
 // BSLLS:IncorrectLineBreak-off
 // BSLLS:UnusedLocalVariable-off
 // BSLLS:UsingServiceTag-off
+// BSLLS:UsingSynchronousCalls-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
@@ -226,7 +227,7 @@ EndFunction
 
 // https://github.com/pintov/1c-jwt
 
-Function Base64UrlEncode(Val Value)
+Function Base64UrlEncode(Val Value) Export
 
     Output = Base64String(Value);
     Output = StrSplit(Output, "=")[0];
