@@ -1,4 +1,10 @@
-﻿
+> [!IMPORTANT]
+> <img src="https://github.com/user-attachments/assets/9875cfa4-cc02-4309-9518-a7314291cd55" align=left width=82>
+> ### Это форк основного репозитория для OneScript-пкета `oint-cli`
+> Конкретно его исходные файлы находятся в каталогах [src/ru/cli](https://github.com/oscript-library/oint-cli/tree/main/src/ru/cli) и [src/en/cli](https://github.com/oscript-library/oint-cli/tree/main/src/en/cli)<br>
+> <br> 
+
+<br><br>﻿
  <img src="media/eng.png?1" align="left" width="32"> *This package is also available in English: [Click!](https://github.com/Bayselonarrend/OpenIntegrations/blob/main/README_ENG.md)*
 
 <hr>
