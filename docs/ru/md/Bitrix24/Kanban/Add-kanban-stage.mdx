@@ -27,8 +27,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrxi24
 
-<br/>
-
 :::tip
 Метод в документации API: [task.stages.add](https://dev.1c-bitrix.ru/rest_help/tasks/task/kanban/task_stages_add.php)
 :::
@@ -47,7 +45,7 @@ import TabItem from '@theme/TabItem';
     Цвет         = "0026FF";
 
     URL          = "b24-ar17wx.bitrix24.by";
-    Токен        = "8a1bee68006e9f06006b12e400000001000...";
+    Токен        = "6ad03969006e9f06006b12e400000001000...";
     IDПредыдущей = Результат["result"];
 
     Результат = OPI_Bitrix24.ДобавитьСтадиюКанбана(URL, Наименование, Цвет, IDПредыдущей, , Истина, Токен);
@@ -62,7 +60,7 @@ import TabItem from '@theme/TabItem';
               --url "b24-ar17wx.bitrix24.by" \
               --title "Новая стадия 2" \
               --color "0026FF" \
-              --prevstage 3082 \
+              --prevstage 3330 \
               --admin true \
               --token "***"
         ```
@@ -74,7 +72,7 @@ import TabItem from '@theme/TabItem';
               --url "b24-ar17wx.bitrix24.by" ^
               --title "Новая стадия 2" ^
               --color "0026FF" ^
-              --prevstage 3082 ^
+              --prevstage 3330 ^
               --admin true ^
               --token "***"
         ```
@@ -84,15 +82,15 @@ import TabItem from '@theme/TabItem';
 
 ```json title="Результат"
 {
- "result": 3088,
+ "result": 3336,
  "time": {
-  "start": 1760461413,
-  "finish": 1760461413.46533,
-  "duration": 0.465332984924316,
+  "start": 1765367764,
+  "finish": 1765367764.18407,
+  "duration": 0.184072971343994,
   "processing": 0,
-  "date_start": "2025-10-14T17:03:33+00:00",
-  "date_finish": "2025-10-14T17:03:33+00:00",
-  "operating_reset_at": 1760462013,
+  "date_start": "2025-12-10T14:56:04+03:00",
+  "date_finish": "2025-12-10T14:56:04+03:00",
+  "operating_reset_at": 1765368364,
   "operating": 0
  }
 }

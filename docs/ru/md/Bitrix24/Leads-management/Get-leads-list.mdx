@@ -8,7 +8,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Получить список лидов
- Получает список лидов (50 шт. за запрос максимум) с фильтром или без (см. ПолучитьСтруктуруФильтраЛидов)
+ Получает список лидов (50 шт. за запрос максимум) с фильтром или без
 
 
 
@@ -17,14 +17,12 @@ import TabItem from '@theme/TabItem';
   | Параметр | CLI опция | Тип | Обяз. | Назначение |
   |-|-|-|-|-|
   | URL | --url | Строка | &#x2714; | URL внешнего вебхука или адрес Bitrix24 при использовании токена |
-  | Фильтр | --filter | Структура из КлючИЗначение | &#x2716; | Структура отбора лидов (см. ПолучитьСтруктуруФильтраЛидов) |
+  | Фильтр | --filter | Структура из КлючИЗначение | &#x2716; | Структура отбора лидов. См. [`ПолучитьСтруктуруФильтраЛидов`](/docs/Bitrix24/Leads-management/Get-lead-filter-structure) |
   | Отступ | --offset | Число, Строка | &#x2716; | Отступ от начала списка для получения лидов > 50 шт. рекурсивно |
   | Токен | --token | Строка | &#x2716; | Токен авторизации, если используется не вебхук |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrix24
-
-<br/>
 
 :::tip
 Метод в документации API: [crm.lead.list](https://dev.1c-bitrix.ru/rest_help/crm/leads/crm_lead_list.php)
@@ -38,7 +36,7 @@ import TabItem from '@theme/TabItem';
     Результат = OPI_Bitrix24.ПолучитьСписокЛидов(URL);
 
     URL   = "b24-ar17wx.bitrix24.by";
-    Токен = "8a1bee68006e9f06006b12e400000001000...";
+    Токен = "6ad03969006e9f06006b12e400000001000...";
 
     Фильтр = Новый Структура;
     Фильтр.Вставить("TITLE"    , "Мегаклиент");
@@ -98,21 +96,21 @@ import TabItem from '@theme/TabItem';
    "CURRENCY_ID": "BYN",
    "OPPORTUNITY": "0.00",
    "IS_MANUAL_OPPORTUNITY": "N",
-   "HAS_PHONE": "Y",
+   "HAS_PHONE": "***",
    "HAS_EMAIL": "Y",
    "HAS_IMOL": "N",
    "ASSIGNED_BY_ID": "1",
    "CREATED_BY_ID": "1",
    "MODIFY_BY_ID": "1",
-   "DATE_CREATE": "2024-08-22T16:48:12+00:00",
-   "DATE_MODIFY": "2024-08-22T16:48:12+00:00",
-   "DATE_CLOSED": "2024-08-22T16:48:12+00:00",
+   "DATE_CREATE": "2024-08-22T19:48:12+03:00",
+   "DATE_MODIFY": "2024-08-22T19:48:12+03:00",
+   "DATE_CLOSED": "2024-08-22T19:48:12+03:00",
    "STATUS_SEMANTIC_ID": "S",
    "OPENED": "N",
-   "ORIGINATOR_ID": null,
-   "ORIGIN_ID": null,
+   "ORIGINATOR_ID": "***",
+   "ORIGIN_ID": "***",
    "MOVED_BY_ID": "1",
-   "MOVED_TIME": "2024-08-22T16:48:12+00:00",
+   "MOVED_TIME": "2024-08-22T19:48:12+03:00",
    "ADDRESS": "ул. Пушкина, д. 10",
    "ADDRESS_2": null,
    "ADDRESS_CITY": null,
@@ -129,7 +127,7 @@ import TabItem from '@theme/TabItem';
    "UTM_TERM": null,
    "LAST_COMMUNICATION_TIME": null,
    "LAST_ACTIVITY_BY": "1",
-   "LAST_ACTIVITY_TIME": "2024-08-22T16:48:12+00:00"
+   "LAST_ACTIVITY_TIME": "2024-08-22T19:48:12+03:00"
   },
   {
    "ID": "10",
@@ -152,21 +150,21 @@ import TabItem from '@theme/TabItem';
    "CURRENCY_ID": "BYN",
    "OPPORTUNITY": "0.00",
    "IS_MANUAL_OPPORTUNITY": "N",
-   "HAS_PHONE": "Y",
+   "HAS_PHONE": "***",
    "HAS_EMAIL": "Y",
    "HAS_IMOL": "N",
    "ASSIGNED_BY_ID": "1",
    "CREATED_BY_ID": "1",
    "MODIFY_BY_ID": "1",
-   "DATE_CREATE": "2024-08-22T16:48:13+00:00",
-   "DATE_MODIFY": "2024-08-22T16:48:13+00:00",
-   "DATE_CLOSED": "2024-08-22T16:48:13+00:00",
+   "DATE_CREATE": "2024-08-22T19:48:13+03:00",
+   "DATE_MODIFY": "2024-08-22T19:48:13+03:00",
+   "DATE_CLOSED": "2024-08-22T19:48:13+03:00",
    "STATUS_SEMANTIC_ID": "S",
    "OPENED": "N",
-   "ORIGINATOR_ID": null,
-   "ORIGIN_ID": null,
+   "ORIGINATOR_ID": "***",
+   "ORIGIN_ID": "***",
    "MOVED_BY_ID": "1",
-   "MOVED_TIME": "2024-08-22T16:48:13+00:00",
+   "MOVED_TIME": "2024-08-22T19:48:13+03:00",
    "ADDRESS": "ул. Пушкина, д. 10",
    "ADDRESS_2": null,
    "ADDRESS_CITY": null,
@@ -183,7 +181,7 @@ import TabItem from '@theme/TabItem';
    "UTM_TERM": null,
    "LAST_COMMUNICATION_TIME": null,
    "LAST_ACTIVITY_BY": "1",
-   "LAST_ACTIVITY_TIME": "2024-08-22T16:48:13+00:00"
+   "LAST_ACTIVITY_TIME": "2024-08-22T19:48:13+03:00"
   },
   {
    "ID": "12",
@@ -206,21 +204,21 @@ import TabItem from '@theme/TabItem';
    "CURRENCY_ID": "BYN",
    "OPPORTUNITY": "0.00",
    "IS_MANUAL_OPPORTUNITY": "N",
-   "HAS_PHONE": "Y",
+   "HAS_PHONE": "***",
    "HAS_EMAIL": "Y",
    "HAS_IMOL": "N",
    "ASSIGNED_BY_ID": "1",
    "CREATED_BY_ID": "1",
    "MODIFY_BY_ID": "1",
-   "DATE_CREATE": "2024-08-22T17:00:19+00:00",
-   "DATE_MODIFY": "2024-08-22T17:00:20+00:00",
-   "DATE_CLOSED": "2024-08-22T17:00:20+00:00",
+   "DATE_CREATE": "2024-08-22T20:00:19+03:00",
+   "DATE_MODIFY": "2024-08-22T20:00:20+03:00",
+   "DATE_CLOSED": "2024-08-22T20:00:20+03:00",
    "STATUS_SEMANTIC_ID": "S",
    "OPENED": "N",
-   "ORIGINATOR_ID": null,
-   "ORIGIN_ID": null,
+   "ORIGINATOR_ID": "***",
+   "ORIGIN_ID": "***",
    "MOVED_BY_ID": "1",
-   "MOVED_TIME": "2024-08-22T17:00:20+00:00",
+   "MOVED_TIME": "2024-08-22T20:00:20+03:00",
    "ADDRESS": "ул. Пушкина, д. 10",
    "ADDRESS_2": null,
    "ADDRESS_CITY": null,

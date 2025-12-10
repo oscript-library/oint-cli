@@ -27,8 +27,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from Telegram
 
-<br/>
-
 :::tip
 Method at API documentation: [sendDocument](https://core.telegram.org/bots/api#senddocument)
 
@@ -69,9 +67,9 @@ Parameters with Binary data type can also accept file paths on disk and URLs
         ```bash
             oint telegram SendDocument \
              --token "***" \
-             --chat "@testsichee" \
+             --chat "***" \
              --text "Строковое значение" \
-             --doc "/tmp/ixnpcuqj.f4s" \
+             --doc "/tmp/pz3p5bd0.lgz" \
              --filename "customname.docx"
         ```
     </TabItem>
@@ -80,9 +78,9 @@ Parameters with Binary data type can also accept file paths on disk and URLs
         ```batch
             oint telegram SendDocument ^
              --token "***" ^
-             --chat "@testsichee" ^
+             --chat "***" ^
              --text "Строковое значение" ^
-             --doc "/tmp/ixnpcuqj.f4s" ^
+             --doc "/tmp/pz3p5bd0.lgz" ^
              --filename "customname.docx"
         ```
     </TabItem>
@@ -93,7 +91,7 @@ Parameters with Binary data type can also accept file paths on disk and URLs
 {
  "ok": true,
  "result": {
-  "message_id": 17192,
+  "message_id": 18408,
   "from": {
    "id": 6129457865,
    "is_bot": true,
@@ -107,12 +105,12 @@ Parameters with Binary data type can also accept file paths on disk and URLs
    "username": "bayselonarrend",
    "type": "private"
   },
-  "date": 1760516441,
+  "date": 1765390447,
   "document": {
    "file_name": "document.docx",
    "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-   "file_id": "BQACAgIAAxkDAAJDKGjvWVkZu5c6UqjUP1CmQS34hV_TAAIkhgACN295S7wh0OXZmfhNNgQ",
-   "file_unique_id": "AgADJIYAAjdveUs",
+   "file_id": "BQACAgIAAxkDAAJH6Gk5uG_LevYyn536sWn859z9zgpQAAJJkAACiuzISXV37NQ9CwfXNgQ",
+   "file_unique_id": "AgADSZAAAorsyEk",
    "file_size": 24069
   },
   "caption": "Строковое значение"

@@ -1,49 +1,42 @@
 ﻿{
  "entity": {
-  "uuid": "7806f65b-b443-4a7d-8d39-448a678c21d8",
+  "uuid": "c031b0a9-f3be-4faf-8d79-e6aee21fa5ca",
   "type": 1,
   "is_return": false,
   "is_reverse": false,
-  "cdek_number": "1106626962",
-  "number": "a690b124-a128-4bfb-8f82-a8b6a15cd8c6",
+  "number": "bba7dfcf-c691-4249-b38f-fa7a10bf6b86",
   "tariff_code": 139,
   "comment": "Новый заказ",
-  "items_cost_currency": "RUB",
-  "recipient_currency": "RUB",
   "delivery_recipient_cost": {
-   "value": 50,
-   "vat_sum": 0
+   "value": 50
   },
   "delivery_recipient_cost_adv": [
    {
     "threshold": 200,
-    "sum": 3000,
-    "vat_sum": 0
+    "sum": 3000
    }
   ],
   "sender": {
-   "company": "Тестирование Интеграции ИМ",
    "name": "Петров Петр",
    "contragent_type": "LEGAL_ENTITY",
    "phones": [
     {
-     "number": "79529287654"
+     "number": "+79529287654"
     }
    ],
-   "passport_requirements_satisfied": false
+   "passport_requirements_satisfied": "***"
   },
   "seller": {
    "name": "Тестирование Интеграции ИМ"
   },
   "recipient": {
-   "company": "Иванов Иван",
    "name": "Иванов Иван",
    "phones": [
     {
-     "number": "79134637228"
+     "number": "+79134637228"
     }
    ],
-   "passport_requirements_satisfied": false
+   "passport_requirements_satisfied": "***"
   },
   "from_location": {
    "code": 44,
@@ -75,94 +68,57 @@
   },
   "services": [
    {
-    "code": "INSURANCE",
-    "parameter": "600.00",
-    "sum": 4.5,
-    "total_sum": 5.4,
-    "discount_percent": 0,
-    "discount_sum": 0,
-    "vat_rate": 20,
-    "vat_sum": 0.9
-   },
-   {
     "code": "SECURE_PACKAGE_A2",
-    "parameter": "10",
-    "sum": 500,
-    "total_sum": 600,
-    "discount_percent": 0,
-    "discount_sum": 0,
-    "vat_rate": 20,
-    "vat_sum": 100
+    "parameter": "10"
    }
   ],
   "packages": [
    {
     "number": "bar-001",
-    "barcode": "000001249480",
     "weight": 4000,
     "length": 10,
-    "width": 10,
-    "weight_volume": 200,
-    "weight_calc": 4000,
+    "width": "***",
     "height": 10,
-    "comment": "приложена опись",
+    "comment": "Упаковка",
     "items": [
      {
       "name": "Товар",
-      "ware_key": "00055",
+      "ware_key": "***",
       "payment": {
-       "value": 3000,
-       "vat_sum": 0
+       "value": 3000
       },
       "weight": 700,
-      "weight_gross": 700,
       "amount": 2,
-      "delivery_amount": 0,
       "url": "www.item.ru",
       "return_item_detail": {},
       "excise": false,
       "cost": 300
      }
-    ],
-    "package_id": "e0c1760f-a28d-4e28-a3fe-3ed1f1d438b5"
+    ]
    }
   ],
   "statuses": [
    {
-    "code": "CREATED",
-    "name": "Создан",
-    "date_time": "2025-10-14T17:10:24+00:00",
-    "city": "Офис СДЭК",
-    "deleted": false
-   },
-   {
     "code": "ACCEPTED",
     "name": "Принят",
-    "date_time": "2025-10-14T17:10:22+00:00",
+    "date_time": "2025-12-10T15:01:17+03:00",
     "city": "Офис СДЭК",
     "deleted": false
    }
   ],
-  "is_client_return": false,
-  "delivery_mode": "1",
-  "has_reverse_order": false,
+  "is_client_return": "***",
   "delivery_detail": {
-   "delivery_sum": 1315,
-   "total_sum": 2183.4,
-   "payment_info": [],
-   "delivery_vat_rate": 20,
-   "delivery_vat_sum": 263,
-   "delivery_discount_percent": 0,
-   "delivery_discount_sum": 0
+   "total_sum": 0,
+   "payment_info": []
   },
   "calls": {}
  },
  "requests": [
   {
-   "request_uuid": "82040d40-469b-45a8-98f5-56f476c71c08",
+   "request_uuid": "391577b6-59ee-49c2-bec4-57457ed447af",
    "type": "CREATE",
-   "date_time": "2025-10-14T17:10:23+00:00",
-   "state": "SUCCESSFUL"
+   "date_time": "2025-12-10T15:01:18+03:00",
+   "state": "ACCEPTED"
   }
  ],
  "related_entities": []

@@ -11,7 +11,7 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 
-// The above copyright notice and this permission notice shall be included in all
+// The above copyright notice and +this permission notice shall be included in all
 // copies or substantial portions of the Software.
 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -49,6 +49,9 @@
 // BSLLS:MagicDate-off
 // BSLLS:MissingParameterDescription-off
 // BSLLS:NumberOfOptionalParams-off
+// BSLLS:MethodSize-off
+// BSLLS:NestedConstructorsInStructureDeclaration-off
+// BSLLS:NumberOfValuesInStructureConstructor-off
 
 //@skip-check undefined-variable
 //@skip-check wrong-string-literal-content
@@ -86,6 +89,36 @@ Function ПолучитьСписокТестов(UnitTesting) Export
 EndFunction
 
 #Region RunnableTests
+
+#Region Service
+
+Procedure CheckIBToLastBuildCompliance() Export
+
+    If OPI_TestDataRetrieval.IsCLITest() Then
+
+        //@skip-check use-non-recommended-method
+        Message("CLI test check for hash sum");
+        BuildSum = OPI_TestDataRetrieval.ExecuteTestCLI("hashsum", "", New Structure);
+
+    Else
+
+        BuildSum = OPI_Tools.GetLastBuildHashSum();
+
+    EndIf;
+
+    URL = "https://raw.githubusercontent.com/Bayselonarrend/OpenIntegrations/refs/heads/main/service/last_build_hash.txt";
+
+    LastSum = OPI_HTTPRequests
+        .NewRequest()
+        .Initialize(URL)
+        .ProcessRequest("GET")
+        .ReturnResponseAsString(False, True);
+
+    Process(BuildSum, "BuildCheck", "CheckIBToLastBuildCompliance", , LastSum);
+
+EndProcedure
+
+#EndRegion
 
 #Region Telegram
 
@@ -367,9 +400,12 @@ EndProcedure
 Procedure VKAPI_CreateTokenLink() Export
 
     TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("VK_AppID", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("VK_AppID"  , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("VK_GroupID", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("VK_Token"  , TestParameters);
 
     VK_CreateTokenRetrievalLink(TestParameters);
+    VK_GetAuthParameters(TestParameters);
 
 EndProcedure
 
@@ -499,9 +535,9 @@ Procedure VKAPI_CreateAdCampaign() Export
     OPI_TestDataRetrieval.ParameterToCollection("VK_AdsCabinetID", TestParameters);
     OPI_TestDataRetrieval.ParameterToCollection("VK_PostID"      , TestParameters);
 
-    VK_CreateAdvertisingCampaign(TestParameters);
-    VK_CreateAd(TestParameters);
-    VK_PauseAdvertising(TestParameters);
+    // !DISABLED! VK_CreateAdvertisingCampaign(TestParameters);
+    // !DISABLED! VK_CreateAd(TestParameters);
+    // !DISABLED! VK_PauseAdvertising(TestParameters);
     VK_GetAdvertisingCategoryList(TestParameters);
 
     OPI_VK.DeletePost(PostID, Parameters);
@@ -624,6 +660,20 @@ EndProcedure
 
 #Region YandexDisk
 
+Procedure YDisk_Authorization() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("YandexDisk_Token"       , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("YandexDisk_ClientID"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("YandexDisk_ClientSecret", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("YandexDisk_RefreshToken", TestParameters);
+
+    YandexDisk_GetConfirmationCode(TestParameters);
+    YandexDisk_ConvertCodeToToken(TestParameters);
+    YandexDisk_RefreshToken(TestParameters);
+
+EndProcedure
+
 Procedure YDisk_GetDiskInfo() Export
 
     TestParameters = New Structure;
@@ -659,7 +709,9 @@ Procedure YDisk_UploadDeleteFile() Export
     TestParameters = New Structure;
     OPI_TestDataRetrieval.ParameterToCollection("YandexDisk_Token", TestParameters);
     OPI_TestDataRetrieval.ParameterToCollection("Picture"         , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Audio"           , TestParameters);
 
+    YandexDisk_UploadFileInParts(TestParameters);
     YandexDisk_UploadFile(TestParameters);
 
 EndProcedure
@@ -868,6 +920,23 @@ EndProcedure
 
 #Region GoogleCalendar
 
+Procedure GC_Authorization() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ClientID"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ClientSecret", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_Code"        , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_Refresh"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ServiceData" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Access_Token"       , TestParameters);
+
+    GoogleCalendar_FormCodeRetrievalLink(TestParameters);
+    GoogleCalendar_GetTokenByCode(TestParameters);
+    GoogleCalendar_RefreshToken(TestParameters);
+    GoogleCalendar_GetServiceAccountToken(TestParameters);
+
+EndProcedure
+
 Procedure GC_GetCalendarList() Export
 
     TestParameters = New Structure;
@@ -922,6 +991,23 @@ EndProcedure
 #EndRegion
 
 #Region GoogleDrive
+
+Procedure GD_Authorization() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ClientID"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ClientSecret", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_Code"        , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_Refresh"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ServiceData" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Access_Token"       , TestParameters);
+
+    GoogleDrive_FormCodeRetrievalLink(TestParameters);
+    GoogleDrive_GetTokenByCode(TestParameters);
+    GoogleDrive_RefreshToken(TestParameters);
+    GoogleDrive_GetServiceAccountToken(TestParameters);
+
+EndProcedure
 
 Procedure GD_GetCatalogList() Export
 
@@ -990,6 +1076,23 @@ EndProcedure
 
 #Region GoogleSheets
 
+Procedure GT_Authorization() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ClientID"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ClientSecret", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_Code"        , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_Refresh"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Google_ServiceData" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Access_Token"       , TestParameters);
+
+    GoogleSheets_FormCodeRetrievalLink(TestParameters);
+    GoogleSheets_GetTokenByCode(TestParameters);
+    GoogleSheets_RefreshToken(TestParameters);
+    GoogleSheets_GetServiceAccountToken(TestParameters);
+
+EndProcedure
+
 Procedure GT_CreateTable() Export
 
     TestParameters = New Structure;
@@ -1033,7 +1136,7 @@ Procedure TwitterAPI_AccountData() Export
 
     Twitter_GetToken(TestParameters);
     Twitter_GetAuthorizationLink(TestParameters);
-    Twitter_RefreshToken(TestParameters);
+    // !DISABLED! Twitter_UpdateToken(TestParameters);
 
 EndProcedure
 
@@ -1918,130 +2021,6 @@ EndProcedure
 
 #EndRegion
 
-#Region OzonSeller
-
-Procedure OzonAPI_AttributesAndFeatures() Export
-
-    TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ClientID", TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ApiKey"  , TestParameters);
-
-    Ozon_GetCategoriesAndProductTypesTree(TestParameters);
-    Ozon_GetCategoryAttributes(TestParameters);
-    Ozon_GetAttributeValues(TestParameters);
-    Ozon_SearchAttributeValue(TestParameters);
-    Ozon_GetProductsRequestsLimits(TestParameters);
-
-EndProcedure
-
-Procedure OzonAPI_UploadingAndUpdatingProducts() Export
-
-    TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ClientID", TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ApiKey"  , TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Picture"      , TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Picture2"     , TestParameters);
-
-    Ozon_GetProductStructure(TestParameters);
-    Ozon_CreateUpdateProducts(TestParameters);
-    //Ozon_GetProductCreationStatus(TestParameters);
-    Ozon_AddProductVideo(TestParameters);
-    Ozon_AddProductVideoCover(TestParameters);
-    Ozon_CompleteComplexAttribute(TestParameters);
-    Ozon_CreateProductByOzonID(TestParameters);
-    Ozon_GetSimplifiedProductStructure(TestParameters);
-    Ozon_GetAttributesUpdateStructure(TestParameters);
-    Ozon_UpdateProductsAttributes(TestParameters);
-    Ozon_GetProductsFilterStructure(TestParameters);
-    Ozon_GetProductList(TestParameters);
-    Ozon_GetProductsAttributesData(TestParameters);
-    Ozon_GetProductsInformation(TestParameters);
-    Ozon_GetProductsContentRating(TestParameters);
-    Ozon_GetProductDescription(TestParameters);
-    Ozon_UpdateProductImages(TestParameters);
-    Ozon_CheckProductsImagesUpload(TestParameters);
-    Ozon_UpdateProductsArticles(TestParameters);
-    Ozon_ArchiveProducts(TestParameters);
-    Ozon_UnarchiveProducts(TestParameters);
-    //Ozon_UploadProductActivationCodes(TestParameters);
-    //Ozon_GetCodesUploadStatus(TestParameters);
-    Ozon_GetProductSubscribersCount(TestParameters);
-    Ozon_GetRelatedSKUs(TestParameters);
-    Ozon_DeleteProductsWithoutSKU(TestParameters);
-
-EndProcedure
-
-Procedure OzonAPI_Barcodes() Export
-
-    TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ClientID" , TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ApiKey"   , TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ProductID", TestParameters);
-
-    //Ozon_BindBarcodes(TestParameters);
-    Ozon_CreateBarcodes(TestParameters);
-
-EndProcedure
-
-Procedure OzonAPI_PricesAndStocks() Export
-
-    TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ClientID" , TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ApiKey"   , TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ProductID", TestParameters);
-
-    Ozon_GetProductsStocks(TestParameters);
-    Ozon_UpdateProductsPrices(TestParameters);
-    //Ozon_UpdateProductsStocks(TestParameters);
-    Ozon_GetProductsPrices(TestParameters);
-    Ozon_GetDiscountInformation(TestParameters);
-    //Ozon_SetProductDiscount(TestParameters);
-    Ozon_GetProductStocksStructure(TestParameters);
-    Ozon_GetProductPriceStructure(TestParameters);
-
-EndProcedure
-
-Procedure OzonAPI_WarehousesManagement() Export
-
-    TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ClientID", TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ApiKey"  , TestParameters);
-
-    Ozon_GetWarehousesList(TestParameters);
-
-EndProcedure
-
-Procedure OzonAPI_PromotionsManagement() Export
-
-    TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ClientID", TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ApiKey"  , TestParameters);
-
-    Ozon_GetPromotionsList(TestParameters);
-    //Ozon_GetCurrentPromoProducts(TestParameters);
-    //Ozon_GetAvailablePromoProducts(TestParameters);
-
-EndProcedure
-
-Procedure OzonAPI_FBOScheme() Export
-
-    TestParameters = New Structure;
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ClientID", TestParameters);
-    OPI_TestDataRetrieval.ParameterToCollection("Ozon_ApiKey"  , TestParameters);
-
-    Ozon_GetClustersList(TestParameters);
-    Ozon_GetShippingWarehousesList(TestParameters);
-    Ozon_CreateFBODraft(TestParameters);
-    Ozon_GetFBODraft(TestParameters);
-    Ozon_GetShipmentAdditionalFields(TestParameters);
-    Ozon_GetShipmentsFilterStructure(TestParameters);
-    Ozon_GetFBOShipmentsList(TestParameters);
-    Ozon_GetFBOTimeslots(TestParameters);
-
-EndProcedure
-
-#EndRegion
-
 #Region Neocities
 
 Procedure NC_FilesManagement() Export
@@ -2271,6 +2250,10 @@ Procedure TC_Client() Export
     TestParameters = New Structure;
     OPI_TestDataRetrieval.ParameterToCollection("TCP_Address"   , TestParameters);
     OPI_TestDataRetrieval.ParameterToCollection("TCP_AddressTLS", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Proxy_User"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Proxy_Password", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Socks5_IP"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Socks5_Port"   , TestParameters);
 
     TCP_CreateConnection(TestParameters);
     TCP_CloseConnection(TestParameters);
@@ -2281,6 +2264,7 @@ Procedure TC_Client() Export
     TCP_ProcessRequest(TestParameters);
     TCP_GetTLSSettings(TestParameters);
     TCP_GetLastError(TestParameters);
+    TCP_GetProxySettings(TestParameters);
 
 EndProcedure
 
@@ -2471,10 +2455,10 @@ Procedure GAPI_Account() Export
     GreenAPI_SetInstanceSettings(TestParameters);
     GreenAPI_GetInstanceStatus(TestParameters);
     GreenAPI_SetProfilePicture(TestParameters);
-    GreenAPI_RebootInstance(TestParameters);
-    // GreenAPI_GetAuthorizationCode(TestParameters);
-    // GreenAPI_LogoutInstance(TestParameters);
-    // GreenAPI_GetQR(TestParameters);
+    // !DISABLED! GreenMax_RebootInstance(TestParameters);
+    // !DISABLED! GreenAPI_GetAuthorizationCode(TestParameters);
+    // !DISABLED! GreenAPI_LogoutInstance(TestParameters);
+    // !DISABLED! GreenAPI_GetQR(TestParameters);
 
 EndProcedure
 
@@ -2540,7 +2524,7 @@ Procedure GAPI_NotificationsReceiving() Export
 
     GreenAPI_GetNotification(TestParameters);
     GreenAPI_SetReadMark(TestParameters);
-    //GreenAPI_DownloadMessageFile(TestParameters);
+    // !DISABLED! GreenAPI_DownloadMessageFile(TestParameters);
     GreenAPI_DeleteNotificationFromQueue(TestParameters);
 
 EndProcedure
@@ -2726,11 +2710,14 @@ Procedure HTTP_RequestProcessing() Export
 
     TestParameters = New Structure;
     OPI_TestDataRetrieval.ParameterToCollection("HTTP_URL", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Picture" , TestParameters);
 
     HTTPClient_ProcessRequest(TestParameters);
     HTTPClient_ExecuteRequest(TestParameters);
     HTTPClient_ReturnRequest(TestParameters);
     HTTPClient_ReturnConnection(TestParameters);
+    HTTPClient_SendDataInParts(TestParameters);
+    HTTPClient_SendPart(TestParameters);
 
 EndProcedure
 
@@ -3035,6 +3022,276 @@ EndProcedure
 
 #EndRegion
 
+#Region GreenMax
+
+Procedure GMax_Account() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_ApiURL"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MediaURL"   , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_IdInstance" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Token"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Phone"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_AccountID"  , TestParameters);
+    //OPI_TestDataRetrieval.ParameterToCollection("GreenMax_TestGroupID", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Picture"             , TestParameters);
+
+    GreenMax_FormAccessParameters(TestParameters);
+    // !DISABLED! GreenMax_LogoutInstance(TestParameters);
+    // !DISABLED! GreenMax_GetAuthorizationCode(TestParameters);
+    // !DISABLED! GreenMax_SendAuthorizationCode(TestParameters);
+    GreenMax_GetInstanceStatus(TestParameters);
+    GreenMax_GetInstanceSettings(TestParameters);
+    GreenMax_SetInstanceSettings(TestParameters);
+    GreenMax_GetInstanceSettingsStructure(TestParameters);
+    GreenMax_SetProfilePicture(TestParameters);
+    GreenMax_GetAccountInformation(TestParameters);
+    GreenMax_CheckAccount(TestParameters);
+    GreenMax_GetContactList(TestParameters);
+    GreenMax_GetContactInformation(TestParameters);
+    GreenMax_GetChatList(TestParameters);
+    GreenMax_GetChatAvatar(TestParameters);
+    GreenMax_RebootInstance(TestParameters);
+
+EndProcedure
+
+Procedure GMax_GroupManagement() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_ApiURL"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MediaURL"   , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_IdInstance" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Token"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Phone"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_AccountID"  , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Picture"             , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Picture3"            , TestParameters);
+
+    GreenMax_GetContactList(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_CreateGroup(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_GetGroupInformation(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_UpdateGroupName(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_ChangeGroupSettings(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_SetAdminRights(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_RevokeAdminRights(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_RemoveGroupMember(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_AddGroupMember(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_SetGroupPicture(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_LeaveGroup(TestParameters);
+    GreenMax_GetGroupSettingsStructure(TestParameters);
+
+EndProcedure
+
+Procedure GMax_MessageSending() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_ApiURL"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MediaURL"   , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_IdInstance" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Token"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Phone"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_AccountID"  , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Picture"             , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Video"               , TestParameters);
+
+    GreenMax_GetContactList(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_CreateGroup(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_SendTextMessage(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_SendFile(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_SendFileByURL(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_RemoveGroupMember(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_LeaveGroup(TestParameters);
+    OPI_Tools.Pause(1);
+
+EndProcedure
+
+Procedure GMax_Notifications() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_ApiURL"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MediaURL"   , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_IdInstance" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Token"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Phone"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_AccountID"  , TestParameters);
+
+    GreenMax_GetNotification(TestParameters);
+    GreenMax_DeleteNotification(TestParameters);
+
+EndProcedure
+
+Procedure GMax_MessageHistory() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_ApiURL"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MediaURL"   , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_IdInstance" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Token"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Phone"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_AccountID"  , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MainGroupID", TestParameters);
+
+    GreenMax_MarkMessagesAsRead(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_GetChatMessageHistory(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_GetChatMessage(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_GetIncomingMessageLog(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_GetOutgoingMessageLog(TestParameters);
+    OPI_Tools.Pause(1);
+
+EndProcedure
+
+Procedure GMax_Queues() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_ApiURL"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MediaURL"   , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_IdInstance" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Token"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Phone"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_AccountID"  , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MainGroupID", TestParameters);
+
+    GreenMax_GetOutgoingMessageCount(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_GetOutgoingMessageQueue(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_ClearOutgoingMessageQueue(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_GetIncomingNotificationCount(TestParameters);
+    OPI_Tools.Pause(1);
+    GreenMax_ClearIncomingNotificationQueue(TestParameters);
+    OPI_Tools.Pause(1);
+
+EndProcedure
+
+#EndRegion
+
+#Region MongoDB
+
+Procedure Mongo_CommonMethods() Export
+
+    TestParameters = New Structure;
+
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Port"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_User"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Password", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_DB"      , TestParameters);
+
+    MongoDB_GenerateConnectionString(TestParameters);
+    MongoDB_CreateConnection(TestParameters);
+    MongoDB_ExecuteCommand(TestParameters);
+
+EndProcedure
+
+Procedure Mong_DatabaseManagement() Export
+
+    TestParameters = New Structure;
+
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Port"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_User"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Password", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_DB"      , TestParameters);
+
+    MongoDB_GetDatabase(TestParameters);
+    MongoDB_GetListOfBases(TestParameters);
+    MongoDB_DeleteDatabase(TestParameters);
+
+EndProcedure
+
+Procedure Mongo_CollectionManagement() Export
+
+    TestParameters = New Structure;
+
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Port"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_User"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Password", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_DB"      , TestParameters);
+
+    MongoDB_CreateCollection(TestParameters);
+    MongoDB_GetCollectionList(TestParameters);
+    MongoDB_DeleteCollection(TestParameters);
+
+EndProcedure
+
+Procedure Mongo_DocumentsManagement() Export
+
+    TestParameters = New Structure;
+
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Port"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_User"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Password", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_DB"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Picture"         , TestParameters);
+
+    MongoDB_InsertDocuments(TestParameters);
+    MongoDB_GetDocuments(TestParameters);
+    MongoDB_GetCursor(TestParameters);
+    MongoDB_GetDocumentBatch(TestParameters);
+    MongoDB_UpdateDocuments(TestParameters);
+    MongoDB_DeleteDocuments(TestParameters);
+    MongoDB_GetDocumentUpdateStructure(TestParameters);
+    MongoDB_GetDocumentDeletionStructure(TestParameters);
+
+EndProcedure
+
+Procedure Mongo_UserManagement() Export
+
+    TestParameters = New Structure;
+
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Port"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_User"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Password", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_DB"      , TestParameters);
+
+    MongoDB_CreateUser(TestParameters);
+    MongoDB_UpdateUser(TestParameters);
+    MongoDB_GetUsers(TestParameters);
+    MongoDB_GetDatabaseUsers(TestParameters);
+    MongoDB_DeleteUser(TestParameters);
+
+EndProcedure
+
+Procedure Mongo_RoleManagement() Export
+
+    TestParameters = New Structure;
+
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Port"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_User"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_Password", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("MongoDB_DB"      , TestParameters);
+
+    MongoDB_CreateRole(TestParameters);
+    MongoDB_GetRoles(TestParameters);
+    MongoDB_GrantRoles(TestParameters);
+    MongoDB_RevokeRoles(TestParameters);
+    MongoDB_UpdateRole(TestParameters);
+    MongoDB_DeleteRole(TestParameters);
+    MongoDB_GetRolePrivilegeStructure(TestParameters);
+
+EndProcedure
+
+#EndRegion
+
 #EndRegion
 
 #EndRegion
@@ -3059,10 +3316,23 @@ Function GetTwitterAuthData()
 
     Parameters = New Map;
 
+    ServerToken = OPI_TestDataRetrieval.GetParameter("Access_Token");
+
+    URL = OPI_TestDataRetrieval.GetParameter("Twitter_TokenURL");
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize()
+        .SetURL(URL)
+        .AddBearerAuthorization(ServerToken) // <---
+        .ProcessRequest("GET")
+        .ReturnResponseAsJSONObject();
+
+    Token = Result["data"];
+
     Parameters.Insert("redirect_uri"      , OPI_TestDataRetrieval.GetParameter("Twitter_Redirect"));
     Parameters.Insert("client_id"         , OPI_TestDataRetrieval.GetParameter("Twitter_ClinetID"));
     Parameters.Insert("client_secret"     , OPI_TestDataRetrieval.GetParameter("Twitter_ClientSecret"));
-    Parameters.Insert("access_token"      , OPI_TestDataRetrieval.GetParameter("Twitter_Token"));
+    Parameters.Insert("access_token"      , Token);
     Parameters.Insert("refresh_token"     , OPI_TestDataRetrieval.GetParameter("Twitter_Refresh"));
     Parameters.Insert("oauth_token"       , OPI_TestDataRetrieval.GetParameter("Twitter_OAuthToken"));
     Parameters.Insert("oauth_token_secret", OPI_TestDataRetrieval.GetParameter("Twitter_OAuthSecret"));
@@ -3243,6 +3513,28 @@ Procedure Telegram_SendTextMessage(FunctionParameters)
 
     Process(Result, "Telegram", "SendTextMessage", "Keyboard structure");
 
+    Text = "%F0%9F%94%A5 *New release\!*
+    |
+    |%F0%9F%8F%B0 *Repository*: [240596448/devtools](https://github.com/240596448/devtools)
+    |%F0%9F%94%A2 *Version*: \{0.6.0}
+    |%F0%9F%93%85 *Date release*: 6 december 2025.
+    |
+    |>*AI summary*
+    |>Devtools — this tool for automation work with configurations\extensions 1C:Enterprise and integration with Git. Application allows dump and upload objects, a also synchronize change between Git and repository 1C. In release 0.6.0 realized optimization logic work and added logging, that contributes stability and simplifies analysis work applications.
+    |
+    |
+    |_Not forget put %E2%AD%90 liked projects_";
+
+    Options = New Structure;
+    Options.Insert("token", Token);
+    Options.Insert("chat", ChatID);
+    Options.Insert("text", Text);
+    Options.Insert("parsemode", "MarkdownV2");
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("telegram", "SendTextMessage", Options);
+
+    Process(Result, "Telegram", "SendTextMessage", "Complex");
+
 EndProcedure
 
 Procedure Telegram_FormKeyboardFromButtonArray(FunctionParameters)
@@ -3343,6 +3635,41 @@ Procedure Telegram_SendImage(FunctionParameters)
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("telegram", "SendImage", Options);
 
     Process(Result, "Telegram", "SendImage", "Keyboard collection", FunctionParameters, Text);
+
+    Text   = "Text %F0%9F%A5%9D and emoji \(10%\)";
+    Options = New Structure;
+    Options.Insert("token", Token);
+    Options.Insert("chat", ChannelID);
+    Options.Insert("text", Text);
+    Options.Insert("picture", Image);
+    Options.Insert("parsemode", "MarkdownV2");
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("telegram", "SendImage", Options);
+
+    Process(Result, "Telegram", "SendImage", "Text + Emoji");
+
+    Text = "%F0%9F%94%A5 *New release\!*
+    |
+    |%F0%9F%8F%B0 *Repository*: [240596448/devtools](https://github.com/240596448/devtools)
+    |%F0%9F%94%A2 *Version*: \{0.6.0}
+    |%F0%9F%93%85 *Date release*: 6 december 2025.
+    |
+    |>*AI summary*
+    |>Devtools — this tool for automation work with configurations\extensions 1C:Enterprise and integration with Git. Application allows dump and upload objects, a also synchronize change between Git and repository 1C. In release 0.6.0 realized optimization logic work and added logging, that contributes stability and simplifies analysis work applications.
+    |
+    |
+    |_Not forget put %E2%AD%90 liked projects_";
+
+    Options = New Structure;
+    Options.Insert("token", Token);
+    Options.Insert("chat", ChatID);
+    Options.Insert("text", Text);
+    Options.Insert("picture", Image);
+    Options.Insert("parsemode", "MarkdownV2");
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("telegram", "SendImage", Options);
+
+    Process(Result, "Telegram", "SendImage", "Complex");
 
     OPI_Tools.RemoveFileWithTry(ImagePath, "Failed to delete the temporary file after the test!");
 
@@ -4244,6 +4571,25 @@ Procedure VK_CreateTokenRetrievalLink(FunctionParameters)
     // END
 
     Process(Result, "VK", "CreateTokenRetrievalLink");
+
+EndProcedure
+
+Procedure VK_GetAuthParameters(FunctionParameters)
+
+    GroupID = FunctionParameters["VK_GroupID"];
+    AppID   = FunctionParameters["VK_AppID"];
+    Token   = FunctionParameters["VK_Token"];
+
+    Options = New Structure;
+    Options.Insert("group", GroupID);
+    Options.Insert("app", AppID);
+    Options.Insert("token", Token);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("vk", "GetAuthParameters", Options);
+
+    // END
+
+    Process(Result, "VK", "GetAuthParameters");
 
 EndProcedure
 
@@ -5386,6 +5732,59 @@ EndProcedure
 
 #Region YandexDisk
 
+Procedure YandexDisk_GetConfirmationCode(FunctionParameters)
+
+    ClientID = FunctionParameters["YandexDisk_ClientID"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("yadisk", "GetConfirmationCode", Options);
+
+    // END
+
+    Process(Result, "YandexDisk", "GetConfirmationCode");
+
+EndProcedure
+
+Procedure YandexDisk_ConvertCodeToToken(FunctionParameters)
+
+    ClientID     = FunctionParameters["YandexDisk_ClientID"];
+    ClientSecret = FunctionParameters["YandexDisk_ClientSecret"];
+    DeviceCode   = "12345678";
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("device", DeviceCode);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("yadisk", "ConvertCodeToToken", Options);
+
+    // END
+
+    Process(Result, "YandexDisk", "ConvertCodeToToken", , FunctionParameters);
+
+EndProcedure
+
+Procedure YandexDisk_RefreshToken(FunctionParameters)
+
+    ClientID     = FunctionParameters["YandexDisk_ClientID"];
+    ClientSecret = FunctionParameters["YandexDisk_ClientSecret"];
+    RefreshToken = FunctionParameters["YandexDisk_RefreshToken"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("refresh", RefreshToken);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("yadisk", "RefreshToken", Options);
+
+    // END
+
+    Process(Result, "YandexDisk", "RefreshToken", , FunctionParameters);
+
+EndProcedure
+
 Procedure YandexDisk_GetDiskInformation(FunctionParameters)
 
     Token  = FunctionParameters["YandexDisk_Token"];
@@ -5710,6 +6109,47 @@ Procedure YandexDisk_CancelObjectPublication(FunctionParameters)
     // END
 
     Process(Result, "YandexDisk", "CancelObjectPublication", , Path);
+
+EndProcedure
+
+Procedure YandexDisk_UploadFileInParts(FunctionParameters)
+
+    Path = "/song.mp3";
+
+    Token = FunctionParameters["YandexDisk_Token"];
+    File  = FunctionParameters["Audio"]; // URL, Binary or File path
+
+    ChunkSize = 1048576; // 1 MB
+
+    Options = New Structure;
+    Options.Insert("token", Token);
+    Options.Insert("path", Path);
+    Options.Insert("file", File);
+    Options.Insert("psize", ChunkSize);
+    Options.Insert("rewrite", Истина);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("yadisk", "UploadFileInParts", Options);
+
+    // END
+
+    Process(Result, "YandexDisk", "UploadFileInParts", , File);
+
+    Options = New Structure;
+    Options.Insert("token", Token);
+    Options.Insert("path", Path);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("yadisk", "DownloadFile", Options);
+
+    Process(Result, "YandexDisk", "UploadFileInParts", "Downloading", File);
+
+    Options = New Structure;
+    Options.Insert("token", Token);
+    Options.Insert("path", Path);
+    Options.Insert("can", Ложь);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("yadisk", "DeleteObject", Options);
+
+    Process(Result, "YandexDisk", "UploadFileInParts", "Deletion");
 
 EndProcedure
 
@@ -6129,6 +6569,87 @@ EndProcedure
 
 #Region GoogleCalendar
 
+Procedure GoogleCalendar_FormCodeRetrievalLink(FunctionParameters)
+
+    ClientID = FunctionParameters["Google_ClientID"];
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gcalendar", "FormCodeRetrievalLink", Options);
+
+    // END
+
+    Process(Result, "GoogleCalendar", "FormCodeRetrievalLink");
+
+EndProcedure
+
+Procedure GoogleCalendar_GetTokenByCode(FunctionParameters)
+
+    ClientID     = FunctionParameters["Google_ClientID"];
+    ClientSecret = FunctionParameters["Google_ClientSecret"];
+    Code         = FunctionParameters["Google_Code"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("code", Code);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gcalendar", "GetTokenByCode", Options);
+
+    // END
+
+    Process(Result, "GoogleCalendar", "GetTokenByCode");
+
+EndProcedure
+
+Procedure GoogleCalendar_RefreshToken(FunctionParameters)
+
+    ClientID     = FunctionParameters["Google_ClientID"];
+    ClientSecret = FunctionParameters["Google_ClientSecret"];
+    RefreshToken = FunctionParameters["Google_Refresh"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("refresh", RefreshToken);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gcalendar", "RefreshToken", Options);
+
+    // END
+
+    Process(Result, "GoogleCalendar", "RefreshToken");
+
+EndProcedure
+
+Procedure GoogleCalendar_GetServiceAccountToken(FunctionParameters)
+
+    Data = FunctionParameters["Google_ServiceData"]; // URL, binary Data, file or collection
+
+    Token = FunctionParameters["Access_Token"]; // SKIP
+    Data  = OPI_HTTPRequests // SKIP
+        .NewRequest() // SKIP
+        .Initialize(Data) // SKIP
+        .AddBearerAuthorization(Token) // SKIP
+        .ProcessRequest("GET") // SKIP
+        .ReturnResponseAsBinaryData(); // SKIP
+
+    Scope = New Array;
+    Scope.Add("https://www.googleapis.com/auth/calendar");
+    Scope.Add("https://www.googleapis.com/auth/drive");
+    Scope.Add("https://www.googleapis.com/auth/spreadsheets");
+
+    Options = New Structure;
+    Options.Insert("auth", Data);
+    Options.Insert("scope", Scope);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gcalendar", "GetServiceAccountToken", Options);
+
+    // END
+
+    Process(Result, "GoogleCalendar", "GetServiceAccountToken");
+
+EndProcedure
+
 Procedure GoogleCalendar_GetCalendarList(FunctionParameters)
 
     Token  = FunctionParameters["Google_Token"];
@@ -6480,6 +7001,87 @@ EndProcedure
 
 #Region GoogleDrive
 
+Procedure GoogleDrive_FormCodeRetrievalLink(FunctionParameters)
+
+    ClientID = FunctionParameters["Google_ClientID"];
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gdrive", "FormCodeRetrievalLink", Options);
+
+    // END
+
+    Process(Result, "GoogleDrive", "FormCodeRetrievalLink");
+
+EndProcedure
+
+Procedure GoogleDrive_GetTokenByCode(FunctionParameters)
+
+    ClientID     = FunctionParameters["Google_ClientID"];
+    ClientSecret = FunctionParameters["Google_ClientSecret"];
+    Code         = FunctionParameters["Google_Code"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("code", Code);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gdrive", "GetTokenByCode", Options);
+
+    // END
+
+    Process(Result, "GoogleDrive", "GetTokenByCode");
+
+EndProcedure
+
+Procedure GoogleDrive_RefreshToken(FunctionParameters)
+
+    ClientID     = FunctionParameters["Google_ClientID"];
+    ClientSecret = FunctionParameters["Google_ClientSecret"];
+    RefreshToken = FunctionParameters["Google_Refresh"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("refresh", RefreshToken);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gdrive", "RefreshToken", Options);
+
+    // END
+
+    Process(Result, "GoogleDrive", "RefreshToken");
+
+EndProcedure
+
+Procedure GoogleDrive_GetServiceAccountToken(FunctionParameters)
+
+    Data = FunctionParameters["Google_ServiceData"]; // URL, binary Data, file or collection
+
+    Token = FunctionParameters["Access_Token"]; // SKIP
+    Data  = OPI_HTTPRequests // SKIP
+        .NewRequest() // SKIP
+        .Initialize(Data) // SKIP
+        .AddBearerAuthorization(Token) // SKIP
+        .ProcessRequest("GET") // SKIP
+        .ReturnResponseAsBinaryData(); // SKIP
+
+    Scope = New Array;
+    Scope.Add("https://www.googleapis.com/auth/calendar");
+    Scope.Add("https://www.googleapis.com/auth/drive");
+    Scope.Add("https://www.googleapis.com/auth/spreadsheets");
+
+    Options = New Structure;
+    Options.Insert("auth", Data);
+    Options.Insert("scope", Scope);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gdrive", "GetServiceAccountToken", Options);
+
+    // END
+
+    Process(Result, "GoogleDrive", "GetServiceAccountToken");
+
+EndProcedure
+
 Procedure GoogleDrive_GetDirectoriesList(FunctionParameters)
 
     Name  = "TestFolder";
@@ -6518,8 +7120,8 @@ EndProcedure
 Procedure GoogleDrive_UploadFile(FunctionParameters)
 
     Token     = FunctionParameters["Google_Token"];
-    Image     = FunctionParameters["Picture"];
     Directory = FunctionParameters["GD_Catalog"];
+    Image     = FunctionParameters["Picture"]; // URL, Binary Data or File path
 
     Clear       = False;
     Options = New Structure;
@@ -6553,6 +7155,14 @@ Procedure GoogleDrive_UploadFile(FunctionParameters)
         Result = OPI_TestDataRetrieval.ExecuteTestCLI("gdrive", "UploadFile", Options);
 
         Process(Result, "GoogleDrive", "UploadFile", "Big", FunctionParameters, Description);
+
+        Options = New Structure;
+        Options.Insert("token", Token);
+        Options.Insert("object", Result);
+
+        Result = OPI_TestDataRetrieval.ExecuteTestCLI("gdrive", "DownloadFile", Options);
+
+        Process(Result, "GoogleDrive", "UploadFile", "Check", FunctionParameters, Description);
 
     EndIf;
 
@@ -6785,6 +7395,87 @@ EndProcedure
 #EndRegion
 
 #Region GoogleSheets
+
+Procedure GoogleSheets_FormCodeRetrievalLink(FunctionParameters)
+
+    ClientID = FunctionParameters["Google_ClientID"];
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gsheets", "FormCodeRetrievalLink", Options);
+
+    // END
+
+    Process(Result, "GoogleSheets", "FormCodeRetrievalLink");
+
+EndProcedure
+
+Procedure GoogleSheets_GetTokenByCode(FunctionParameters)
+
+    ClientID     = FunctionParameters["Google_ClientID"];
+    ClientSecret = FunctionParameters["Google_ClientSecret"];
+    Code         = FunctionParameters["Google_Code"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("code", Code);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gsheets", "GetTokenByCode", Options);
+
+    // END
+
+    Process(Result, "GoogleSheets", "GetTokenByCode");
+
+EndProcedure
+
+Procedure GoogleSheets_RefreshToken(FunctionParameters)
+
+    ClientID     = FunctionParameters["Google_ClientID"];
+    ClientSecret = FunctionParameters["Google_ClientSecret"];
+    RefreshToken = FunctionParameters["Google_Refresh"];
+
+    Options = New Structure;
+    Options.Insert("id", ClientID);
+    Options.Insert("secret", ClientSecret);
+    Options.Insert("refresh", RefreshToken);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gsheets", "RefreshToken", Options);
+
+    // END
+
+    Process(Result, "GoogleSheets", "RefreshToken");
+
+EndProcedure
+
+Procedure GoogleSheets_GetServiceAccountToken(FunctionParameters)
+
+    Data = FunctionParameters["Google_ServiceData"]; // URL, binary Data, file or collection
+
+    Token = FunctionParameters["Access_Token"]; // SKIP
+    Data  = OPI_HTTPRequests // SKIP
+        .NewRequest() // SKIP
+        .Initialize(Data) // SKIP
+        .AddBearerAuthorization(Token) // SKIP
+        .ProcessRequest("GET") // SKIP
+        .ReturnResponseAsBinaryData(); // SKIP
+
+    Scope = New Array;
+    Scope.Add("https://www.googleapis.com/auth/calendar");
+    Scope.Add("https://www.googleapis.com/auth/drive");
+    Scope.Add("https://www.googleapis.com/auth/spreadsheets");
+
+    Options = New Structure;
+    Options.Insert("auth", Data);
+    Options.Insert("scope", Scope);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("gsheets", "GetServiceAccountToken", Options);
+
+    // END
+
+    Process(Result, "GoogleSheets", "GetServiceAccountToken");
+
+EndProcedure
 
 Procedure GoogleSheets_CreateSpreadsheet(FunctionParameters)
 
@@ -15930,1244 +16621,6 @@ EndProcedure
 
 #EndRegion
 
-#Region Ozon
-
-Procedure Ozon_GetCategoriesAndProductTypesTree(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("lang", "EN");
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetCategoriesAndProductTypesTree", Options);
-
-    Process(Result, "Ozon", "GetCategoriesAndProductTypesTree", "EN"); // SKIP
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetCategoriesAndProductTypesTree", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetCategoriesAndProductTypesTree");
-
-EndProcedure
-
-Procedure Ozon_GetCategoryAttributes(FunctionParameters)
-
-    ClientID   = FunctionParameters["Ozon_ClientID"];
-    APIKey     = FunctionParameters["Ozon_ApiKey"];
-    CategoryID = 17029016;
-    TypeID     = 970778135;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("categoryid", CategoryID);
-    Options.Insert("typeid", TypeID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetCategoryAttributes", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetCategoryAttributes");
-
-EndProcedure
-
-Procedure Ozon_GetAttributeValues(FunctionParameters)
-
-    ClientID    = FunctionParameters["Ozon_ClientID"];
-    APIKey      = FunctionParameters["Ozon_ApiKey"];
-    CategoryID  = 17054869;
-    TypeID      = 97311;
-    AttributeID = 85;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("categoryid", CategoryID);
-    Options.Insert("typeid", TypeID);
-    Options.Insert("attributeid", AttributeID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetAttributeValues", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetAttributeValues");
-
-EndProcedure
-
-Procedure Ozon_SearchAttributeValue(FunctionParameters)
-
-    ClientID    = FunctionParameters["Ozon_ClientID"];
-    APIKey      = FunctionParameters["Ozon_ApiKey"];
-    CategoryID  = 17054869;
-    TypeID      = 97311;
-    AttributeID = 85;
-    Value       = "Sunshine";
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("categoryid", CategoryID);
-    Options.Insert("typeid", TypeID);
-    Options.Insert("attributeid", AttributeID);
-    Options.Insert("value", Value);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "SearchAttributeValue", Options);
-
-    // END
-
-    Process(Result, "Ozon", "SearchAttributeValue");
-
-EndProcedure
-
-Procedure Ozon_GetProductStructure(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductStructure", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductStructure");
-
-EndProcedure
-
-Procedure Ozon_CreateUpdateProducts(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    Image1   = FunctionParameters["Picture"];
-    Image2   = FunctionParameters["Picture2"];
-    Video    = "https://rutube.ru/video/c6cc4d620b1d4338901770a44b3e82f4/";
-
-    ImageArray = New Array;
-    ImageArray.Add(Image1);
-    ImageArray.Add(Image2);
-
-    // Common fields
-
-    ItemStructure = New Structure;
-    ItemStructure.Insert("description_category_id", 17028922);
-    ItemStructure.Insert("name"                   , "Protective film set for X3 NFC. Dark cotton");
-    ItemStructure.Insert("offer_id"               , "143210609");
-    ItemStructure.Insert("barcode"                , "112772873170");
-    ItemStructure.Insert("price"                  , "1300");
-    ItemStructure.Insert("old_price"              , "1300");
-    ItemStructure.Insert("vat"                    , "0.1");
-    ItemStructure.Insert("height"                 , 250);
-    ItemStructure.Insert("width"                  , 150);
-    ItemStructure.Insert("depth"                  , 10);
-    ItemStructure.Insert("dimension_unit"         , "mm");
-    ItemStructure.Insert("weight"                 , 100);
-    ItemStructure.Insert("weight_unit"            , "g");
-    ItemStructure.Insert("images"                 , ImageArray);
-    ItemStructure.Insert("type_id"                , 91565);
-
-    // Video
-
-    OPI_Ozon.AddProductVideo(ItemStructure, Video, "viedo1");
-
-    // Attributes individualized for different categories
-
-    CategoryAttribute1 = New Structure("dictionary_value_id,value", 971082156, "Speaker stand");
-    CategoryAttribute2 = New Structure("dictionary_value_id,value", 5060050, "Samsung");
-    CategoryAttribute3 = New Structure("dictionary_value_id,value", 61576, "gray");
-    CategoryAttribute4 = New Structure("dictionary_value_id,value", 95911,
-        "Protective film set for X3 NFC. Dark cotton");
-
-    CategoryAttribute5 = New Structure("value", "Protective film set for X3 NFC. Dark cotton");
-
-    OPI_Ozon.CompleteComplexAttribute(ItemStructure, 5076 , 0, CategoryAttribute1);
-    OPI_Ozon.CompleteComplexAttribute(ItemStructure, 85   , 0, CategoryAttribute2);
-    OPI_Ozon.CompleteComplexAttribute(ItemStructure, 10096, 0, CategoryAttribute3);
-    OPI_Ozon.CompleteComplexAttribute(ItemStructure, 8229 , 0, CategoryAttribute4);
-    OPI_Ozon.CompleteComplexAttribute(ItemStructure, 9048 , 0, CategoryAttribute5);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("items", ItemStructure);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "CreateUpdateProducts", Options);
-
-    // END
-
-    Process(Result, "Ozon", "CreateUpdateProducts", , FunctionParameters);
-
-    ItemStructure.Insert("offer_id", "1432106010");
-    OPI_Ozon.CreateUpdateProducts(ClientID, APIKey, ItemStructure);
-
-    OPI_Tools.Pause(120);
-
-EndProcedure
-
-Procedure Ozon_AddProductVideo(FunctionParameters)
-
-    Video = "https://rutube.ru/video/c6cc4d620b1d4338901770a44b3e82f4/";
-
-    ItemStructure = New Structure;
-    ItemStructure.Insert("description_category_id", 17028922);
-    ItemStructure.Insert("name"                   , "Protective film set for X3 NFC. Dark cotton");
-    ItemStructure.Insert("offer_id"               , "143210608");
-    ItemStructure.Insert("barcode"                , "112772873170");
-    ItemStructure.Insert("price"                  , "1000");
-    ItemStructure.Insert("old_price"              , "1100");
-    ItemStructure.Insert("vat"                    , "0.1");
-    ItemStructure.Insert("height"                 , 250);
-    ItemStructure.Insert("width"                  , 150);
-    ItemStructure.Insert("depth"                  , 10);
-    ItemStructure.Insert("dimension_unit"         , "mm");
-    ItemStructure.Insert("weight"                 , 100);
-    ItemStructure.Insert("weight_unit"            , "g");
-
-    // Video
-
-    OPI_Ozon.AddProductVideo(ItemStructure, Video, "viedo1");
-
-    // END
-
-    Process(ItemStructure, "Ozon", "AddProductVideo");
-
-EndProcedure
-
-Procedure Ozon_AddProductVideoCover(FunctionParameters)
-
-    Video = "https://rutube.ru/video/c6cc4d620b1d4338901770a44b3e82f4/";
-
-    ItemStructure = New Structure;
-    ItemStructure.Insert("description_category_id", 17028922);
-    ItemStructure.Insert("name"                   , "Protective film set for X3 NFC. Dark cotton");
-    ItemStructure.Insert("offer_id"               , "143210608");
-    ItemStructure.Insert("barcode"                , "112772873170");
-    ItemStructure.Insert("price"                  , "1000");
-    ItemStructure.Insert("old_price"              , "1100");
-    ItemStructure.Insert("vat"                    , "0.1");
-    ItemStructure.Insert("height"                 , 250);
-    ItemStructure.Insert("width"                  , 150);
-    ItemStructure.Insert("depth"                  , 10);
-    ItemStructure.Insert("dimension_unit"         , "mm");
-    ItemStructure.Insert("weight"                 , 100);
-    ItemStructure.Insert("weight_unit"            , "g");
-
-    // Videocover
-
-    OPI_Ozon.AddProductVideoCover(ItemStructure, Video);
-
-    // END
-
-    Process(ItemStructure, "Ozon", "AddProductVideoCover");
-
-EndProcedure
-
-Procedure Ozon_CompleteComplexAttribute(FunctionParameters)
-
-    ItemStructure = New Structure;
-    ItemStructure.Insert("description_category_id", 17028922);
-    ItemStructure.Insert("name"                   , "Protective film set for X3 NFC. Dark cotton");
-    ItemStructure.Insert("offer_id"               , "143210608");
-    ItemStructure.Insert("barcode"                , "112772873170");
-    ItemStructure.Insert("price"                  , "1000");
-    ItemStructure.Insert("old_price"              , "1100");
-    ItemStructure.Insert("vat"                    , "0.1");
-    ItemStructure.Insert("height"                 , 250);
-    ItemStructure.Insert("width"                  , 150);
-    ItemStructure.Insert("depth"                  , 10);
-    ItemStructure.Insert("dimension_unit"         , "mm");
-    ItemStructure.Insert("weight"                 , 100);
-    ItemStructure.Insert("weight_unit"            , "g");
-
-    CategoryAttribute1 = New Structure("dictionary_value_id,value", 971082156, "Speaker stand");
-
-    CategoryAttribute2 = New Structure("value", "Protective film set for X3 NFC. Dark cotton");
-
-    OPI_Ozon.CompleteComplexAttribute(ItemStructure, 5076, 0, CategoryAttribute1);
-    OPI_Ozon.CompleteComplexAttribute(ItemStructure, 9048, 0, CategoryAttribute2);
-
-    // END
-
-    Process(ItemStructure, "Ozon", "CompleteComplexAttribute");
-
-EndProcedure
-
-Procedure Ozon_GetProductCreationStatus(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    TaskID   = FunctionParameters["Ozon_TaskID"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("taskid", TaskID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductCreationStatus", Options);
-
-    // END
-
-    While Result["result"]["items"][0]["status"] = "pending" Do
-
-        OPI_Tools.Pause(30);
-        Result = OPI_Ozon.GetProductCreationStatus(ClientID, APIKey, TaskID);
-
-    EndDo;
-
-    Process(Result, "Ozon", "GetProductCreationStatus");
-
-EndProcedure
-
-Procedure Ozon_CreateProductByOzonID(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    ItemStructure = New Structure;
-    ItemStructure.Insert("name"         , "New imported product");
-    ItemStructure.Insert("sku"          , 1626044001);
-    ItemStructure.Insert("offer_id"     , "91132");
-    ItemStructure.Insert("price"        , "1100");
-    ItemStructure.Insert("old_price"    , "1100");
-    ItemStructure.Insert("vat"          , "0.1");
-    ItemStructure.Insert("currency_code", "RUB");
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("items", ItemStructure);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "CreateProductByOzonID", Options);
-
-    // END
-
-    Process(Result, "Ozon", "CreateProductByOzonID");
-
-EndProcedure
-
-Procedure Ozon_GetSimplifiedProductStructure(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetSimplifiedProductStructure", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetSimplifiedProductStructure");
-
-EndProcedure
-
-Procedure Ozon_GetAttributesUpdateStructure(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetAttributesUpdateStructure", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetAttributesUpdateStructure");
-
-EndProcedure
-
-Procedure Ozon_UpdateProductsAttributes(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    AttributesStructure = New Structure("offer_id", "143210609");
-
-    CategoryAttribute1 = New Structure("dictionary_value_id,value", 971082156, "Speaker stand");
-    CategoryAttribute2 = New Structure("dictionary_value_id,value", 5060050, "Samsung");
-    CategoryAttribute3 = New Structure("dictionary_value_id,value", 61576, "red");
-
-    OPI_Ozon.CompleteComplexAttribute(AttributesStructure, 5076 , 0, CategoryAttribute1);
-    OPI_Ozon.CompleteComplexAttribute(AttributesStructure, 85   , 0, CategoryAttribute2);
-    OPI_Ozon.CompleteComplexAttribute(AttributesStructure, 10096, 0, CategoryAttribute3);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("items", AttributesStructure);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UpdateProductsAttributes", Options);
-
-    // END
-
-    Process(Result, "Ozon", "UpdateProductsAttributes", , FunctionParameters);
-
-    TaskID = Result["task_id"];
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("taskid", TaskID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductCreationStatus", Options);
-
-    If Result["result"]["items"].Count() > 0 Then
-
-        While Result["result"]["items"][0]["status"] = "pending" Do
-
-            OPI_Tools.Pause(30);
-            Result = OPI_Ozon.GetProductCreationStatus(ClientID, APIKey, TaskID);
-
-        EndDo;
-
-        Process(Result, "Ozon", "UpdateProductsAttributes", "Check", FunctionParameters);
-
-    EndIf;
-
-EndProcedure
-
-Procedure Ozon_GetProductsFilterStructure(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductsFilterStructure", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductsFilterStructure");
-
-EndProcedure
-
-Procedure Ozon_GetProductList(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    IDArray = New Array;
-    IDArray.Add("143210609");
-    IDArray.Add("1432106010");
-
-    Filter = New Structure;
-    Filter.Insert("visibility", "ALL");
-    Filter.Insert("offer_id"  , IDArray);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("filter", Filter);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductList", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductList", , FunctionParameters);
-
-EndProcedure
-
-Procedure Ozon_GetProductsAttributesData(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    IDArray = New Array;
-    IDArray.Add("143210609");
-
-    Filter = New Structure;
-    Filter.Insert("visibility", "ALL");
-    Filter.Insert("offer_id"  , IDArray);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("filter", Filter);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductsAttributesData", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductsAttributesData");
-
-EndProcedure
-
-Procedure Ozon_GetProductsContentRating(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    SKU      = 1626044001;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("sku", SKU);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductsContentRating", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductsContentRating");
-
-EndProcedure
-
-Procedure Ozon_GetProductsInformation(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    Article  = "143210609";
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("offerid", Article);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductsInformation", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductsInformation");
-
-EndProcedure
-
-Procedure Ozon_GetProductDescription(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    Article  = "143210609";
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("offerid", Article);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductDescription", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductDescription");
-
-EndProcedure
-
-Procedure Ozon_GetProductsRequestsLimits(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductsRequestsLimits", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductsRequestsLimits");
-
-EndProcedure
-
-Procedure Ozon_UpdateProductImages(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Image1 = FunctionParameters["Picture"];
-    Image2 = FunctionParameters["Picture2"];
-
-    MarketingColor = "GREEN";
-
-    ImagesArray = New Array;
-    ImagesArray.Add(Image1);
-    ImagesArray.Add(Image2);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("productid", ProductID);
-    Options.Insert("images", ImagesArray);
-    Options.Insert("color", MarketingColor);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UpdateProductImages", Options);
-
-    // END
-
-    Process(Result, "Ozon", "UpdateProductImages");
-
-EndProcedure
-
-Procedure Ozon_CheckProductsImagesUpload(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("products", ProductID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "CheckProductsImagesUpload", Options);
-
-    // END
-
-    Process(Result, "Ozon", "CheckProductsImagesUpload");
-
-EndProcedure
-
-Procedure Ozon_UpdateProductsArticles(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    ArticlesMap = New Map;
-    ArticlesMap.Insert("143210609", "143210612");
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("offers", ArticlesMap);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UpdateProductsArticles", Options);
-
-    // END
-
-    Process(Result, "Ozon", "UpdateProductsArticles");
-
-    ArticlesMap = New Map;
-    ArticlesMap.Insert("143210612", "143210609");
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("offers", ArticlesMap);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UpdateProductsArticles", Options);
-
-    Process(Result, "Ozon", "UpdateProductsArticles", "Reverse");
-
-EndProcedure
-
-Procedure Ozon_ArchiveProducts(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("products", ProductID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "ArchiveProducts", Options);
-
-    // END
-
-    Process(Result, "Ozon", "ArchiveProducts");
-
-    ProductID = FunctionParameters["Ozon_ProductID2"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("products", ProductID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "ArchiveProducts", Options);
-
-    Process(Result, "Ozon", "ArchiveProducts", "Additional");
-
-EndProcedure
-
-Procedure Ozon_UnarchiveProducts(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("products", ProductID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UnarchiveProducts", Options);
-
-    // END
-
-    Process(Result, "Ozon", "UnarchiveProducts");
-
-EndProcedure
-
-Procedure Ozon_DeleteProductsWithoutSKU(FunctionParameters)
-
-    OPI_Tools.Pause(30);
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("products", ProductID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "ArchiveProducts", Options);
-
-    OPI_TestDataRetrieval.LogServiceInformation(Result, "ArchiveProducts (for deleting)", "Ozon"); // SKIP
-    OPI_Tools.Pause(15); // SKIP
-
-    Article = "143210609";
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("articles", Article);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "DeleteProductsWithoutSKU", Options);
-
-    // END
-
-    Process(Result, "Ozon", "DeleteProductsWithoutSKU");
-
-    Article = "1432106010";
-    OPI_Ozon.DeleteProductsWithoutSKU(ClientID, APIKey, Article);
-
-EndProcedure
-
-Procedure Ozon_UploadProductActivationCodes(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Codes = New Array;
-    Codes.Add("11111111");
-    Codes.Add("22222222");
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("productid", ProductID);
-    Options.Insert("codes", Codes);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UploadProductActivationCodes", Options);
-
-    // END
-
-    Process(Result, "Ozon", "UploadProductActivationCodes", , FunctionParameters);
-
-EndProcedure
-
-Procedure Ozon_GetCodesUploadStatus(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    TaskID   = FunctionParameters["Ozon_CodesTaskID"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("taskid", TaskID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetCodesUploadStatus", Options);
-
-    // END
-
-    If ValueIsFilled(Result["result"]) Then
-        While Result["result"]["status"] = "pending" Do
-
-            OPI_Tools.Pause(30);
-            Result = OPI_Ozon.GetCodesUploadStatus(ClientID, APIKey, TaskID);
-
-        EndDo;
-    EndIf;
-
-    Process(Result, "Ozon", "GetCodesUploadStatus");
-
-EndProcedure
-
-Procedure Ozon_GetProductSubscribersCount(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    SKU      = 1626044001;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("sku", SKU);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductSubscribersCount", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductSubscribersCount");
-
-EndProcedure
-
-Procedure Ozon_GetRelatedSKUs(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    SKU      = 1626044001;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("sku", SKU);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetRelatedSKUs", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetRelatedSKUs");
-
-EndProcedure
-
-Procedure Ozon_BindBarcodes(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    BarcodesMap = New Map;
-    BarcodesMap.Insert(1626044001, "112233");
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("barcodes", BarcodesMap);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "BindBarcodes", Options);
-
-    // END
-
-    Process(Result, "Ozon", "BindBarcodes");
-
-EndProcedure
-
-Procedure Ozon_CreateBarcodes(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("productids", ProductID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "CreateBarcodes", Options);
-
-    // END
-
-    Process(Result, "Ozon", "CreateBarcodes");
-
-EndProcedure
-
-Procedure Ozon_GetWarehousesList(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetWarehousesList", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetWarehousesList");
-
-EndProcedure
-
-Procedure Ozon_GetProductsStocks(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    IDArray = New Array;
-    IDArray.Add("143210608");
-
-    Filter = New Structure;
-    Filter.Insert("visibility", "ALL");
-    Filter.Insert("offer_id"  , IDArray);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("filter", Filter);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductsStocks", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductsStocks");
-
-EndProcedure
-
-Procedure Ozon_UpdateProductsPrices(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Prices = New Structure;
-    Prices.Insert("auto_action_enabled"   , "DISABLED");
-    Prices.Insert("currency_code"         , "RUB");
-    Prices.Insert("min_price"             , "1300");
-    Prices.Insert("offer_id"              , "143210610");
-    Prices.Insert("old_price"             , "1400");
-    Prices.Insert("price"                 , "1300");
-    Prices.Insert("price_strategy_enabled", "DISABLED");
-    Prices.Insert("product_id"            , ProductID);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("prices", Prices);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UpdateProductsPrices", Options);
-
-    // END
-
-    Process(Result, "Ozon", "UpdateProductsPrices");
-
-EndProcedure
-
-Procedure Ozon_UpdateProductsStocks(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = FunctionParameters["Ozon_ProductID"];
-
-    Stocks = New Structure;
-    Stocks.Insert("offer_id"    , "143210610");
-    Stocks.Insert("product_id"  , ProductID);
-    Stocks.Insert("stock"       , 20);
-    Stocks.Insert("warehouse_id", 1);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("stocks", Stocks);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "UpdateProductsStocks", Options);
-
-    // END
-
-    Process(Result, "Ozon", "UpdateProductsStocks");
-
-EndProcedure
-
-Procedure Ozon_GetProductsPrices(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductsPrices", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductsPrices");
-
-EndProcedure
-
-Procedure Ozon_GetDiscountInformation(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    SKU      = 1626044001;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("sku", SKU);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetDiscountInformation", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetDiscountInformation");
-
-EndProcedure
-
-Procedure Ozon_SetProductDiscount(FunctionParameters)
-
-    ClientID  = FunctionParameters["Ozon_ClientID"];
-    APIKey    = FunctionParameters["Ozon_ApiKey"];
-    ProductID = 1156646653;
-
-    Discount = 10;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("productid", ProductID);
-    Options.Insert("discount", Discount);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "SetProductDiscount", Options);
-
-    // END
-
-    Process(Result, "Ozon", "SetProductDiscount");
-
-EndProcedure
-
-Procedure Ozon_GetPromotionsList(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetPromotionsList", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetPromotionsList");
-
-EndProcedure
-
-Procedure Ozon_GetAvailablePromoProducts(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    PromoID  = 111111111;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("actionid", PromoID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetAvailablePromoProducts", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetAvailablePromoProducts");
-
-EndProcedure
-
-Procedure Ozon_GetCurrentPromoProducts(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    PromoID  = 111111111;
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("actionid", PromoID);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetCurrentPromoProducts", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetCurrentPromoProducts");
-
-EndProcedure
-
-Procedure Ozon_GetProductStocksStructure(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductStocksStructure", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductStocksStructure");
-
-EndProcedure
-
-Procedure Ozon_GetProductPriceStructure(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetProductPriceStructure", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetProductPriceStructure");
-
-EndProcedure
-
-Procedure Ozon_GetClustersList(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetClustersList", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetClustersList");
-
-EndProcedure
-
-Procedure Ozon_GetShippingWarehousesList(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    Search   = "Tver";
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("search", Search);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetShippingWarehousesList", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetShippingWarehousesList");
-
-EndProcedure
-
-Procedure Ozon_CreateFBODraft(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    Cluster  = 2;
-
-    Items = New Map;
-    Items.Insert("1783161863", 5);
-    Items.Insert("1784654052", 2);
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("clusters", Cluster);
-    Options.Insert("items", Items);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "CreateFBODraft", Options);
-
-    // END
-
-    Process(Result, "Ozon", "CreateFBODraft", , FunctionParameters);
-
-EndProcedure
-
-Procedure Ozon_GetFBODraft(FunctionParameters)
-
-    ClientID    = FunctionParameters["Ozon_ClientID"];
-    APIKey      = FunctionParameters["Ozon_ApiKey"];
-    OperationID = FunctionParameters["Ozon_FBOOperID"];
-
-    Status = "CALCULATION_STATUS_IN_PROGRESS";
-
-    While Status = "CALCULATION_STATUS_IN_PROGRESS" Do
-
-        Result = OPI_Ozon.GetFBODraft(ClientID, APIKey, OperationID);
-        Status = Result["status"];
-
-        OPI_Tools.Pause(20);
-
-    EndDo;
-
-    // END
-
-    Process(Result, "Ozon", "GetFBODraft", , FunctionParameters);
-
-EndProcedure
-
-Procedure Ozon_GetShipmentAdditionalFields(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetShipmentAdditionalFields", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetShipmentAdditionalFields");
-
-EndProcedure
-
-Procedure Ozon_GetShipmentsFilterStructure(FunctionParameters)
-
-    Clear  = False;
-    Options = New Structure;
-    Options.Insert("empty", Clear);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetShipmentsFilterStructure", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetShipmentsFilterStructure");
-
-EndProcedure
-
-Procedure Ozon_GetFBOShipmentsList(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-
-    AddFields = New Structure;
-    AddFields.Insert("analytics_data", True);
-    AddFields.Insert("financial_data", True);
-
-    Filter = New Structure;
-    Filter.Insert("since", XMLString('20230101') + "Z");
-    Filter.Insert("to"   , XMLString('20240101') + "Z");
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("filter", Filter);
-    Options.Insert("with", AddFields);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetFBOShipmentsList", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetFBOShipmentsList");
-
-EndProcedure
-
-Procedure Ozon_GetFBOTimeslots(FunctionParameters)
-
-    ClientID = FunctionParameters["Ozon_ClientID"];
-    APIKey   = FunctionParameters["Ozon_ApiKey"];
-    Day      = 86400;
-
-    DateFrom  = OPI_Tools.GetCurrentDate();
-    DateTo    = DateFrom + Day;
-    Draft     = FunctionParameters["Ozon_Draft"];
-    Warehouse = FunctionParameters["Ozon_FBOWarehouse"];
-
-    Options = New Structure;
-    Options.Insert("clientid", ClientID);
-    Options.Insert("apikey", APIKey);
-    Options.Insert("from", DateFrom);
-    Options.Insert("to", DateTo);
-    Options.Insert("draft", Draft);
-    Options.Insert("whs", Warehouse);
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ozon", "GetFBOTimeslots", Options);
-
-    // END
-
-    Process(Result, "Ozon", "GetFBOTimeslots");
-
-EndProcedure
-
-#EndRegion
-
 #Region Neocities
 
 Procedure Neocities_UploadFile(FunctionParameters)
@@ -18455,8 +17908,8 @@ Procedure S3_CreateBucket(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Result = OPI_S3.DeleteBucket(Name, BasicData, Directory); // SKIP
     Process(Result, "S3", "CreateBucket", "Deletion"); // SKIP
@@ -18492,8 +17945,8 @@ Procedure S3_DeleteBucket(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18551,8 +18004,8 @@ Procedure S3_HeadBucket(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18595,8 +18048,8 @@ Procedure S3_GetBucketEncryption(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18629,8 +18082,8 @@ Procedure S3_DeleteBucketEncryption(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18663,8 +18116,8 @@ Procedure S3_PutBucketEncryption(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     XmlConfig = "<ServerSideEncryptionConfiguration xmlns=""http://s3.amazonaws.com/doc/2006-03-01/"">
                       | <Rule>
@@ -18712,8 +18165,8 @@ Procedure S3_GetBucketTagging(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18750,8 +18203,8 @@ Procedure S3_PutBucketTagging(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18784,8 +18237,8 @@ Procedure S3_DeleteBucketTagging(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18817,8 +18270,8 @@ Procedure S3_GetBucketVersioning(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18851,8 +18304,8 @@ Procedure S3_PutBucketVersioning(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Name = "opi-dirbucket3";
-    Name = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Name = FunctionParameters["S3_DB"];
+    Name = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18885,8 +18338,8 @@ Procedure S3_PutObject(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Name   = "picture.jpg";
     Entity = FunctionParameters["Picture"]; // URL, Path or Binary Data
@@ -18945,8 +18398,8 @@ Procedure S3_UploadFullObject(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -18985,8 +18438,8 @@ Procedure S3_DeleteObject(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -19022,8 +18475,8 @@ Procedure S3_HeadObject(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -19061,8 +18514,8 @@ Procedure S3_CopyObject(FunctionParameters)
     DestinationBucket = "newbucket2";
 
     DestinationPath = "new_picture.jpg";
-    SourceBucket    = "opi-dirbucket3";
-    SourceBucket    = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    SourceBucket    = FunctionParameters["S3_DB"];
+    SourceBucket    = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("sname", SourcePath);
@@ -19102,8 +18555,8 @@ Procedure S3_PutObjectTagging(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     TagStructure = New Structure;
 
@@ -19145,8 +18598,8 @@ Procedure S3_GetObjectTagging(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -19182,8 +18635,8 @@ Procedure S3_DeleteObjectTagging(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -19217,8 +18670,8 @@ Procedure S3_ListObjects(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("bucket", Bucket);
@@ -19251,8 +18704,8 @@ Procedure S3_ListObjectVersions(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Prefix = "pic";
     Options = New Structure;
@@ -19293,8 +18746,8 @@ Procedure S3_GetObject(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -19369,8 +18822,8 @@ Procedure S3_InitPartsUpload(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Entity = FunctionParameters["Audio"]; // URL, Path or Binary Data
     Entity = OPI_HTTPRequests.Get(Entity);
@@ -19464,8 +18917,8 @@ Procedure S3_FinishPartsUpload(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Entity = FunctionParameters["Audio"]; // URL, Path or Binary Data
     Entity = OPI_HTTPRequests.Get(Entity);
@@ -19559,8 +19012,8 @@ Procedure S3_UploadObjectPart(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Entity = FunctionParameters["Audio"]; // URL, Path or Binary Data
     Entity = OPI_HTTPRequests.Get(Entity);
@@ -19655,8 +19108,8 @@ Procedure S3_AbortMultipartUpload(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -19706,8 +19159,8 @@ Procedure S3_GetObjectDownloadLink(FunctionParameters)
     Directory = True; // Formation URL in path-style
     Directory = FunctionParameters["Directory"]; // SKIP
 
-    Bucket = "opi-dirbucket3";
-    Bucket = ?(Directory, "opi-dirbucket3", "opi-gpbucket3"); // SKIP
+    Bucket = FunctionParameters["S3_DB"];
+    Bucket = ?(Directory, FunctionParameters["S3_DB"], FunctionParameters["S3_GPB"]); // SKIP
 
     Options = New Structure;
     Options.Insert("name", Name);
@@ -19800,12 +19253,33 @@ Procedure TCP_CreateConnection(FunctionParameters)
 
     OPI_TCP.CloseConnection(Connection);
 
-    Address    = "tcpbin.com:4243";
+    Address = "tcpbin.com:4243";
     Options = New Structure;
     Options.Insert("trust", Истина);
 
     Tls = OPI_TestDataRetrieval.ExecuteTestCLI("tcp", "GetTLSSettings", Options);
-    Connection = OPI_TCP.CreateConnection(Address, TLS);
+
+    ProxtUser     = FunctionParameters["Proxy_User"];
+    ProxyPassword = FunctionParameters["Proxy_Password"];
+    ProxyAddress  = FunctionParameters["Socks5_IP"];
+    ProxyPort     = FunctionParameters["Socks5_Port"];
+
+    ProxyAddress = ?(ProxyAddress = "127.0.0.1", OPI_TestDataRetrieval.GetLocalhost(), ProxyAddress); // SKIP
+
+    Options = New Structure;
+    Options.Insert("addr", ProxyAddress);
+    Options.Insert("port", ProxyPort);
+    Options.Insert("type", "socks5");
+    Options.Insert("login", ProxtUser);
+    Options.Insert("pass", ProxyPassword);
+
+    Proxy = OPI_TestDataRetrieval.ExecuteTestCLI("tcp", "GetProxySettings", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("tcp", "GetTLSSettings", Options);
+
+    Connection = OPI_TCP.CreateConnection(Address, TLS, Proxy);
 
     // END
 
@@ -19902,6 +19376,22 @@ Procedure TCP_ProcessRequest(FunctionParameters)
     Process(Result, "TCP", "ProcessRequest", , "Echo this!" + Chars.LF); // SKIP
 
     Address = FunctionParameters["TCP_AddressTLS"];
+
+    ProxtUser     = FunctionParameters["Proxy_User"];
+    ProxyPassword = FunctionParameters["Proxy_Password"];
+    ProxyAddress  = FunctionParameters["Socks5_IP"];
+    ProxyPort     = FunctionParameters["Socks5_Port"];
+
+    ProxyAddress = ?(ProxyAddress = "127.0.0.1", OPI_TestDataRetrieval.GetLocalhost(), ProxyAddress); // SKIP
+
+    Options = New Structure;
+    Options.Insert("addr", ProxyAddress);
+    Options.Insert("port", ProxyPort);
+    Options.Insert("type", "socks5");
+    Options.Insert("login", ProxtUser);
+    Options.Insert("pass", ProxyPassword);
+
+    Proxy = OPI_TestDataRetrieval.ExecuteTestCLI("tcp", "GetProxySettings", Options);
     Options = New Structure;
     Options.Insert("trust", Истина);
 
@@ -19911,6 +19401,7 @@ Procedure TCP_ProcessRequest(FunctionParameters)
     Options.Insert("address", Address);
     Options.Insert("data", Data);
     Options.Insert("tls", Tls);
+    Options.Insert("proxy", Proxy);
 
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("tcp", "ProcessRequest", Options);
 
@@ -20005,6 +19496,30 @@ Procedure TCP_GetLastError(FunctionParameters)
     // END
 
     Process(Result, "TCP", "GetLastError");
+
+EndProcedure
+
+Procedure TCP_GetProxySettings(FunctionParameters)
+
+    ProxyType = "socks5"; // http, socks5, socks4
+
+    ProxyAddress  = FunctionParameters["Socks5_IP"];
+    ProxyPort     = FunctionParameters["Socks5_Port"];
+    ProxyLogin    = FunctionParameters["Proxy_User"];
+    ProxyPassword = FunctionParameters["Proxy_Password"];
+
+    Options = New Structure;
+    Options.Insert("addr", ProxyAddress);
+    Options.Insert("port", ProxyPort);
+    Options.Insert("type", ProxyType);
+    Options.Insert("login", ProxyLogin);
+    Options.Insert("pass", ProxyPassword);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("tcp", "GetProxySettings", Options);
+
+    // END
+
+    Process(Result, "TCP", "GetProxySettings");
 
 EndProcedure
 
@@ -21155,6 +20670,7 @@ Procedure PostgreSQL_CreateTable(FunctionParameters)
     ColoumnsStruct.Insert("date_field"       , "DATE");
     ColoumnsStruct.Insert("time_field"       , "TIME");
     ColoumnsStruct.Insert("uuid_field"       , "UUID");
+    ColoumnsStruct.Insert("numeric_field"    , "NUMERIC(15, 2)");
 
     OPI_PostgreSQL.DeleteTable(Table, ConnectionString, TLSSettings); // SKIP
 
@@ -21330,6 +20846,7 @@ Procedure PostgreSQL_AddRecords(FunctionParameters)
     RecordStructure.Insert("date_field"       , New Structure("DATE"                    , CurrentDate));
     RecordStructure.Insert("time_field"       , New Structure("TIME"                    , CurrentDate));
     RecordStructure.Insert("uuid_field"       , New Structure("UUID"                    , New UUID));
+    RecordStructure.Insert("numeric_field"    , New Structure("NUMERIC"                 , "15.2"));
 
     RecordsArray.Add(RecordStructure);
 
@@ -24201,10 +23718,10 @@ Procedure GreenAPI_SendPoll(FunctionParameters)
     ChatID = FunctionParameters["GreenAPI_TestGroupID"];
     Text   = "What's your favorite color?";
 
-    Options = New Array;
-    Options.Add("Red");
-    Options.Add("Yellow");
-    Options.Add("Green");
+    Variants = New Array;
+    Variants.Add("Red");
+    Variants.Add("Yellow");
+    Variants.Add("Green");
 
     Options = New Structure;
     Options.Insert("api", ApiUrl);
@@ -24217,7 +23734,7 @@ Procedure GreenAPI_SendPoll(FunctionParameters)
     Options.Insert("access", AccessParameters);
     Options.Insert("chat", ChatID);
     Options.Insert("text", Text);
-    Options.Insert("options", Options);
+    Options.Insert("options", Variants);
 
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenapi", "SendPoll", Options);
 
@@ -24230,7 +23747,7 @@ Procedure GreenAPI_SendPoll(FunctionParameters)
     Options.Insert("access", AccessParameters);
     Options.Insert("chat", ChatID);
     Options.Insert("text", Text);
-    Options.Insert("options", Options);
+    Options.Insert("options", Variants);
     Options.Insert("multi", Истина);
     Options.Insert("quoted", MessageID);
 
@@ -26557,6 +26074,50 @@ Procedure HTTPClient_SplitArraysInURL(FunctionParameters)
 
 EndProcedure
 
+Procedure HTTPClient_SendDataInParts(FunctionParameters)
+
+    URL = FunctionParameters["HTTP_URL"];
+    URL = URL + "/put";
+
+    ChunkSize = 524288;
+    Image     = FunctionParameters["Picture"]; // URL, Path or Binary Data
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize(URL)
+        .SetBinaryBody(Image)
+        .SendDataInParts(ChunkSize) // <---
+        .ReturnResponseAsJSONObject();
+
+    // END
+
+    Process(Result, "HTTPClient", "SendDataInParts");
+
+EndProcedure
+
+Procedure HTTPClient_SendPart(FunctionParameters)
+
+    URL = FunctionParameters["HTTP_URL"];
+    URL = URL + "/put";
+
+    ChunkSize = 524288;
+    Data      = GetBinaryDataFromString("Some data for sending");
+
+    // Sending only "data for"
+    StartPosition = 5;
+    Bytes = 8;
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize(URL)
+        .SetBinaryBody(Data)
+        .SendPart(StartPosition, Bytes) // <---
+        .ReturnResponseAsJSONObject();
+
+    // END
+
+    Process(Result, "HTTPClient", "SendPart");
+
+EndProcedure
+
 #EndRegion
 
 #Region OpenAI
@@ -27694,6 +27255,8 @@ Procedure MSSQL_DeleteRecords(FunctionParameters)
     FilterStructure.Insert("type" , "=");
     FilterStructure.Insert("value", New Structure("NVARCHAR", "127.0.0.1"));
     FilterStructure.Insert("raw"  , False);
+
+    Filters.Add(FilterStructure);
 
     Obtaining = OPI_MSSQL.GetRecords(Table, , Filters, , , ConnectionString, TLSSettings); // SKIP
 
@@ -28845,7 +28408,7 @@ Procedure FTP_UploadFile(FunctionParameters)
     Process(Result , "FTP", "UploadFile", "Size 1, " + Postfix, ImageDD.Size());
     Process(Result2, "FTP", "UploadFile", "Size 2, " + Postfix, ImageDD.Size());
 
-    For N = 1 To 7 Do
+    For N = 1 To 5 Do
 
         Result  = OPI_FTP.UploadFile(Connection, Image, "new_dir/pic_from_disk.png");
         Result2 = OPI_FTP.UploadFile(Connection, ImageDD, "pic_from_binary.png");
@@ -28859,16 +28422,6 @@ Procedure FTP_UploadFile(FunctionParameters)
         EndIf;
 
     EndDo;
-
-    BigData = OPI_HTTPRequests.Get(FunctionParameters["Big"]);
-    Options = New Structure;
-    Options.Insert("conn", Connection);
-    Options.Insert("file", BigData);
-    Options.Insert("path", "new_dir/big.bin");
-
-    Result = OPI_TestDataRetrieval.ExecuteTestCLI("ftp", "UploadFile", Options);
-
-    Process(Result, "FTP", "UploadFile", "Big, " + Postfix, BigData.Size());
 
     OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
 
@@ -29171,7 +28724,7 @@ Procedure FTP_GetObjectSize(FunctionParameters)
     If OPI_FTP.IsConnector(Connection) Then
         Options = New Structure;
         Options.Insert("conn", Connection);
-        Options.Insert("path", "new_dir/big.bin");
+        Options.Insert("path", "new_dir/pic_from_disk.png");
 
         Result = OPI_TestDataRetrieval.ExecuteTestCLI("ftp", "GetObjectSize", Options);
     Else
@@ -29250,8 +28803,8 @@ Procedure FTP_UpdatePath(FunctionParameters)
     If OPI_FTP.IsConnector(Connection) Then
         Options = New Structure;
         Options.Insert("conn", Connection);
-        Options.Insert("old", "new_dir/big.bin");
-        Options.Insert("new", "new_dir/giant.bin");
+        Options.Insert("old", "new_dir/pic_from_disk.png");
+        Options.Insert("new", "new_dir/pic_copy.png");
 
         Result = OPI_TestDataRetrieval.ExecuteTestCLI("ftp", "UpdatePath", Options);
     Else
@@ -29264,7 +28817,7 @@ Procedure FTP_UpdatePath(FunctionParameters)
 
     Options = New Structure;
     Options.Insert("conn", Connection);
-    Options.Insert("path", "new_dir/giant.bin");
+    Options.Insert("path", "new_dir/pic_copy.png");
 
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("ftp", "GetObjectSize", Options);
 
@@ -29272,7 +28825,7 @@ Procedure FTP_UpdatePath(FunctionParameters)
 
     Options = New Structure;
     Options.Insert("conn", Connection);
-    Options.Insert("path", "new_dir/big.bin");
+    Options.Insert("path", "new_dir/pic_from_binary.png");
 
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("ftp", "GetObjectSize", Options);
 
@@ -29307,8 +28860,8 @@ Procedure FTP_UpdatePath(FunctionParameters)
 
     Options = New Structure;
     Options.Insert("conn", Connection);
-    Options.Insert("old", "new_dir/giant.bin");
-    Options.Insert("new", "new_dir/big.bin");
+    Options.Insert("old", "new_dir/pic_copy.png");
+    Options.Insert("new", "new_dir/pic_from_disk.png");
 
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("ftp", "UpdatePath", Options);
 
@@ -29382,7 +28935,7 @@ Procedure FTP_SaveFile(FunctionParameters)
 
     If OPI_FTP.IsConnector(Connection) Then
 
-        Path     = "new_dir/big.bin";
+        Path     = "new_dir/pic_from_disk.png";
         FileName = GetTempFileName("bin");
 
         Options = New Structure;
@@ -29418,7 +28971,7 @@ Procedure FTP_SaveFile(FunctionParameters)
 
     Path = "new_dir/pic_from_disk.png";
 
-    For N = 1 To 20 Do
+    For N = 1 To 5 Do
 
         Result = OPI_FTP.SaveFile(Connection, Path, FileName);
 
@@ -29489,7 +29042,7 @@ Procedure FTP_GetFileData(FunctionParameters)
 
     If OPI_FTP.IsConnector(Connection) Then
 
-        Path   = "new_dir/big.bin";
+        Path   = "new_dir/pic_from_disk.png";
         Result = OPI_FTP.GetFileData(Connection, Path);
 
     Else
@@ -29515,7 +29068,7 @@ Procedure FTP_GetFileData(FunctionParameters)
 
     Path = "new_dir/pic_from_disk.png";
 
-    For N = 1 To 20 Do
+    For N = 1 To 5 Do
 
         Result = OPI_FTP.GetFileData(Connection, Path);
 
@@ -31055,7 +30608,6 @@ Procedure SFTP_UploadFile(FunctionParameters)
     Process(Result , "SFTP", "UploadFile", Postfix             , UploadedFile.Size());
     Process(Result2, "SFTP", "UploadFile", "Binary, " + Postfix, ImageDD.Size());
 
-
     FileSizeLocal   = UploadedFile.Size();
     FileSizeLocalBD = ImageDD.Size();
 
@@ -31936,6 +31488,2964 @@ Procedure SFTP_GetFileInformation(FunctionParameters)
     // END
 
     Process(Result , "SFTP", "GetFileInformation", Postfix);
+
+EndProcedure
+
+#EndRegion
+
+#Region GreenMax
+
+Procedure GreenMax_FormAccessParameters(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "FormAccessParameters");
+
+EndProcedure
+
+Procedure GreenMax_GetAuthorizationCode(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    PhoneNumber = 441234567890;
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("phone", PhoneNumber);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetAuthorizationCode", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetAuthorizationCode");
+
+EndProcedure
+
+Procedure GreenMax_LogoutInstance(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "LogoutInstance", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "LogoutInstance");
+
+EndProcedure
+
+Procedure GreenMax_SendAuthorizationCode(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    AuthCode = 123456;
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("code", AuthCode);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SendAuthorizationCode", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SendAuthorizationCode");
+
+EndProcedure
+
+Procedure GreenMax_GetInstanceStatus(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetInstanceStatus", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetInstanceStatus");
+
+EndProcedure
+
+Procedure GreenMax_RebootInstance(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "RebootInstance", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "RebootInstance");
+
+EndProcedure
+
+Procedure GreenMax_GetInstanceSettingsStructure(FunctionParameters)
+
+    Options = New Structure;
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetInstanceSettingsStructure", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetInstanceSettingsStructure");
+
+    Options = New Structure;
+    Options.Insert("empty", Истина);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetInstanceSettingsStructure", Options);
+
+    Process(Result, "GreenMAx", "GetInstanceSettingsStructure", "Clear");
+
+EndProcedure
+
+Procedure GreenMax_GetInstanceSettings(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetInstanceSettings", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetInstanceSettings", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_SetInstanceSettings(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+
+    SettingsStructure = New Structure;
+    SettingsStructure.Insert("markIncomingMessagesReaded" , "no");
+    SettingsStructure.Insert("outgoingWebhook"            , "no");
+    SettingsStructure.Insert("outgoingAPIMessageWebhook"  , "yes");
+
+    Options = New Structure;
+    Options.Insert("settings", SettingsStructure);
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SetInstanceSettings", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SetInstanceSettings");
+
+EndProcedure
+
+Procedure GreenMax_SetProfilePicture(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Image = FunctionParameters["Picture"]; // URL, Path or Binary Data
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("picture", Image);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SetProfilePicture", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SetProfilePicture");
+
+EndProcedure
+
+Procedure GreenMax_GetAccountInformation(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetAccountInformation", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetAccountInformation");
+
+EndProcedure
+
+Procedure GreenMax_CheckAccount(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    PhoneNumber = 441234567890;
+    PhoneNumber = FunctionParameters["GreenMax_Phone"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("phone", PhoneNumber);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "CheckAccount", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "CheckAccount", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_GetContactList(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Count = 1;
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("count", Count);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetContactList", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetContactList", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_GetContactInformation(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ContactID = 87654321;
+    ContactID = FunctionParameters["GreenMax_ContactID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ContactID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetContactInformation", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetContactInformation");
+
+EndProcedure
+
+Procedure GreenMax_GetChatList(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetChatList", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetChatList");
+
+EndProcedure
+
+Procedure GreenMax_GetChatAvatar(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID = 87654321;
+    ChatID = FunctionParameters["GreenMax_ContactID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetChatAvatar", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetChatAvatar");
+
+EndProcedure
+
+Procedure GreenMax_CreateGroup(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    UserID = 87654321;
+    Name   = "New group";
+
+    UserID = FunctionParameters["GreenMax_ContactID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("name", Name);
+    Options.Insert("members", UserID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "CreateGroup", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "CreateGroup", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_AddGroupMember(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID   = 12345678;
+    MemberID = 87654321;
+
+    ChatID   = FunctionParameters["GreenMax_GroupID"]; // SKIP
+    MemberID = FunctionParameters["GreenMax_ContactID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("member", MemberID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "AddGroupMember", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "AddGroupMember");
+
+    GreenMax_RemoveGroupMember(FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_RemoveGroupMember(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID   = 12345678;
+    MemberID = 87654321;
+
+    ChatID   = FunctionParameters["GreenMax_GroupID"]; // SKIP
+    MemberID = FunctionParameters["GreenMax_ContactID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("member", MemberID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "RemoveGroupMember", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "RemoveGroupMember");
+
+EndProcedure
+
+Procedure GreenMax_LeaveGroup(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID = 12345678;
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "LeaveGroup", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "LeaveGroup");
+
+EndProcedure
+
+Procedure GreenMax_UpdateGroupName(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Name   = "New group name";
+    ChatID = 12345678;
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("name", Name);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "UpdateGroupName", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "UpdateGroupName");
+
+EndProcedure
+
+Procedure GreenMax_GetGroupInformation(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID = 12345678;
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetGroupInformation", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetGroupInformation");
+
+EndProcedure
+
+Procedure GreenMax_ChangeGroupSettings(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID = 12345678;
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Settings = New Structure;
+    Settings.Insert("allowParticipantsEditGroupSettings" , True);
+    Settings.Insert("allowParticipantsPinMessages"       , False);
+    Settings.Insert("allowParticipantsAddMembers"        , False);
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("set", Settings);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "ChangeGroupSettings", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "ChangeGroupSettings");
+
+EndProcedure
+
+Procedure GreenMax_GetGroupSettingsStructure(FunctionParameters)
+
+    Options = New Structure;
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetGroupSettingsStructure", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetGroupSettingsStructure");
+
+    Options = New Structure;
+    Options.Insert("empty", Истина);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetGroupSettingsStructure", Options);
+
+    Process(Result, "GreenMax", "GetGroupSettingsStructure", "Clear");
+
+EndProcedure
+
+Procedure GreenMax_SetAdminRights(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID   = 12345678;
+    MemberID = 87654321;
+
+    ChatID   = FunctionParameters["GreenMax_GroupID"]; // SKIP
+    MemberID = FunctionParameters["GreenMax_ContactID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("member", MemberID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SetAdminRights", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SetAdminRights");
+
+EndProcedure
+
+Procedure GreenMax_RevokeAdminRights(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID   = 12345678;
+    MemberID = 87654321;
+
+    ChatID   = FunctionParameters["GreenMax_GroupID"]; // SKIP
+    MemberID = FunctionParameters["GreenMax_ContactID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("member", MemberID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "RevokeAdminRights", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "RevokeAdminRights");
+
+EndProcedure
+
+Procedure GreenMax_SetGroupPicture(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Image  = FunctionParameters["Picture3"]; // URL, Path or Binary Data
+    ChatID = 12345678;
+
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("picture", Image);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SetGroupPicture", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SetGroupPicture");
+
+EndProcedure
+
+Procedure GreenMax_SendTextMessage(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Text   = "Message text";
+    ChatID = 12345678;
+    Set    = 2000;
+
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("text", Text);
+    Options.Insert("typing", Set);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SendTextMessage", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SendTextMessage", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_SendFile(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    File        = FunctionParameters["Picture"]; // URL, Path or Binary Data
+    FileName    = "photo.jpg";
+    ChatID      = 12345678;
+    Description = "File description";
+
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("file", File);
+    Options.Insert("filename", FileName);
+    Options.Insert("caption", Description);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SendFile", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SendFile", , FunctionParameters);
+
+    File     = FunctionParameters["Video"];
+    FileName = "vid.mp4";
+
+    MessageID = Result["idMessage"];
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("file", File);
+    Options.Insert("filename", FileName);
+    Options.Insert("caption", Description);
+    Options.Insert("typing", 1000);
+    Options.Insert("ttype", "video");
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SendFile", Options);
+
+    Process(Result, "GreenMax", "SendFile", "Video");
+
+EndProcedure
+
+Procedure GreenMax_SendFileByURL(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    File        = FunctionParameters["Picture"];
+    FileName    = "photo.jpg";
+    ChatID      = 12345678;
+    Description = "File description";
+
+    ChatID = FunctionParameters["GreenMax_GroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("url", File);
+    Options.Insert("filename", FileName);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SendFileByURL", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "SendFileByURL");
+
+    File     = FunctionParameters["Video"];
+    FileName = "vid.mp4";
+
+    MessageID = Result["idMessage"];
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("url", File);
+    Options.Insert("filename", FileName);
+    Options.Insert("caption", Description);
+    Options.Insert("typing", 1000);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "SendFileByURL", Options);
+
+    Process(Result, "GreenMax", "SendFileByURL", "Typing");
+
+EndProcedure
+
+Procedure GreenMax_GetNotification(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetNotification", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetNotification", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_DeleteNotification(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    NotificationID = FunctionParameters["GreenMax_ReceiptID"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("id", NotificationID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "DeleteNotification", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "DeleteNotification", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_MarkMessagesAsRead(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID = 12345678;
+
+    ChatID = FunctionParameters["GreenMax_MainGroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "MarkMessagesAsRead", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "MarkMessagesAsRead");
+
+EndProcedure
+
+Procedure GreenMax_GetChatMessageHistory(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID = 12345678;
+    Count  = 3;
+
+    ChatID = FunctionParameters["GreenMax_MainGroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("count", Count);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetChatMessageHistory", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetChatMessageHistory", , FunctionParameters);
+
+EndProcedure
+
+Procedure GreenMax_GetChatMessage(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    ChatID    = 12345678;
+    MessageID = FunctionParameters["GreenMax_MainMessageID"];
+
+    ChatID = FunctionParameters["GreenMax_MainGroupID"]; // SKIP
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("chat", ChatID);
+    Options.Insert("message", MessageID);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetChatMessage", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetChatMessage", , MessageID);
+
+EndProcedure
+
+Procedure GreenMax_GetIncomingMessageLog(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Period = 30;
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("span", Period);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetIncomingMessageLog", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetIncomingMessageLog");
+
+EndProcedure
+
+Procedure GreenMax_GetOutgoingMessageLog(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Period = 30;
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+    Options.Insert("span", Period);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetOutgoingMessageLog", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetOutgoingMessageLog");
+
+EndProcedure
+
+Procedure GreenMax_GetOutgoingMessageCount(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetOutgoingMessageCount", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetOutgoingMessageCount");
+
+EndProcedure
+
+Procedure GreenMax_GetOutgoingMessageQueue(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetOutgoingMessageQueue", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetOutgoingMessageQueue");
+
+EndProcedure
+
+Procedure GreenMax_ClearOutgoingMessageQueue(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "ClearOutgoingMessageQueue", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "ClearOutgoingMessageQueue");
+
+EndProcedure
+
+Procedure GreenMax_GetIncomingNotificationCount(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "GetIncomingNotificationCount", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "GetIncomingNotificationCount");
+
+EndProcedure
+
+Procedure GreenMax_ClearIncomingNotificationQueue(FunctionParameters)
+
+    ApiUrl           = FunctionParameters["GreenMax_ApiURL"];
+    MediaUrl         = FunctionParameters["GreenMax_MediaURL"];
+    IdInstance       = FunctionParameters["GreenMax_IdInstance"];
+    ApiTokenInstance = FunctionParameters["GreenMax_Token"];
+
+    Options = New Structure;
+    Options.Insert("api", ApiUrl);
+    Options.Insert("media", MediaUrl);
+    Options.Insert("id", IdInstance);
+    Options.Insert("token", ApiTokenInstance);
+
+    AccessParameters = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "FormAccessParameters", Options);
+    Options = New Structure;
+    Options.Insert("access", AccessParameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("greenmax", "ClearIncomingNotificationQueue", Options);
+
+    // END
+
+    Process(Result, "GreenMax", "ClearIncomingNotificationQueue");
+
+EndProcedure
+
+#EndRegion
+
+#Region MongoDB
+
+Procedure MongoDB_GenerateConnectionString(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("db", Base);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GenerateConnectionString", , FunctionParameters);
+
+EndProcedure
+
+Procedure MongoDB_CreateConnection(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("db", Base);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+
+    Result = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    // END
+
+    Process(Result, "MongoDB", "CreateConnection");
+
+    Result = OPI_MongoDB.CloseConnection(Result);
+
+    Process(Result, "MongoDB", "CreateConnection", "Closing");
+
+EndProcedure
+
+Procedure MongoDB_ExecuteCommand(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+
+    Command = "listDatabases";
+    Data    = New Structure("nameOnly", True);
+
+    Connection = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Process(Connection, "MongoDB", "ExecuteCommand", "Connection"); // SKIP
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("comm", Command);
+    Options.Insert("data", Data);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "ExecuteCommand", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "ExecuteCommand");
+
+EndProcedure
+
+Procedure MongoDB_GetDatabase(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("db", Base);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Base = "test_db";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDatabase", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetDatabase");
+
+EndProcedure
+
+Procedure MongoDB_GetListOfBases(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetListOfBases", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetListOfBases");
+
+EndProcedure
+
+Procedure MongoDB_DeleteDatabase(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "DeleteDatabase", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "DeleteDatabase");
+
+EndProcedure
+
+Procedure MongoDB_CreateCollection(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Name = "test_collection";
+    Base = "test_database";
+
+    Parameters = New Map;
+    Expression = New Map;
+    GroupAnd   = New Array;
+
+    Condition1 = New Map; // Total >= 0
+    Items1     = New Array;
+    Items1.Add("$total");
+    Items1.Add(0);
+    Condition1.Insert("$gte", Items1);
+
+    Condition2 = New Map; // Status <= 3
+    Items2     = New Array;
+    Items2.Add("$status");
+    Items2.Add(3);
+    Condition2.Insert("$lte", Items2);
+
+    GroupAnd.Add(Condition1);
+    GroupAnd.Add(Condition2);
+
+    Expression.Insert("$expr", GroupAnd);
+    Parameters.Insert("validator", Expression);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", Name);
+    Options.Insert("db", Base);
+    Options.Insert("params", Parameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "CreateCollection", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "CreateCollection");
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", Name);
+    Options.Insert("db", Base);
+    Options.Insert("params", Parameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "CreateCollection", Options);
+
+    Process(Result, "MongoDB", "CreateCollection", "Existing");
+
+EndProcedure
+
+Procedure MongoDB_DeleteCollection(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "test_collection";
+    Base       = "test_database";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "DeleteCollection", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "DeleteCollection");
+
+EndProcedure
+
+Procedure MongoDB_GetCollectionList(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Base = "test_database";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetCollectionList", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetCollectionList");
+
+EndProcedure
+
+Procedure MongoDB_InsertDocuments(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+    DocsArray  = New Array;
+
+    // With implicit type casting
+    DocumentStructure = New Structure;
+
+    TestArray = New Array;
+    TestArray.Add("Value1");
+    TestArray.Add("Value2");
+
+    TestStructure = New Structure("text,number", "Text", 10);
+    TestBinary    = GetBinaryDataFromString("Text");
+    CurrentDate   = OPI_Tools.GetCurrentDate();
+
+    DocumentStructure.Insert("stringField", "Text");
+    DocumentStructure.Insert("intField"   , 200);
+    DocumentStructure.Insert("doubleField", 123.456);
+    DocumentStructure.Insert("boolField"  , True);
+    DocumentStructure.Insert("arrayField" , TestArray);
+    DocumentStructure.Insert("docField"   , TestStructure);
+    DocumentStructure.Insert("dateField"  , CurrentDate);
+    DocumentStructure.Insert("nullField");
+
+    DocsArray.Add(DocumentStructure);
+
+    // With explicit type casting
+    DocumentStructure = New Structure;
+
+    RegExp = New Structure("pattern,options", "[a-z]+@[a-z]+\.[a-z]+", "i");
+    JSCode = "const result = [1, 2, 3].map(x => x * 2).filter(x => x > 3);";
+
+    DocumentStructure.Insert("stringField", New Structure("__OPI_STRING__"   , "Text"));
+    DocumentStructure.Insert("oidField"   , New Structure("__OPI_OBJECTID__" , "63ceed18f71dda7d8cf21e8e"));
+    DocumentStructure.Insert("jsField"    , New Structure("__OPI_JS__"       , JSCode));
+    DocumentStructure.Insert("symbolField", New Structure("__OPI_SYMBOL__"   , "Y"));
+    DocumentStructure.Insert("int32Field" , New Structure("__OPI_INT32__"    , 10));
+    DocumentStructure.Insert("int64Field" , New Structure("__OPI_INT64__"    , 1000));
+    DocumentStructure.Insert("doubleField", New Structure("__OPI_DOUBLE__"   , 124.456));
+    DocumentStructure.Insert("boolField"  , New Structure("__OPI_BOOLEAN__"  , True));
+    DocumentStructure.Insert("dateField"  , New Structure("__OPI_DATETIME__" , "1763204141"));
+    DocumentStructure.Insert("tsField"    , New Structure("__OPI_TIMESTAMP__", CurrentDate));
+    DocumentStructure.Insert("regexpField", New Structure("__OPI_REGEXP__"   , RegExp));
+    DocumentStructure.Insert("binaryField", New Structure("__OPI_BINARY__"   , TestBinary));
+    DocumentStructure.Insert("nullField"  , New Structure("__OPI_NULL__"));
+    DocumentStructure.Insert("minkeyField", New Structure("__OPI_MINKEY__"));
+    DocumentStructure.Insert("maxkeyField", New Structure("__OPI_MAXKEY__"));
+
+    TestArray = New Array;
+    TestArray.Add(New Structure("__OPI_SYMBOL__", "A"));
+    TestArray.Add(New Structure("__OPI_MINKEY__"));
+
+    TestStructure = New Structure("code,number"
+        , New Structure("__OPI_JS__", "const result = 1")
+        , New Structure("__OPI_DOUBLE__", 10));
+
+    // Documents and arrays are not wrapped in a structure
+    DocumentStructure.Insert("docField" , TestStructure);
+    DocumentStructure.Insert("arrayField" , TestArray);
+
+    DocsArray.Add(DocumentStructure);
+
+    OPI_MongoDB.DeleteCollection(Connection, Collection, Base); // SKIP
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("docs", DocsArray);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "InsertDocuments", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "InsertDocuments");
+
+    DocsArray = New Array;
+
+    CategoryMap = New Map;
+    CategoryMap.Insert(1, "electronics");
+    CategoryMap.Insert(2, "clothing");
+    CategoryMap.Insert(3, "books");
+    CategoryMap.Insert(4, "products");
+
+    SupplierMap = New Map;
+    SupplierMap.Insert(1, "Supplier A");
+    SupplierMap.Insert(2, "Supplier B");
+    SupplierMap.Insert(3, "Supplier C");
+
+    For N = 1 To 15 Do
+
+        DocumentStructure = New Structure;
+
+        DocumentStructure.Insert("productName", "Product " + N);
+        DocumentStructure.Insert("category"   , CategoryMap.Get(N % 4));
+        DocumentStructure.Insert("price"      , 50 + (N * 30));
+        DocumentStructure.Insert("quantity"   , 5 + (N % 10));
+        DocumentStructure.Insert("rating"     , Max(1, N % 6));
+        DocumentStructure.Insert("inStock"    , N % 3 > 0);
+        DocumentStructure.Insert("tags"       , OPI_TestDataRetrieval.GetTagArray(N));
+        DocumentStructure.Insert("createdDate", OPI_Tools.GetCurrentDate() - (N * 86400));
+
+        Details = New Structure;
+        Details.Insert("supplier"  , SupplierMap.Get(N % 3));
+        Details.Insert("weightKg"  , N * 0.3);
+        Details.Insert("dimensions", New Structure("length,width,height", N * 8, N * 4, N * 2));
+        DocumentStructure.Insert("details", Details);
+
+        DocsArray.Add(DocumentStructure);
+
+    EndDo;
+
+    DocumentWithZero = New Structure;
+    DocumentWithZero.Insert("productName", "Item with zero price");
+    DocumentWithZero.Insert("category"   , "books");
+    DocumentWithZero.Insert("price"      , 0);
+    DocumentWithZero.Insert("quantity"   , 1);
+    DocumentWithZero.Insert("rating"     , 4);
+    DocumentWithZero.Insert("inStock"    , True);
+    DocumentWithZero.Insert("tags"       , New Array);
+    DocsArray.Add(DocumentWithZero);
+
+    DocumentWithoutCategory = New Structure;
+    DocumentWithoutCategory.Insert("productName", "Item without category");
+    DocumentWithoutCategory.Insert("price"      , 250);
+    DocumentWithoutCategory.Insert("quantity"   , 3);
+    DocumentWithoutCategory.Insert("rating"     , 3);
+    DocumentWithoutCategory.Insert("inStock"    , False);
+    DocsArray.Add(DocumentWithoutCategory);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("docs", DocsArray);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "InsertDocuments", Options);
+
+    Process(Result, "MongoDB", "InsertDocuments");
+
+EndProcedure
+
+Procedure MongoDB_GetDocuments(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+
+    // __4 = $
+    Filter = New Structure("stringField,doubleField", "Text", New Structure("__4gte, __4lte", 100, 150));
+    Sort = New Structure("doubleField", -1);
+    Parameters = New Structure("limit", 2);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Sort);
+    Options.Insert("params", Parameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetDocuments");
+
+    // 1: Category and price range
+    Filter = New Structure("category,price", "electronics", New Structure("__4gte,__4lte", 100, 400));
+    Sort = New Structure("price", 1);
+    Parameters = New Structure("limit", 5);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Sort);
+    Options.Insert("params", Parameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "GetDocuments", 1);
+
+    // 2: Stock and rating
+    Filter = New Structure("inStock,rating", True, New Structure("__4gte", 4));
+    Sort = New Structure("rating,price", -1, 1);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Sort);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "GetDocuments", 2);
+
+    // 3: By tags array
+    Filter = New Structure("tags", "sale");
+    Sort = New Structure("createdDate", -1);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Sort);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "GetDocuments", 3);
+
+    // 4: By nested fields
+    Filter = New Map;
+    Filter.Insert("details.supplier", "Supplier A");
+    Filter.Insert("details.weightKg", New Structure("__4lt", 3));
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "GetDocuments", 4);
+
+    // 5: Projection
+    Filter = New Structure("category", "books");
+    Sort = New Structure("price", -1);
+    Parameters = New Structure("projection", New Structure("productName,price,rating", 1, 1, 1));
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Sort);
+    Options.Insert("params", Parameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "GetDocuments", 5);
+
+EndProcedure
+
+Procedure MongoDB_GetCursor(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+
+    Filter     = New Structure("stringField", "Text");
+    Sort       = New Structure("doubleField", -1);
+    Parameters = New Structure("limit,batchSize", 2, 1);
+
+    Result = OPI_MongoDB.GetCursor(Connection, Collection, Base, Filter, Sort, Parameters);
+
+    // END
+
+    Process(Result, "MongoDB", "GetCursor");
+
+    // Big batchSize with limit
+    Filter = New Structure("inStock", True);
+    Sort = New Structure("price", 1);
+    Parameters = New Structure("limit,batchSize", 8, 3);
+
+    Result = OPI_MongoDB.GetCursor(Connection, Collection, Base, Filter, Sort, Parameters);
+
+    Process(Result, "MongoDB", "GetCursor", 1);
+
+    // Small batchSize without limit
+    Filter = New Structure("category", "clothing");
+    Sort = New Structure("rating", -1);
+    Parameters = New Structure("batchSize", 2);
+
+    Result = OPI_MongoDB.GetCursor(Connection, Collection, Base, Filter, Sort, Parameters);
+
+    Process(Result, "MongoDB", "GetCursor", 2);
+
+EndProcedure
+
+Procedure MongoDB_GetDocumentBatch(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+
+    Filter     = New Structure("stringField", "Text");
+    Sort       = New Structure("doubleField", -1);
+    Parameters = New Structure("limit,batchSize", 2, 1);
+
+    Cursor = OPI_MongoDB.GetCursor(Connection, Collection, Base, Filter, Sort, Parameters);
+
+    If Not Cursor["result"] Then
+        Raise Cursor["error"];
+    EndIf;
+
+    Cursor          = Cursor["data"]["cursor"];
+    DocsArray       = Cursor["firstBatch"];
+    CursorID        = Cursor["id"];
+    ContinueGetting = CursorID > 0;
+
+    While ContinueGetting Do
+
+        Result = OPI_MongoDB.GetDocumentBatch(Connection, Collection, CursorID, Base); // <---
+
+        If Not Result["result"] Then
+            Raise Result["error"];
+        EndIf;
+
+        ContinueGetting = Result["data"]["cursor"]["id"] > 0;
+
+        For Each Record In Result["data"]["cursor"]["nextBatch"] Do
+            DocsArray.Add(Record);
+        EndDo;
+
+    EndDo;
+
+    // END
+
+    Process(Result, "MongoDB", "GetDocumentBatch");
+
+EndProcedure
+
+Procedure MongoDB_UpdateDocuments(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+
+    // __4 = $
+    Filter = New Structure("stringField,doubleField", "Text", New Structure("__4gte, __4lte", 100, 150));
+    Data = New Structure( "__4set", New Structure("doubleField", 999));
+
+    Updating = OPI_MongoDB.GetDocumentUpdateStructure(Filter, Data); // Array or single
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "UpdateDocuments");
+
+    Parameters = New Structure("limit,batchSize", 2, 1);
+    Sort       = New Structure("doubleField", -1);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Sort);
+    Options.Insert("params", Parameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "UpdateDocuments", "Obtaining");
+
+    Filter = New Structure("stringField,doubleField", "Text", 999);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Sort);
+    Options.Insert("params", Parameters);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "UpdateDocuments", "Getting new");
+
+    // Multiply fields
+    Filter = New Structure("category", "electronics");
+    Data = New Structure("__4set", New Structure("price,inStock,rating", 777, False, 5));
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+    Options.Insert("multi", Истина);
+
+    Updating = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+    Process(Result, "MongoDB", "UpdateDocuments", 1);
+
+    Filter      = New Structure("category", "electronics", "price", 777);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 1");
+
+    // Number inc
+    Filter = New Structure("productName", "Product 1");
+    Data = New Structure("__4inc", New Structure("quantity", 10));
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+
+    Updating = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+    Process(Result, "MongoDB", "UpdateDocuments", 2);
+
+    Filter      = New Structure("productName", "Product 1");
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 2");
+
+    // Array insertion
+    Filter = New Structure("productName", "Product 2");
+    Data = New Structure("__4push", New Structure("tags", "updated"));
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+
+    Updating = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+    Process(Result, "MongoDB", "UpdateDocuments", 3);
+
+    Filter      = New Structure("productName", "Product 2", "tags", "updated");
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 3");
+
+    // Nested field update
+    SettingMapping = New Map;
+    SettingMapping.Insert("details.weightKg", 2.5);
+    SettingMapping.Insert("details.supplier", "Supplier A+");
+
+    Filter = New Map;
+    Filter.Insert("details.supplier", "Supplier A");
+
+    Data = New Structure("__4set", SettingMapping);
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+    Options.Insert("multi", Истина);
+
+    Updating = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+    Process(Result, "MongoDB", "UpdateDocuments", 4);
+
+    Filter      = New Map;
+    Filter.Insert("details.supplier", "Supplier A+");
+    Filter.Insert("details.weightKg", 2.5);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 4");
+
+    // Upsert
+    Filter = New Structure("productName", "New product");
+
+    //@skip-check structure-consructor-too-many-keys
+    Data = New Structure("__4set", New Structure("productName,category,price,quantity,inStock,createdDate"
+        , "New product"
+        , "electronics"
+        , 1999
+        , 1
+        , True
+        , OPI_Tools.GetCurrentDate()
+    ));
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+    Options.Insert("multi", Ложь);
+    Options.Insert("upsert", Истина);
+
+    Updating = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+    Process(Result, "MongoDB", "UpdateDocuments", 5);
+
+    Filter      = New Structure("productName", "New product");
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 5");
+
+    // Field removing
+    Filter = New Structure("productName", "Product 3");
+    Data = New Structure("__4unset", New Structure("rating", ""));
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+
+    Updating = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+    Process(Result, "MongoDB", "UpdateDocuments", 6);
+
+    Filter      = New Structure("productName", "Product 3");
+    Parameters  = New Structure("projection", New Structure("productName,rating", 1, 1));
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+    Options.Insert("sort", Неопределено);
+    Options.Insert("params", Parameters);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 6");
+
+    // Multiply operators
+    Filter = New Structure("price", New Structure("__4lt", 200));
+    Data = New Structure;
+    Data.Insert("__4set", New Structure("inStock", False));
+    Data.Insert("__4inc", New Structure("quantity", -5));
+    Data.Insert("__4push", New Structure("tags", "discount"));
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+    Options.Insert("multi", Истина);
+
+    Updating = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", Updating);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+    Process(Result, "MongoDB", "UpdateDocuments", 7);
+
+    Filter      = New Structure("price,tags", New Structure("__4lt", 200), "discount");
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 7");
+
+    // Updates array
+    UpdateArray = New Array;
+
+    Filter1 = New Structure("category", "electronics");
+    Data1   = New Structure("__4set", New Structure("price,discounted", 888, True));
+    Options = New Structure;
+    Options.Insert("query", Filter1);
+    Options.Insert("data", Data1);
+    Options.Insert("multi", Истина);
+
+    Update1 = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    UpdateArray.Add(Update1);
+
+    Filter2 = New Structure("category", "clothing");
+    Data2   = New Structure("__4inc", New Structure("quantity", 5));
+    Options = New Structure;
+    Options.Insert("query", Filter2);
+    Options.Insert("data", Data2);
+    Options.Insert("multi", Истина);
+
+    Update2 = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    UpdateArray.Add(Update2);
+
+    Filter3 = New Structure("category", "books");
+    Data3   = New Structure("__4push", New Structure("tags", "mass_update"));
+    Options = New Structure;
+    Options.Insert("query", Filter3);
+    Options.Insert("data", Data3);
+    Options.Insert("multi", Истина);
+
+    Update3 = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    UpdateArray.Add(Update3);
+
+    Filter4 = New Structure("productName", "Special item from array");
+
+    //@skip-check structure-consructor-too-many-keys
+    Data4 = New Structure("__4set", New Structure("productName,category,price,quantity,inStock,createdDate"
+        , "Special item from array"
+        , "special"
+        , 1111
+        , 7
+        , True
+        , OPI_Tools.GetCurrentDate()
+    ));
+
+    Options = New Structure;
+    Options.Insert("query", Filter4);
+    Options.Insert("data", Data4);
+    Options.Insert("multi", Ложь);
+    Options.Insert("upsert", Истина);
+
+    Update4 = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    UpdateArray.Add(Update4);
+
+    Filter5 = New Structure("rating", New Structure("__4lte", 2));
+    Data5   = New Structure;
+    Data5.Insert("__4set", New Structure("needsImprovement", True));
+    Data5.Insert("__4inc", New Structure("quantity"        , -2));
+    Options = New Structure;
+    Options.Insert("query", Filter5);
+    Options.Insert("data", Data5);
+    Options.Insert("multi", Истина);
+
+    Update5 = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+    UpdateArray.Add(Update5);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("updates", UpdateArray);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateDocuments", Options);
+
+    Process(Result, "MongoDB", "UpdateDocuments", 9);
+
+    Filter      = New Structure("category,price", "electronics", 888);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 8_1");
+
+    Filter      = New Structure("category,tags", "books", "mass_update");
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 8_2");
+
+    Filter      = New Structure("productName", "Special item from array");
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 8_3");
+
+    Filter      = New Structure("needsImprovement", True);
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    CheckResult = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+    Process(CheckResult, "MongoDB", "UpdateDocuments", "Check 8_4");
+
+EndProcedure
+
+Procedure MongoDB_GetDocumentUpdateStructure(FunctionParameters)
+
+    // __4 = $
+    Filter = New Structure("stringField,doubleField", "Text", New Structure("__4gte, __4lte", 100, 150));
+    Data = New Structure( "__4set", New Structure("doubleField", 999));
+
+    Options = New Structure;
+    Options.Insert("query", Filter);
+    Options.Insert("data", Data);
+    Options.Insert("multi", Истина);
+    Options.Insert("upsert", Истина);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocumentUpdateStructure", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetDocumentUpdateStructure");
+
+EndProcedure
+
+Procedure MongoDB_GetDocumentDeletionStructure(FunctionParameters)
+
+    Filter = New Structure("stringField,doubleField", "Text", 999);
+    Result = OPI_MongoDB.GetDocumentDeletionStructure(Filter, 1); // Array or single
+
+    // END
+
+    Process(Result, "MongoDB", "GetDocumentDeletionStructure");
+
+EndProcedure
+
+Procedure MongoDB_DeleteDocuments(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+
+    Filter   = New Structure("stringField,doubleField", "Text", 999);
+    Deletion = OPI_MongoDB.GetDocumentDeletionStructure(Filter, 1); // Array or single
+
+    Result = OPI_MongoDB.GetDocuments(Connection, Collection, Base, Filter); // SKIP
+    Process(Result, "MongoDB", "DeleteDocuments", "Precheck"); // SKIP
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("deletes", Deletion);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "DeleteDocuments", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "DeleteDocuments");
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("coll", Collection);
+    Options.Insert("db", Base);
+    Options.Insert("query", Filter);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDocuments", Options);
+
+    Process(Result, "MongoDB", "DeleteDocuments", "Check");
+
+EndProcedure
+
+Procedure MongoDB_CreateUser(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    RoleArray = New Array;
+    RoleArray.Add("read");
+    RoleArray.Add("userAdmin");
+
+    UserName     = "newuser";
+    UserPassword = "1234";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", UserName);
+    Options.Insert("roles", RoleArray);
+    Options.Insert("db", Base);
+    Options.Insert("pwd", UserPassword);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "CreateUser", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "CreateUser");
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", UserName);
+    Options.Insert("roles", RoleArray);
+    Options.Insert("db", Base);
+    Options.Insert("pwd", UserPassword);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "CreateUser", Options);
+
+    Process(Result, "MongoDB", "CreateUser", "Existing");
+
+EndProcedure
+
+Procedure MongoDB_UpdateUser(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    RoleArray = New Array;
+    RoleArray.Add("readWrite");
+
+    UserName     = "newuser";
+    UserPassword = "4321";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", UserName);
+    Options.Insert("roles", RoleArray);
+    Options.Insert("db", Base);
+    Options.Insert("pwd", UserPassword);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateUser", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "UpdateUser");
+
+    UserName = "anotheruser";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", UserName);
+    Options.Insert("roles", RoleArray);
+    Options.Insert("db", Base);
+    Options.Insert("pwd", UserPassword);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateUser", Options);
+
+    Process(Result, "MongoDB", "UpdateUser", "Nonexistent");
+
+EndProcedure
+
+Procedure MongoDB_DeleteUser(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    UserName = "newuser";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", UserName);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "DeleteUser", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "DeleteUser");
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", UserName);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "DeleteUser", Options);
+
+    Process(Result, "MongoDB", "DeleteUser", "Again");
+
+EndProcedure
+
+Procedure MongoDB_GetUsers(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    UserName = "newuser";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("usrs", UserName);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetUsers", Options);
+
+    Process(Result, "MongoDB", "GetUsers", "Simple"); // SKIP
+
+    ArrayOfUsers = New Array;
+    ArrayOfUsers.Add(New Structure("user,db", "bayselonarrend", "admin"));
+    ArrayOfUsers.Add(New Structure("user,db", "newuser"       , "main"));
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("usrs", ArrayOfUsers);
+    Options.Insert("db", Base);
+    Options.Insert("spwd", Истина);
+    Options.Insert("sprv", Истина);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetUsers", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetUsers");
+
+EndProcedure
+
+Procedure MongoDB_GetDatabaseUsers(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetDatabaseUsers", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetDatabaseUsers");
+
+EndProcedure
+
+Procedure MongoDB_CreateRole(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = "admin";
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    RoleArray = New Array;
+    RoleArray.Add("read");
+    RoleArray.Add("userAdmin");
+
+    Resource = New Structure("db,collection", Base, "new_collection");
+    Actions  = New Array;
+
+    Actions.Add("find");
+    Actions.Add("insert");
+    Actions.Add("update");
+
+    Options = New Structure;
+    Options.Insert("res", Resource);
+    Options.Insert("act", Actions);
+
+    Privilege = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetRolePrivilegeStructure", Options);
+
+    PrivilegesArray = New Array;
+    PrivilegesArray.Add(Privilege);
+
+    RoleName = "newrole";
+
+    OPI_MongoDB.DeleteRole(Connection, RoleName, Base); // SKIP
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", RoleName);
+    Options.Insert("db", Base);
+    Options.Insert("prvl", PrivilegesArray);
+    Options.Insert("roles", RoleArray);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "CreateRole", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "CreateRole");
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", RoleName);
+    Options.Insert("db", Base);
+    Options.Insert("prvl", PrivilegesArray);
+    Options.Insert("roles", RoleArray);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "CreateRole", Options);
+
+    Process(Result, "MongoDB", "CreateRole", "Existing");
+
+EndProcedure
+
+Procedure MongoDB_UpdateRole(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = "admin";
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    RoleArray = New Array;
+    RoleArray.Add("read");
+    RoleArray.Add("userAdmin");
+
+    Resource = New Structure("db,collection", Base, "new_collection2");
+    Actions  = New Array;
+
+    Actions.Add("find");
+    Actions.Add("insert");
+
+    Options = New Structure;
+    Options.Insert("res", Resource);
+    Options.Insert("act", Actions);
+
+    Privilege = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetRolePrivilegeStructure", Options);
+
+    PrivilegesArray = New Array;
+    PrivilegesArray.Add(Privilege);
+
+    RoleName = "newrole";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", RoleName);
+    Options.Insert("db", Base);
+    Options.Insert("prvl", PrivilegesArray);
+    Options.Insert("roles", RoleArray);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "UpdateRole", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "UpdateRole");
+
+EndProcedure
+
+Procedure MongoDB_DeleteRole(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = "admin";
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    RoleName = "newrole";
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", RoleName);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "DeleteRole", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "DeleteRole");
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("name", RoleName);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "DeleteRole", Options);
+
+    Process(Result, "MongoDB", "DeleteRole", "Again");
+
+EndProcedure
+
+Procedure MongoDB_GetRolePrivilegeStructure(FunctionParameters)
+
+    Base     = FunctionParameters["MongoDB_DB"];
+    Resource = New Structure("db,collection", Base, "new_collection");
+    Actions  = New Array;
+
+    Actions.Add("find");
+    Actions.Add("insert");
+    Actions.Add("update");
+
+    Options = New Structure;
+    Options.Insert("res", Resource);
+    Options.Insert("act", Actions);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetRolePrivilegeStructure", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetRolePrivilegeStructure");
+
+EndProcedure
+
+Procedure MongoDB_GetRoles(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = "admin";
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Role = New Structure("role,db", "newrole", Base);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("roles", Role);
+    Options.Insert("db", Base);
+    Options.Insert("sprv", Истина);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GetRoles", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GetRoles");
+
+EndProcedure
+
+Procedure MongoDB_GrantRoles(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = "admin";
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    User = "bayselonarrend";
+    Role = New Structure("role,db", "newrole", Base);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("user", User);
+    Options.Insert("roles", Role);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GrantRoles", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "GrantRoles");
+
+EndProcedure
+
+Procedure MongoDB_RevokeRoles(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = "admin";
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    User = "bayselonarrend";
+    Role = New Structure("role,db", "newrole", Base);
+
+    Options = New Structure;
+    Options.Insert("dbc", Connection);
+    Options.Insert("user", User);
+    Options.Insert("roles", Role);
+    Options.Insert("db", Base);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "RevokeRoles", Options);
+
+    // END
+
+    Process(Result, "MongoDB", "RevokeRoles");
 
 EndProcedure
 

@@ -1,0 +1,87 @@
+﻿---
+sidebar_position: 5
+description: Изменить календарь списка и другие функции для работы с Google Calendar в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Изменить календарь списка
+ Изменяет свойства календаря из списка пользователей
+
+
+
+`Функция ИзменитьКалендарьСписка(Знач Токен, Знач Календарь, Знач ОсновнойЦвет, Знач ДополнительныйЦвет, Знач Скрытый = Ложь) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Календарь | --calendar | Строка | &#x2714; | ID календаря |
+  | ОсновнойЦвет | --primary | Строка | &#x2714; | HEX основного цвета (#ffffff) |
+  | ДополнительныйЦвет | --secondary | Строка | &#x2714; | HEX дополнительного цвета (#ffffff) |
+  | Скрытый | --hidden | Булево | &#x2716; | Скрытый календарь |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен              = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Календарь          = "0dc23447d3b0f439635aeee464d9e8db32a620027692352eb531d074f736c241@group.calendar.google.com";
+    ОсновнойЦвет       = "#000000";
+    ДополнительныйЦвет = "#ffd800";
+    Скрытый            = Ложь;
+
+    Результат = OPI_GoogleCalendar.ИзменитьКалендарьСписка(Токен, Календарь, ОсновнойЦвет, ДополнительныйЦвет, Скрытый);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar ИзменитьКалендарьСписка \
+              --token "***" \
+              --calendar "32bd40f1ef128b71a139dba906e441f58988556e1a972a93f2f58d61a6f684f1@group.calendar.google.com" \
+              --primary "#000000" \
+              --secondary "#ffd800" \
+              --hidden false
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar ИзменитьКалендарьСписка ^
+              --token "***" ^
+              --calendar "32bd40f1ef128b71a139dba906e441f58988556e1a972a93f2f58d61a6f684f1@group.calendar.google.com" ^
+              --primary "#000000" ^
+              --secondary "#ffd800" ^
+              --hidden false
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "kind": "calendar#calendarListEntry",
+ "etag": "\"1765367220586159\"",
+ "id": "3a5afb41219875ba37442ca0cb63038dd73b45abccc86306787747222ca0706d@group.calendar.google.com",
+ "summary": "Новое наименование",
+ "description": "Новое описание",
+ "timeZone": "Europe/Moscow",
+ "dataOwner": "bayselonarrend@gmail.com",
+ "colorId": "6",
+ "backgroundColor": "#ffd800",
+ "foregroundColor": "#000000",
+ "accessRole": "owner",
+ "defaultReminders": [],
+ "conferenceProperties": {
+  "allowedConferenceSolutionTypes": [
+   "***"
+  ]
+ }
+}
+```

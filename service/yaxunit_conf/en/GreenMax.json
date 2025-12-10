@@ -1,0 +1,33 @@
+{
+  "reportPath": "./test_results/GreenMax.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Tests.GMax_GroupManagement",
+"OPI_Tests.GMax_MessageSending",
+"OPI_Tests.GMax_Notifications",
+"OPI_Tests.GMax_MessageHistory",
+"OPI_Tests.GMax_Queues",
+"OPI_Tests.GMax_Account"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/GreenMax.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

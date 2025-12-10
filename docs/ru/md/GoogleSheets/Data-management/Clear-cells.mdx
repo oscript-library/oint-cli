@@ -1,0 +1,76 @@
+﻿---
+sidebar_position: 2
+description: Очистить ячейки и другие функции для работы с Google Sheets в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Sheets]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Очистить ячейки
+ Очищает значение в ячейках
+
+
+
+`Функция ОчиститьЯчейки(Знач Токен, Знач Книга, Знач МассивЯчеек, Знач Лист = "") Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Книга | --spreadsheet | Строка | &#x2714; | ID книги |
+  | МассивЯчеек | --cells | Массив из Строка | &#x2714; | Массив ячеек вида А1 для очистки |
+  | Лист | --sheetname | Строка | &#x2716; | Имя листа (первый лист по умолчанию) |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Книга = "13mnV79E8MBeQkwzcH3RTikriA3VsFKv89RnBkhGeNZA";
+    Лист  = "Лист2";
+
+    МассивЯчеек = Новый Массив;
+    МассивЯчеек.Добавить("B2");
+    МассивЯчеек.Добавить("A3");
+    МассивЯчеек.Добавить("B4");
+
+    Результат = OPI_GoogleSheets.ОчиститьЯчейки(Токен, Книга, МассивЯчеек, Лист);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gsheets ОчиститьЯчейки \
+              --token "***" \
+              --spreadsheet "1P4abNboAHMp-sGkIWeay00QMlxSHLwcMRkVAsmOP9TM" \
+              --cells "['B2','A3','B4']" \
+              --sheetname "Лист2"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gsheets ОчиститьЯчейки ^
+              --token "***" ^
+              --spreadsheet "1P4abNboAHMp-sGkIWeay00QMlxSHLwcMRkVAsmOP9TM" ^
+              --cells "['B2','A3','B4']" ^
+              --sheetname "Лист2"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "spreadsheetId": "1i5iGcyMfc9yKhPbdWdlhybxaM-ZhYSmKhkqPVaUtZPg",
+ "clearedRanges": [
+  "***",
+  "***",
+  "***"
+ ]
+}
+```

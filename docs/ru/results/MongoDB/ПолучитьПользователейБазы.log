@@ -1,0 +1,26 @@
+﻿{
+ "result": true,
+ "data": {
+  "users": [
+   {
+    "_id": "main.newuser",
+    "userId": {
+     "__B64_BINARY__": "3CLYge60QOmZLG0ARKDavA=="
+    },
+    "user": "newuser",
+    "db": "main",
+    "roles": [
+     {
+      "role": "readWrite",
+      "db": "main"
+     }
+    ],
+    "mechanisms": [
+     "***",
+     "***"
+    ]
+   }
+  ],
+  "ok": 1
+ }
+}

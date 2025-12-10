@@ -1,0 +1,75 @@
+﻿---
+sidebar_position: 3
+description: Delete collection and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Delete collection
+ Deletes the selected database collection
+
+
+
+`Function DeleteCollection(Val Connection, Val Collection, Val Base = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Collection | --coll | String | &#x2714; | Collection name |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "test_collection";
+    Base       = "test_database";
+
+    Result = OPI_MongoDB.DeleteCollection(Connection, Collection, Base);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint mongodb DeleteCollection \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+             --coll "test_collection" \
+             --db "test_database"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint mongodb DeleteCollection ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+             --coll "test_collection" ^
+             --db "test_database"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "nIndexesWas": 1,
+  "ns": "test_database.test_collection",
+  "ok": 1
+ }
+}
+```

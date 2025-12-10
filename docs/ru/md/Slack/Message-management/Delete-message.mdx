@@ -24,14 +24,12 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Slack
 
-<br/>
-
 
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     Токен   = "xoxb-6965308400114-696804637...";
     Канал   = "C06UFNUTKUL";
-    Отметка = "1760430062.629379";
+    Отметка = "1765392210.321779";
 
     Результат = OPI_Slack.УдалитьСообщение(Токен, Канал, Отметка);
 ```
@@ -44,7 +42,7 @@ import TabItem from '@theme/TabItem';
             oint slack УдалитьСообщение \
               --token "***" \
               --channel "C06UFNUTKUL" \
-              --stamp "1760451667.503039"
+              --stamp "1765361359.609079"
         ```
     </TabItem>
   
@@ -53,7 +51,7 @@ import TabItem from '@theme/TabItem';
             oint slack УдалитьСообщение ^
               --token "***" ^
               --channel "C06UFNUTKUL" ^
-              --stamp "1760451667.503039"
+              --stamp "1765361359.609079"
         ```
     </TabItem>
 </Tabs>
@@ -63,6 +61,6 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "channel": "C06UFNUTKUL",
- "ts": "1760461005.531849"
+ "ts": "1765367413.172159"
 }
 ```

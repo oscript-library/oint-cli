@@ -8,12 +8,15 @@
 |![Google Calendar](../GoogleCalendar.png)| `Google Calendar`| google calendar, googlecalendar, gcalendar |
 |![Google Drive](../GoogleDrive.png)| `Google Drive`| google drive, googledrive, gdrive, google disk |
 |![Google Sheets](../GoogleSheets.png)| `Google Sheets`| googlesheets, google sheets, spreadsheets |
-|![Green API](../GreenAPI.png)| `Green API`| greenapi, whatsapp |
+|![GreenAPI](../GreenAPI.png)| `GreenAPI`| greenapi, whatsapp |
+|![GreenMax](../GreenMax.png)| `GreenMax`| greenapi, max |
+|![MongoDB](../MongoDB.png)| `MongoDB`| mongodb, mongo, nosql |
 |![MSSQL](../MSSQL.png)| `MSSQL`| mssql, ms sql |
 |![MySQL](../MySQL.png)| `MySQL`| mysql, my sql |
 |![Neocities](../Neocities.png)| `Neocities`| neocities |
 |![Notion](../Notion.png)| `Notion`| notion |
-|![Ozon](../Ozon.png)| `Ozon`| ozon, seller api |
+|![Ollama](../Ollama.png)| `Ollama`| ollama, ai llm |
+|![OpenAI](../OpenAI.png)| `OpenAI`| openai, localai, ai llm |
 |![PostgreSQL](../PostgreSQL.png)| `PostgreSQL`| postgresql, postgre sql, postgres |
 |![RCON](../RCON.png)| `RCON`| rcon, remote console |
 |![ReportPortal (в разработке)](../default.png)| `ReportPortal (в разработке)`| reportportal |
@@ -29,3 +32,5 @@
 |![VK](../VK.png)| `VK`| vk, vkontakte |
 |![VKTeams](../VKTeams.png)| `VKTeams`| vkteams, vk teams |
 |![Yandex Disk](../YandexDisk.png)| `Yandex Disk`| yandexdisk, yandex.disk, yandex disk, yandex drive, yadisk, ya disk |
+|![HTTP-client](../HTTP.png)| `HTTP-client`| http, https |
+|![HTTP-клиент](../HTTP.png)| `HTTP-клиент`| http, https |

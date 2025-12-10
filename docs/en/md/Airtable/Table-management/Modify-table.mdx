@@ -25,14 +25,12 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from Airtable
 
-<br/>
-
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Token       = "patNn4BXW66Yx3pdj.5b93c53cab554a8387de02d...";
-    Base        = "appLC1TVo3riW36dW";
-    Table       = "tblla5qvAJFJe58N0";
+    Base        = "appFSHDVzJPNC6HRO";
+    Table       = "tblJkLJDo8Oijuksc";
     Name        = "Test table 2 (change.)";
     Description = "New table (change.)";
 
@@ -46,8 +44,8 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint airtable ModifyTable \
              --token "***" \
-             --base "apppuWpft4xNlV34k" \
-             --table "tblbmPGHdRw8sWAio" \
+             --base "app5EEUGKC7EHLcyz" \
+             --table "tbl9MIP7k60xewSuH" \
              --title "Test table 2 (change.)" \
              --description "New table (change.)"
         ```
@@ -57,8 +55,8 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint airtable ModifyTable ^
              --token "***" ^
-             --base "apppuWpft4xNlV34k" ^
-             --table "tblbmPGHdRw8sWAio" ^
+             --base "app5EEUGKC7EHLcyz" ^
+             --table "tbl9MIP7k60xewSuH" ^
              --title "Test table 2 (change.)" ^
              --description "New table (change.)"
         ```
@@ -68,13 +66,13 @@ import TabItem from '@theme/TabItem';
 
 ```json title="Result"
 {
- "id": "tblbmPGHdRw8sWAio",
+ "id": "tbl9MIP7k60xewSuH",
  "name": "Test table 2 (change.)",
  "description": "New table (change.)",
- "primaryFieldId": "fldiTnLJnLrM7ncec",
+ "primaryFieldId": "fld59NbisceBcbDru",
  "fields": [
   {
-   "id": "fldiTnLJnLrM7ncec",
+   "id": "fld59NbisceBcbDru",
    "name": "Number",
    "type": "number",
    "options": {
@@ -82,12 +80,12 @@ import TabItem from '@theme/TabItem';
    }
   },
   {
-   "id": "fldQ2ake1VecRRW1r",
+   "id": "fldfkkCLQLhSxTGmv",
    "name": "String",
    "type": "richText"
   },
   {
-   "id": "fldqfh9A4iVYcbNLd",
+   "id": "fldYmelyechhbTTfo",
    "name": "Attachment",
    "type": "multipleAttachments",
    "options": {
@@ -95,7 +93,7 @@ import TabItem from '@theme/TabItem';
    }
   },
   {
-   "id": "fldIhzvSmQhhubkDt",
+   "id": "fld4wXRHU1wbuvIjd",
    "name": "Checkbox",
    "type": "checkbox",
    "options": {
@@ -104,7 +102,7 @@ import TabItem from '@theme/TabItem';
    }
   },
   {
-   "id": "fldTfUcwYzErHghpJ",
+   "id": "fld9NG1JMdfyPW8vY",
    "name": "Date",
    "type": "date",
    "options": {
@@ -115,24 +113,24 @@ import TabItem from '@theme/TabItem';
    }
   },
   {
-   "id": "flddzla1BmVnz4bx2",
+   "id": "fldnUMapkErC0czID",
    "name": "Phone",
    "type": "phoneNumber"
   },
   {
-   "id": "fldFTAmeceY1djZA5",
+   "id": "fldWMYFqtMSiTK3gs",
    "name": "Email",
    "type": "email"
   },
   {
-   "id": "fld8TLj12853sKhU6",
+   "id": "fldYcFlOm2COOq9hz",
    "name": "Link",
    "type": "url"
   }
  ],
  "views": [
   {
-   "id": "viwPd0mBwsb9CdlYO",
+   "id": "viwlnHWUZO399ze5v",
    "name": "Grid view",
    "type": "grid"
   }

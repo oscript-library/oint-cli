@@ -26,15 +26,13 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Airtable
 
-<br/>
-
 
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     Токен   = "patNn4BXW66Yx3pdj.5b93c53cab554a8387de02d...";
-    База    = "appLC1TVo3riW36dW";
-    Таблица = "tblla5qvAJFJe58N0";
-    Поле    = "fld5ALS5r5zTBvyZM";
+    База    = "appFSHDVzJPNC6HRO";
+    Таблица = "tblJkLJDo8Oijuksc";
+    Поле    = "fldWLsGOAI9V2gnGZ";
 
     Имя      = Строка(Новый УникальныйИдентификатор) + "(изм.)";
     Описание = "Новое описание";
@@ -49,10 +47,10 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint airtable ИзменитьПоле \
               --token "***" \
-              --base "appIcGsY37Q32HCOv" \
-              --table "tblzizy9oTrMNTzHJ" \
-              --field "fldW9MVbxPMFR759K" \
-              --title "a5e35fcd-5838-48ec-a647-8a3382abef17(изм.)" \
+              --base "appdBvJ5EouBLnkvA" \
+              --table "tbluSOBqZnoGjkSWx" \
+              --field "fldPcjeibDLwBsdse" \
+              --title "dcfd79c8-d79a-48bd-84db-4b9fdcf1def5(изм.)" \
               --description "Новое описание"
         ```
     </TabItem>
@@ -61,10 +59,10 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint airtable ИзменитьПоле ^
               --token "***" ^
-              --base "appIcGsY37Q32HCOv" ^
-              --table "tblzizy9oTrMNTzHJ" ^
-              --field "fldW9MVbxPMFR759K" ^
-              --title "a5e35fcd-5838-48ec-a647-8a3382abef17(изм.)" ^
+              --base "appdBvJ5EouBLnkvA" ^
+              --table "tbluSOBqZnoGjkSWx" ^
+              --field "fldPcjeibDLwBsdse" ^
+              --title "dcfd79c8-d79a-48bd-84db-4b9fdcf1def5(изм.)" ^
               --description "Новое описание"
         ```
     </TabItem>
@@ -77,8 +75,8 @@ import TabItem from '@theme/TabItem';
  "options": {
   "precision": 0
  },
- "id": "fldX8uKMmg1ac3xp0",
- "name": "445f7213-4a05-463a-9ca7-1973728e6b5c(изм.)",
+ "id": "fldsDCB5ulWV0QOZy",
+ "name": "8e5c5e85-0ff8-4307-bc9c-e5205a1f5406(изм.)",
  "description": "Новое описание"
 }
 ```

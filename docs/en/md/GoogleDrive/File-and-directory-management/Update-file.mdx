@@ -1,0 +1,74 @@
+﻿---
+sidebar_position: 8
+description: Update file and other functions to work with Google Drive in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Update file
+ Updates file binary data
+
+
+
+`Function UpdateFile(Val Token, Val Identifier, Val File, Val NewName = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Identifier | --object | String | &#x2714; | Identifier of the object to update |
+  | File | --file | BinaryData,String | &#x2714; | File source for update |
+  | NewName | --title | String | &#x2716; | New file name (if necessary) |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+:::tip
+Parameters with Binary data type can also accept file paths on disk and URLs
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token      = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    NewName    = "UpdatedFile.jpg";
+    Identifier = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+    File       = "https://hut.openintegrations.dev/test_data/picture2.jpg"; // URL, Binary Data or File path
+
+    Result = OPI_GoogleDrive.UpdateFile(Token, Identifier, File, NewName);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive UpdateFile \
+             --token "***" \
+             --object "1pHdCp7uXLdpChmiq9ZTAU1IrSlDlKOXn" \
+             --file "https://hut.openintegrations.dev/test_data/picture2.jpg" \
+             --title "UpdatedFile.jpg"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive UpdateFile ^
+             --token "***" ^
+             --object "1pHdCp7uXLdpChmiq9ZTAU1IrSlDlKOXn" ^
+             --file "https://hut.openintegrations.dev/test_data/picture2.jpg" ^
+             --title "UpdatedFile.jpg"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "kind": "drive#file",
+ "id": "1pHdCp7uXLdpChmiq9ZTAU1IrSlDlKOXn",
+ "name": "UpdatedFile.jpg",
+ "mimeType": "image/jpeg"
+}
+```

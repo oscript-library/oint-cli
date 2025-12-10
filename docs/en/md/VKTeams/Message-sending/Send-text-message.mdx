@@ -26,8 +26,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from VK Teams
 
-<br/>
-
 :::tip
 You can mention a user by appending their userId to the text in the following format @[userId]
 
@@ -44,7 +42,7 @@ Method at API documentation: [GET /messages/sendText](https://teams.vk.com/botap
     Result = OPI_VKTeams.SendTextMessage(Token, ChatID, Text);
 
     ChatID  = "689203963@chat.agent";
-    ReplyID = "7561001959935721300";
+    ReplyID = "7582306518142305381";
     Text    = "<b>Bold text</b>";
     Markup  = "HTML";
 
@@ -69,9 +67,9 @@ Method at API documentation: [GET /messages/sendText](https://teams.vk.com/botap
             
             oint vkteams SendTextMessage \
              --token "***" \
-             --chatid "689203963@chat.agent" \
+             --chatid "***" \
              --text "<b>Bold text</b>" \
-             --reply "7561125023633653664" \
+             --reply "7567354422724936211" \
              --keyboard "[[{'text':'Button1','callbackData':'ButtonEvent1','style':'attention'},{'text':'Button2','url':'https://openintegrations.dev','style':'base'}],[{'text':'Button1','callbackData':'ButtonEvent1','style':'attention'},{'text':'Button2','url':'https://openintegrations.dev','style':'base'}]]" \
              --parsemod "HTML"
         ```
@@ -83,9 +81,9 @@ Method at API documentation: [GET /messages/sendText](https://teams.vk.com/botap
             
             oint vkteams SendTextMessage ^
              --token "***" ^
-             --chatid "689203963@chat.agent" ^
+             --chatid "***" ^
              --text "<b>Bold text</b>" ^
-             --reply "7561125023633653664" ^
+             --reply "7567354422724936211" ^
              --keyboard "[[{'text':'Button1','callbackData':'ButtonEvent1','style':'attention'},{'text':'Button2','url':'https://openintegrations.dev','style':'base'}],[{'text':'Button1','callbackData':'ButtonEvent1','style':'attention'},{'text':'Button2','url':'https://openintegrations.dev','style':'base'}]]" ^
              --parsemod "HTML"
         ```
@@ -95,7 +93,7 @@ Method at API documentation: [GET /messages/sendText](https://teams.vk.com/botap
 
 ```json title="Result"
 {
- "msgId": "7560943720179187483",
+ "msgId": "7582235462203360338",
  "ok": true
 }
 ```

@@ -1,0 +1,77 @@
+﻿---
+sidebar_position: 3
+description: Получить список комментариев и другие функции для работы с Google Drive в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Получить список комментариев
+ Получает список всех комментариев объекта
+
+
+
+`Функция ПолучитьСписокКомментариев(Знач Токен, Знач ИДОбъекта) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | ИДОбъекта | --object | Строка | &#x2714; | Идентификатор объекта |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен         = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Идентификатор = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+
+    Результат = OPI_GoogleDrive.ПолучитьСписокКомментариев(Токен, Идентификатор);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive ПолучитьСписокКомментариев \
+              --token "***" \
+              --object "1kF_42ZppPfTz_pfsehNl_Zry7lsVHq05"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive ПолучитьСписокКомментариев ^
+              --token "***" ^
+              --object "1kF_42ZppPfTz_pfsehNl_Zry7lsVHq05"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "comments": [
+  {
+   "replies": [],
+   "author": {
+    "displayName": "Антон Титовец",
+    "kind": "drive#user",
+    "me": true,
+    "photoLink": "//lh3.googleusercontent.com/a/ACg8ocJnbqA6yq1Q0s-yU0hen8H6NFa_chOdcC2wpT9q-BJj0q7MyPU=s50-c-k-no"
+   },
+   "kind": "drive#comment",
+   "id": "AAABuvIfUEY",
+   "createdTime": "2025-12-10T11:48:29.356Z",
+   "modifiedTime": "2025-12-10T11:48:29.356Z",
+   "htmlContent": "Текст комментария",
+   "content": "Текст комментария",
+   "deleted": false
+  }
+ ],
+ "kind": "drive#commentList"
+}
+```

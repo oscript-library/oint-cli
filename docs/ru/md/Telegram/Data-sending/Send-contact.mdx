@@ -21,12 +21,10 @@ import TabItem from '@theme/TabItem';
   | Имя | --name | Строка | &#x2714; | Имя контакта |
   | Фамилия | --surname | Строка | &#x2714; | Фамилия контакта |
   | Телефон | --phone | Строка | &#x2714; | Телефон контакта |
-  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. СформироватьКлавиатуруПоМассивуКнопок |
+  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. [`СформироватьКлавиатуруПоМассивуКнопок`](/docs/Telegram/Data-sending/Form-keyboard-from-button-array) |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Telegram
-
-<br/>
 
 :::tip
 Метод в документации API: [sendContact](https://core.telegram.org/bots/api#sendcontact)
@@ -54,10 +52,10 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint telegram ОтправитьКонтакт \
               --token "***" \
-              --chat "@testsichee" \
+              --chat "***" \
               --name "Петр" \
               --surname "Петров" \
-              --phone "88005553535"
+              --phone "***"
         ```
     </TabItem>
   
@@ -65,10 +63,10 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint telegram ОтправитьКонтакт ^
               --token "***" ^
-              --chat "@testsichee" ^
+              --chat "***" ^
               --name "Петр" ^
               --surname "Петров" ^
-              --phone "88005553535"
+              --phone "***"
         ```
     </TabItem>
 </Tabs>
@@ -78,7 +76,7 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "result": {
-  "message_id": 17135,
+  "message_id": 18378,
   "from": {
    "id": 6129457865,
    "is_bot": true,
@@ -92,9 +90,9 @@ import TabItem from '@theme/TabItem';
    "username": "bayselonarrend",
    "type": "private"
   },
-  "date": 1760446788,
+  "date": 1765389255,
   "contact": {
-   "phone_number": "88005553535",
+   "phone_number": "***",
    "first_name": "Петр",
    "last_name": "Петров"
   }

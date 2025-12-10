@@ -1,16 +1,16 @@
 ﻿{
  "entity": {
-  "uuid": "59932fd2-48d1-4326-a0af-138a254bd292",
-  "cdek_number": "1106627115",
-  "order_uuid": "0c30ec70-fb9e-451f-b856-b39cfbcbb112",
-  "intake_date": "2025-10-16",
-  "intake_number": "13310066",
+  "uuid": "2a75c7f0-9f49-4667-802c-eeed87903e84",
+  "cdek_number": "1106698346",
+  "order_uuid": "8540317e-49dc-429d-8f1b-6831dc06e6d8",
+  "intake_date": "2025-12-11",
+  "intake_number": "13310711",
   "intake_time_from": "10:00",
   "intake_time_to": "17:00",
   "name": "Consolidated cargo",
   "weight": 1000,
   "length": 10,
-  "width": 10,
+  "width": "***",
   "height": 10,
   "comment": "Comment to courier",
   "sender": {
@@ -22,7 +22,7 @@
      "number": "79589441654"
     }
    ],
-   "passport_requirements_satisfied": false
+   "passport_requirements_satisfied": "***"
   },
   "from_location": {
    "code": 44,
@@ -56,35 +56,34 @@
    {
     "code": "READY_FOR_APPOINTMENT",
     "name": "Готова к назначению",
-    "date_time": "2025-10-15T10:15:54+00:00"
+    "date_time": "2025-12-10T20:10:27+00:00"
    },
    {
     "code": "CREATED",
     "name": "Создан",
-    "date_time": "2025-10-15T10:15:54+00:00"
+    "date_time": "2025-12-10T20:10:27+00:00"
    },
    {
     "code": "ACCEPTED",
     "name": "Принят",
-    "date_time": "2025-10-15T10:15:53+00:00"
+    "date_time": "2025-12-10T20:10:27+00:00"
    }
   ],
   "packages": [
    {
-    "package_id": "018ad1a4-dbdf-4705-a6c1-a189bc67c752",
+    "package_id": "6c999a23-5ba3-42c6-8d36-8cf845bb86ec",
     "weight": 1000,
     "length": 10,
-    "width": 10,
+    "width": "***",
     "height": 10
    }
-  ],
-  "contragent_uuid": "ed75ecf4-30ed-4153-afe9-eb80bb512f22"
+  ]
  },
  "requests": [
   {
-   "request_uuid": "e5c36906-adca-4e0d-827c-beb70c5db792",
+   "request_uuid": "dc6b1e76-a459-4b07-9035-50a0c2c50b5f",
    "type": "CREATE",
-   "date_time": "2025-10-15T10:15:52+00:00",
+   "date_time": "2025-12-10T20:10:25+00:00",
    "state": "SUCCESSFUL"
   }
  ]

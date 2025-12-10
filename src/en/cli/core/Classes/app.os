@@ -21,6 +21,8 @@ Procedure MainHandler()
 	Debugging        = False;
 	Testing   = False;
 
+	SetEnvironmentVariable("OINT_CLI", "YES");
+
 	CurrentDirectory = CurrentScript().Path;
 	CurrentDirectory = StrReplace(CurrentDirectory, "\", "/");
 
@@ -64,7 +66,7 @@ Procedure FormCommand()
 		Help.DisplayStartPage(AllCommands, Version);
 
 		Return;
-		
+
 	EndIf;
 	
 	Command           = Parser.CommandDescription(CurrentCommand);
@@ -116,6 +118,10 @@ EndProcedure
 
 Function GetProcessingResult(Val Command, Val Parameters)
 
+	If CurrentCommand = "hashsum" Then
+		Return OPI_Tools.GetLastBuildHashSum();
+	EndIf;
+
 	Method     = TrimAll(Parameters["Method"]);
 	Response     = "Function Returned Empty Value";
 
@@ -163,14 +169,19 @@ EndFunction
 
 Procedure AddCommandParameters(Parser, Command);
 	
-	Parameter_ = "Parameter";
+	Fields = "Parameter,ParameterTrim";
 
-	TableForUse = ParametersTable.Copy(, Parameter_);
-	TableForUse.GroupBy(Parameter_);
+	TableForUse = ParametersTable.Copy(, Fields);
+	TableForUse.GroupBy(Fields);
 
-	ParameterArray = TableForUse.UnloadColumn(Parameter_);
+	ParameterArray     = TableForUse.UnloadColumn("Parameter");
+	ParameterArrayTrim = TableForUse.UnloadColumn("ParameterTrim");
 	
 	For Each Parameter In ParameterArray Do
+		Parser.AddNamedCommandParameter(Command, Parameter);
+	EndDo;
+
+	For Each Parameter In ParameterArrayTrim Do
 		Parser.AddNamedCommandParameter(Command, Parameter);
 	EndDo;
 	

@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON of answer from Bitrix24 API
 
-<br/>
-
 :::tip
 Method at API documentation: [task.checklistitem.renew](https://dev.1c-bitrix.ru/rest_help/tasks/task/checklistitem/renew.php)
 :::
@@ -34,16 +32,16 @@ Method at API documentation: [task.checklistitem.renew](https://dev.1c-bitrix.ru
 
 ```bsl title="1C:Enterprise/OneScript code example"
     URL       = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    TaskID    = "8350";
-    ElementID = "5866";
+    TaskID    = "9036";
+    ElementID = "6414";
 
     Result = OPI_Bitrix24.RenewTasksChecklistElement(URL, TaskID, ElementID);
 
-    TaskID    = "8352";
-    ElementID = "5870";
+    TaskID    = "9038";
+    ElementID = "6418";
 
     URL   = "b24-ar17wx.bitrix24.by";
-    Token = "8a1bee68006e9f06006b12e400000001000...";
+    Token = "6ad03969006e9f06006b12e400000001000...";
 
     Result = OPI_Bitrix24.RenewTasksChecklistElement(URL, TaskID, ElementID, Token);
 ```
@@ -55,8 +53,8 @@ Method at API documentation: [task.checklistitem.renew](https://dev.1c-bitrix.ru
         ```bash
             oint bitrix24 RenewTasksChecklistElement \
              --url "b24-ar17wx.bitrix24.by" \
-             --task "8402" \
-             --element 5910 \
+             --task "9048" \
+             --element 6426 \
              --token "***"
         ```
     </TabItem>
@@ -65,8 +63,8 @@ Method at API documentation: [task.checklistitem.renew](https://dev.1c-bitrix.ru
         ```batch
             oint bitrix24 RenewTasksChecklistElement ^
              --url "b24-ar17wx.bitrix24.by" ^
-             --task "8402" ^
-             --element 5910 ^
+             --task "9048" ^
+             --element 6426 ^
              --token "***"
         ```
     </TabItem>
@@ -77,13 +75,13 @@ Method at API documentation: [task.checklistitem.renew](https://dev.1c-bitrix.ru
 {
  "result": true,
  "time": {
-  "start": 1760521916,
-  "finish": 1760521916.20202,
-  "duration": 0.202022075653076,
+  "start": 1765396292,
+  "finish": 1765396292.1234,
+  "duration": 0.123394966125488,
   "processing": 0,
-  "date_start": "2025-10-15T09:51:56+00:00",
-  "date_finish": "2025-10-15T09:51:56+00:00",
-  "operating_reset_at": 1760522516,
+  "date_start": "2025-12-10T19:51:32+00:00",
+  "date_finish": "2025-12-10T19:51:32+00:00",
+  "operating_reset_at": 1765396892,
   "operating": 0
  }
 }

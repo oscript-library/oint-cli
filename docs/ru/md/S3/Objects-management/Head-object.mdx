@@ -18,15 +18,13 @@ import TabItem from '@theme/TabItem';
   |-|-|-|-|-|
   | Наименование | --name | Строка | &#x2714; | Наименование объекта в бакете |
   | Бакет | --bucket | Строка | &#x2714; | Имя бакета, в котором находится объект |
-  | ОсновныеДанные | --basic | Структура Из КлючИЗначение | &#x2714; | Основные данные запроса. См. ПолучитьСтруктуруДанных |
+  | ОсновныеДанные | --basic | Структура Из КлючИЗначение | &#x2714; | Основные данные запроса. См. [`ПолучитьСтруктуруДанных`](/docs/S3/Common-methods/Get-basic-data-structure) |
   | Версия | --ver | Строка | &#x2716; | Токен для получения конкретной версии объекта |
   | Заголовки | --headers | Соответствие Из КлючИЗначение | &#x2716; | Дополнительные заголовки запроса, если необходимо |
   | Каталог | --dir | Булево | &#x2716; | Истина > Path style URL, Ложь > Virtual hosted style URL |
 
   
   Возвращаемое значение:   Структура Из КлючИЗначение - сериализованный JSON ответа от хранилища
-
-<br/>
 
 :::tip
 Метаданные объекты содержатся в заголовках
@@ -47,7 +45,7 @@ import TabItem from '@theme/TabItem';
     Наименование = "picture.jpg";
 
     Каталог = Истина; // Формирование URL в path-style
-    Бакет = "opi-dirbucket3";
+    Бакет = "";
     Результат = OPI_S3.ПолучитьОписаниеОбъекта(Наименование, Бакет, ОсновныеДанные, , , Каталог);
 ```
     
@@ -61,7 +59,7 @@ import TabItem from '@theme/TabItem';
             oint s3 ПолучитьОписаниеОбъекта \
               --name "pictureU.jpg" \
               --bucket "newbucket2" \
-              --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}"
+              --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}"
         ```
     </TabItem>
   
@@ -72,7 +70,7 @@ import TabItem from '@theme/TabItem';
             oint s3 ПолучитьОписаниеОбъекта ^
               --name "pictureU.jpg" ^
               --bucket "newbucket2" ^
-              --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}"
+              --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}"
         ```
     </TabItem>
 </Tabs>
@@ -84,18 +82,18 @@ import TabItem from '@theme/TabItem';
  "response": {},
  "headers": {
   "Accept-Ranges": "bytes",
-  "Date": "Tue, 14 Oct 2025 17:22:45 GMT",
+  "Date": "Wed, 10 Dec 2025 12:28:53 GMT",
   "ETag": "\"9e0176f87f6565a22f78e0f9b39a4d78\"",
   "Server": "MinIO",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
   "Vary": "Origin, Accept-Encoding",
-  "X-Amz-Id-2": "e602da57d0c30b8c7034fcfe129917205f80f7bab979408e71da5d1441c85e79",
-  "X-Amz-Request-Id": "186E6B603E385684",
+  "X-Amz-Id-2": "9db21855adaa63c98221e7a7db59c17bf693f4833027894c70082214acf3a007",
+  "X-Amz-Request-Id": "187FDA6B672930B6",
   "X-Content-Type-Options": "nosniff",
   "X-XSS-Protection": "1; mode=block",
   "Content-Length": "2114023",
   "Content-Type": "application/octet-stream",
-  "Last-Modified": "Tue, 14 Oct 2025 17:19:47 GMT"
+  "Last-Modified": "Wed, 10 Dec 2025 12:17:42 GMT"
  }
 }
 ```

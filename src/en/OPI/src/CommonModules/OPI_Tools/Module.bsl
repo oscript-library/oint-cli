@@ -40,6 +40,9 @@
 //@skip-check wrong-string-literal-content
 //@skip-check use-non-recommended-method
 
+// Uncomment if OneScript is executed
+// #Use "./internal"
+
 #Region Internal
 
 #Region WebMethods
@@ -381,6 +384,8 @@ EndFunction
 
 #Region Collections
 
+// BSLLS:CognitiveComplexity-off
+
 Procedure AddField(Val Name, Val Value, Val Type, Collection) Export
 
     Filled = ValueIsFilled(Value);
@@ -407,6 +412,9 @@ Procedure AddField(Val Name, Val Value, Val Type, Collection) Export
 
     ElsIf Type = "Collection" Then
         OPI_TypeConversion.GetCollection(Value);
+
+    ElsIf Type = "KeyAndValue" Then
+        OPI_TypeConversion.GetKeyValueCollection(Value);
 
     ElsIf Type = "Boolean" Then
         OPI_TypeConversion.GetBoolean(Value);
@@ -438,6 +446,8 @@ Procedure AddField(Val Name, Val Value, Val Type, Collection) Export
     Collection.Insert(Name, Value);
 
 EndProcedure
+
+// BSLLS:CognitiveComplexity-on
 
 Procedure AddKeyValue(Table, Val Key, Val Value) Export
 
@@ -690,9 +700,25 @@ Function IsOneScript() Export
 
 EndFunction
 
+Function IsCLI() Export
+
+    If IsOneScript() Then
+
+        IsCLI          = Undefined;
+        // !OInt IsCLI = GetEnvironmentVariable("OINT_CLI");
+        IsCLI          = ?(ValueIsFilled(IsCLI), IsCLI, "NO");
+
+        Return IsCLI = "YES";
+
+    EndIf;
+
+    Return False;
+
+EndFunction
+
 Procedure ProgressInformation(Val Current, Val Total, Val Unit, Val Divider = 1) Export
 
-    If Not IsOneScript() Then
+    If Not IsCLI() Then
         Return;
     EndIf;
 
@@ -763,36 +789,6 @@ EndProcedure
 
 #Region Service
 
-Procedure ReplaceSpecialCharacters(Text, Markup = "Markdown") Export
-
-    OPI_TypeConversion.GetLine(Markup);
-
-    CharacterMapping = New Map;
-
-    If Markup = "HTML" Then
-
-        CharacterMapping.Insert("&", "&amp;");
-
-    ElsIf Markup = "MarkdownV2" Then
-
-        CharacterMapping.Insert("-", "\-");
-        CharacterMapping.Insert("+", "\+");
-        CharacterMapping.Insert("#", "\#");
-        CharacterMapping.Insert("=", "\=");
-        CharacterMapping.Insert("{", "\{");
-        CharacterMapping.Insert("}", "\}");
-        CharacterMapping.Insert(".", "\.");
-
-    Else
-        Return;
-    EndIf;
-
-    For Each ArraySymbol In CharacterMapping Do
-        Text = StrReplace(Text, ArraySymbol.Key, ArraySymbol.Value);
-    EndDo;
-
-EndProcedure
-
 Procedure Pause(Val Seconds) Export
 
     Connection = New HTTPConnection("1C.ru", 11111, , , , Seconds);
@@ -839,13 +835,13 @@ Procedure StreamToStart(CurrentStream) Export
         Return;
     EndIf;
 
-    StartPosition = PositionInStream.Start;
+    StartPosition = PositionInStream.Begin;
 
     CurrentStream.Seek(0, StartPosition);
 
 EndProcedure
 
-Procedure RemoveFileWithTry(Val Path, Val MessageText) Export
+Procedure RemoveFileWithTry(Val Path, Val MessageText = "Failed to delete file") Export
 
     Try
         DeleteFiles(Path);
@@ -1011,8 +1007,14 @@ Function ThisIsCollection(Val Value, Val KeyValue = False) Export
 
 EndFunction
 
+Function GetLastBuildHashSum() Export
+
+    Return OPI_BuildHash.GetHashSum();
+
+EndFunction
+
 Function OPIVersion() Export
-    Return "1.28.0";
+    Return "1.30.0";
 EndFunction
 
 Function OPILanguage() Export

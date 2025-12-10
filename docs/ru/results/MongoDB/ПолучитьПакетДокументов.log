@@ -1,0 +1,29 @@
+﻿{
+ "result": true,
+ "data": {
+  "cursor": {
+   "nextBatch": [
+    {
+     "_id": "69395c91f1fedecc48aa1afa",
+     "stringField": "Текст",
+     "intField": 200,
+     "doubleField": 123.456,
+     "boolField": true,
+     "arrayField": [
+      "***",
+      "***"
+     ],
+     "docField": {
+      "text": "Текст",
+      "number": 10
+     },
+     "dateField": "2025-12-10T14:42:09.756Z",
+     "nullField": null
+    }
+   ],
+   "id": 0,
+   "ns": "main.new_collection"
+  },
+  "ok": 1
+ }
+}

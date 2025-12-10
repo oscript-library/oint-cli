@@ -1,0 +1,87 @@
+﻿---
+sidebar_position: 4
+description: Получить публичный объект и другие функции для работы с Yandex Disk в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Получить публичный объект
+ Получает информацию об опубликованном объекте по его URL
+
+
+
+`Функция ПолучитьПубличныйОбъект(Знач Токен, Знач URL, Знач Количество = 0, Знач СмещениеОтНачала = 0) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | URL | --url | Строка | &#x2714; | Адрес объекта |
+  | Количество | --amount | Число | &#x2716; | Количество возвращаемых вложенных объектов (для каталога) |
+  | СмещениеОтНачала | --offset | Число | &#x2716; | Смещение для получение вложенных объектов не из начала списка |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Yandex
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    URL   = "https://yadi.sk/d/gZohv2qv6Lky-Q";
+
+    Результат = OPI_YandexDisk.ПолучитьПубличныйОбъект(Токен, URL);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk ПолучитьПубличныйОбъект \
+              --token "***" \
+              --url "https://yadi.sk/d/mcFkssfbEsn6cg"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk ПолучитьПубличныйОбъект ^
+              --token "***" ^
+              --url "https://yadi.sk/d/mcFkssfbEsn6cg"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "path": "/",
+ "type": "file",
+ "name": "6044a209-54df-40a9-8d54-463e82ff1497.png",
+ "created": "2025-12-10T14:45:35+03:00",
+ "modified": "2025-12-10T14:45:35+03:00",
+ "size": 2114023,
+ "mime_type": "multipart",
+ "md5": "9e0176f87f6565a22f78e0f9b39a4d78",
+ "sha256": "89f8eb42a35208a17c85036e17237b0aa0657e1841efa6171dc5acbc0dea9e18",
+ "public_key": "***",
+ "public_url": "https://yadi.sk/d/tOQI8OWtalMkHA",
+ "media_type": "image",
+ "resource_id": "1573541518:49794f93e4434fd3f6d76475c480c47c03f31a66224b95253481a8626e1e5a35",
+ "revision": 1765367155259240,
+ "comment_ids": {
+  "public_resource": "1573541518:49794f93e4434fd3f6d76475c480c47c03f31a66224b95253481a8626e1e5a35",
+  "private_resource": "1573541518:49794f93e4434fd3f6d76475c480c47c03f31a66224b95253481a8626e1e5a35"
+ },
+ "exif": {},
+ "antivirus_status": "clean",
+ "file": "https://downloader.disk.yandex.ru/disk/759bf3a0fbd62a189c7985d3b298419739efd09dfb7462036981c12c76d97eb8/693995b4/Kdpe3dFisZLPovVA4r-aBmpkby3AOQiLsayEHYapOMw2ylFGSbZZrsWtGPTvHxG_-QDrqSGFBOOsS3b3gKT1zA%3D%3D?uid=0&filename=6044a209-54df-40a9-8d54-463e82ff1497.png&disposition=attachment&hash=&limit=0&content_type=multipart&owner_uid=0&fsize=2114023&hid=03d7263840468e281bd0b238a26e7d0d&media_type=image&tknv=v3&etag=9e0176f87f6565a22f78e0f9b39a4d78",
+ "views_count": 0,
+ "owner": {
+  "uid": "1573541518",
+  "login": "bayselonarrend",
+  "display_name": "bayselonarrend"
+ }
+}
+```

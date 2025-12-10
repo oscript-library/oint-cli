@@ -1,0 +1,61 @@
+﻿---
+sidebar_position: 4
+description: Delete comment and other functions to work with Google Drive in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Delete comment
+ Deletes comment by ID
+
+
+
+`Function DeleteComment(Val Token, Val ObjectID, Val CommentID) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | ObjectID | --object | String | &#x2714; | Identifier of the file or directory where the comment is located |
+  | CommentID | --comment | String | &#x2714; | Comment identifier |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token      = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Identifier = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+    CommentID  = "AAABuvZF8u0";
+
+    Result = OPI_GoogleDrive.DeleteComment(Token, Identifier, CommentID);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive DeleteComment \
+             --token "***" \
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5" \
+             --comment "AAABxUEXDR8"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive DeleteComment ^
+             --token "***" ^
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5" ^
+             --comment "AAABxUEXDR8"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{}
+```

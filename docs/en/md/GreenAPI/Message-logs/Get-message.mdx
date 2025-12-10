@@ -1,0 +1,96 @@
+﻿---
+sidebar_position: 2
+description: Get message and other functions to work with GreenAPI in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, GreenAPI]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get message
+ Gets information about the chat message by ID
+
+
+
+`Function GetMessage(Val AccessParameters, Val ChatID, Val MessageID) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | AccessParameters | --access | Structure Of KeyAndValue | &#x2714; | Access parameters. See FormAccessParameters |
+  | ChatID | --chat | String | &#x2714; | Chat identifier |
+  | MessageID | --msg | String | &#x2714; | Message identifier |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Green API
+
+:::tip
+Method at API documentation: [GetMessage](https://green-api.com/docs/api/journals/GetMessage/)
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    ApiUrl           = "https://7105.api.greenapi.com";
+    MediaUrl         = "https://7105.media.greenapi.com";
+    IdInstance       = "71051...";
+    ApiTokenInstance = "425010d90e114aa6b78f0969e...";
+
+    ChatID    = "120363410406221140@g.us";
+    MessageID = "3EB05EA43320C6336EF896";
+
+    AccessParameters = OPI_GreenAPI.FormAccessParameters(ApiUrl, MediaUrl, IdInstance, ApiTokenInstance);
+    Result           = OPI_GreenAPI.GetMessage(AccessParameters, ChatID, MessageID);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint greenapi GetMessage \
+             --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}" \
+             --chat "***" \
+             --msg "3EB061F20B14D7DE3DDFFA"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint greenapi GetMessage ^
+             --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}" ^
+             --chat "***" ^
+             --msg "3EB061F20B14D7DE3DDFFA"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "type": "outgoing",
+ "idMessage": "3EB061F20B14D7DE3DDFFA",
+ "timestamp": 1765379458,
+ "typeMessage": "extendedTextMessage",
+ "chatId": "***",
+ "textMessage": "New message text",
+ "extendedTextMessage": {
+  "text": "New message text",
+  "description": "",
+  "title": "",
+  "previewType": "None",
+  "jpegThumbnail": "",
+  "forwardingScore": 0,
+  "isForwarded": false
+ },
+ "statusMessage": "sent",
+ "sendByApi": "***",
+ "deletedMessageId": "3EB05C0B2CE797EA0EEE21",
+ "editedMessageId": "3EB0B421D2C92D2B478CD7",
+ "isEdited": true,
+ "isDeleted": true
+}
+```

@@ -1,0 +1,59 @@
+﻿---
+sidebar_position: 1
+description: Получить код подтверждения и другие функции для работы с Yandex Disk в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Получить код подтверждения
+ Получает код подтверждения и адрес страницы, на которой его необходимо ввести
+
+
+
+`Функция ПолучитьКодПодтверждения(Знач ClientId) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | ClientId | --id | Строка | &#x2714; | Client id |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Yandex
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    ClientID = "cc2ce9d60deb4975be58866d32dbe7aa";
+
+    Результат = OPI_YandexDisk.ПолучитьКодПодтверждения(ClientID);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk ПолучитьКодПодтверждения \
+              --id "cc2ce9d60deb4975be58866d32dbe7aa"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk ПолучитьКодПодтверждения ^
+              --id "cc2ce9d60deb4975be58866d32dbe7aa"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "device_code": "a5656f37bb3f4bd289932110557b7ae1",
+ "expires_in": 299,
+ "interval": 5,
+ "user_code": "2w5l6kbm",
+ "verification_url": "https://ya.ru/device"
+}
+```

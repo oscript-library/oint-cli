@@ -1,0 +1,83 @@
+﻿---
+sidebar_position: 2
+description: Get database and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get database
+ Gets information about the database
+
+
+
+`Function GetDatabase(Val Connection, Val Base = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+    Base     = "main";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, Base, Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Base = "test_db";
+
+    Result = OPI_MongoDB.GetDatabase(Connection, Base);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint mongodb GetDatabase \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/main?authSource=admin" \
+             --db "test_db"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint mongodb GetDatabase ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/main?authSource=admin" ^
+             --db "test_db"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "db": "test_db",
+  "collections": 1,
+  "views": 0,
+  "objects": 1,
+  "avgObjSize": 35,
+  "dataSize": 35,
+  "storageSize": 20480,
+  "indexes": 1,
+  "indexSize": 20480,
+  "totalSize": 40960,
+  "scaleFactor": 1,
+  "fsUsedSize": 410085105664,
+  "fsTotalSize": 1081101176832,
+  "ok": 1
+ }
+}
+```

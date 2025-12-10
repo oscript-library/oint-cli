@@ -1,0 +1,78 @@
+﻿---
+sidebar_position: 2
+description: Создать папку и другие функции для работы с Yandex Disk в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Создать папку
+ Создает каталог на диске
+
+
+
+`Функция СоздатьПапку(Знач Токен, Знач Путь) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Путь | --path | Строка | &#x2714; | Путь к созаваемой папке |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Yandex
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Путь  = "/" + Строка(Новый УникальныйИдентификатор);
+
+    Результат = OPI_YandexDisk.СоздатьПапку(Токен, Путь);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk СоздатьПапку \
+              --token "***" \
+              --path "/e1352a54-e2db-4f61-96aa-57dec8d20fb1"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk СоздатьПапку ^
+              --token "***" ^
+              --path "/e1352a54-e2db-4f61-96aa-57dec8d20fb1"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "path": "disk:/b9fbc9c4-4f17-4b31-953d-a82a537dcbef",
+ "type": "dir",
+ "name": "b9fbc9c4-4f17-4b31-953d-a82a537dcbef",
+ "created": "2025-12-10T14:42:53+03:00",
+ "modified": "2025-12-10T14:42:53+03:00",
+ "_embedded": {
+  "path": "disk:/b9fbc9c4-4f17-4b31-953d-a82a537dcbef",
+  "limit": 20,
+  "offset": 0,
+  "sort": "",
+  "total": 0,
+  "items": []
+ },
+ "resource_id": "1573541518:df3371e661969bf15c9e07924c1808b9028ec3b7ede3603104e10340164f6860",
+ "revision": 1765366973275393,
+ "comment_ids": {
+  "public_resource": "1573541518:df3371e661969bf15c9e07924c1808b9028ec3b7ede3603104e10340164f6860",
+  "private_resource": "1573541518:df3371e661969bf15c9e07924c1808b9028ec3b7ede3603104e10340164f6860"
+ },
+ "exif": {}
+}
+```

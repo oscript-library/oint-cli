@@ -1,0 +1,61 @@
+﻿---
+sidebar_position: 7
+description: Удалить событие и другие функции для работы с Google Calendar в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Удалить событие
+ Удаляет событие по ID
+
+
+
+`Функция УдалитьСобытие(Знач Токен, Знач Календарь, Знач Событие) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Календарь | --calendar | Строка | &#x2714; | ID календаря |
+  | Событие | --event | Строка | &#x2714; | ID события |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен     = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Календарь = "0dc23447d3b0f439635aeee464d9e8db32a620027692352eb531d074f736c241@group.calendar.google.com";
+    Событие   = "a55kkfscljqv4ikeu85sbau8g4";
+
+    Результат = OPI_GoogleCalendar.УдалитьСобытие(Токен, Календарь, Событие);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar УдалитьСобытие \
+              --token "***" \
+              --calendar "d78d6affe85845e85065235171c86275ac8aff3fd6b5dd5a1a665aa30e772d58@group.calendar.google.com" \
+              --event "2tjl9ag2nmem1hdre88lghi4rc"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar УдалитьСобытие ^
+              --token "***" ^
+              --calendar "d78d6affe85845e85065235171c86275ac8aff3fd6b5dd5a1a665aa30e772d58@group.calendar.google.com" ^
+              --event "2tjl9ag2nmem1hdre88lghi4rc"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{}
+```

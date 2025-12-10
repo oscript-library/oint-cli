@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от CDEK
 
-<br/>
-
 :::tip
 Этот метод используется в случае, если прямой заказ доставлялся СДЭК и получатель хочет вернуть его полностью
 
@@ -37,8 +35,8 @@ import TabItem from '@theme/TabItem';
 
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
-    Токен = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3NjA0MzY3MTIsImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJhcGktdmVyc2lvbjoxLjEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJjb250cmFnZW50L...";
-    UUID  = "c91d4e76-0b17-4e76-ae73-674bfdabecf9";
+    Токен = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3NjUzOTcwNTYsImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJhcGktdmVyc2lvbjoxLjEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJjb250cmFnZW50L...";
+    UUID  = "50fbb719-69d4-4ded-93ca-ff7d005c9fae";
     Тариф = 139;
 
     Результат = OPI_CDEK.ОформитьКлиентскийВозврат(Токен, UUID, Тариф, Истина);
@@ -51,7 +49,7 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint cdek ОформитьКлиентскийВозврат \
               --token "***" \
-              --uuid "cd42c7c6-5a05-409d-bb66-5898c1ddcb08" \
+              --uuid "1dd8c57e-a50d-43fd-9f95-dfb136e284c0" \
               --tariff 139 \
               --testapi "***"
         ```
@@ -61,7 +59,7 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint cdek ОформитьКлиентскийВозврат ^
               --token "***" ^
-              --uuid "cd42c7c6-5a05-409d-bb66-5898c1ddcb08" ^
+              --uuid "1dd8c57e-a50d-43fd-9f95-dfb136e284c0" ^
               --tariff 139 ^
               --testapi "***"
         ```
@@ -72,13 +70,13 @@ import TabItem from '@theme/TabItem';
 ```json title="Результат"
 {
  "entity": {
-  "uuid": "7806f65b-b443-4a7d-8d39-448a678c21d8"
+  "uuid": "1dd8c57e-a50d-43fd-9f95-dfb136e284c0"
  },
  "requests": [
   {
-   "request_uuid": "4974c54e-b021-465b-894a-127f1fef7894",
+   "request_uuid": "53968dc0-283e-4d79-83e7-c5241ac3250d",
    "type": "CREATE_CLIENT_RETURN",
-   "date_time": "2025-10-14T17:11:14+00:00",
+   "date_time": "2025-12-06T20:44:36+03:00",
    "state": "ACCEPTED"
   }
  ],

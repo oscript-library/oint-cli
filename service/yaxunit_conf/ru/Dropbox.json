@@ -1,0 +1,35 @@
+{
+  "reportPath": "./test_results/Dropbox.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Тесты.ДропБокс_ПолучитьОбновитьТокен",
+"OPI_Тесты.ДропБокс_ЗагрузитьФайл",
+"OPI_Тесты.ДропБокс_ЗагрузитьФайлПоURL",
+"OPI_Тесты.ДропБокс_СоздатьКаталог",
+"OPI_Тесты.ДропБокс_СоздатьУдалитьТег",
+"OPI_Тесты.ДропБокс_ПолучитьАккаунт",
+"OPI_Тесты.ДропБокс_РаботаСДоступами",
+"OPI_Тесты.ДропБокс_ПолучитьСписокФайловПапки"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/Dropbox.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

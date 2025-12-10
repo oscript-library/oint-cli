@@ -20,13 +20,11 @@ import TabItem from '@theme/TabItem';
   | IDЧата | --chat | Строка, Число | &#x2714; | ID целевого чата или IDЧата*IDТемы |
   | Текст | --text | Строка | &#x2714; | Текст сообщения |
   | Картинка | --picture | ДвоичныеДанные, Строка | &#x2714; | Файл картинки |
-  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. СформироватьКлавиатуруПоМассивуКнопок |
+  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. [`СформироватьКлавиатуруПоМассивуКнопок`](/docs/Telegram/Data-sending/Form-keyboard-from-button-array) |
   | Разметка | --parsemode | Строка | &#x2716; | Вид обработки текста (HTML, Markdown, MarkdownV2) |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Telegram
-
-<br/>
 
 :::tip
 Метод в документации API: [sendPhoto](https://core.telegram.org/bots/api#sendphoto)
@@ -67,10 +65,10 @@ import TabItem from '@theme/TabItem';
             
             oint telegram ОтправитьКартинку \
               --token "***" \
-              --chat "@testsichee" \
-              --text "Строковое значение" \
+              --chat "***" \
+              --text "%F0%9F%94%A5 *Новый релиз\!*\n\n%F0%9F%8F%B0 *Репозиторий*: [240596448/devtools](https://github.com/240596448/devtools)\n%F0%9F%94%A2 *Версия*: \{0.6.0}\n%F0%9F%93%85 *Дата релиза*: 6 декабря 2025 г.\n\n>*AI сводка*\n>Devtools — это инструмент для автоматизации работы с конфигурациями\расширениями 1С:Предприятия и интеграции с Git. Приложение позволяет выгружать и загружать объекты, а также синхронизировать изменения между Git и хранилищем 1С. В релизе 0.6.0 реализованы оптимизация логики работы и добавлено логирование, что способствует стабильности и упрощает анализ работы приложения.\n\n\n_Не забывайте ставить %E2%AD%90 понравившимся проектам_" \
               --picture "https://hut.openintegrations.dev/test_data/picture.jpg" \
-              --keyboard "{'inline_keyboard':[[{'text':'Кнопка1','callback_data':'Кнопка1'}],[{'text':'Кнопка2','callback_data':'Кнопка2'}],[{'text':'Кнопка3','callback_data':'Кнопка3'}]],'rows':'1'}"
+              --parsemode "MarkdownV2"
         ```
     </TabItem>
   
@@ -80,10 +78,10 @@ import TabItem from '@theme/TabItem';
             
             oint telegram ОтправитьКартинку ^
               --token "***" ^
-              --chat "@testsichee" ^
-              --text "Строковое значение" ^
+              --chat "***" ^
+              --text "%F0%9F%94%A5 *Новый релиз\!*\n\n%F0%9F%8F%B0 *Репозиторий*: [240596448/devtools](https://github.com/240596448/devtools)\n%F0%9F%94%A2 *Версия*: \{0.6.0}\n%F0%9F%93%85 *Дата релиза*: 6 декабря 2025 г.\n\n>*AI сводка*\n>Devtools — это инструмент для автоматизации работы с конфигурациями\расширениями 1С:Предприятия и интеграции с Git. Приложение позволяет выгружать и загружать объекты, а также синхронизировать изменения между Git и хранилищем 1С. В релизе 0.6.0 реализованы оптимизация логики работы и добавлено логирование, что способствует стабильности и упрощает анализ работы приложения.\n\n\n_Не забывайте ставить %E2%AD%90 понравившимся проектам_" ^
               --picture "https://hut.openintegrations.dev/test_data/picture.jpg" ^
-              --keyboard "{'inline_keyboard':[[{'text':'Кнопка1','callback_data':'Кнопка1'}],[{'text':'Кнопка2','callback_data':'Кнопка2'}],[{'text':'Кнопка3','callback_data':'Кнопка3'}]],'rows':'1'}"
+              --parsemode "MarkdownV2"
         ```
     </TabItem>
 </Tabs>
@@ -93,7 +91,7 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "result": {
-  "message_id": 17141,
+  "message_id": 18367,
   "from": {
    "id": 6129457865,
    "is_bot": true,
@@ -107,41 +105,41 @@ import TabItem from '@theme/TabItem';
    "username": "bayselonarrend",
    "type": "private"
   },
-  "date": 1760458246,
+  "date": 1765389108,
   "photo": [
    {
-    "file_id": "AgACAgIAAxkDAAJBAAFo3CVN6Pf6v6X3uuGDQ4vNCBViJgACzwEyG_J74Uoy83-foYP4SgEAAwIAA3MAAzYE",
-    "file_unique_id": "AQADzwEyG_J74Up4",
+    "file_id": "AgACAgIAAxkDAAJGFWkwFfFE2BisPlbDM5TGPXaGd7OzAALoD2sbAAGqgEm_2MFZf9KMjgEAAwIAA3MAAzYE",
+    "file_unique_id": "AQAD6A9rGwABqoBJeA",
     "file_size": 1568,
-    "width": 90,
+    "width": "***",
     "height": 67
    },
    {
-    "file_id": "AgACAgIAAxkDAAJBAAFo3CVN6Pf6v6X3uuGDQ4vNCBViJgACzwEyG_J74Uoy83-foYP4SgEAAwIAA20AAzYE",
-    "file_unique_id": "AQADzwEyG_J74Upy",
+    "file_id": "AgACAgIAAxkDAAJGFWkwFfFE2BisPlbDM5TGPXaGd7OzAALoD2sbAAGqgEm_2MFZf9KMjgEAAwIAA20AAzYE",
+    "file_unique_id": "AQAD6A9rGwABqoBJcg",
     "file_size": 21633,
-    "width": 320,
+    "width": "***",
     "height": 240
    },
    {
-    "file_id": "AgACAgIAAxkDAAJBAAFo3CVN6Pf6v6X3uuGDQ4vNCBViJgACzwEyG_J74Uoy83-foYP4SgEAAwIAA3gAAzYE",
-    "file_unique_id": "AQADzwEyG_J74Up9",
+    "file_id": "AgACAgIAAxkDAAJGFWkwFfFE2BisPlbDM5TGPXaGd7OzAALoD2sbAAGqgEm_2MFZf9KMjgEAAwIAA3gAAzYE",
+    "file_unique_id": "AQAD6A9rGwABqoBJfQ",
     "file_size": 99260,
-    "width": 800,
+    "width": "***",
     "height": 600
    },
    {
-    "file_id": "AgACAgIAAxkDAAJBAAFo3CVN6Pf6v6X3uuGDQ4vNCBViJgACzwEyG_J74Uoy83-foYP4SgEAAwIAA3kAAzYE",
-    "file_unique_id": "AQADzwEyG_J74Up-",
+    "file_id": "AgACAgIAAxkDAAJGFWkwFfFE2BisPlbDM5TGPXaGd7OzAALoD2sbAAGqgEm_2MFZf9KMjgEAAwIAA3kAAzYE",
+    "file_unique_id": "AQAD6A9rGwABqoBJfg",
     "file_size": 218651,
-    "width": 1280,
+    "width": "***",
     "height": 960
    },
    {
-    "file_id": "AgACAgIAAxkDAAJBAAFo3CVN6Pf6v6X3uuGDQ4vNCBViJgACzwEyG_J74Uoy83-foYP4SgEAAwIAA3cAAzYE",
-    "file_unique_id": "AQADzwEyG_J74Up8",
+    "file_id": "AgACAgIAAxkDAAJGFWkwFfFE2BisPlbDM5TGPXaGd7OzAALoD2sbAAGqgEm_2MFZf9KMjgEAAwIAA3cAAzYE",
+    "file_unique_id": "AQAD6A9rGwABqoBJfA",
     "file_size": 650214,
-    "width": 2560,
+    "width": "***",
     "height": 1920
    }
   ],

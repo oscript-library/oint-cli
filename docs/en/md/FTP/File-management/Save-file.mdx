@@ -23,8 +23,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - Processing result
 
-<br/>
-
 :::tip
 FTP Command: `RETR`
 :::
@@ -66,7 +64,7 @@ FTP Command: `RETR`
 
     If OPI_FTP.IsConnector(Connection) Then
 
-        Path     = "new_dir/big.bin";
+        Path     = "new_dir/pic_from_disk.png";
         FileName = GetTempFileName("bin");
 
         Result = OPI_FTP.SaveFile(Connection, Path, FileName);
@@ -84,9 +82,9 @@ FTP Command: `RETR`
             # JSON data can also be passed as a path to a .json file
             
             oint ftp SaveFile \
-             --conn "{'set':{'advanced_resolve':true,'domain':'172.33.0.11','login':'bayselonarrend','passive':true,'password':'***','port':'21','read_timeout':'120','write_timeout':'120'},'tls':{'accept_invalid_certs':true,'ca_cert_path':null,'use_tls':true},'proxy':{'login':'proxyuser','password':'***','port':'1080','proxy_type':'socks5','server':'127.0.0.1'}}" \
-             --path "new_dir/big.bin" \
-             --file "/tmp/sz55lm1t.jnp.bin"
+             --conn "{'set':{'advanced_resolve':true,'domain':'172.33.0.11','login':'bayselonarrend','passive':true,'password':'***','port':'21','read_timeout':'120','write_timeout':'120'},'tls':{'accept_invalid_certs':true,'ca_cert_path':'','use_tls':true},'proxy':{'login':'proxyuser','password':'***','port':'1080','proxy_type':'socks5','server':'127.0.0.1'}}" \
+             --path "new_dir/pic_from_disk.png" \
+             --file "/tmp/di0nhqpy.qyx.bin"
         ```
     </TabItem>
   
@@ -95,9 +93,9 @@ FTP Command: `RETR`
             :: JSON data can also be passed as a path to a .json file
             
             oint ftp SaveFile ^
-             --conn "{'set':{'advanced_resolve':true,'domain':'172.33.0.11','login':'bayselonarrend','passive':true,'password':'***','port':'21','read_timeout':'120','write_timeout':'120'},'tls':{'accept_invalid_certs':true,'ca_cert_path':null,'use_tls':true},'proxy':{'login':'proxyuser','password':'***','port':'1080','proxy_type':'socks5','server':'127.0.0.1'}}" ^
-             --path "new_dir/big.bin" ^
-             --file "/tmp/sz55lm1t.jnp.bin"
+             --conn "{'set':{'advanced_resolve':true,'domain':'172.33.0.11','login':'bayselonarrend','passive':true,'password':'***','port':'21','read_timeout':'120','write_timeout':'120'},'tls':{'accept_invalid_certs':true,'ca_cert_path':'','use_tls':true},'proxy':{'login':'proxyuser','password':'***','port':'1080','proxy_type':'socks5','server':'127.0.0.1'}}" ^
+             --path "new_dir/pic_from_disk.png" ^
+             --file "/tmp/di0nhqpy.qyx.bin"
         ```
     </TabItem>
 </Tabs>
@@ -105,8 +103,8 @@ FTP Command: `RETR`
 
 ```json title="Result"
 {
- "bytes": 335944730,
- "filepath": "/tmp/sz55lm1t.jnp.bin",
+ "bytes": 2114023,
+ "filepath": "/tmp/di0nhqpy.qyx.bin",
  "result": true,
  "close_connection": {
   "result": true

@@ -27,8 +27,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  BinaryData, String - object content or file path, if a save path is specified
 
-<br/>
-
 :::tip
 Method at AWS documentation: [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
 
@@ -48,7 +46,7 @@ You can use the `ChunkSize` field in the basic data to specify the minimum file 
     Name = "picture.jpg";
 
     Directory = True; // Formation URL in path-style
-    Bucket = "opi-dirbucket3";
+    Bucket = "";
     Result = OPI_S3.GetObject(Name, Bucket, BasicData, , , , Directory);
 
     TempFile = GetTempFileName();
@@ -67,7 +65,7 @@ You can use the `ChunkSize` field in the basic data to specify the minimum file 
             oint s3 GetObject \
              --name "bigfile.exe" \
              --bucket "newbucket2" \
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3','ChunkSize':'200000'}"
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3','ChunkSize':'200000'}"
         ```
     </TabItem>
   
@@ -78,7 +76,7 @@ You can use the `ChunkSize` field in the basic data to specify the minimum file 
             oint s3 GetObject ^
              --name "bigfile.exe" ^
              --bucket "newbucket2" ^
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3','ChunkSize':'200000'}"
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3','ChunkSize':'200000'}"
         ```
     </TabItem>
 </Tabs>

@@ -9,10 +9,10 @@
   "Host": "localhost:2424",
   "Max-Forwards": "10",
   "User-Agent": "1Script v$2.0.0.0",
-  "X-Arr-Log-Id": "a6358ce0-5ea2-47f6-be99-2f0595839d6e",
+  "X-Arr-Log-Id": "92a8f9fb-876c-470c-bc84-e9d84d6654a5",
   "X-Arr-Ssl": "2048|256|C=BE, O=GlobalSign nv-sa, CN=GlobalSign GCC R6 AlphaSSL CA 2025|CN=*.openintegrations.dev",
   "X-Forwarded-Host": "bin.openintegrations.dev",
-  "X-Original-Url": "/get"
+  "X-Original-Url": "***"
  },
  "origin": "***",
  "url": "https://bin.openintegrations.dev/get"

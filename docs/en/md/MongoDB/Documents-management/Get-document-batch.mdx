@@ -1,0 +1,113 @@
+﻿---
+sidebar_position: 6
+description: Get document batch  and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get document batch 
+ Gets the next batch of cursor documents
+
+
+
+`Function GetDocumentBatch(Val Connection, Val Collection, Val CursorID, Val Base = Undefined, Val BatchSize = Undefined, Val Waiting = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | - | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Collection | - | String | &#x2714; | Collection name |
+  | CursorID | - | Number | &#x2714; | Cursor ID |
+  | Base | - | String | &#x2716; | Database name. Current database if not specified |
+  | BatchSize | - | Number | &#x2716; | Amount of records in the batch |
+  | Waiting | - | Number | &#x2716; | Maximum lock time during awaitData (in ms.) |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+
+:::caution
+**NOCLI:** this method is not available in CLI version
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+    Base     = "main";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+
+    Filter     = New Structure("stringField", "Text");
+    Sort       = New Structure("doubleField", -1);
+    Parameters = New Structure("limit,batchSize", 2, 1);
+
+    Cursor = OPI_MongoDB.GetCursor(Connection, Collection, Base, Filter, Sort, Parameters);
+
+    If Not Cursor["result"] Then
+        Raise Cursor["error"];
+    EndIf;
+
+    Cursor          = Cursor["data"]["cursor"];
+    DocsArray       = Cursor["firstBatch"];
+    CursorID        = Cursor["id"];
+    ContinueGetting = CursorID > 0;
+
+    While ContinueGetting Do
+
+        Result = OPI_MongoDB.GetDocumentBatch(Connection, Collection, CursorID, Base); // <---
+
+        If Not Result["result"] Then
+            Raise Result["error"];
+        EndIf;
+
+        ContinueGetting = Result["data"]["cursor"]["id"] > 0;
+
+        For Each Record In Result["data"]["cursor"]["nextBatch"] Do
+            DocsArray.Add(Record);
+        EndDo;
+
+    EndDo;
+```
+ 
+
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "cursor": {
+   "nextBatch": [
+    {
+     "_id": "6939c896f1fedecc48aa21b8",
+     "stringField": "Text",
+     "intField": 200,
+     "doubleField": 123.456,
+     "boolField": true,
+     "arrayField": [
+      "***",
+      "***"
+     ],
+     "docField": {
+      "text": "Text",
+      "number": 10
+     },
+     "dateField": "2025-12-10T19:23:00.17Z",
+     "nullField": null
+    }
+   ],
+   "id": 0,
+   "ns": "main.new_collection"
+  },
+  "ok": 1
+ }
+}
+```

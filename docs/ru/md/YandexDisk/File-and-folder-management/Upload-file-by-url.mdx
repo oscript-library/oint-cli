@@ -1,0 +1,65 @@
+﻿---
+sidebar_position: 13
+description: Загрузить файл по URL и другие функции для работы с Yandex Disk в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Загрузить файл по URL
+ Загружает файл на диск, забирая его по заданному URL
+
+
+
+`Функция ЗагрузитьФайлПоURL(Знач Токен, Знач Путь, Знач Адрес) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Путь | --path | Строка | &#x2714; | Путь помещения загруженного файла |
+  | Адрес | --url | Строка | &#x2714; | URL файла |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Yandex
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Адрес = "https://hut.openintegrations.dev/test_data/picture.jpg";
+    Путь  = "/" + Строка(Новый УникальныйИдентификатор) + ".png";
+
+    Результат = OPI_YandexDisk.ЗагрузитьФайлПоURL(Токен, Путь, Адрес);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk ЗагрузитьФайлПоURL \
+              --token "***" \
+              --path "/ea7d0b51-ea80-4eec-a5f7-0cdcb4ab1122.png" \
+              --url "https://hut.openintegrations.dev/test_data/picture.jpg"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk ЗагрузитьФайлПоURL ^
+              --token "***" ^
+              --path "/ea7d0b51-ea80-4eec-a5f7-0cdcb4ab1122.png" ^
+              --url "https://hut.openintegrations.dev/test_data/picture.jpg"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "method": "GET",
+ "href": "https://cloud-api.yandex.net/v1/disk/operations/1044f5d7ce27157882108f76756665ccd5b44c133ace2bb083c878c06899d3d8",
+ "templated": false
+}
+```

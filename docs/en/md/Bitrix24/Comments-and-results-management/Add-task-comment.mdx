@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON of answer from Bitrix24 API
 
-<br/>
-
 :::tip
 Method at API documentation: [task.commentitem.add](https://dev.1c-bitrix.ru/rest_help/tasks/task/commentitem/add.php)
 :::
@@ -34,14 +32,14 @@ Method at API documentation: [task.commentitem.add](https://dev.1c-bitrix.ru/res
 
 ```bsl title="1C:Enterprise/OneScript code example"
     URL    = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    TaskID = "8354";
+    TaskID = "9040";
 
     Text = "Task impossible, let's split up";
 
     Result = OPI_Bitrix24.AddTaskComment(URL, TaskID, Text);
 
     URL   = "b24-ar17wx.bitrix24.by";
-    Token = "8a1bee68006e9f06006b12e400000001000...";
+    Token = "6ad03969006e9f06006b12e400000001000...";
 
     Text = "Task uninpossible, don't split up";
 
@@ -55,7 +53,7 @@ Method at API documentation: [task.commentitem.add](https://dev.1c-bitrix.ru/res
         ```bash
             oint bitrix24 AddTaskComment \
              --url "b24-ar17wx.bitrix24.by" \
-             --task "8404" \
+             --task "9050" \
              --text "Task uninpossible, don't split up" \
              --token "***"
         ```
@@ -65,7 +63,7 @@ Method at API documentation: [task.commentitem.add](https://dev.1c-bitrix.ru/res
         ```batch
             oint bitrix24 AddTaskComment ^
              --url "b24-ar17wx.bitrix24.by" ^
-             --task "8404" ^
+             --task "9050" ^
              --text "Task uninpossible, don't split up" ^
              --token "***"
         ```
@@ -75,16 +73,16 @@ Method at API documentation: [task.commentitem.add](https://dev.1c-bitrix.ru/res
 
 ```json title="Result"
 {
- "result": 19524,
+ "result": 20950,
  "time": {
-  "start": 1760521951,
-  "finish": 1760521952.0401,
-  "duration": 1.04009699821472,
-  "processing": 1,
-  "date_start": "2025-10-15T09:52:31+00:00",
-  "date_finish": "2025-10-15T09:52:32+00:00",
-  "operating_reset_at": 1760522551,
-  "operating": 0.320261001586914
+  "start": 1765396324,
+  "finish": 1765396324.73238,
+  "duration": 0.732383012771606,
+  "processing": 0,
+  "date_start": "2025-12-10T19:52:04+00:00",
+  "date_finish": "2025-12-10T19:52:04+00:00",
+  "operating_reset_at": 1765396924,
+  "operating": 0.179694890975952
  }
 }
 ```

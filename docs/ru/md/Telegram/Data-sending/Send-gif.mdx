@@ -20,13 +20,11 @@ import TabItem from '@theme/TabItem';
   | IDЧата | --chat | Строка, Число | &#x2714; | ID целевого чата или IDЧата*IDТемы |
   | Текст | --text | Строка | &#x2714; | Текст сообщения |
   | Гифка | --gif | ДвоичныеДанные, Строка | &#x2714; | Файл гифки |
-  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. СформироватьКлавиатуруПоМассивуКнопок |
+  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. [`СформироватьКлавиатуруПоМассивуКнопок`](/docs/Telegram/Data-sending/Form-keyboard-from-button-array) |
   | Разметка | --parsemode | Строка | &#x2716; | Вид обработки текста (HTML, Markdown, MarkdownV2) |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Telegram
-
-<br/>
 
 :::tip
 Метод в документации API: [sendAnimation](https://core.telegram.org/bots/api#sendanimation)
@@ -65,9 +63,9 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint telegram ОтправитьГифку \
               --token "***" \
-              --chat "@testsichee" \
+              --chat "***" \
               --text "Строковое значение" \
-              --gif "/tmp/qr2soe3k.asw"
+              --gif "/tmp/tkcwdrev.jjz"
         ```
     </TabItem>
   
@@ -75,9 +73,9 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint telegram ОтправитьГифку ^
               --token "***" ^
-              --chat "@testsichee" ^
+              --chat "***" ^
               --text "Строковое значение" ^
-              --gif "/tmp/qr2soe3k.asw"
+              --gif "/tmp/tkcwdrev.jjz"
         ```
     </TabItem>
 </Tabs>
@@ -87,7 +85,7 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "result": {
-  "message_id": 17147,
+  "message_id": 18374,
   "from": {
    "id": 6129457865,
    "is_bot": true,
@@ -101,50 +99,50 @@ import TabItem from '@theme/TabItem';
    "username": "bayselonarrend",
    "type": "private"
   },
-  "date": 1760458351,
+  "date": 1765389213,
   "animation": {
    "file_name": "animation.gif.mp4",
    "mime_type": "video/mp4",
    "duration": 3,
-   "width": 220,
+   "width": "***",
    "height": 220,
    "thumbnail": {
-    "file_id": "AAMCAgADGQMAAkL7aO52bYWfQNeBfpzyn7SAv_h071UAAlaHAAI3b3FLBWqljXafNckBAAdtAAM2BA",
-    "file_unique_id": "AQADVocAAjdvcUty",
+    "file_id": "AAMCAgADGQMAAkfGaTmznT8iC4PtgpHwWExb0YS3q5QAAvqPAAKK7MhJCJeQmIjG8IMBAAdtAAM2BA",
+    "file_unique_id": "AQAD-o8AAorsyEly",
     "file_size": 11352,
-    "width": 220,
+    "width": "***",
     "height": 220
    },
    "thumb": {
-    "file_id": "AAMCAgADGQMAAkL7aO52bYWfQNeBfpzyn7SAv_h071UAAlaHAAI3b3FLBWqljXafNckBAAdtAAM2BA",
-    "file_unique_id": "AQADVocAAjdvcUty",
+    "file_id": "AAMCAgADGQMAAkfGaTmznT8iC4PtgpHwWExb0YS3q5QAAvqPAAKK7MhJCJeQmIjG8IMBAAdtAAM2BA",
+    "file_unique_id": "AQAD-o8AAorsyEly",
     "file_size": 11352,
-    "width": 220,
+    "width": "***",
     "height": 220
    },
-   "file_id": "CgACAgIAAxkDAAJC-2judm2Fn0DXgX6c8p-0gL_4dO9VAAJWhwACN29xSwVqpY12nzXJNgQ",
-   "file_unique_id": "AgADVocAAjdvcUs",
+   "file_id": "CgACAgIAAxkDAAJHxmk5s50_IguD7YKR8FhMW9GEt6uUAAL6jwACiuzISQiXkJiIxvCDNgQ",
+   "file_unique_id": "AgAD-o8AAorsyEk",
    "file_size": 84965
   },
   "document": {
    "file_name": "animation.gif.mp4",
    "mime_type": "video/mp4",
    "thumbnail": {
-    "file_id": "AAMCAgADGQMAAkL7aO52bYWfQNeBfpzyn7SAv_h071UAAlaHAAI3b3FLBWqljXafNckBAAdtAAM2BA",
-    "file_unique_id": "AQADVocAAjdvcUty",
+    "file_id": "AAMCAgADGQMAAkfGaTmznT8iC4PtgpHwWExb0YS3q5QAAvqPAAKK7MhJCJeQmIjG8IMBAAdtAAM2BA",
+    "file_unique_id": "AQAD-o8AAorsyEly",
     "file_size": 11352,
-    "width": 220,
+    "width": "***",
     "height": 220
    },
    "thumb": {
-    "file_id": "AAMCAgADGQMAAkL7aO52bYWfQNeBfpzyn7SAv_h071UAAlaHAAI3b3FLBWqljXafNckBAAdtAAM2BA",
-    "file_unique_id": "AQADVocAAjdvcUty",
+    "file_id": "AAMCAgADGQMAAkfGaTmznT8iC4PtgpHwWExb0YS3q5QAAvqPAAKK7MhJCJeQmIjG8IMBAAdtAAM2BA",
+    "file_unique_id": "AQAD-o8AAorsyEly",
     "file_size": 11352,
-    "width": 220,
+    "width": "***",
     "height": 220
    },
-   "file_id": "CgACAgIAAxkDAAJC-2judm2Fn0DXgX6c8p-0gL_4dO9VAAJWhwACN29xSwVqpY12nzXJNgQ",
-   "file_unique_id": "AgADVocAAjdvcUs",
+   "file_id": "CgACAgIAAxkDAAJHxmk5s50_IguD7YKR8FhMW9GEt6uUAAL6jwACiuzISQiXkJiIxvCDNgQ",
+   "file_unique_id": "AgAD-o8AAorsyEk",
    "file_size": 84965
   },
   "caption": "Строковое значение"

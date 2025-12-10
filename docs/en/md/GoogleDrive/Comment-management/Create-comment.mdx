@@ -1,0 +1,76 @@
+﻿---
+sidebar_position: 1
+description: Create comment and other functions to work with Google Drive in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Create comment
+ Creates a comment for a file or directory
+
+
+
+`Function CreateComment(Val Token, Val Identifier, Val Comment) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Identifier | --object | String | &#x2714; | Identifier of the object that needs a comment |
+  | Comment | --text | String | &#x2714; | Comment text |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token      = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Identifier = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+    Comment    = "Comment text";
+
+    Result = OPI_GoogleDrive.CreateComment(Token, Identifier, Comment);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive CreateComment \
+             --token "***" \
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5" \
+             --text "Comment text"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive CreateComment ^
+             --token "***" ^
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5" ^
+             --text "Comment text"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "replies": [],
+ "author": {
+  "displayName": "Антон Титовец",
+  "kind": "drive#user",
+  "me": true,
+  "photoLink": "//lh3.googleusercontent.com/a/ACg8ocJnbqA6yq1Q0s-yU0hen8H6NFa_chOdcC2wpT9q-BJj0q7MyPU=s50-c-k-no"
+ },
+ "kind": "drive#comment",
+ "id": "AAABxUEXDR8",
+ "createdTime": "2025-12-10T19:34:29.77Z",
+ "modifiedTime": "2025-12-10T19:34:29.77Z",
+ "htmlContent": "Comment text",
+ "content": "Comment text",
+ "deleted": false
+}
+```

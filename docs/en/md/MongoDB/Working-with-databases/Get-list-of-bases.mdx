@@ -1,0 +1,98 @@
+﻿---
+sidebar_position: 1
+description: Get list of bases and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get list of bases
+ Gets the list of databases
+
+
+
+`Function GetListOfBases(Val Connection) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Result = OPI_MongoDB.GetListOfBases(Connection);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint mongodb GetListOfBases \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint mongodb GetListOfBases ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "databases": [
+   {
+    "name": "admin",
+    "sizeOnDisk": 262144,
+    "empty": false
+   },
+   {
+    "name": "config",
+    "sizeOnDisk": 61440,
+    "empty": false
+   },
+   {
+    "name": "local",
+    "sizeOnDisk": 81920,
+    "empty": false
+   },
+   {
+    "name": "main",
+    "sizeOnDisk": 40960,
+    "empty": false
+   },
+   {
+    "name": "openyellow",
+    "sizeOnDisk": 286720,
+    "empty": false
+   },
+   {
+    "name": "test_db",
+    "sizeOnDisk": 40960,
+    "empty": false
+   }
+  ],
+  "totalSize": 774144,
+  "totalSizeMb": 0,
+  "ok": 1
+ }
+}
+```

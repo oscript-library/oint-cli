@@ -1,0 +1,202 @@
+﻿---
+sidebar_position: 1
+description: Get list of calendars and other functions to work with Google Calendar in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get list of calendars
+ Gets an array of account calendars
+
+
+
+`Function GetCalendarList(Val Token) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+
+  
+  Returns:  Map Of KeyAndValue - Array of calendar data mappings
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token  = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Result = OPI_GoogleCalendar.GetCalendarList(Token);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar GetCalendarList \
+             --token "***"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar GetCalendarList ^
+             --token "***"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+[
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626834830000\"",
+  "id": "ab71c432a2cd06ecad2f5c517b3540f04d56df7aadb6df1d7b001ea4d6ac4398@group.calendar.google.com",
+  "summary": "Тестовый календарь (изм.)",
+  "description": "Тестовое описание",
+  "timeZone": "Europe/Moscow",
+  "dataOwner": "bayselonarrend@gmail.com",
+  "colorId": "6",
+  "backgroundColor": "#ffd800",
+  "foregroundColor": "#000000",
+  "accessRole": "owner",
+  "defaultReminders": [],
+  "conferenceProperties": {
+   "allowedConferenceSolutionTypes": [
+    "hangoutsMeet"
+   ]
+  }
+ },
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626835116000\"",
+  "id": "c1aa2a1fe0ac12393b65eab12294daf3a09c12d5b7e54571774ddc001c4de938@group.calendar.google.com",
+  "summary": "\\u0422\\u0435\\u0441\\u0442\\u043e\\u0432\\u044b\\u0439 \\u043a\\u0430\\u043b\\u0435\\u043d\\u0434\\u0430\\u0440\\u044c",
+  "timeZone": "Europe/Moscow",
+  "dataOwner": "bayselonarrend@gmail.com",
+  "colorId": "5",
+  "backgroundColor": "#ff7537",
+  "foregroundColor": "#000000",
+  "selected": true,
+  "accessRole": "owner",
+  "defaultReminders": [],
+  "conferenceProperties": {
+   "allowedConferenceSolutionTypes": [
+    "hangoutsMeet"
+   ]
+  }
+ },
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626835376000\"",
+  "id": "ru.by#holiday@group.v.calendar.google.com",
+  "summary": "Праздники Беларуси",
+  "description": "Праздники и памятные даты Беларуси",
+  "timeZone": "Europe/Minsk",
+  "colorId": "8",
+  "backgroundColor": "#16a765",
+  "foregroundColor": "#000000",
+  "selected": true,
+  "accessRole": "reader",
+  "defaultReminders": [],
+  "conferenceProperties": {
+   "allowedConferenceSolutionTypes": [
+    "hangoutsMeet"
+   ]
+  }
+ },
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626835701000\"",
+  "id": "b0b7ceee4056c516b0718eed0a1e4ad8694259935a6d2ffc056325df06232841@group.calendar.google.com",
+  "summary": "Тестовый календарь (изм.)",
+  "description": "Тестовое описание",
+  "timeZone": "Europe/Moscow",
+  "dataOwner": "bayselonarrend@gmail.com",
+  "colorId": "6",
+  "backgroundColor": "#ffd800",
+  "foregroundColor": "#000000",
+  "accessRole": "owner",
+  "defaultReminders": [],
+  "conferenceProperties": {
+   "allowedConferenceSolutionTypes": [
+    "hangoutsMeet"
+   ]
+  }
+ },
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626835924000\"",
+  "id": "25f80e38669312d27a9c7441f065887c6beaacf63af84ea67ebd9251a6b5f32b@group.calendar.google.com",
+  "summary": "Тестовый календарь (изм.)",
+  "description": "Тестовое описание",
+  "timeZone": "Europe/Moscow",
+  "dataOwner": "bayselonarrend@gmail.com",
+  "colorId": "6",
+  "backgroundColor": "#ffd800",
+  "foregroundColor": "#000000",
+  "accessRole": "owner",
+  "defaultReminders": [],
+  "conferenceProperties": {
+   "allowedConferenceSolutionTypes": [
+    "hangoutsMeet"
+   ]
+  }
+ },
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626836240000\"",
+  "id": "36c14edd62c430b5646cbcaecfc67ee7fe7252d1d315ba3b099efca66084f7ff@group.calendar.google.com",
+  "summary": "Тестовый календарь (изм.)",
+  "description": "Тестовое описание",
+  "timeZone": "Europe/Moscow",
+  "dataOwner": "bayselonarrend@gmail.com",
+  "colorId": "11",
+  "backgroundColor": "#fbe983",
+  "foregroundColor": "#000000",
+  "selected": true,
+  "accessRole": "owner",
+  "defaultReminders": [],
+  "conferenceProperties": {
+   "allowedConferenceSolutionTypes": [
+    "hangoutsMeet"
+   ]
+  }
+ },
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626836552000\"",
+  "id": "a22bce47d6f960fa5bfff31b30a35f3c714a3d74d41542220ad983cd60a4a350@group.calendar.google.com",
+  "summary": "Тестовый календарь (изм.)",
+  "description": "Тестовое описание",
+  "timeZone": "Europe/Moscow",
+  "dataOwner": "bayselonarrend@gmail.com",
+  "colorId": "4",
+  "backgroundColor": "#fa573c",
+  "foregroundColor": "#000000",
+  "selected": true,
+  "accessRole": "owner",
+  "defaultReminders": [],
+  "conferenceProperties": {
+   "allowedConferenceSolutionTypes": [
+    "hangoutsMeet"
+   ]
+  }
+ },
+ {
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"1720626836894000\"",
+  "id": "27fa1adb67cec264c029a505c32b08107e25b436fe52c7fada93dbf37f01f275@group.calendar.google.com",
+  "summary": "Тестовый календарь (изм.)",
+  "description": "Тестовое описание",
+  "timeZone": "UTC",
+  "dataOwner": "bayselonarrend@gmail.com",
+  "colorId": "24",
+  "backgroundColor": "#a47ae2",
+  "foregroundColor": "#000000",
+  "selected": true,
+  "accessRole": "owner",
+  "defaultReminders": [],
+...
+```

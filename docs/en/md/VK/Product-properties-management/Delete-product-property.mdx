@@ -17,19 +17,17 @@ import TabItem from '@theme/TabItem';
   | Parameter | CLI option | Type | Required | Description |
   |-|-|-|-|-|
   | Property | --prop | String, Number | &#x2714; | Property ID |
-  | Parameters | --auth | Structure Of String | &#x2716; | Authorization JSON or path to .json |
+  | Parameters | --auth | Structure Of String | &#x2716; | Authorization parameters. See GetAuthParameters |
 
   
   Returns:  Map Of KeyAndValue - serialized JSON response from VK
-
-<br/>
 
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Parameters = GetVKParameters();
 
-    Property = "4658";
+    Property = "5124";
 
     Result = OPI_VK.DeleteProductProperty(Property, Parameters);
 ```
@@ -42,7 +40,7 @@ import TabItem from '@theme/TabItem';
             # JSON data can also be passed as a path to a .json file
             
             oint vk DeleteProductProperty \
-             --prop "4670" \
+             --prop "5125" \
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
     </TabItem>
@@ -52,7 +50,7 @@ import TabItem from '@theme/TabItem';
             :: JSON data can also be passed as a path to a .json file
             
             oint vk DeleteProductProperty ^
-             --prop "4670" ^
+             --prop "5125" ^
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
     </TabItem>

@@ -1,6 +1,6 @@
-﻿    Token     = "ya29.a0AQQ_BDQ_0g6De1s1jLOYbrGQ43QDri_VRPre92E-_aUXJNk52_zY1j3A74665Q7FVMzsgnjqjKN14ljBwB0PlswTyjZlgxcBIDMnuqIbFLhH8Hcxc5NfKIOpS...";
-    Image     = "https://hut.openintegrations.dev/test_data/picture.jpg";
-    Directory = "11Mo30odYPEtBBU_0OndFx5dz1kP7tu-Y";
+﻿    Token     = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Directory = "191iyaa6-2BCNRPOF0F8mQ0TuNWPNesdM";
+    Image     = "https://hut.openintegrations.dev/test_data/picture.jpg"; // URL, Binary Data or File path
 
     Clear       = False;
     Description = OPI_GoogleDrive.GetFileDescription(Clear);

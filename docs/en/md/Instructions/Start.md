@@ -7,9 +7,9 @@ sidebar_class_name: NachaloRaboty
 
 ![OPI](../../static/img/logo_long.webp)
 
-**Open Integrations Package** - is a set of tools for integration with some popular APIs via CLI, 1C, or OneScript. It consists of common modules, each responsible for its own API, as well as several utility modules that are common to all. 
+**OpenIntegrations** is a set of tools for working with external APIs, available as a library (extension) for 1C:Enterprise / OneScript and a cross-platform console application for Windows and Linux. The project provides ready-made methods for performing application tasks (sending messages, creating documents, SQL queries, etc.) across more than 30 services and technologies, including Telegram, VK, Bitrix24, Google and Yandex services, as well as various DBMS and exchange protocols
 
-The implemented methods perform specific tasks (such as `SendMessage()` or `CreatePost()`), allowing them to be used without delving into the implementation details. However, the code is highly decomposed – authorization methods, data retrieval, etc., are separated into individual functions where possible. This makes it easy to add new methods, even if they are not yet implemented in the library at the current time.
+The project code is organized as a set of independent modules, each responsible for working with a specific service. Common logic, such as HTTP or JSON handling, is extracted into reusable components. This allows for both quick application of ready-made functions and easy extension of functionality by adding new methods based on existing components. The source code is open, providing full control over implementation and enabling community participation in development
 
 <br/>
 
@@ -21,13 +21,14 @@ Fast navigation:
  <a href="/docs/Instructions/VK/"><img src={require('../../static/img/APIs/VK.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/VKTeams/"><img src={require('../../static/img/APIs/VKTeams.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/Viber/"><img src={require('../../static/img/APIs/Viber.png').default} width="32" class="wp_logo"/></a>
- <a href="/docs/Instructions/Ozon/"><img src={require('../../static/img/APIs/Ozon.png').default} width="32" class="wp_logo"/></a>
+ <a href="/docs/Instructions/GreenMax/"><img src={require('../../static/img/APIs/GreenMax.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/GreenAPI/"><img src={require('../../static/img/APIs/GreenAPI.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/S3/"><img src={require('../../static/img/APIs/S3.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/PostgreSQL/"><img src={require('../../static/img/APIs/PostgreSQL.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/SQLite/"><img src={require('../../static/img/APIs/SQLite.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/MSSQL/"><img src={require('../../static/img/APIs/MSSQL.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/MySQL/"><img src={require('../../static/img/APIs/MySQL.png').default} width="32" class="wp_logo"/></a>
+ <a href="/docs/Instructions/MongoDB/"><img src={require('../../static/img/APIs/MongoDB.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/Twitter/"><img src={require('../../static/img/APIs/Twitter.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/Notion/"><img src={require('../../static/img/APIs/Notion.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/YandexDisk/"><img src={require('../../static/img/APIs/YandexDisk.png').default} width="32" class="wp_logo"/></a>

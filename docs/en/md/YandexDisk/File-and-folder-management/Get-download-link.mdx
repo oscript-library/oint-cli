@@ -1,0 +1,61 @@
+﻿---
+sidebar_position: 6
+description: Get download link and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get download link
+ Gets a download link for the file
+
+
+
+`Function GetDownloadLink(Val Token, Val Path) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Path | --path | String | &#x2714; | Path to the file for downloading |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Yandex
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Path  = "/68fc8dfa-8a7c-49b4-9435-2dee9e85501b.png";
+
+    Result = OPI_YandexDisk.GetDownloadLink(Token, Path);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk GetDownloadLink \
+             --token "***" \
+             --path "/0a714c37-2cbb-4495-8618-c434a1404410.png"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk GetDownloadLink ^
+             --token "***" ^
+             --path "/0a714c37-2cbb-4495-8618-c434a1404410.png"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "method": "GET",
+ "href": "https://downloader.disk.yandex.ru/disk/17a57a2f6a2885e1d05c608c7e72deabeea36a86206d3638ccbed96d378bc9f8/693a0233/Kdpe3dFisZLPovVA4r-aBmpkby3AOQiLsayEHYapOMw2ylFGSbZZrsWtGPTvHxG_-QDrqSGFBOOsS3b3gKT1zA%3D%3D?uid=1573541518&filename=0a714c37-2cbb-4495-8618-c434a1404410.png&disposition=attachment&hash=&limit=0&content_type=multipart&owner_uid=1573541518&fsize=2114023&hid=03d7263840468e281bd0b238a26e7d0d&media_type=image&tknv=v3&etag=9e0176f87f6565a22f78e0f9b39a4d78",
+ "templated": false
+}
+```

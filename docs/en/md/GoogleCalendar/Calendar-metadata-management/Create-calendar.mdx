@@ -1,0 +1,69 @@
+﻿---
+sidebar_position: 1
+description: Create calendar and other functions to work with Google Calendar in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Create calendar
+ Creates an empty calendar
+
+
+
+`Function CreateCalendar(Val Token, Val Name) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Name | --title | String | &#x2714; | Name of the created calendar |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Name  = "TestCalendar";
+
+    Result = OPI_GoogleCalendar.CreateCalendar(Token, Name);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar CreateCalendar \
+             --token "***" \
+             --title "TestCalendar"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar CreateCalendar ^
+             --token "***" ^
+             --title "TestCalendar"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "kind": "calendar#calendar",
+ "etag": "\"WSiET2qlGbBQjAWb6RK5d07FSdU\"",
+ "id": "a496c365852c9936527fa22bb23861c5b4d1e54beea67a875773f29e9ae7bc9c@group.calendar.google.com",
+ "summary": "TestCalendar",
+ "timeZone": "Europe/Moscow",
+ "dataOwner": "bayselonarrend@gmail.com",
+ "conferenceProperties": {
+  "allowedConferenceSolutionTypes": [
+   "***"
+  ]
+ }
+}
+```

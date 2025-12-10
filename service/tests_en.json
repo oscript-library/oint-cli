@@ -51,6 +51,11 @@
 },
 {
 "lib": "Telegram",
+"name": "SendTextMessage",
+"variant": "Complex"
+},
+{
+"lib": "Telegram",
 "name": "FormKeyboardFromButtonArray",
 "variant": ""
 },
@@ -78,6 +83,16 @@
 "lib": "Telegram",
 "name": "SendImage",
 "variant": "Keyboard collection"
+},
+{
+"lib": "Telegram",
+"name": "SendImage",
+"variant": "Text + Emoji"
+},
+{
+"lib": "Telegram",
+"name": "SendImage",
+"variant": "Complex"
 },
 {
 "lib": "Telegram",
@@ -327,6 +342,11 @@
 {
 "lib": "VK",
 "name": "CreateTokenRetrievalLink",
+"variant": ""
+},
+{
+"lib": "VK",
+"name": "GetAuthParameters",
 "variant": ""
 },
 {
@@ -606,6 +626,21 @@
 },
 {
 "lib": "YandexDisk",
+"name": "GetConfirmationCode",
+"variant": ""
+},
+{
+"lib": "YandexDisk",
+"name": "ConvertCodeToToken",
+"variant": ""
+},
+{
+"lib": "YandexDisk",
+"name": "RefreshToken",
+"variant": ""
+},
+{
+"lib": "YandexDisk",
 "name": "GetDiskInformation",
 "variant": ""
 },
@@ -693,6 +728,21 @@
 "lib": "YandexDisk",
 "name": "CancelObjectPublication",
 "variant": ""
+},
+{
+"lib": "YandexDisk",
+"name": "UploadFileInParts",
+"variant": ""
+},
+{
+"lib": "YandexDisk",
+"name": "UploadFileInParts",
+"variant": "Downloading"
+},
+{
+"lib": "YandexDisk",
+"name": "UploadFileInParts",
+"variant": "Deletion"
 },
 {
 "lib": "Viber",
@@ -801,6 +851,26 @@
 },
 {
 "lib": "GoogleCalendar",
+"name": "FormCodeRetrievalLink",
+"variant": ""
+},
+{
+"lib": "GoogleCalendar",
+"name": "GetTokenByCode",
+"variant": ""
+},
+{
+"lib": "GoogleCalendar",
+"name": "RefreshToken",
+"variant": ""
+},
+{
+"lib": "GoogleCalendar",
+"name": "GetServiceAccountToken",
+"variant": ""
+},
+{
+"lib": "GoogleCalendar",
 "name": "GetCalendarList",
 "variant": ""
 },
@@ -886,6 +956,26 @@
 },
 {
 "lib": "GoogleDrive",
+"name": "FormCodeRetrievalLink",
+"variant": ""
+},
+{
+"lib": "GoogleDrive",
+"name": "GetTokenByCode",
+"variant": ""
+},
+{
+"lib": "GoogleDrive",
+"name": "RefreshToken",
+"variant": ""
+},
+{
+"lib": "GoogleDrive",
+"name": "GetServiceAccountToken",
+"variant": ""
+},
+{
+"lib": "GoogleDrive",
 "name": "GetDirectoriesList",
 "variant": ""
 },
@@ -958,6 +1048,26 @@
 "lib": "GoogleDrive",
 "name": "CreateFolder",
 "variant": "Root"
+},
+{
+"lib": "GoogleSheets",
+"name": "FormCodeRetrievalLink",
+"variant": ""
+},
+{
+"lib": "GoogleSheets",
+"name": "GetTokenByCode",
+"variant": ""
+},
+{
+"lib": "GoogleSheets",
+"name": "RefreshToken",
+"variant": ""
+},
+{
+"lib": "GoogleSheets",
+"name": "GetServiceAccountToken",
+"variant": ""
 },
 {
 "lib": "GoogleSheets",
@@ -3490,286 +3600,6 @@
 "variant": ""
 },
 {
-"lib": "Ozon",
-"name": "GetCategoriesAndProductTypesTree",
-"variant": "EN"
-},
-{
-"lib": "Ozon",
-"name": "GetCategoriesAndProductTypesTree",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetCategoryAttributes",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetAttributeValues",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "SearchAttributeValue",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductStructure",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "CreateUpdateProducts",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "AddProductVideo",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "AddProductVideoCover",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "CompleteComplexAttribute",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductCreationStatus",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "CreateProductByOzonID",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetSimplifiedProductStructure",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetAttributesUpdateStructure",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "UpdateProductsAttributes",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductsFilterStructure",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductList",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductsAttributesData",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductsContentRating",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductsInformation",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductDescription",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductsRequestsLimits",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "UpdateProductImages",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "CheckProductsImagesUpload",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "UpdateProductsArticles",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "UpdateProductsArticles",
-"variant": "Reverse"
-},
-{
-"lib": "Ozon",
-"name": "ArchiveProducts",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "ArchiveProducts",
-"variant": "Additional"
-},
-{
-"lib": "Ozon",
-"name": "UnarchiveProducts",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "DeleteProductsWithoutSKU",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "UploadProductActivationCodes",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetCodesUploadStatus",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductSubscribersCount",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetRelatedSKUs",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "BindBarcodes",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "CreateBarcodes",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetWarehousesList",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductsStocks",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "UpdateProductsPrices",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "UpdateProductsStocks",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductsPrices",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetDiscountInformation",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "SetProductDiscount",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetPromotionsList",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetAvailablePromoProducts",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetCurrentPromoProducts",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductStocksStructure",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetProductPriceStructure",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetClustersList",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetShippingWarehousesList",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "CreateFBODraft",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetFBODraft",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetShipmentAdditionalFields",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetShipmentsFilterStructure",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetFBOShipmentsList",
-"variant": ""
-},
-{
-"lib": "Ozon",
-"name": "GetFBOTimeslots",
-"variant": ""
-},
-{
 "lib": "Neocities",
 "name": "UploadFile",
 "variant": ""
@@ -4362,6 +4192,11 @@
 {
 "lib": "TCP",
 "name": "GetLastError",
+"variant": ""
+},
+{
+"lib": "TCP",
+"name": "GetProxySettings",
 "variant": ""
 },
 {
@@ -5855,6 +5690,16 @@
 "variant": ""
 },
 {
+"lib": "HTTPClient",
+"name": "SendDataInParts",
+"variant": ""
+},
+{
+"lib": "HTTPClient",
+"name": "SendPart",
+"variant": ""
+},
+{
 "lib": "OpenAI",
 "name": "GetResponse",
 "variant": ""
@@ -6477,6 +6322,501 @@
 {
 "lib": "SFTP",
 "name": "GetFileInformation",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "FormAccessParameters",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetAuthorizationCode",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "LogoutInstance",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SendAuthorizationCode",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetInstanceStatus",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "RebootInstance",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetInstanceSettingsStructure",
+"variant": ""
+},
+{
+"lib": "GreenMAx",
+"name": "GetInstanceSettingsStructure",
+"variant": "Clear"
+},
+{
+"lib": "GreenMax",
+"name": "GetInstanceSettings",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SetInstanceSettings",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SetProfilePicture",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetAccountInformation",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "CheckAccount",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetContactList",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetContactInformation",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetChatList",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetChatAvatar",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "CreateGroup",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "AddGroupMember",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "RemoveGroupMember",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "LeaveGroup",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "UpdateGroupName",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetGroupInformation",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "ChangeGroupSettings",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetGroupSettingsStructure",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetGroupSettingsStructure",
+"variant": "Clear"
+},
+{
+"lib": "GreenMax",
+"name": "SetAdminRights",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "RevokeAdminRights",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SetGroupPicture",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SendTextMessage",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SendFile",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SendFile",
+"variant": "Video"
+},
+{
+"lib": "GreenMax",
+"name": "SendFileByURL",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "SendFileByURL",
+"variant": "Typing"
+},
+{
+"lib": "GreenMax",
+"name": "GetNotification",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "DeleteNotification",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "MarkMessagesAsRead",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetChatMessageHistory",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetChatMessage",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetIncomingMessageLog",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetOutgoingMessageLog",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetOutgoingMessageCount",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetOutgoingMessageQueue",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "ClearOutgoingMessageQueue",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "GetIncomingNotificationCount",
+"variant": ""
+},
+{
+"lib": "GreenMax",
+"name": "ClearIncomingNotificationQueue",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GenerateConnectionString",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "CreateConnection",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "CreateConnection",
+"variant": "Closing"
+},
+{
+"lib": "MongoDB",
+"name": "ExecuteCommand",
+"variant": "Connection"
+},
+{
+"lib": "MongoDB",
+"name": "ExecuteCommand",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetDatabase",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetListOfBases",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "DeleteDatabase",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "CreateCollection",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "CreateCollection",
+"variant": "Existing"
+},
+{
+"lib": "MongoDB",
+"name": "DeleteCollection",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetCollectionList",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "InsertDocuments",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetDocuments",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetCursor",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetDocumentBatch",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Obtaining"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Getting new"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 1"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 2"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 3"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 4"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 5"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 6"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 7"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 8_1"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 8_2"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 8_3"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateDocuments",
+"variant": "Check 8_4"
+},
+{
+"lib": "MongoDB",
+"name": "GetDocumentUpdateStructure",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetDocumentDeletionStructure",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "DeleteDocuments",
+"variant": "Precheck"
+},
+{
+"lib": "MongoDB",
+"name": "DeleteDocuments",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "DeleteDocuments",
+"variant": "Check"
+},
+{
+"lib": "MongoDB",
+"name": "CreateUser",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "CreateUser",
+"variant": "Existing"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateUser",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "UpdateUser",
+"variant": "Nonexistent"
+},
+{
+"lib": "MongoDB",
+"name": "DeleteUser",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "DeleteUser",
+"variant": "Again"
+},
+{
+"lib": "MongoDB",
+"name": "GetUsers",
+"variant": "Simple"
+},
+{
+"lib": "MongoDB",
+"name": "GetUsers",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetDatabaseUsers",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "CreateRole",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "CreateRole",
+"variant": "Existing"
+},
+{
+"lib": "MongoDB",
+"name": "UpdateRole",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "DeleteRole",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "DeleteRole",
+"variant": "Again"
+},
+{
+"lib": "MongoDB",
+"name": "GetRolePrivilegeStructure",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GetRoles",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "GrantRoles",
+"variant": ""
+},
+{
+"lib": "MongoDB",
+"name": "RevokeRoles",
 "variant": ""
 }
 ]

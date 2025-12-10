@@ -1,0 +1,117 @@
+﻿---
+sidebar_position: 6
+description: Изменить событие и другие функции для работы с Google Calendar в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Изменить событие
+ Изменяет существующее событие
+
+
+
+`Функция ИзменитьСобытие(Знач Токен, Знач Календарь, Знач ОписаниеСобытия, Знач Событие) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Календарь | --calendar | Строка | &#x2714; | ID календаря |
+  | ОписаниеСобытия | --props | Строка | &#x2714; | Новое описание события |
+  | Событие | --event | Строка | &#x2714; | ID события |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен     = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Календарь = "0dc23447d3b0f439635aeee464d9e8db32a620027692352eb531d074f736c241@group.calendar.google.com";
+    Событие   = "a55kkfscljqv4ikeu85sbau8g4";
+    Описание  = "Новое описание события";
+
+    ОписаниеСобытия = Новый Соответствие;
+    ОписаниеСобытия.Вставить("Описание", Описание);
+
+    Результат = OPI_GoogleCalendar.ИзменитьСобытие(Токен, Календарь, ОписаниеСобытия, Событие);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON данные также могут быть переданы как путь к файлу .json
+            
+            oint gcalendar ИзменитьСобытие \
+              --token "***" \
+              --calendar "d78d6affe85845e85065235171c86275ac8aff3fd6b5dd5a1a665aa30e772d58@group.calendar.google.com" \
+              --props "{'Описание':'Новое описание события'}" \
+              --event "2tjl9ag2nmem1hdre88lghi4rc"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON данные также могут быть переданы как путь к файлу .json
+            
+            oint gcalendar ИзменитьСобытие ^
+              --token "***" ^
+              --calendar "d78d6affe85845e85065235171c86275ac8aff3fd6b5dd5a1a665aa30e772d58@group.calendar.google.com" ^
+              --props "{'Описание':'Новое описание события'}" ^
+              --event "2tjl9ag2nmem1hdre88lghi4rc"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "kind": "calendar#event",
+ "etag": "\"3530734480626750\"",
+ "id": "9ve21qlmqc1fed5vo1682tua84",
+ "status": "confirmed",
+ "htmlLink": "https://www.google.com/calendar/event?eid=OXZlMjFxbG1xYzFmZWQ1dm8xNjgydHVhODQgOWYwNDM5MWVmNGRlODk1MGFlZWQ1MTI4M2MxYTQ5YTZiMmE1ZTBlNzlhZTdkMjRkZjc4Y2IzYTdhNWY3MjJjM0Bn",
+ "created": "2025-12-10T11:47:19Z",
+ "updated": "2025-12-10T11:47:20.313Z",
+ "summary": "Новое событие",
+ "description": "Новое описание события",
+ "location": "В офисе",
+ "creator": {
+  "email": "bayselonarrend@gmail.com"
+ },
+ "organizer": {
+  "email": "9f04391ef4de8950aeed51283c1a49a6b2a5e0e79ae7d24df78cb3a7a5f722c3@group.calendar.google.com",
+  "displayName": "Тестовый календарь",
+  "self": true
+ },
+ "start": {
+  "dateTime": "2025-12-10T17:47:19+03:00",
+  "timeZone": "Europe/Moscow"
+ },
+ "end": {
+  "dateTime": "2025-12-10T18:47:19+03:00",
+  "timeZone": "Europe/Moscow"
+ },
+ "iCalUID": "9ve21qlmqc1fed5vo1682tua84@google.com",
+ "sequence": 0,
+ "reminders": {
+  "useDefault": true
+ },
+ "attachments": [
+  {
+   "fileUrl": "https://hut.openintegrations.dev/test_data/picture.jpg",
+   "title": "Картинка1",
+   "iconLink": ""
+  },
+  {
+   "fileUrl": "https://hut.openintegrations.dev/test_data/picture2.jpg",
+   "title": "Картинка2",
+   "iconLink": ""
+  }
+ ],
+ "eventType": "default"
+}
+```

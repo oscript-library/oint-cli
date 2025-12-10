@@ -16,14 +16,12 @@ import TabItem from '@theme/TabItem';
 
   | Parameter | CLI option | Type | Required | Description |
   |-|-|-|-|-|
-  | ProductDescription | --product | Map Of KeyAndValue | &#x2714; | JSON description of the product or path |
+  | ProductDescription | --product | Map Of KeyAndValue | &#x2714; | Product description. See GetProductDescription |
   | Selection | --sel | String | &#x2716; | Selection ID for placing the product, if needed |
-  | Parameters | --auth | Structure Of String | &#x2716; | Authorization JSON or path to .json |
+  | Parameters | --auth | Structure Of String | &#x2716; | Authorization parameters. See GetAuthParameters |
 
   
   Returns:  Map Of KeyAndValue - serialized JSON response from VK
-
-<br/>
 
 
 
@@ -32,7 +30,7 @@ import TabItem from '@theme/TabItem';
 
     Image1    = "https://hut.openintegrations.dev/test_data/picture.jpg"; // URL, Binary or File path
     Image2    = "https://hut.openintegrations.dev/test_data/picture2.jpg"; // URL, Binary or File path
-    Selection = "144";
+    Selection = "149";
 
     ImageArray = New Array;
     ImageArray.Add(Image1);
@@ -66,7 +64,7 @@ import TabItem from '@theme/TabItem';
             # JSON data can also be passed as a path to a .json file
             
             oint vk AddProduct \
-             --product "{'Name':'Test product (another)','Description':'Product description','Category':'20173','Price':'1','OldPrice':'15','MainPhoto':'https://hut.openintegrations.dev/test_data/picture.jpg','URL':'https://github.com/Bayselonarrend/OpenIntegrations','AdditionalPhotos':['https://hut.openintegrations.dev/test_data/picture.jpg','https://hut.openintegrations.dev/test_data/picture2.jpg'],'MainInGroup':true,'Width':'20','Height':'30','Depth':'40','Weight':'100','SKU':'12345','AvailableBalance':'10','PropertyValues':'8550'}" \
+             --product "{'Name':'Test product (another)','Description':'Product description','Category':'20173','Price':'1','OldPrice':'15','MainPhoto':'https://hut.openintegrations.dev/test_data/picture.jpg','URL':'https://github.com/Bayselonarrend/OpenIntegrations','AdditionalPhotos':['https://hut.openintegrations.dev/test_data/picture.jpg','https://hut.openintegrations.dev/test_data/picture2.jpg'],'MainInGroup':true,'Width':'20','Height':'30','Depth':'40','Weight':'100','SKU':'12345','AvailableBalance':'10','PropertyValues':'9588'}" \
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
     </TabItem>
@@ -76,7 +74,7 @@ import TabItem from '@theme/TabItem';
             :: JSON data can also be passed as a path to a .json file
             
             oint vk AddProduct ^
-             --product "{'Name':'Test product (another)','Description':'Product description','Category':'20173','Price':'1','OldPrice':'15','MainPhoto':'https://hut.openintegrations.dev/test_data/picture.jpg','URL':'https://github.com/Bayselonarrend/OpenIntegrations','AdditionalPhotos':['https://hut.openintegrations.dev/test_data/picture.jpg','https://hut.openintegrations.dev/test_data/picture2.jpg'],'MainInGroup':true,'Width':'20','Height':'30','Depth':'40','Weight':'100','SKU':'12345','AvailableBalance':'10','PropertyValues':'8550'}" ^
+             --product "{'Name':'Test product (another)','Description':'Product description','Category':'20173','Price':'1','OldPrice':'15','MainPhoto':'https://hut.openintegrations.dev/test_data/picture.jpg','URL':'https://github.com/Bayselonarrend/OpenIntegrations','AdditionalPhotos':['https://hut.openintegrations.dev/test_data/picture.jpg','https://hut.openintegrations.dev/test_data/picture2.jpg'],'MainInGroup':true,'Width':'20','Height':'30','Depth':'40','Weight':'100','SKU':'12345','AvailableBalance':'10','PropertyValues':'9588'}" ^
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
     </TabItem>
@@ -86,7 +84,7 @@ import TabItem from '@theme/TabItem';
 ```json title="Result"
 {
  "response": {
-  "market_item_id": 12011945
+  "market_item_id": 12369916
  }
 }
 ```

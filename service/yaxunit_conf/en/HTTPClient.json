@@ -1,0 +1,34 @@
+{
+  "reportPath": "./test_results/HTTPClient.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Tests.HTTP_Initialization",
+"OPI_Tests.HTTP_BodySet",
+"OPI_Tests.HTTP_Settings",
+"OPI_Tests.HTTP_HeadersSetting",
+"OPI_Tests.HTTP_Authorization",
+"OPI_Tests.HTTP_RequestProcessing",
+"OPI_Tests.HTTP_ResponseReceiving"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/HTTPClient.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

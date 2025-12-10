@@ -1,0 +1,74 @@
+﻿---
+sidebar_position: 8
+description: Обновить файл и другие функции для работы с Google Drive в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Обновить файл
+ Обновляет двоичные данные файла
+
+
+
+`Функция ОбновитьФайл(Знач Токен, Знач Идентификатор, Знач Файл, Знач НовоеИмя = "") Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Идентификатор | --object | Строка | &#x2714; | Идентификатор обновляемого объекта |
+  | Файл | --file | ДвоичныеДанные,Строка | &#x2714; | Файл источник обновления |
+  | НовоеИмя | --title | Строка | &#x2716; | Новое имя файла (если необходимо) |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+:::tip
+Параметры с типом данных Двоичные данные могут принимать также пути к файлам на диске и URL
+:::
+<br/>
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен         = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    НовоеИмя      = "Обновленный файл.jpg";
+    Идентификатор = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+    Файл          = "https://hut.openintegrations.dev/test_data/picture2.jpg"; // URL, Двоичные данные или Путь к файлу
+
+    Результат = OPI_GoogleDrive.ОбновитьФайл(Токен, Идентификатор, Файл, НовоеИмя);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive ОбновитьФайл \
+              --token "***" \
+              --object "1Y3AFUphAE0Us7E1SxRDvYUX6GDxntJj3" \
+              --file "https://hut.openintegrations.dev/test_data/picture2.jpg" \
+              --title "Обновленный файл.jpg"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive ОбновитьФайл ^
+              --token "***" ^
+              --object "1Y3AFUphAE0Us7E1SxRDvYUX6GDxntJj3" ^
+              --file "https://hut.openintegrations.dev/test_data/picture2.jpg" ^
+              --title "Обновленный файл.jpg"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "kind": "drive#file",
+ "id": "1kelFG6I8wEs8M9Yl4Fcf31BYu3RMCaFl",
+ "name": "Обновленный файл.jpg",
+ "mimeType": "image/jpeg"
+}
+```

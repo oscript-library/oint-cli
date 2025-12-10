@@ -1,0 +1,84 @@
+﻿---
+sidebar_position: 5
+description: Create object copy and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Create object copy
+ Creates a copy of the object at the specified path and path to the original
+
+
+
+`Function CreateObjectCopy(Val Token, Val Original, Val Path, Val Overwrite = False) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Original | --from | String | &#x2714; | Path to the original file or directory |
+  | Path | --to | String | &#x2714; | Destination path for the copy |
+  | Overwrite | --rewrite | Boolean | &#x2716; | Overwrite if a file with the same name already exists |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Yandex
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token    = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Original = "/53231757-ab12-4501-b64b-a5cb5cd65fbc.png";
+    Path     = "/" + String(New UUID) + ".png";
+
+    Result = OPI_YandexDisk.CreateObjectCopy(Token, Original, Path, True);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk CreateObjectCopy \
+             --token "***" \
+             --from "/43c45ec3-01f5-4939-abef-3545e2fae372.png" \
+             --to "/9901b0c5-b087-4a20-a9a4-66d66739cb4b.png" \
+             --rewrite true
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk CreateObjectCopy ^
+             --token "***" ^
+             --from "/43c45ec3-01f5-4939-abef-3545e2fae372.png" ^
+             --to "/9901b0c5-b087-4a20-a9a4-66d66739cb4b.png" ^
+             --rewrite true
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "path": "disk:/9901b0c5-b087-4a20-a9a4-66d66739cb4b.png",
+ "type": "file",
+ "name": "9901b0c5-b087-4a20-a9a4-66d66739cb4b.png",
+ "created": "2025-12-10T19:28:14+00:00",
+ "modified": "2025-12-10T19:28:14+00:00",
+ "size": 2114023,
+ "mime_type": "multipart",
+ "md5": "9e0176f87f6565a22f78e0f9b39a4d78",
+ "sha256": "89f8eb42a35208a17c85036e17237b0aa0657e1841efa6171dc5acbc0dea9e18",
+ "media_type": "image",
+ "resource_id": "1573541518:6cdbff2110dd97d66c45e5ead6268959f02183cce5fac57b015a1af8d7edc26f",
+ "revision": 1765394894786346,
+ "comment_ids": {
+  "public_resource": "1573541518:6cdbff2110dd97d66c45e5ead6268959f02183cce5fac57b015a1af8d7edc26f",
+  "private_resource": "1573541518:6cdbff2110dd97d66c45e5ead6268959f02183cce5fac57b015a1af8d7edc26f"
+ },
+ "exif": {},
+ "antivirus_status": "clean",
+ "file": "https://downloader.disk.yandex.ru/disk/3eb8d00b69b6b7ab08f31cfa05b16b25fe51db90487dac86345a0530bc6ff434/693a020f/Kdpe3dFisZLPovVA4r-aBmpkby3AOQiLsayEHYapOMw2ylFGSbZZrsWtGPTvHxG_-QDrqSGFBOOsS3b3gKT1zA%3D%3D?uid=1573541518&filename=9901b0c5-b087-4a20-a9a4-66d66739cb4b.png&disposition=attachment&hash=&limit=0&content_type=multipart&owner_uid=1573541518&fsize=2114023&hid=03d7263840468e281bd0b238a26e7d0d&media_type=image&tknv=v3&etag=9e0176f87f6565a22f78e0f9b39a4d78"
+}
+```

@@ -26,8 +26,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Structure Of KeyAndValue - serialized JSON response from storage
 
-<br/>
-
 :::tip
 Setting up a new set removes all existing object tags
 
@@ -47,7 +45,7 @@ Method at AWS documentation: [PutObjectTagging](https://docs.aws.amazon.com/Amaz
     Name = "picture.jpg";
 
     Directory = True; // Formation URL in path-style
-    Bucket = "opi-dirbucket3";
+    Bucket = "";
     TagStructure = New Structure;
 
     TagStructure.Insert("MyTag1", "SomeValue");
@@ -65,8 +63,8 @@ Method at AWS documentation: [PutObjectTagging](https://docs.aws.amazon.com/Amaz
             
             oint s3 PutObjectTagging \
              --name "picture.jpg" \
-             --bucket "opi-dirbucket3" \
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
+             --bucket "d09ba45c" \
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
              --tagset "{'MyTag1':'SomeValue','MyTag2':'AnotherOne'}" \
              --dir true
         ```
@@ -78,8 +76,8 @@ Method at AWS documentation: [PutObjectTagging](https://docs.aws.amazon.com/Amaz
             
             oint s3 PutObjectTagging ^
              --name "picture.jpg" ^
-             --bucket "opi-dirbucket3" ^
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
+             --bucket "d09ba45c" ^
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
              --tagset "{'MyTag1':'SomeValue','MyTag2':'AnotherOne'}" ^
              --dir true
         ```
@@ -93,12 +91,12 @@ Method at AWS documentation: [PutObjectTagging](https://docs.aws.amazon.com/Amaz
  "response": {},
  "headers": {
   "Accept-Ranges": "bytes",
-  "Date": "Wed, 15 Oct 2025 10:33:12 GMT",
+  "Date": "Wed, 10 Dec 2025 20:44:12 GMT",
   "Server": "MinIO",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
   "Vary": "Origin, Accept-Encoding",
-  "X-Amz-Id-2": "e602da57d0c30b8c7034fcfe129917205f80f7bab979408e71da5d1441c85e79",
-  "X-Amz-Request-Id": "186EA396DD4AAD6D",
+  "X-Amz-Id-2": "9db21855adaa63c98221e7a7db59c17bf693f4833027894c70082214acf3a007",
+  "X-Amz-Request-Id": "187FF571C3B2B215",
   "X-Content-Type-Options": "nosniff",
   "X-XSS-Protection": "1; mode=block",
   "Content-Length": "0",

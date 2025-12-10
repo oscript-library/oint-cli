@@ -12,6 +12,16 @@ pipeline {
     }
 
 	stages {
+
+        stage('Read stages config') {
+            steps {
+                script {
+                    def configText = readFile './service/tests_config.json'
+                    env.STAGES_CONFIG = configText
+                }
+            }
+        }
+
         stage('Remove oint') {
             steps {
                 script {
@@ -25,7 +35,7 @@ pipeline {
             steps {
                 script {
                     // Скачиваем новый deb-пакет oint
-                    sh 'wget -O oint_1.28.0_all_en.deb https://jenkins.openintegrations.dev/job/OpiBuild/job/OpiRelease/lastSuccessfulBuild/artifact/1.28.0/oint_1.28.0_all_en.deb '
+                    sh 'wget -O oint_1.30.0_all_en.deb https://jenkins.openintegrations.dev/job/OpiBuild/job/OpiRelease/lastSuccessfulBuild/artifact/1.30.0/oint_1.30.0_all_en.deb '
                 }
             }
         }
@@ -33,16 +43,15 @@ pipeline {
         stage('Install oint package') {
             steps {
                 script {
-                    // Устанавливаем скаченный пакет
-                    sh 'dpkg -i oint_1.28.0_all_en.deb'
+                    sh 'dpkg -i oint_1.30.0_all_en.deb'
                 }
             }
         }
 
       	stage('Prepare'){
          		steps{
-                    sh 'cd ./src/en/OInt && opm build && opm install oint-1.28.0.ospx && rm oint-1.28.0.ospx'
-            		withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
+                    sh 'cd ./src/en/OInt && opm build && opm install oint-1.30.0.ospx && rm oint-1.30.0.ospx'
+              		withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
               			sh 'gpg --quiet --batch --yes --decrypt --passphrase="$GPGKEY" --output ./data.json ./data.json.gpg'
             		}
          		}
@@ -53,17 +62,38 @@ pipeline {
 				}
 		}
 
+		stage('Testing-BuildCheck') {
+            when {
+                expression { return shouldRunStage('BuildCheck') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os', 'CheckIBToLastBuildCompliance'],
+					]
+					for (test in tests) {
+							runLibraryTest(test[0], test[1])
+					}
+				}
+			}
+		}
 		stage('Testing-GoogleSheets') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os" "GW_Auth"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os" "GT_CreateTable"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os" "GT_FillClearCells"')
-			}
+            when {
+                expression { return shouldRunStage('GoogleSheets') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os', 'GT_Authorization'],
+						['./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os', 'GT_CreateTable'],
+						['./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os', 'GT_FillClearCells'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 
@@ -74,11 +104,6 @@ pipeline {
                 catchError() {   
 				    runCommand('oscript ./ci/os/rp_stop.os "en"')
 			    }
-				withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
-					sh 'rm "./data.json.gpg"'
-					sh 'gpg --batch --symmetric --cipher-algo AES256 --passphrase="$GPGKEY" ./data.json'
-					sh 'rm "./data.json"'
-				}
 				withCredentials([gitUsernamePassword(credentialsId: 'gitmain', gitToolName: 'Default')]) {
 					sh "git config user.email vitaly.the.alpaca@gmail.com"
 					sh 'git config user.name "Vitaly the Alpaca (bot)"'
@@ -90,4 +115,36 @@ pipeline {
 			}
 		}
 	}
+}
+
+def shouldRunStage(stageName) {
+    try {
+        if (!env.STAGES_CONFIG) {
+            echo "[WARN] STAGES_CONFIG not set. Assuming stage '${stageName}' is ENABLED."
+            return true
+        }
+        def config = readJSON text: env.STAGES_CONFIG
+        def value = config[stageName]
+        if (value == null) {
+            echo "[WARN] Stage '${stageName}' not found in config. Defaulting to DISABLED."
+            return false
+        }
+        return value == true
+    } catch (Exception e) {
+        echo "[ERROR] Failed to parse STAGES_CONFIG: ${e.message}"
+        echo "Raw config: ${env.STAGES_CONFIG}"
+        // Решите: включать stage по умолчанию или нет?
+        return false // или true — по вашему усмотрению
+    }
+}
+
+def runLibraryTest(String configPath, String libraryName) {
+    try {
+        echo "Executing: 1testrunner -run \"${configPath}\" \"${libraryName}\""
+        runCommand("1testrunner -run \"${configPath}\" \"${libraryName}\"")
+        echo "Test ${libraryName} completed successfully"
+    } catch (Exception e) {
+        echo "ERROR in test ${libraryName}: ${e.getMessage()}"
+        throw e 
+    }
 }

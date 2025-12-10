@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Structure Of KeyAndValue - serialized JSON response from storage
 
-<br/>
-
 :::tip
 Method at AWS documentation: [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
 :::
@@ -41,7 +39,7 @@ Method at AWS documentation: [GetBucketEncryption](https://docs.aws.amazon.com/A
     BasicData = OPI_S3.GetBasicDataStructure(URL, AccessKey, SecretKey, Region);
 
     Directory = True; // Formation URL in path-style
-    Name = "opi-dirbucket3";
+    Name = "";
     Result = OPI_S3.GetBucketEncryption(Name, BasicData, Directory);
 ```
  
@@ -53,8 +51,8 @@ Method at AWS documentation: [GetBucketEncryption](https://docs.aws.amazon.com/A
             # JSON data can also be passed as a path to a .json file
             
             oint s3 GetBucketEncryption \
-             --name "opi-dirbucket3" \
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
+             --name "7c4d3d52" \
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
              --dir true
         ```
     </TabItem>
@@ -64,8 +62,8 @@ Method at AWS documentation: [GetBucketEncryption](https://docs.aws.amazon.com/A
             :: JSON data can also be passed as a path to a .json file
             
             oint s3 GetBucketEncryption ^
-             --name "opi-dirbucket3" ^
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
+             --name "7c4d3d52" ^
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
              --dir true
         ```
     </TabItem>

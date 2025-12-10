@@ -16,17 +16,16 @@
 # Открытый пакет интеграций
 
 ![Версия](https://img.shields.io/badge/Версия_1С-8.3.10-yellow)
-[![OpenYellow](https://img.shields.io/endpoint?url=https://openyellow.org/data/badges/2/736878759.json)](https://openyellow.org/grid?data=top&repo=736878759)
+[![OpenYellow](https://openyellow.openintegrations.dev/data/badges/736878759.svg)](https://openyellow.org/grid?filter=top&repo=736878759)
 [![OneScript](media/oscript.svg)](https://github.com/EvilBeaver/OneScript)
 [![OneScript](media/boosty.svg)](https://boosty.to/bayselonarrend)
-
-<br>
-Набор инструментов интеграции с популярными API: консольное приложение (Windows/Linux) и библиотека (расширение) для 1C:Enterprise/OneScript, состоящие из общего набора готовых функций для работы с множеством известных облачных сервисов<br>
-
-
 <br>
 
-Все реализованные методы из набора выполняют отдельные прикладные задачи, вроде `ОтправитьСообщение` или `СоздатьПост`, что позволяет использовать их без углубления в реализацию. Но код, при этом, достаточно сильно декомпозирован: методы авторизации, получения данных и пр. по возможности вынесены в отдельные функции. Это позволяет легко добавлять новые методы на основе уже существующих, не разматывая клубок реализации до самого начала работы с API. <br><br>
+**OpenIntegrations** — это набор инструментов для работы с внешними API, доступный в виде библиотеки (расширения) для 1С:Предприятие / OneScript и кроссплатформенного консольного приложения для Windows и Linux. Проект предоставляет готовые методы для выполнения прикладных задач (отправки сообщения, создания документа, SQL-запросов и пр.) в более чем 30 сервисах и технологиях, включая Telegram, VK, Bitrix24, Google и Yandex-сервисы, а также различные СУБД и протоколы обмена
+
+<br>
+
+Код проекта организован в виде набора независимых модулей, каждый из которых отвечает за работу с конкретным сервисом. При этом общая логика, вроде работы с HTTP или JSON, вынесена в переиспользуемые компоненты. Это позволяет как быстро применять готовые функции, так и легко расширять функциональность, добавляя новые методы на базе существующих компонентов. Исходный код открыт, что дает полный контроль над реализацией и позволяет сообществу участвовать в разработке <br><br>
 
 📋 На сегодняшний день реализованы методы для работы со следующими сервисами ([список](/media/catalogs/Catalog.md))
 <br>
@@ -37,13 +36,14 @@
   <a href="https://openintegrations.dev/docs/Instructions/VK/"><img src="media/VK.png" width="40"></a>
   <a href="https://openintegrations.dev/docs/Instructions/VKTeams/"><img src="media/VKTeams.png" width="40"></a>
   <a href="https://openintegrations.dev/docs/Instructions/Viber/"><img src="media/Viber.png" width="40"></a>
-  <a href="https://openintegrations.dev/docs/Instructions/Ozon/"><img src="media/Ozon.png" width="40"></a>
+   <a href="https://openintegrations.dev/docs/Instructions/GreenMax/"><img src="media/GreenMax.png" width="40"></a>
    <a href="https://openintegrations.dev/docs/Instructions/GreenAPI/"><img src="media/GreenAPI.png" width="40"></a>
   <a href="https://openintegrations.dev/docs/Instructions/S3/"><img src="media/S3.png" width="40"></a>
    <a href="https://openintegrations.dev/docs/Instructions/PostgreSQL/"><img src="media/PostgreSQL.png" width="40"></a>
   <a href="https://openintegrations.dev/docs/Instructions/SQLite/"><img src="media/SQLite.png" width="40"></a>
    <a href="https://openintegrations.dev/docs/Instructions/MSSQL/"><img src="media/MSSQL.png" width="40"></a>
    <a href="https://openintegrations.dev/docs/Instructions/MySQL/"><img src="media/MySQL.png" width="40"></a>
+   <a href="https://openintegrations.dev/docs/Instructions/MongoDB/"><img src="media/MongoDB.png" width="40"></a>
   <a href="https://openintegrations.dev/docs/Instructions/Twitter/"><img src="media/Twitter.png" width="40"></a>
   <a href="https://openintegrations.dev/docs/Instructions/Notion/"><img src="media/Notion.png" width="40"></a>
   <a href="https://openintegrations.dev/docs/Instructions/YandexDisk/"><img src="media/YandexDisk.png" width="40"></a>
@@ -211,7 +211,7 @@ ___
 <summary>Синопсис</summary>
 <br>
 
-Этот проект предоставляет библиотеку для интеграции 1С:Предприятие, OneScript и CLI с внешними сервисами через REST API и другие протоколы. Благодаря представленным в ней методам вы можете работать в экосистеме 1С:Предприятие с такими сервисами и технологиями как: Airtable, Bitrix24, CDEK, Dropbox, FTP, Google Calendar, Google Drive, Google Sheets, Green API, MSSQL, MySQL, Neocities, Notion, Ozon, PostgreSQL, RCON, ReportPortal, S3, SFTP, Slack, SQLite, SSH, TCP, Telegram, Twitter, Viber, VK, VKTeams, Yandex Disk
+Этот проект предоставляет библиотеку для интеграции 1С:Предприятие, OneScript и CLI с внешними сервисами через REST API и другие протоколы. Благодаря представленным в ней методам вы можете работать в экосистеме 1С:Предприятие с такими сервисами и технологиями как: Airtable, Bitrix24, CDEK, Dropbox, FTP, Google Calendar, Google Drive, Google Sheets, GreenAPI, GreenMax, MongoDB, MSSQL, MySQL, Neocities, Notion, Ollama, OpenAI, PostgreSQL, RCON, ReportPortal, S3, SFTP, Slack, SQLite, SSH, TCP, Telegram, Twitter, Viber, VK, VKTeams, Yandex Disk, HTTP-client, HTTP-клиент
   
 Существуют варианты поставки в виде расширения (.cfe, XML, EDT), OPM-пакета и других пакетов для разных операционных систем. Версия 1С: 8.3.10. Подходит для любых конфигураций, не использует БСП
 

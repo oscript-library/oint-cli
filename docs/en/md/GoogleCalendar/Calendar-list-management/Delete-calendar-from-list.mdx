@@ -1,0 +1,69 @@
+﻿---
+sidebar_position: 4
+description: Remove calendar from list and other functions to work with Google Calendar in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Remove calendar from list
+ Removes a calendar from the user's list
+
+
+
+`Function DeleteCalendarFromList(Val Token, Val Calendar) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Calendar | --calendar | String | &#x2714; | Calendar ID |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token    = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Calendar = "0dc23447d3b0f439635aeee464d9e8db32a620027692352eb531d074f736c241@group.calendar.google.com";
+
+    Result = OPI_GoogleCalendar.DeleteCalendarFromList(Token, Calendar);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar DeleteCalendarFromList \
+             --token "***" \
+             --calendar "03997e17b4c902c3a4a9d00cbce74d84f74447c1924226d9190c8b1d41aabce0@group.calendar.google.com"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar DeleteCalendarFromList ^
+             --token "***" ^
+             --calendar "03997e17b4c902c3a4a9d00cbce74d84f74447c1924226d9190c8b1d41aabce0@group.calendar.google.com"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "error": {
+  "errors": [
+   {
+    "domain": "calendar",
+    "reason": "cannotUnsubscribeFromOwnedCalendar",
+    "message": "Data owner of a calendar cannot remove calendar list entry for that calendar."
+   }
+  ],
+  "code": 403,
+  "message": "Data owner of a calendar cannot remove calendar list entry for that calendar."
+ }
+}
+```

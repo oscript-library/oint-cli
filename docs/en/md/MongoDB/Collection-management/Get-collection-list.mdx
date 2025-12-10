@@ -1,0 +1,110 @@
+﻿---
+sidebar_position: 1
+description: Get collection list and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get collection list
+ Gets a list of database collections
+
+
+
+`Function GetCollectionList(Val Connection, Val Base = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Base = "test_database";
+
+    Result = OPI_MongoDB.GetCollectionList(Connection, Base);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint mongodb GetCollectionList \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+             --db "test_database"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint mongodb GetCollectionList ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+             --db "test_database"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "cursor": {
+   "id": 0,
+   "ns": "test_database.$cmd.listCollections",
+   "firstBatch": [
+    {
+     "name": "test_collection",
+     "type": "collection",
+     "options": {
+      "validator": {
+       "$expr": [
+        {
+         "$gte": [
+          "***",
+          "***"
+         ]
+        },
+        {
+         "$lte": [
+          "***",
+          "***"
+         ]
+        }
+       ]
+      }
+     },
+     "info": {
+      "readOnly": false,
+      "uuid": {
+       "__B64_BINARY__": "j3wssnsOQ/aNkJRFcqBGkw=="
+      }
+     },
+     "idIndex": {
+      "v": 2,
+      "key": {
+       "_id": 1
+      },
+      "name": "_id_"
+     }
+    }
+   ]
+  },
+  "ok": 1
+ }
+}
+```

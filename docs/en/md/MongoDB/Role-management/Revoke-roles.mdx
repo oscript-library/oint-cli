@@ -1,0 +1,86 @@
+﻿---
+sidebar_position: 6
+description: Revoke roles and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Revoke roles
+ Revokes selected roles from a user
+
+
+
+`Function RevokeRoles(Val Connection, Val User, Val RoleArray, Val Base = Undefined, Val Parameters = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | User | --user | String | &#x2714; | Users name |
+  | RoleArray | --roles | Array Of Arbitrary | &#x2714; | Role or role array |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+  | Parameters | --params | Structure Of KeyAndValue | &#x2716; | Additional deletion parameters |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+:::tip
+Role can be defined in one of the following formats:<br/>Structure: `{ role: "name", db: "database" }`<br/>String: `name рoлand`
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+    Base     = "admin";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    User = "bayselonarrend";
+    Role = New Structure("role,db", "newrole", Base);
+
+    Result = OPI_MongoDB.RevokeRoles(Connection, User, Role, Base);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint mongodb RevokeRoles \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+             --user "bayselonarrend" \
+             --roles "{'role':'newrole','db':'admin'}" \
+             --db "admin"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint mongodb RevokeRoles ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+             --user "bayselonarrend" ^
+             --roles "{'role':'newrole','db':'admin'}" ^
+             --db "admin"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "ok": 1
+ }
+}
+```

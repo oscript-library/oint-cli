@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrix24
 
-<br/>
-
 :::tip
 Метод в документации API: [crm.lead.update](https://dev.1c-bitrix.ru/rest_help/crm/leads/crm_lead_update.php)
 :::
@@ -39,7 +37,7 @@ import TabItem from '@theme/TabItem';
     СтруктураПолей.Вставить("TITLE"          , "Суперклиент");
 
     URL    = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    IDЛида = "2600";
+    IDЛида = "2872";
 
     Результат = OPI_Bitrix24.ИзменитьЛид(URL, IDЛида, СтруктураПолей);
 
@@ -47,8 +45,8 @@ import TabItem from '@theme/TabItem';
     СтруктураПолей.Вставить("LAST_NAME", "Евгеньев");
 
     URL    = "b24-ar17wx.bitrix24.by";
-    Токен  = "8a1bee68006e9f06006b12e400000001000...";
-    IDЛида = "2602";
+    Токен  = "6ad03969006e9f06006b12e400000001000...";
+    IDЛида = "2874";
 
     Результат = OPI_Bitrix24.ИзменитьЛид(URL, IDЛида, СтруктураПолей, Токен);
 ```
@@ -62,7 +60,7 @@ import TabItem from '@theme/TabItem';
             
             oint bitrix24 ИзменитьЛид \
               --url "b24-ar17wx.bitrix24.by" \
-              --lead 2614 \
+              --lead 2862 \
               --fields "{'ADDRESS':'ул. Лермонтова, д. 20','ADDRESS_COUNTRY':'Беларусь','TITLE':'Суперклиент','NAME':'Евгений','LAST_NAME':'Евгеньев'}" \
               --token "***"
         ```
@@ -74,7 +72,7 @@ import TabItem from '@theme/TabItem';
             
             oint bitrix24 ИзменитьЛид ^
               --url "b24-ar17wx.bitrix24.by" ^
-              --lead 2614 ^
+              --lead 2862 ^
               --fields "{'ADDRESS':'ул. Лермонтова, д. 20','ADDRESS_COUNTRY':'Беларусь','TITLE':'Суперклиент','NAME':'Евгений','LAST_NAME':'Евгеньев'}" ^
               --token "***"
         ```
@@ -86,14 +84,14 @@ import TabItem from '@theme/TabItem';
 {
  "result": true,
  "time": {
-  "start": 1760461564,
-  "finish": 1760461564.88826,
-  "duration": 0.888261079788208,
+  "start": 1765367901,
+  "finish": 1765367901.69968,
+  "duration": 0.699681997299194,
   "processing": 0,
-  "date_start": "2025-10-14T17:06:04+00:00",
-  "date_finish": "2025-10-14T17:06:04+00:00",
-  "operating_reset_at": 1760462164,
-  "operating": 0.115342140197754
+  "date_start": "2025-12-10T14:58:21+03:00",
+  "date_finish": "2025-12-10T14:58:21+03:00",
+  "operating_reset_at": 1765368501,
+  "operating": 0.195454120635986
  }
 }
 ```

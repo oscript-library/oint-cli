@@ -37,6 +37,7 @@
 // BSLLS:UnusedLocalVariable-off
 // BSLLS:UsingSynchronousCalls-off
 // BSLLS:MagicNumber-off
+// BSLLS:LineLength-off
 
 //@skip-check method-too-many-params
 //@skip-check wrong-string-literal-content
@@ -46,7 +47,7 @@
 
 #Region Public
 
-#Region TokenRetrieval
+#Region Authorization
 
 // Create token retrieval link
 // Getting a link for interactive token retrieval (access_token), which is necessary
@@ -68,6 +69,35 @@ Function CreateTokenRetrievalLink(Val App_id) Export
 
 EndFunction
 
+// Get auth parameters
+// Gets the structure of authorization parameters
+//
+// Parameters:
+// GroupID - String, Number - Group ID - group
+// AppID - String, Number - App ID - app
+// AuthToken - String - Auth token - token
+//
+// Returns:
+// Structure - Get auth parameters
+Function GetAuthParameters(Val GroupID, Val AppID, Val AuthToken) Export
+
+    String_ = "String";
+
+    OPI_TypeConversion.GetLine(GroupID);
+
+    AuthParameters = New Structure;
+
+    OPI_Tools.AddField("v"            , "5.131"       , String_, AuthParameters);
+    OPI_Tools.AddField("from_group"   , "1"           , String_, AuthParameters);
+    OPI_Tools.AddField("group_id"     , GroupID       , String_, AuthParameters);
+    OPI_Tools.AddField("owner_id"     , "-" + GroupID , String_, AuthParameters);
+    OPI_Tools.AddField("app_id"       , AppID         , String_, AuthParameters);
+    OPI_Tools.AddField("access_token" , AuthToken     , String_, AuthParameters);
+
+    Return AuthParameters;
+
+EndFunction
+
 #EndRegion
 
 #Region CommunityManagement
@@ -80,7 +110,7 @@ EndFunction
 // ImageArray - Array of String, BinaryData - Array of images - pictures
 // Advertisement - Boolean - Sign ""This is an ad"" - ad
 // LinkUnderPost - String - Link (URL) under the post - url
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -130,7 +160,7 @@ EndFunction
 // Objects - Array of String - Array of identifiers like photo123_123 - objects
 // Advertisement - Boolean - Sign ""This is an ad"" - ad
 // LinkUnderPost - String - Link (URL) under the post - url
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -165,7 +195,7 @@ EndFunction
 //
 // Parameters:
 // PostID - String, Number - Post ID - post
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -188,7 +218,7 @@ EndFunction
 // AnswersArray - Array of String - Array of answer options - options
 // Image - String, BinaryData - Poll image. Required if there is no text - picture
 // Text - String - Post text. Required if there is no picture - text
-// Parameters - Structure Of String - See GetStandardParameters - auth
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -272,7 +302,7 @@ EndFunction
 // Parameters:
 // Name - String - Album name - title
 // Description - String - Album description - description
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -298,7 +328,7 @@ EndFunction
 //
 // Parameters:
 // AlbumID - String, Number - Album ID - album
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -321,7 +351,7 @@ EndFunction
 // Parameters:
 // Image - String, BinaryData - Story background - picture
 // URL - String - URL for button under the story - url
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -344,9 +374,9 @@ EndFunction
 //
 // Parameters:
 // AlbumID - String, Number - Album ID - album
-// Image - BinaryData,String - Image file - picture
+// Image - BinaryData, String - Image file - picture
 // Description - String - Image description - description
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -369,7 +399,7 @@ EndFunction
 //
 // Parameters:
 // ImageID - String, Number - Image ID - pictureid
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -394,7 +424,7 @@ EndFunction
 // Name - String - Video name - title
 // Description - String - Video description - description
 // Album - String - Album ID, if necessary - album
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -442,7 +472,7 @@ EndFunction
 //
 // Parameters:
 // Image - String, BinaryData - Image file - file
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 // View - String - Upload type (Post, Product, Story, Poll, Other) - type
 //
 // Returns:
@@ -515,7 +545,7 @@ EndFunction
 // Parameters:
 // Name - String - Discussion name - title
 // FirstMessageText - String - Text of the first message - text
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -540,7 +570,7 @@ EndFunction
 // Parameters:
 // DiscussionID - String, Number - Discussion ID - topic
 // DeleteCompletely - Boolean - Delete completely (True) or close - remove
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -564,7 +594,7 @@ EndFunction
 //
 // Parameters:
 // DiscussionID - String, Number - Discussion ID - topic
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -587,7 +617,7 @@ EndFunction
 // Parameters:
 // DiscussionID - String, Number - Discussion ID - topic
 // Text - String - Message text - text
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -616,7 +646,7 @@ EndFunction
 // Parameters:
 // PostID - String, Number - Post ID - post
 // WallID - String, Number - ID of the wall where the post is located - wall
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -649,7 +679,7 @@ EndFunction
 // WallID - String, Number - ID of the wall where the post is located - from
 // TargetWall - String, Number - ID of the target wall or group - to
 // Advertising - Boolean - Sign of an advertising post - ad
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -688,8 +718,8 @@ EndFunction
 // Text - String - Message text - text
 // UserID - String - Recipient user ID - user
 // Communitytoken - String - Community chat bot token, which can be obtained in the settings - ct
-// Keyboard - String - JSON keyboard. See FormKeyboard - keyboard
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Keyboard - String - Keyboard JSON. See FormKeyboard - keyboard
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -730,7 +760,7 @@ EndFunction
 // PostID - String, Number - ID of the target post - post
 // WallID - String, Number - ID of the wall where the post is located - wall
 // Text - String - Comment text - text
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -762,7 +792,7 @@ EndFunction
 //
 // Parameters:
 // URL - String - URL for shortening - url
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // String - Shortened URL
@@ -804,7 +834,7 @@ EndFunction
 // Parameters:
 // StartDate - Date - Start date of the period - datefrom
 // EndDate - Date - End date of the period - dateto
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -832,8 +862,8 @@ EndFunction
 // Gets statistics in terms of posts
 //
 // Parameters:
-// PostIDsArray - Array of String,Number - Array of post IDs - posts
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// PostIDsArray - Array of string, number - Array of post IDs - posts
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Array of Arbitrary - Array of post statistics data
@@ -895,7 +925,7 @@ EndFunction
 // Parameters:
 // AccountID - String, Number - Advertising account ID - cabinet
 // Name - String - Campaign name - title
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -942,7 +972,7 @@ EndFunction
 // CategoryNumber - String, Number - Advertising category number - category
 // PostID - String, Number - ID of the post used for advertising - post
 // AccountID - String, Number - Advertising account ID - cabinet
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1001,7 +1031,7 @@ EndFunction
 // Parameters:
 // AccountID - String, Number - Advertising account ID - cabinet
 // AdID - String, Number - Ad ID - adv
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1036,7 +1066,7 @@ EndFunction
 // Gets a list of advertising category IDs for creating an advertising post
 //
 // Parameters:
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1057,7 +1087,7 @@ EndFunction
 // Gets a list of product category IDs to specify when creating a product
 //
 // Parameters:
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of String - Key - ID, Value - Name
@@ -1111,7 +1141,7 @@ EndFunction
 //
 // Parameters:
 // Selection - String, Number - Selection ID, if filtering is needed - sel
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - Array of product maps
@@ -1140,7 +1170,7 @@ EndFunction
 //
 // Parameters:
 // Products - String, Array of String - Array of product IDs - items
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1179,9 +1209,9 @@ EndFunction
 // Adds a new product to the community's catalog
 //
 // Parameters:
-// ProductDescription - Map Of KeyAndValue - See GetProductDescription - product - JSON description of the product or path
+// ProductDescription - Map Of KeyAndValue - Product description. See GetProductDescription - product
 // Selection - String - Selection ID for placing the product, if needed - sel
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1196,9 +1226,9 @@ EndFunction
 //
 // Parameters:
 // Product - Number, String - Identifier of the product being edited - item
-// ProductDescription - Map Of KeyAndValue - See GetProductDescription - product - JSON description of the product or path
+// ProductDescription - Map Of KeyAndValue - Product description. See GetProductDescription - product
 // Selection - String - Identifier of the new selection, if needed - sel
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1213,7 +1243,7 @@ EndFunction
 //
 // Parameters:
 // Product - String, Number - Product ID - item
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1236,7 +1266,7 @@ EndFunction
 // Parameters:
 // ProductsArray - Array Of String - Array of product IDs - items
 // ExistingGroup - String - ID of the existing group, if needed - sellgroup
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1312,7 +1342,7 @@ EndFunction
 // Gets the list of product selections
 //
 // Parameters:
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - Array of selection maps
@@ -1333,7 +1363,7 @@ EndFunction
 //
 // Parameters:
 // Selections - String, Array of String - Selection IDs - sels
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1367,7 +1397,7 @@ EndFunction
 // Image - String, BinaryData - Image file - picture
 // Main - Boolean - Main - main
 // Hidden - Boolean - Hidden - hidden
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1390,7 +1420,7 @@ EndFunction
 // Image - String, BinaryData - New selection image - picture
 // Main - Boolean - Main - main
 // Hidden - Boolean - Hidden - hidden
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1411,7 +1441,7 @@ EndFunction
 // Parameters:
 // ProductsArray - Array of string, number - Array of products or product - items
 // Selection - String - Selection ID - sel
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1444,7 +1474,7 @@ EndFunction
 // Parameters:
 // Product - String - Product ID - item
 // Selection - String - Selection ID - sel
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1469,7 +1499,7 @@ EndFunction
 //
 // Parameters:
 // Selection - String - Selection ID - sel
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1494,7 +1524,7 @@ EndFunction
 // Gets the list of properties of group products
 //
 // Parameters:
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1515,7 +1545,7 @@ EndFunction
 //
 // Parameters:
 // Name - String - Property name - title
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1538,7 +1568,7 @@ EndFunction
 // Parameters:
 // Name - String - New name - title
 // Property - String, Number - Property ID - prop
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1563,7 +1593,7 @@ EndFunction
 //
 // Parameters:
 // Property - String, Number - Property ID - prop
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1586,7 +1616,7 @@ EndFunction
 // Parameters:
 // Value - String - Property value - value
 // Property - String, Number - Property ID where the variant is added - prop
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1612,7 +1642,7 @@ EndFunction
 // Value - String - New property value - value
 // Property - String, Number - Property ID - prop
 // Option - String, Number - Variant ID - option
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1638,7 +1668,7 @@ EndFunction
 //
 // Parameters:
 // Option - String, Number - Variant ID - option
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -1663,7 +1693,7 @@ EndFunction
 // Returns the community's order list
 //
 // Parameters:
-// Parameters - Structure Of String - See GetStandardParameters - auth - Authorization JSON or path to .json
+// Parameters - Structure Of String - Authorization parameters. See GetAuthParameters - auth
 //
 // Returns:
 // Map Of KeyAndValue - serialized JSON response from VK
@@ -2206,6 +2236,10 @@ EndProcedure
 
 Function СоздатьСсылкуПолученияТокена(Val App_id) Export
 	Return CreateTokenRetrievalLink(App_id);
+EndFunction
+
+Function ПолучитьПараметрыАвторизации(Val IDГруппы, Val IDПриложения, Val ТокенАвторизации) Export
+	Return GetAuthParameters(IDГруппы, IDПриложения, ТокенАвторизации);
 EndFunction
 
 Function СоздатьПост(Val Текст, Val МассивКартинок, Val Реклама = False, Val СсылкаПодЗаписью = "", Val Параметры = "") Export

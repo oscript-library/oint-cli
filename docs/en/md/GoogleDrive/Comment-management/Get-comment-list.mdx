@@ -1,0 +1,77 @@
+﻿---
+sidebar_position: 3
+description: Get list of comments and other functions to work with Google Drive in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get list of comments
+ Gets the list of all comments of the object
+
+
+
+`Function GetCommentList(Val Token, Val ObjectID) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | ObjectID | --object | String | &#x2714; | Object identifier |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token      = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Identifier = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+
+    Result = OPI_GoogleDrive.GetCommentList(Token, Identifier);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive GetCommentList \
+             --token "***" \
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive GetCommentList ^
+             --token "***" ^
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "comments": [
+  {
+   "replies": [],
+   "author": {
+    "displayName": "Антон Титовец",
+    "kind": "drive#user",
+    "me": true,
+    "photoLink": "//lh3.googleusercontent.com/a/ACg8ocJnbqA6yq1Q0s-yU0hen8H6NFa_chOdcC2wpT9q-BJj0q7MyPU=s50-c-k-no"
+   },
+   "kind": "drive#comment",
+   "id": "AAABxUEXDR8",
+   "createdTime": "2025-12-10T19:34:29.77Z",
+   "modifiedTime": "2025-12-10T19:34:29.77Z",
+   "htmlContent": "Comment text",
+   "content": "Comment text",
+   "deleted": false
+  }
+ ],
+ "kind": "drive#commentList"
+}
+```

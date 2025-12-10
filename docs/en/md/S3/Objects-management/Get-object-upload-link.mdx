@@ -26,8 +26,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  String - URL for object retrieving
 
-<br/>
-
 :::tip
 In Headers you need to add all x-amz headers that will be used when accessing the received URL
 
@@ -62,7 +60,7 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
             oint s3 GetObjectUploadLink \
              --name "pictureU.jpg" \
              --bucket "newbucket2" \
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
              --expires 7200 \
              --dir true
         ```
@@ -75,7 +73,7 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
             oint s3 GetObjectUploadLink ^
              --name "pictureU.jpg" ^
              --bucket "newbucket2" ^
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
              --expires 7200 ^
              --dir true
         ```
@@ -84,5 +82,5 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
 
 
 ```json title="Result"
-"storage-155.s3hoster.by/newbucket2/pictureU.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=BRN5RKJE67YCVDZRRQVI%2F20251015%2FBTC%2Fs3%2Faws4_request&X-Amz-Date=20251015T103510Z&X-Amz-Expires=7200&X-Amz-SignedHeaders=host&X-Amz-Signature=c4caa463b500af1880e2b257cd2414ff75c10f487383bf1ad8e142feb2c5aa3b"
+"storage-564.s3hoster.by/newbucket2/pictureU.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=H71HC7EBMR30IOA3DFNE%2F20251210%2FBTC%2Fs3%2Faws4_request&X-Amz-Date=20251210T204603Z&X-Amz-Expires=7200&X-Amz-SignedHeaders=host&X-Amz-Signature=d65fc6fbd3375f80b1f01a3ea31c6194908f2a47a014075fe467d46513efe8ff"
 ```

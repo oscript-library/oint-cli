@@ -9,7 +9,7 @@ Var PackagesDirectory;
 
 Procedure OnObjectCreate()
 
-    Version = "1.28.0";
+    Version = "1.30.0";
     InitializeCommonLists();
 
     CurrentDirectory = CurrentScript().Path;
@@ -34,13 +34,14 @@ Procedure InitializeCommonLists() Export
     ModuleCommandMapping.Insert("gsheets", "OPI_GoogleSheets");
     ModuleCommandMapping.Insert("google", "OPI_GoogleWorkspace");
     ModuleCommandMapping.Insert("greenapi", "OPI_GreenAPI");
+    ModuleCommandMapping.Insert("greenmax", "OPI_GreenMax");
+    ModuleCommandMapping.Insert("mongodb", "OPI_MongoDB");
     ModuleCommandMapping.Insert("mssql", "OPI_MSSQL");
     ModuleCommandMapping.Insert("mysql", "OPI_MySQL");
     ModuleCommandMapping.Insert("neocities", "OPI_Neocities");
     ModuleCommandMapping.Insert("notion", "OPI_Notion");
     ModuleCommandMapping.Insert("ollama", "OPI_Ollama");
     ModuleCommandMapping.Insert("openai", "OPI_OpenAI");
-    ModuleCommandMapping.Insert("ozon", "OPI_Ozon");
     ModuleCommandMapping.Insert("postgres", "OPI_PostgreSQL");
     ModuleCommandMapping.Insert("rcon", "OPI_RCON");
     ModuleCommandMapping.Insert("rportal", "OPI_ReportPortal");
@@ -150,8 +151,13 @@ Function FormMethodCallString(Val PassedParameters, Val Command, Val Method, Val
 
     For Each RequiredParameter In MethodParameters Do
 
-        ParameterName      = RequiredParameter.Parameter;
-        ParameterValue = PassedParameters.Get(ParameterName);
+       ParameterName      = RequiredParameter.Parameter;
+       ParameterNameTrim  = RequiredParameter.ParameterTrim;
+
+       ParameterValue = PassedParameters.Get(ParameterName);
+       ParameterValue = ?(ParameterValue = Undefined
+          , PassedParameters.Get(ParameterNameTrim)
+          , ParameterValue);
 
         If ValueIsFilled(ParameterValue) Then
 

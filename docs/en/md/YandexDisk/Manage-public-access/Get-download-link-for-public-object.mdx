@@ -1,0 +1,62 @@
+﻿---
+sidebar_position: 5
+description: Get download link for public object and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get download link for public object
+ Gets a direct link to download the public object
+
+
+
+`Function GetDownloadLinkForPublicObject(Val Token, Val URL, Val Path = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | URL | --url | String | &#x2714; | Object address |
+  | Path | --path | String | &#x2716; | Path inside the object |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Yandex
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    URL   = "https://yadi.sk/d/gZohv2qv6Lky-Q";
+
+    Result = OPI_YandexDisk.GetDownloadLinkForPublicObject(Token, URL);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk GetDownloadLinkForPublicObject \
+             --token "***" \
+             --url "https://yadi.sk/d/Hf_-jYnWVqinOA"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk GetDownloadLinkForPublicObject ^
+             --token "***" ^
+             --url "https://yadi.sk/d/Hf_-jYnWVqinOA"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "method": "GET",
+ "href": "https://downloader.disk.yandex.ru/disk/d3f964d7c69f4de832cfbb8100a041900f8f7c2db05b379e1e981616af266778/693a0288/Kdpe3dFisZLPovVA4r-aBmpkby3AOQiLsayEHYapOMw2ylFGSbZZrsWtGPTvHxG_-QDrqSGFBOOsS3b3gKT1zA%3D%3D?uid=0&filename=1ec77a3b-9df8-4d5d-a2e1-96f0a861d29c.png&disposition=attachment&hash=gWymXza27UTkRe1hrNeS82fGMwikk7NFYoL1ORL2VXaQAcNmjDckV4O9GInDNL8uq/J6bpmRyOJonT3VoXnDag%3D%3D%3A&limit=0&content_type=multipart&owner_uid=1573541518&fsize=2114023&hid=03d7263840468e281bd0b238a26e7d0d&media_type=image&tknv=v3",
+ "templated": false
+}
+```

@@ -8,7 +8,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Получить список сделок
- Получает список сделок (50 шт. за запрос максимум) с фильтром или без (см. ПолучитьСтруктуруФильтраСделок)
+ Получает список сделок (50 шт. за запрос максимум) с фильтром или без
 
 
 
@@ -17,14 +17,12 @@ import TabItem from '@theme/TabItem';
   | Параметр | CLI опция | Тип | Обяз. | Назначение |
   |-|-|-|-|-|
   | URL | --url | Строка | &#x2714; | URL внешнего вебхука или адрес Bitrix24 при использовании токена |
-  | Фильтр | --filter | Структура из КлючИЗначение | &#x2716; | Структура отбора сделок (см. ПолучитьСтруктуруФильтраСделок) |
+  | Фильтр | --filter | Структура из КлючИЗначение | &#x2716; | Структура отбора сделок. См. [`ПолучитьСтруктуруФильтраСделок`](/docs/Bitrix24/Deals-management/Get-deals-filter-structure) |
   | Отступ | --offset | Число, Строка | &#x2716; | Отступ от начала списка для получения сделок > 50 шт. рекурсивно |
   | Токен | --token | Строка | &#x2716; | Токен авторизации, если используется не вебхук |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrix24
-
-<br/>
 
 :::tip
 Метод в документации API: [crm.deal.list](https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_list.php)
@@ -38,7 +36,7 @@ import TabItem from '@theme/TabItem';
     Результат = OPI_Bitrix24.ПолучитьСписокСделок(URL);
 
     URL   = "b24-ar17wx.bitrix24.by";
-    Токен = "8a1bee68006e9f06006b12e400000001000...";
+    Токен = "6ad03969006e9f06006b12e400000001000...";
 
     Фильтр = Новый Структура;
     Фильтр.Вставить("TITLE"      , "Продажа в RUB");
@@ -91,13 +89,13 @@ import TabItem from '@theme/TabItem';
    "COMPANY_ID": "1",
    "CONTACT_ID": "3",
    "QUOTE_ID": null,
-   "BEGINDATE": "2024-01-01T00:00:00+00:00",
-   "CLOSEDATE": "2030-01-01T00:00:00+00:00",
+   "BEGINDATE": "2024-01-01T03:00:00+03:00",
+   "CLOSEDATE": "2030-01-01T03:00:00+03:00",
    "ASSIGNED_BY_ID": "1",
    "CREATED_BY_ID": "1",
    "MODIFY_BY_ID": "1",
-   "DATE_CREATE": "2024-08-25T08:26:58+00:00",
-   "DATE_MODIFY": "2024-08-25T08:26:59+00:00",
+   "DATE_CREATE": "2024-08-25T11:26:58+03:00",
+   "DATE_MODIFY": "2024-08-25T11:26:59+03:00",
    "OPENED": "Y",
    "CLOSED": "N",
    "COMMENTS": null,
@@ -111,11 +109,11 @@ import TabItem from '@theme/TabItem';
    "IS_REPEATED_APPROACH": "N",
    "SOURCE_ID": null,
    "SOURCE_DESCRIPTION": null,
-   "ORIGINATOR_ID": null,
-   "ORIGIN_ID": null,
+   "ORIGINATOR_ID": "***",
+   "ORIGIN_ID": "***",
    "MOVED_BY_ID": "1",
-   "MOVED_TIME": "2024-08-25T08:26:58+00:00",
-   "LAST_ACTIVITY_TIME": "2024-08-25T08:26:58+00:00",
+   "MOVED_TIME": "2024-08-25T11:26:58+03:00",
+   "LAST_ACTIVITY_TIME": "2024-08-25T11:26:58+03:00",
    "UTM_SOURCE": null,
    "UTM_MEDIUM": null,
    "UTM_CAMPAIGN": null,
@@ -127,13 +125,13 @@ import TabItem from '@theme/TabItem';
  ],
  "total": 1,
  "time": {
-  "start": 1760461578,
-  "finish": 1760461578.46639,
-  "duration": 0.466392993927002,
+  "start": 1765367913,
+  "finish": 1765367913.74631,
+  "duration": 0.746310949325562,
   "processing": 0,
-  "date_start": "2025-10-14T17:06:18+00:00",
-  "date_finish": "2025-10-14T17:06:18+00:00",
-  "operating_reset_at": 1760462178,
+  "date_start": "2025-12-10T14:58:33+03:00",
+  "date_finish": "2025-12-10T14:58:33+03:00",
+  "operating_reset_at": 1765368513,
   "operating": 0
  }
 }

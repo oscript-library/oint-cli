@@ -1,0 +1,100 @@
+﻿---
+sidebar_position: 1
+description: Get notification and other functions to work with GreenAPI in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, GreenAPI]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get notification
+ Receives one notification from the queue
+
+
+
+`Function GetNotification(Val AccessParameters, Val Timeout = 5) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | AccessParameters | --access | Structure Of KeyAndValue | &#x2714; | Access parameters. See FormAccessParameters |
+  | Timeout | --timeout | Number | &#x2716; | Timeout for waiting for new messages when the queue is empty |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Green API
+
+:::tip
+Once the notification has been successfully accepted, you must remove it from the queue using the `DeleteNotificationFromQueue` method
+
+Method at API documentation: [ReceiveNotification](https://green-api.com/docs/api/receiving/technology-http-api/ReceiveNotification/)
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    ApiUrl           = "https://7105.api.greenapi.com";
+    MediaUrl         = "https://7105.media.greenapi.com";
+    IdInstance       = "71051...";
+    ApiTokenInstance = "425010d90e114aa6b78f0969e...";
+
+    AccessParameters = OPI_GreenAPI.FormAccessParameters(ApiUrl, MediaUrl, IdInstance, ApiTokenInstance);
+    Result           = OPI_GreenAPI.GetNotification(AccessParameters);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint greenapi GetNotification \
+             --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint greenapi GetNotification ^
+             --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "receiptId": 1,
+ "body": {
+  "typeWebhook": "outgoingAPIMessageReceived",
+  "instanceData": {
+   "idInstance": "***",
+   "wid": "***",
+   "typeInstance": "whatsapp"
+  },
+  "timestamp": 1765294946,
+  "idMessage": "3EB09B72DF52644AFB1181",
+  "senderData": {
+   "chatId": "***",
+   "chatName": "***",
+   "sender": "***",
+   "senderName": "***",
+   "senderContactName": "***"
+  },
+  "messageData": {
+   "typeMessage": "imageMessage",
+   "fileMessageData": {
+    "downloadUrl": "https://do-media-7105.fra1.digitaloceanspaces.com/7105187566/ad853d16-db83-4eb7-938d-e4b0be420b29.jpg",
+    "caption": "File description",
+    "fileName": "ad853d16-db83-4eb7-938d-e4b0be420b29.jpg",
+    "jpegThumbnail": "",
+    "isAnimated": false,
+    "mimeType": "image/jpeg",
+    "forwardingScore": 0,
+    "isForwarded": false
+   }
+  }
+ }
+}
+```

@@ -1,0 +1,141 @@
+﻿---
+sidebar_position: 1
+description: Вставить документы и другие функции для работы с MongoDB в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Вставить документы
+ Вставляет новые документы в коллекцию
+
+
+
+`Функция ВставитьДокументы(Знач Соединение, Знач Коллекция, Знач Значения, Знач База = Неопределено, Знач Параметры = Неопределено) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Соединение | --dbc | Строка, Произвольный | &#x2714; | Соединение или строка подключения |
+  | Коллекция | --coll | Строка | &#x2714; | Имя коллекции |
+  | Значения | --docs | Массив Из Произвольный | &#x2714; | Массив объектов документов |
+  | База | --db | Строка | &#x2716; | Имя базы. Текущая база, если не указано |
+  | Параметры | --params | Структура Из КлючИЗначение | &#x2716; | Дополнительные параметры вставки |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - Результат выполнения операции
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Адрес  = "127.0.0.1:1234";
+    Логин  = "bayselonarrend";
+    Пароль = "12we...";
+    База   = "main";
+
+    ПараметрыПодключения = Новый Структура("authSource", "admin");
+    СтрокаПодключения    = OPI_MongoDB.СформироватьСтрокуПодключения(Адрес, , Логин, Пароль, ПараметрыПодключения);
+    Соединение           = OPI_MongoDB.ОткрытьСоединение(СтрокаПодключения);
+
+    Коллекция        = "new_collection";
+    МассивДокументов = Новый Массив;
+
+    // С неявным приведением типов
+    СтруктураДокумента = Новый Структура;
+
+    ТестовыйМассив = Новый Массив;
+    ТестовыйМассив.Добавить("Значение1");
+    ТестовыйМассив.Добавить("Значение2");
+
+    ТестоваяСтруктура = Новый Структура("text,number", "Текст", 10);
+    ТестовыеДвоичные  = ПолучитьДвоичныеДанныеИзСтроки("Текст");
+    ТекущаяДата       = OPI_Инструменты.ПолучитьТекущуюДату();
+
+    СтруктураДокумента.Вставить("stringField", "Текст");
+    СтруктураДокумента.Вставить("intField"   , 200);
+    СтруктураДокумента.Вставить("doubleField", 123.456);
+    СтруктураДокумента.Вставить("boolField"  , Истина);
+    СтруктураДокумента.Вставить("arrayField" , ТестовыйМассив);
+    СтруктураДокумента.Вставить("docField"   , ТестоваяСтруктура);
+    СтруктураДокумента.Вставить("dateField"  , ТекущаяДата);
+    СтруктураДокумента.Вставить("nullField");
+
+    МассивДокументов.Добавить(СтруктураДокумента);
+
+    // С явным приведением типов
+    СтруктураДокумента = Новый Структура;
+
+    RegExp = Новый Структура("pattern,options", "[a-z]+@[a-z]+\.[a-z]+", "i");
+    КодJS  = "const result = [1, 2, 3].map(x => x * 2).filter(x => x > 3);";
+
+    СтруктураДокумента.Вставить("stringField", Новый Структура("__OPI_STRING__"   , "Текст"));
+    СтруктураДокумента.Вставить("oidField"   , Новый Структура("__OPI_OBJECTID__" , "63ceed18f71dda7d8cf21e8e"));
+    СтруктураДокумента.Вставить("jsField"    , Новый Структура("__OPI_JS__"       , КодJS));
+    СтруктураДокумента.Вставить("symbolField", Новый Структура("__OPI_SYMBOL__"   , "Y"));
+    СтруктураДокумента.Вставить("int32Field" , Новый Структура("__OPI_INT32__"    , 10));
+    СтруктураДокумента.Вставить("int64Field" , Новый Структура("__OPI_INT64__"    , 1000));
+    СтруктураДокумента.Вставить("doubleField", Новый Структура("__OPI_DOUBLE__"   , 124.456));
+    СтруктураДокумента.Вставить("boolField"  , Новый Структура("__OPI_BOOLEAN__"  , Истина));
+    СтруктураДокумента.Вставить("dateField"  , Новый Структура("__OPI_DATETIME__" , "1763204141"));
+    СтруктураДокумента.Вставить("tsField"    , Новый Структура("__OPI_TIMESTAMP__", ТекущаяДата));
+    СтруктураДокумента.Вставить("regexpField", Новый Структура("__OPI_REGEXP__"   , RegExp));
+    СтруктураДокумента.Вставить("binaryField", Новый Структура("__OPI_BINARY__"   , ТестовыеДвоичные));
+    СтруктураДокумента.Вставить("nullField"  , Новый Структура("__OPI_NULL__"));
+    СтруктураДокумента.Вставить("minkeyField", Новый Структура("__OPI_MINKEY__"));
+    СтруктураДокумента.Вставить("maxkeyField", Новый Структура("__OPI_MAXKEY__"));
+
+    ТестовыйМассив = Новый Массив;
+    ТестовыйМассив.Добавить(Новый Структура("__OPI_SYMBOL__", "A"));
+    ТестовыйМассив.Добавить(Новый Структура("__OPI_MINKEY__"));
+
+    ТестоваяСтруктура = Новый Структура("code,number"
+        , Новый Структура("__OPI_JS__", "const result = 1")
+        , Новый Структура("__OPI_DOUBLE__", 10));
+
+    // Документы и массивы в структуру не оборачиваются
+    СтруктураДокумента.Вставить("docField"   , ТестоваяСтруктура);
+    СтруктураДокумента.Вставить("arrayField" , ТестовыйМассив);
+
+    МассивДокументов.Добавить(СтруктураДокумента);
+
+    Результат = OPI_MongoDB.ВставитьДокументы(Соединение, Коллекция, МассивДокументов, База);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON данные также могут быть переданы как путь к файлу .json
+            
+            oint mongodb ВставитьДокументы \
+              --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+              --coll "new_collection" \
+              --docs "[{'productName':'Товар 1','category':'электроника','price':'80','quantity':'6','rating':'1','inStock':true,'tags':['новинка'],'createdDate':'12/09/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'0.3','dimensions':{'length':'8','width':'4','height':'2'}}},{'productName':'Товар 2','category':'одежда','price':'110','quantity':'7','rating':'2','inStock':true,'tags':['новинка','распродажа'],'createdDate':'12/08/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'0.6','dimensions':{'length':'16','width':'8','height':'4'}}},{'productName':'Товар 3','category':'книги','price':'140','quantity':'8','rating':'3','inStock':false,'tags':['новинка','популярный'],'createdDate':'12/07/2025 09:55:18','details':{'supplier':null,'weightKg':'0.9','dimensions':{'length':'24','width':'12','height':'6'}}},{'productName':'Товар 4','category':null,'price':'170','quantity':'9','rating':'4','inStock':true,'tags':['распродажа'],'createdDate':'12/06/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'1.2','dimensions':{'length':'32','width':'16','height':'8'}}},{'productName':'Товар 5','category':'электроника','price':'200','quantity':'10','rating':'5','inStock':true,'tags':[],'createdDate':'12/05/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'1.5','dimensions':{'length':'40','width':'20','height':'10'}}},{'productName':'Товар 6','category':'одежда','price':'230','quantity':'11','rating':'1','inStock':false,'tags':['распродажа','популярный'],'createdDate':'12/04/2025 09:55:18','details':{'supplier':null,'weightKg':'1.8','dimensions':{'length':'48','width':'24','height':'12'}}},{'productName':'Товар 7','category':'книги','price':'260','quantity':'12','rating':'1','inStock':true,'tags':[],'createdDate':'12/03/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'2.1','dimensions':{'length':'56','width':'28','height':'14'}}},{'productName':'Товар 8','category':null,'price':'290','quantity':'13','rating':'2','inStock':true,'tags':['распродажа'],'createdDate':'12/02/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'2.4','dimensions':{'length':'64','width':'32','height':'16'}}},{'productName':'Товар 9','category':'электроника','price':'320','quantity':'14','rating':'3','inStock':false,'tags':['популярный'],'createdDate':'12/01/2025 09:55:18','details':{'supplier':null,'weightKg':'2.7','dimensions':{'length':'72','width':'36','height':'18'}}},{'productName':'Товар 10','category':'одежда','price':'350','quantity':'5','rating':'4','inStock':true,'tags':['распродажа'],'createdDate':'11/30/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'3','dimensions':{'length':'80','width':'40','height':'20'}}},{'productName':'Товар 11','category':'книги','price':'380','quantity':'6','rating':'5','inStock':true,'tags':[],'createdDate':'11/29/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'3.3','dimensions':{'length':'88','width':'44','height':'22'}}},{'productName':'Товар 12','category':null,'price':'410','quantity':'7','rating':'1','inStock':false,'tags':['распродажа','популярный','хит'],'createdDate':'11/28/2025 09:55:18','details':{'supplier':null,'weightKg':'3.6','dimensions':{'length':'96','width':'48','height':'24'}}},{'productName':'Товар 13','category':'электроника','price':'440','quantity':'8','rating':'1','inStock':true,'tags':['хит'],'createdDate':'11/27/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'3.9','dimensions':{'length':'104','width':'52','height':'26'}}},{'productName':'Товар 14','category':'одежда','price':'470','quantity':'9','rating':'2','inStock':true,'tags':['распродажа','хит'],'createdDate':'11/26/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'4.2','dimensions':{'length':'112','width':'56','height':'28'}}},{'productName':'Товар 15','category':'книги','price':'500','quantity':'10','rating':'3','inStock':false,'tags':['популярный','хит'],'createdDate':'11/25/2025 09:55:18','details':{'supplier':null,'weightKg':'4.5','dimensions':{'length':'120','width':'60','height':'30'}}},{'productName':'Товар с нулевой ценой','category':'книги','price':'0','quantity':'1','rating':'4','inStock':true,'tags':[]},{'productName':'Товар без категории','price':'250','quantity':'3','rating':'3','inStock':false}]" \
+              --db "main"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON данные также могут быть переданы как путь к файлу .json
+            
+            oint mongodb ВставитьДокументы ^
+              --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+              --coll "new_collection" ^
+              --docs "[{'productName':'Товар 1','category':'электроника','price':'80','quantity':'6','rating':'1','inStock':true,'tags':['новинка'],'createdDate':'12/09/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'0.3','dimensions':{'length':'8','width':'4','height':'2'}}},{'productName':'Товар 2','category':'одежда','price':'110','quantity':'7','rating':'2','inStock':true,'tags':['новинка','распродажа'],'createdDate':'12/08/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'0.6','dimensions':{'length':'16','width':'8','height':'4'}}},{'productName':'Товар 3','category':'книги','price':'140','quantity':'8','rating':'3','inStock':false,'tags':['новинка','популярный'],'createdDate':'12/07/2025 09:55:18','details':{'supplier':null,'weightKg':'0.9','dimensions':{'length':'24','width':'12','height':'6'}}},{'productName':'Товар 4','category':null,'price':'170','quantity':'9','rating':'4','inStock':true,'tags':['распродажа'],'createdDate':'12/06/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'1.2','dimensions':{'length':'32','width':'16','height':'8'}}},{'productName':'Товар 5','category':'электроника','price':'200','quantity':'10','rating':'5','inStock':true,'tags':[],'createdDate':'12/05/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'1.5','dimensions':{'length':'40','width':'20','height':'10'}}},{'productName':'Товар 6','category':'одежда','price':'230','quantity':'11','rating':'1','inStock':false,'tags':['распродажа','популярный'],'createdDate':'12/04/2025 09:55:18','details':{'supplier':null,'weightKg':'1.8','dimensions':{'length':'48','width':'24','height':'12'}}},{'productName':'Товар 7','category':'книги','price':'260','quantity':'12','rating':'1','inStock':true,'tags':[],'createdDate':'12/03/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'2.1','dimensions':{'length':'56','width':'28','height':'14'}}},{'productName':'Товар 8','category':null,'price':'290','quantity':'13','rating':'2','inStock':true,'tags':['распродажа'],'createdDate':'12/02/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'2.4','dimensions':{'length':'64','width':'32','height':'16'}}},{'productName':'Товар 9','category':'электроника','price':'320','quantity':'14','rating':'3','inStock':false,'tags':['популярный'],'createdDate':'12/01/2025 09:55:18','details':{'supplier':null,'weightKg':'2.7','dimensions':{'length':'72','width':'36','height':'18'}}},{'productName':'Товар 10','category':'одежда','price':'350','quantity':'5','rating':'4','inStock':true,'tags':['распродажа'],'createdDate':'11/30/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'3','dimensions':{'length':'80','width':'40','height':'20'}}},{'productName':'Товар 11','category':'книги','price':'380','quantity':'6','rating':'5','inStock':true,'tags':[],'createdDate':'11/29/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'3.3','dimensions':{'length':'88','width':'44','height':'22'}}},{'productName':'Товар 12','category':null,'price':'410','quantity':'7','rating':'1','inStock':false,'tags':['распродажа','популярный','хит'],'createdDate':'11/28/2025 09:55:18','details':{'supplier':null,'weightKg':'3.6','dimensions':{'length':'96','width':'48','height':'24'}}},{'productName':'Товар 13','category':'электроника','price':'440','quantity':'8','rating':'1','inStock':true,'tags':['хит'],'createdDate':'11/27/2025 09:55:18','details':{'supplier':'Поставщик А','weightKg':'3.9','dimensions':{'length':'104','width':'52','height':'26'}}},{'productName':'Товар 14','category':'одежда','price':'470','quantity':'9','rating':'2','inStock':true,'tags':['распродажа','хит'],'createdDate':'11/26/2025 09:55:18','details':{'supplier':'Поставщик Б','weightKg':'4.2','dimensions':{'length':'112','width':'56','height':'28'}}},{'productName':'Товар 15','category':'книги','price':'500','quantity':'10','rating':'3','inStock':false,'tags':['популярный','хит'],'createdDate':'11/25/2025 09:55:18','details':{'supplier':null,'weightKg':'4.5','dimensions':{'length':'120','width':'60','height':'30'}}},{'productName':'Товар с нулевой ценой','category':'книги','price':'0','quantity':'1','rating':'4','inStock':true,'tags':[]},{'productName':'Товар без категории','price':'250','quantity':'3','rating':'3','inStock':false}]" ^
+              --db "main"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "result": true,
+ "data": {
+  "n": 17,
+  "ok": 1
+ }
+}
+```

@@ -10,7 +10,6 @@ import styles from './index.module.css';
 const iconList = [
   '/img/APIs/Airtable.png',
   '/img/APIs/VK.png',
-  '/img/APIs/Ozon.png',
   '/img/APIs/Neocities.png',
   '/img/APIs/Telegram.png',
   '/img/APIs/Viber.png',
@@ -35,7 +34,7 @@ const iconList = [
   '/img/APIs/TCP.png',
   '/img/APIs/VKTeams.png',
   '/img/APIs/FTP.png',
-  '/img/APIs/SFTP.png',
+  '/img/APIs/sftp.png',
   '/img/APIs/SSH.png',
 ];
 
@@ -127,7 +126,7 @@ function HomepageHeader() {
             </Link>
           </div>
           <div className={styles.button}>
-            <Link className="button button--secondary button--bg" to="https://github.com/Bayselonarrend/OpenIntegrations/releases/latest">
+            <Link className="button button--secondary button--bg" to="./download">
               ⬇️ Скачать
             </Link>
           </div>

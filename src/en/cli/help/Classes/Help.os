@@ -206,13 +206,29 @@ EndProcedure
 Procedure HandleHelpTabulation(ParametersTable)
 
 	Parameter_			= "Parameter";
-	MaximumLength 	= 15;
+	MaximumLength 	= 0;
+
+	For Each MethodParameter In ParametersTable Do
+
+		CurrentLength = StrLen(MethodParameter[Parameter_]);
+
+		If MaximumLength < CurrentLength Then
+			MaximumLength = CurrentLength;
+		EndIf;
+		
+	EndDo;
 
 	For Each MethodParameter In ParametersTable Do
 			
-		While Not StrLen(MethodParameter[Parameter_]) = MaximumLength Do
+		While StrLen(MethodParameter[Parameter_]) < MaximumLength Do
 			MethodParameter[Parameter_] = MethodParameter[Parameter_] + " ";
 		EndDo;
+
+		If ValueIsFilled(MethodParameter["ParameterTrim"]) Then
+			MethodParameter[Parameter_] = MethodParameter[Parameter_] + ", " + MethodParameter["ParameterTrim"];
+		Else
+			MethodParameter[Parameter_] = MethodParameter[Parameter_] + "    ";
+		EndIf;
 
 		CurrentDescription    = MethodParameter["Description"];
 		DescriptionArray     = StrSplit(CurrentDescription, Chars.LF);

@@ -1,12 +1,12 @@
 ﻿{
  "entity": {
-  "uuid": "7806f65b-b443-4a7d-8d39-448a678c21d8"
+  "uuid": "1dd8c57e-a50d-43fd-9f95-dfb136e284c0"
  },
  "requests": [
   {
-   "request_uuid": "6ed077ca-7683-439f-8016-8a6545755fb2",
+   "request_uuid": "370efa48-b268-4782-8f1c-b7a1400c0cca",
    "type": "CREATE_REFUSAL",
-   "date_time": "2025-10-14T17:11:15+00:00",
+   "date_time": "2025-12-06T20:44:38+03:00",
    "state": "ACCEPTED"
   }
  ],

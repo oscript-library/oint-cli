@@ -1,0 +1,80 @@
+﻿---
+sidebar_position: 4
+description: Отправить часть  и другие функции для работы с HTTP-клиент в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, HTTP-клиент]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Отправить часть 
+ Отправляет запрос с указанной частью тела и заголовком Content-Range
+
+
+
+`Функция ОтправитьЧасть(Знач ПозицияНачала, Знач КоличествоБайт, Знач Метод = "PUT") Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | ПозицияНачала | - | Число | &#x2714; | Позиция начала в теле запроса |
+  | КоличествоБайт | - | Число | &#x2714; | Количество байт от указанной позиции начала для отправки |
+  | Метод | - | Строка | &#x2716; | HTTP метод запроса |
+
+  
+  Возвращаемое значение:   ОбработкаОбъект.OPI_HTTPКлиент -  Этот же объект обработки
+
+
+:::caution
+**NOCLI:** данный метод недоступен для использования в CLI версии
+:::
+<br/>
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    URL = "https://bin.openintegrations.dev";
+    URL = URL + "/put";
+
+    РазмерЧасти = 524288;
+    Данные      = ПолучитьДвоичныеДанныеИзСтроки("Some data for sending");
+
+    // Отправляем только "data for"
+    НачальнаяПозиция = 5;
+    ЧислоБайт        = 8;
+
+    Результат = OPI_ЗапросыHTTP.НовыйЗапрос()
+        .Инициализировать(URL)
+        .УстановитьДвоичноеТело(Данные)
+        .ОтправитьЧасть(НачальнаяПозиция, ЧислоБайт) // <---
+        .ВернутьОтветКакJSONКоллекцию();
+```
+    
+
+
+
+```json title="Результат"
+{
+ "args": {},
+ "data": "data for",
+ "files": {},
+ "form": {},
+ "headers": {
+  "Accept": "*/*",
+  "Accept-Charset": "utf-8",
+  "Accept-Encoding": "gzip",
+  "Connection": "Keep-Alive",
+  "Content-Length": "8",
+  "Content-Range": "bytes 5-12/21",
+  "Content-Type": "application/octet-stream",
+  "Host": "localhost:2424",
+  "Max-Forwards": "10",
+  "User-Agent": "1Script v$2.0.0.0",
+  "X-Arr-Log-Id": "11950692-1f87-405a-85ba-972f0fa0b86d",
+  "X-Arr-Ssl": "2048|256|C=BE, O=GlobalSign nv-sa, CN=GlobalSign GCC R6 AlphaSSL CA 2025|CN=*.openintegrations.dev",
+  "X-Forwarded-Host": "bin.openintegrations.dev",
+  "X-Original-Url": "***"
+ },
+ "json": null,
+ "origin": "***",
+ "url": "https://bin.openintegrations.dev/put"
+}
+```

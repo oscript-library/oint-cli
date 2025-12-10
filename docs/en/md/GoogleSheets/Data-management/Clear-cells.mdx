@@ -1,0 +1,76 @@
+﻿---
+sidebar_position: 2
+description: Clear cells and other functions to work with Google Sheets in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Sheets]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Clear cells
+ Clears the value in cells
+
+
+
+`Function ClearCells(Val Token, Val Spreadsheet, Val CellsArray, Val Sheet = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Spreadsheet | --spreadsheet | String | &#x2714; | SpreadsheetID |
+  | CellsArray | --cells | Array of String | &#x2714; | Array of cells like A1 to be cleared |
+  | Sheet | --sheetname | String | &#x2716; | Sheet name (first sheet by default) |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token       = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Spreadsheet = "13mnV79E8MBeQkwzcH3RTikriA3VsFKv89RnBkhGeNZA";
+    Sheet       = "Sheet2";
+
+    CellsArray = New Array;
+    CellsArray.Add("B2");
+    CellsArray.Add("A3");
+    CellsArray.Add("B4");
+
+    Result = OPI_GoogleSheets.ClearCells(Token, Spreadsheet, CellsArray, Sheet);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gsheets ClearCells \
+             --token "***" \
+             --spreadsheet "1_IoZFnecyPhgd9vKjI-1X0zcRV9ctchY5inUHmcKQSQ" \
+             --cells "['B2','A3','B4']" \
+             --sheetname "Sheet2"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gsheets ClearCells ^
+             --token "***" ^
+             --spreadsheet "1_IoZFnecyPhgd9vKjI-1X0zcRV9ctchY5inUHmcKQSQ" ^
+             --cells "['B2','A3','B4']" ^
+             --sheetname "Sheet2"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "spreadsheetId": "1_IoZFnecyPhgd9vKjI-1X0zcRV9ctchY5inUHmcKQSQ",
+ "clearedRanges": [
+  "***",
+  "***",
+  "***"
+ ]
+}
+```

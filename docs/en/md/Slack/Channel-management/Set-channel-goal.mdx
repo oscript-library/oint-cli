@@ -23,13 +23,11 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from Slack
 
-<br/>
-
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Token   = "xoxb-6965308400114-696804637...";
-    Channel = "C09M6UV9KT2";
+    Channel = "C0A3MS0PZS4";
     Purpose = "TestGoal";
 
     Result = OPI_Slack.SetChannelGoal(Token, Channel, Purpose);
@@ -42,7 +40,7 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint slack SetChannelGoal \
              --token "***" \
-             --channel "C09LEMNRUD9" \
+             --channel "C0A2MHCL9EF" \
              --purpose "TestGoal"
         ```
     </TabItem>
@@ -51,7 +49,7 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint slack SetChannelGoal ^
              --token "***" ^
-             --channel "C09LEMNRUD9" ^
+             --channel "C0A2MHCL9EF" ^
              --purpose "TestGoal"
         ```
     </TabItem>
@@ -62,15 +60,15 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "channel": {
-  "id": "C09LEMNRUD9",
-  "created": 1760521294,
+  "id": "C0A2MHCL9EF",
+  "created": 1765395529,
   "creator": "U06UG1CAYH2",
   "is_org_shared": false,
   "is_im": false,
   "context_team_id": "T06UD92BS3C",
-  "updated": 1760521300490,
-  "name": "testconvf0560358-c9cc-406f-b690-d00904ee0015",
-  "name_normalized": "testconvf0560358-c9cc-406f-b690-d00904ee0015",
+  "updated": 1765395535304,
+  "name": "testconv6744ac3d-2d30-43b1-b36f-65fc42754aa4",
+  "name_normalized": "testconv6744ac3d-2d30-43b1-b36f-65fc42754aa4",
   "is_channel": true,
   "is_group": false,
   "is_mpim": false,
@@ -86,15 +84,15 @@ import TabItem from '@theme/TabItem';
   "purpose": {
    "value": "TestGoal",
    "creator": "U06UG1CAYH2",
-   "last_set": 1760521300
+   "last_set": 1765395535
   },
   "topic": {
    "value": "TestTopic",
    "creator": "U06UG1CAYH2",
-   "last_set": 1760521297
+   "last_set": 1765395532
   },
   "shared_team_ids": [
-   "T06UD92BS3C"
+   "***"
   ],
   "pending_connected_team_ids": [],
   "is_member": false,

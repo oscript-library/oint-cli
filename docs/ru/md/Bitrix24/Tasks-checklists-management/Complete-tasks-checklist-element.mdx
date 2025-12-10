@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrxi24
 
-<br/>
-
 :::tip
 Метод в документации API: [task.checklistitem.complete](https://dev.1c-bitrix.ru/rest_help/tasks/task/checklistitem/complete.php)
 :::
@@ -34,16 +32,16 @@ import TabItem from '@theme/TabItem';
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     URL        = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    IDЗадачи   = "8350";
-    IDЭлемента = "5866";
+    IDЗадачи   = "9036";
+    IDЭлемента = "6414";
 
     Результат = OPI_Bitrix24.ВыполнитьЭлементЧеклистаЗадачи(URL, IDЗадачи, IDЭлемента);
 
-    IDЗадачи   = "8352";
-    IDЭлемента = "5870";
+    IDЗадачи   = "9038";
+    IDЭлемента = "6418";
 
     URL   = "b24-ar17wx.bitrix24.by";
-    Токен = "8a1bee68006e9f06006b12e400000001000...";
+    Токен = "6ad03969006e9f06006b12e400000001000...";
 
     Результат = OPI_Bitrix24.ВыполнитьЭлементЧеклистаЗадачи(URL, IDЗадачи, IDЭлемента, Токен);
 ```
@@ -55,8 +53,8 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint bitrix24 ВыполнитьЭлементЧеклистаЗадачи \
               --url "b24-ar17wx.bitrix24.by" \
-              --task "8382" \
-              --element 5894 \
+              --task "9008" \
+              --element 6394 \
               --token "***"
         ```
     </TabItem>
@@ -65,8 +63,8 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint bitrix24 ВыполнитьЭлементЧеклистаЗадачи ^
               --url "b24-ar17wx.bitrix24.by" ^
-              --task "8382" ^
-              --element 5894 ^
+              --task "9008" ^
+              --element 6394 ^
               --token "***"
         ```
     </TabItem>
@@ -77,13 +75,13 @@ import TabItem from '@theme/TabItem';
 {
  "result": true,
  "time": {
-  "start": 1760461329,
-  "finish": 1760461329.75101,
-  "duration": 0.751009941101074,
+  "start": 1765367687,
+  "finish": 1765367687.54589,
+  "duration": 0.54588794708252,
   "processing": 0,
-  "date_start": "2025-10-14T17:02:09+00:00",
-  "date_finish": "2025-10-14T17:02:09+00:00",
-  "operating_reset_at": 1760461929,
+  "date_start": "2025-12-10T14:54:47+03:00",
+  "date_finish": "2025-12-10T14:54:47+03:00",
+  "operating_reset_at": 1765368287,
   "operating": 0
  }
 }

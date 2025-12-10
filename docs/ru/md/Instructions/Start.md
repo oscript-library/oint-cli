@@ -8,9 +8,9 @@ keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, 
 
 ![OPI](../../static/img/logo_long.webp)
 
-**Открытый пакет интеграций** - набор инструментов для интеграции с некоторыми популярными API посредством CLI, 1C:Enterprise или OneScript. Он состоит из общих модулей, каждый из которых отвечает за свой API, а также нескольких модулей-инструментов, общих для всех. 
+**OpenIntegrations** — это набор инструментов для работы с внешними API, доступный в виде библиотеки (расширения) для 1С:Предприятие / OneScript и кроссплатформенного консольного приложения для Windows и Linux. Проект предоставляет готовые методы для выполнения прикладных задач (отправки сообщения, создания документа, SQL-запросов и пр.) в более чем 30 сервисах и технологиях, включая Telegram, VK, Bitrix24, Google и Yandex-сервисы, а также различные СУБД и протоколы обмена
 
-Реализованные методы выполняют конечные задачи (вроде `ОтправитьСообщение()` или `СоздатьПост()`), что позволяет использовать их без углубления в реализацию. Однако, код, при этом, достаточно сильно декомпозирован - методы авторизации, получения данных и пр. по возможности вынесены в отдельные функции. Это позволяет легко добавлять новые методы, даже если они еще не реализованы в самой библиотеке на текущий момент.
+Код проекта организован в виде набора независимых модулей, каждый из которых отвечает за работу с конкретным сервисом. При этом общая логика, вроде работы с HTTP или JSON, вынесена в переиспользуемые компоненты. Это позволяет как быстро применять готовые функции, так и легко расширять функциональность, добавляя новые методы на базе существующих компонентов. Исходный код открыт, что дает полный контроль над реализацией и позволяет сообществу участвовать в разработке
 
 <br/>
 
@@ -22,13 +22,14 @@ keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, 
  <a href="/docs/Instructions/VK/"><img src={require('../../static/img/APIs/VK.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/VKTeams/"><img src={require('../../static/img/APIs/VKTeams.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/Viber/"><img src={require('../../static/img/APIs/Viber.png').default} width="32" class="wp_logo"/></a>
- <a href="/docs/Instructions/Ozon/"><img src={require('../../static/img/APIs/Ozon.png').default} width="32" class="wp_logo"/></a>
+ <a href="/docs/Instructions/GreenMax/"><img src={require('../../static/img/APIs/GreenMax.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/GreenAPI/"><img src={require('../../static/img/APIs/GreenAPI.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/S3/"><img src={require('../../static/img/APIs/S3.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/PostgreSQL/"><img src={require('../../static/img/APIs/PostgreSQL.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/SQLite/"><img src={require('../../static/img/APIs/SQLite.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/MSSQL/"><img src={require('../../static/img/APIs/MSSQL.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/MySQL/"><img src={require('../../static/img/APIs/MySQL.png').default} width="32" class="wp_logo"/></a>
+ <a href="/docs/Instructions/MongoDB/"><img src={require('../../static/img/APIs/MongoDB.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/Twitter/"><img src={require('../../static/img/APIs/Twitter.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/Notion/"><img src={require('../../static/img/APIs/Notion.png').default} width="32" class="wp_logo"/></a>
  <a href="/docs/Instructions/YandexDisk/"><img src={require('../../static/img/APIs/YandexDisk.png').default} width="32" class="wp_logo"/></a>

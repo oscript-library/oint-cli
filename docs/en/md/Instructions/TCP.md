@@ -7,7 +7,7 @@ sidebar_class_name: TCP
 
 # TCP (Client)
 
-This section is dedicated to the library for working with the TCP. On this page, all the steps necessary to start working are described
+This section covers the library for working with TCP protocol in 1С:Enterprise, OneScript, and CLI. This page describes all the steps required to get started.
 
 <div class="theme-admonition theme-admonition-info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-Layout-styles-module alert alert--info">
 
@@ -39,6 +39,29 @@ For a simple scenario with standard settings, there is also the `ProcessRequest`
 
 The library supports TLS mode. To enable it, you must configure TLS settings using the `GetTlsSettings` function and pass them as the corresponding parameter to the `CreateConnection` or `ProcessRequest` function. If the TLS parameter is not provided when calling these functions, the connection will be initialized in an unsecured mode.
 
-## Compatibility
+## Proxy Usage
 
-Technically, the client implementation is a Native component in Rust. It comes in a zip archive format, and, in theory, should work on all available platforms: x86 and x64 Windows and Linux. The actual testing was done on Windows x64 and, cossentially (via OneScript), on Linux x64
+The client supports establishing connections through a proxy server. Proxy settings can be obtained using the `GetProxySettings` function. The resulting structure must then be passed to either `CreateConnection` or `ProcessRequest` when initiating work
+
+```bsl
+
+    ...
+
+    ProxyType = "http"; // http, socks5, socks4
+
+    ProxyAddress  = FunctionParameters["Proxy_IP"];
+    ProxyPort     = FunctionParameters["Proxy_Port"];
+    ProxyLogin    = FunctionParameters["Proxy_User"];
+    ProxyPassword = FunctionParameters["Proxy_Password"];
+
+    ProxySettings = OPI_TCP.GetProxySettings(ProxyAddress, ProxyPort, ProxyType, ProxyLogin, ProxyPassword);
+
+    Connection = OPI_TCP.CreateConnection(Address, TLSSettings, ProxySettings);
+
+```
+
+Support is provided for socks4, socks5, and http proxy servers
+
+:::warning
+Operation via http-proxy is experimental and may be unstable depending on the proxy server’s implementation, configuration, and capabilities. It is recommended to use socks-proxy whenever possible for stable traffic transmission
+:::

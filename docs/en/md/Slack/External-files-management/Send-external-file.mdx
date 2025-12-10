@@ -23,14 +23,12 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from Slack
 
-<br/>
-
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Token   = "xoxb-6965308400114-696804637...";
     Channel = "C06UFNUTKUL";
-    FileID  = "F09L68YLP0T";
+    FileID  = "F0A2C43SASK";
 
     Result = OPI_Slack.SendExternalFile(Token, FileID, Channel);
 ```
@@ -42,7 +40,7 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint slack SendExternalFile \
              --token "***" \
-             --fileid "F09LEMVED4K" \
+             --fileid "F0A2CG4MM8F" \
              --channels "C06UFNUTKUL"
         ```
     </TabItem>
@@ -51,7 +49,7 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint slack SendExternalFile ^
              --token "***" ^
-             --fileid "F09LEMVED4K" ^
+             --fileid "F0A2CG4MM8F" ^
              --channels "C06UFNUTKUL"
         ```
     </TabItem>
@@ -62,9 +60,9 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "file": {
-  "id": "F09LEMVED4K",
-  "created": 1760521375,
-  "timestamp": 1760521375,
+  "id": "F0A2CG4MM8F",
+  "created": 1765395627,
+  "timestamp": 1765395627,
   "name": "NewFile",
   "title": "NewFile",
   "mimetype": "application/vnd.slack-remote",
@@ -81,11 +79,11 @@ import TabItem from '@theme/TabItem';
   "public_url_shared": false,
   "display_as_bot": false,
   "username": "",
-  "external_id": "561a6a87-2cb6-43c0-bb0a-cb2a81e337ec",
+  "external_id": "942c9f60-9075-41c7-8017-fb60da2cdd0b",
   "external_url": "https://hut.openintegrations.dev/test_data/document.docx",
   "url_private": "https://hut.openintegrations.dev/test_data/document.docx",
   "media_display_type": "unknown",
-  "permalink": "https://openintegrationsgroup.slack.com/files/U06UG1CAYH2/F09LEMVED4K/newfile",
+  "permalink": "https://openintegrationsgroup.slack.com/files/U06UG1CAYH2/F0A2CG4MM8F/newfile",
   "comments_count": 0,
   "is_starred": false,
   "shares": {
@@ -95,7 +93,7 @@ import TabItem from '@theme/TabItem';
       "reply_users": [],
       "reply_users_count": 0,
       "reply_count": 0,
-      "ts": "1760521380.312169",
+      "ts": "1765395633.862259",
       "channel_name": "slack-api-librarry",
       "team_id": "T06UD92BS3C",
       "share_user_id": "U06UG1CAYH2",
@@ -106,7 +104,7 @@ import TabItem from '@theme/TabItem';
    }
   },
   "channels": [
-   "C06UFNUTKUL"
+   "***"
   ],
   "groups": [],
   "ims": [],

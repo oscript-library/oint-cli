@@ -1,0 +1,57 @@
+﻿---
+sidebar_position: 9
+description: Удалить объект и другие функции для работы с Google Drive в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Удалить объект
+ Удаляет файл или каталог по ID
+
+
+
+`Функция УдалитьОбъект(Знач Токен, Знач Идентификатор) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Идентификатор | --object | Строка | &#x2714; | Идентификатор объекта для удаления |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен         = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Идентификатор = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+
+    Результат = OPI_GoogleDrive.УдалитьОбъект(Токен, Идентификатор);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive УдалитьОбъект \
+              --token "***" \
+              --object "1kF_42ZppPfTz_pfsehNl_Zry7lsVHq05"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive УдалитьОбъект ^
+              --token "***" ^
+              --object "1kF_42ZppPfTz_pfsehNl_Zry7lsVHq05"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{}
+```

@@ -1,0 +1,57 @@
+﻿---
+sidebar_position: 9
+description: Delete object and other functions to work with Google Drive in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Delete object
+ Deletes file or directory by ID
+
+
+
+`Function DeleteObject(Val Token, Val Identifier) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Identifier | --object | String | &#x2714; | Identifier of the object to delete |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token      = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Identifier = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+
+    Result = OPI_GoogleDrive.DeleteObject(Token, Identifier);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive DeleteObject \
+             --token "***" \
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive DeleteObject ^
+             --token "***" ^
+             --object "1kdqXtBzb_j_p0-IVGikjKNMCs6W6Rmt5"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{}
+```

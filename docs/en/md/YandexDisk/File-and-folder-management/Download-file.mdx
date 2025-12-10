@@ -1,0 +1,58 @@
+﻿---
+sidebar_position: 8
+description: Download file and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Download file
+ Downloads a file at the specified path
+
+
+
+`Function DownloadFile(Val Token, Val Path, Val SavePath = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Path | --path | String | &#x2714; | Path to the file for downloading |
+  | SavePath | --out | String | &#x2716; | File save path |
+
+  
+  Returns:  BinaryData,String - Binary data or file path when SavePath parameter is specified
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Path  = "/68fc8dfa-8a7c-49b4-9435-2dee9e85501b.png";
+
+    Result = OPI_YandexDisk.DownloadFile(Token, Path);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk DownloadFile \
+             --token "***" \
+             --path "/0a714c37-2cbb-4495-8618-c434a1404410.png"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk DownloadFile ^
+             --token "***" ^
+             --path "/0a714c37-2cbb-4495-8618-c434a1404410.png"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+NOT JSON: FF D8 FF E1 54 C1 45 78 69 66 00 00 49 49 2A 00 08 00 00 00 0B 00 0E 01 02 00 20 00 00 00 92 00 00 00 0F 01 02 00 05 00 00 00 B2 00 00 00 10 01 02 00 07 00 00 00 B8 00 00 00 12 01 03 00 01 00…
+```

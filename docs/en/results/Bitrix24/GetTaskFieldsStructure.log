@@ -322,13 +322,13 @@
     "title": "DURATION_TYPE",
     "type": "enum",
     "values": [
-     "secs",
-     "mins",
-     "hours",
-     "days",
-     "weeks",
-     "monts",
-     "years"
+     "***",
+     "***",
+     "***",
+     "***",
+     "***",
+     "***",
+     "***"
     ],
     "default": "days"
    },
@@ -364,6 +364,11 @@
     "type": "integer",
     "default": 0
    },
+   "CHAT_ID": {
+    "title": null,
+    "type": "integer",
+    "default": 0
+   },
    "UF_CRM_TASK": {
     "title": "Элементы CRM",
     "type": "crm"
@@ -379,13 +384,13 @@
   }
  },
  "time": {
-  "start": 1760521764,
-  "finish": 1760521764.3099,
-  "duration": 0.309900999069214,
+  "start": 1765396146,
+  "finish": 1765396146.29164,
+  "duration": 0.291645050048828,
   "processing": 0,
-  "date_start": "2025-10-15T09:49:24+00:00",
-  "date_finish": "2025-10-15T09:49:24+00:00",
-  "operating_reset_at": 1760522364,
+  "date_start": "2025-12-10T19:49:06+00:00",
+  "date_finish": "2025-12-10T19:49:06+00:00",
+  "operating_reset_at": 1765396746,
   "operating": 0
  }
 }

@@ -17,7 +17,7 @@ import TabItem from '@theme/TabItem';
   | Параметр | CLI опция | Тип | Обяз. | Назначение |
   |-|-|-|-|-|
   | Бакет | --bucket | Строка | &#x2714; | Наименование бакета |
-  | ОсновныеДанные | --basic | Структура Из КлючИЗначение | &#x2714; | Основные данные запроса. См. ПолучитьСтруктуруДанных |
+  | ОсновныеДанные | --basic | Структура Из КлючИЗначение | &#x2714; | Основные данные запроса. См. [`ПолучитьСтруктуруДанных`](/docs/S3/Common-methods/Get-basic-data-structure) |
   | Префикс | --prefix | Строка | &#x2716; | Отбор по префиксу, если необходимо |
   | ТокенСтраницы | --ctoken | Строка | &#x2716; | Токен страницы, если используется пагинация |
   | Заголовки | --headers | Соответствие Из КлючИЗначение | &#x2716; | Дополнительные заголовки запроса, если необходимо |
@@ -25,8 +25,6 @@ import TabItem from '@theme/TabItem';
 
   
   Возвращаемое значение:   Структура Из КлючИЗначение - сериализованный JSON ответа от хранилища
-
-<br/>
 
 :::tip
 Метод в документации AWS: [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html)
@@ -43,7 +41,7 @@ import TabItem from '@theme/TabItem';
     ОсновныеДанные = OPI_S3.ПолучитьСтруктуруДанных(URL, AccessKey, SecretKey, Region);
 
     Каталог = Истина; // Формирование URL в path-style
-    Бакет = "opi-dirbucket3";
+    Бакет = "";
     Результат = OPI_S3.ПолучитьСписокОбъектов(Бакет, ОсновныеДанные, , , , Каталог);
 ```
     
@@ -55,8 +53,8 @@ import TabItem from '@theme/TabItem';
             # JSON данные также могут быть переданы как путь к файлу .json
             
             oint s3 ПолучитьСписокОбъектов \
-              --bucket "opi-dirbucket3" \
-              --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
+              --bucket "a72c0726" \
+              --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
               --dir true
         ```
     </TabItem>
@@ -66,8 +64,8 @@ import TabItem from '@theme/TabItem';
             :: JSON данные также могут быть переданы как путь к файлу .json
             
             oint s3 ПолучитьСписокОбъектов ^
-              --bucket "opi-dirbucket3" ^
-              --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
+              --bucket "a72c0726" ^
+              --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
               --dir true
         ```
     </TabItem>
@@ -79,14 +77,14 @@ import TabItem from '@theme/TabItem';
  "status": 200,
  "response": {
   "ListBucketResult": {
-   "Name": "opi-dirbucket3",
+   "Name": "472acf1d",
    "Prefix": {},
-   "KeyCount": "1",
-   "MaxKeys": "250",
+   "KeyCount": "***",
+   "MaxKeys": "***",
    "IsTruncated": "false",
    "Contents": {
-    "Key": "picture.jpg",
-    "LastModified": "2025-10-14T17:19:47.032Z",
+    "Key": "***",
+    "LastModified": "2025-12-09T21:00:23.917Z",
     "ETag": "\"9e0176f87f6565a22f78e0f9b39a4d78\"",
     "Size": "2114023",
     "StorageClass": "STANDARD"
@@ -95,15 +93,15 @@ import TabItem from '@theme/TabItem';
  },
  "headers": {
   "Accept-Ranges": "bytes",
-  "Date": "Tue, 14 Oct 2025 17:23:10 GMT",
+  "Date": "Tue, 09 Dec 2025 21:08:11 GMT",
   "Server": "MinIO",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
   "Vary": "Origin, Accept-Encoding",
-  "X-Amz-Id-2": "93c576aa54c960b355da9e2934476635fe3243f5df9dbb4db8b7c0d94bec7cd1",
-  "X-Amz-Request-Id": "186E6B6619655703",
+  "X-Amz-Id-2": "0eb49e91e4cb899a0af3fcfe75973892594fa8211551eba0f72840fc567c152b",
+  "X-Amz-Request-Id": "187FA82D56C9AB3E",
   "X-Content-Type-Options": "nosniff",
   "X-XSS-Protection": "1; mode=block",
-  "Content-Length": "452",
+  "Content-Length": "446",
   "Content-Type": "application/xml"
  }
 }

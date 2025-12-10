@@ -24,14 +24,12 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from Airtable
 
-<br/>
-
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Token = "patNn4BXW66Yx3pdj.5b93c53cab554a8387de02d...";
-    Base  = "appLC1TVo3riW36dW";
-    Table = "tblla5qvAJFJe58N0";
+    Base  = "appFSHDVzJPNC6HRO";
+    Table = "tblJkLJDo8Oijuksc";
     Name  = String(New UUID);
 
     Field  = OPI_Airtable.GetNumberField(Name);
@@ -47,9 +45,9 @@ import TabItem from '@theme/TabItem';
             
             oint airtable CreateField \
              --token "***" \
-             --base "apppuWpft4xNlV34k" \
-             --table "tblbmPGHdRw8sWAio" \
-             --fielddata "{'name':'2d930e9e-886d-4144-86b4-63179fe702e6','type':'number','options':{'precision':'0'}}"
+             --base "app5EEUGKC7EHLcyz" \
+             --table "tbl9MIP7k60xewSuH" \
+             --fielddata "{'name':'841da7b6-ff43-48a7-9eb8-9b615690fea9','type':'number','options':{'precision':'0'}}"
         ```
     </TabItem>
   
@@ -59,9 +57,9 @@ import TabItem from '@theme/TabItem';
             
             oint airtable CreateField ^
              --token "***" ^
-             --base "apppuWpft4xNlV34k" ^
-             --table "tblbmPGHdRw8sWAio" ^
-             --fielddata "{'name':'2d930e9e-886d-4144-86b4-63179fe702e6','type':'number','options':{'precision':'0'}}"
+             --base "app5EEUGKC7EHLcyz" ^
+             --table "tbl9MIP7k60xewSuH" ^
+             --fielddata "{'name':'841da7b6-ff43-48a7-9eb8-9b615690fea9','type':'number','options':{'precision':'0'}}"
         ```
     </TabItem>
 </Tabs>
@@ -73,7 +71,7 @@ import TabItem from '@theme/TabItem';
  "options": {
   "precision": 0
  },
- "id": "fldwMqIgT4WoJbIQc",
- "name": "2d930e9e-886d-4144-86b4-63179fe702e6"
+ "id": "fld2SklLg9ufthkPQ",
+ "name": "841da7b6-ff43-48a7-9eb8-9b615690fea9"
 }
 ```

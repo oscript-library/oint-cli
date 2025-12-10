@@ -1,0 +1,79 @@
+﻿---
+sidebar_position: 6
+description: Save public object to disk and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Save public object to disk
+ Saves the public object to your disk
+
+
+
+`Function SavePublicObjectToDisk(Val Token, Val URL, From = "", Target = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | URL | --url | String | &#x2714; | Object address |
+  | From | --from | String | &#x2716; | Path within public catalog (folders only) |
+  | Target | --to | String | &#x2716; | File save path |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Yandex
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    URL   = "https://yadi.sk/d/gZohv2qv6Lky-Q";
+
+    Result = OPI_YandexDisk.SavePublicObjectToDisk(Token, URL);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk SavePublicObjectToDisk \
+             --token "***" \
+             --url "https://yadi.sk/d/Hf_-jYnWVqinOA"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk SavePublicObjectToDisk ^
+             --token "***" ^
+             --url "https://yadi.sk/d/Hf_-jYnWVqinOA"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "path": "disk:/Загрузки/1ec77a3b-9df8-4d5d-a2e1-96f0a861d29c.png",
+ "type": "file",
+ "name": "1ec77a3b-9df8-4d5d-a2e1-96f0a861d29c.png",
+ "created": "2025-12-10T19:30:22+00:00",
+ "modified": "2025-12-10T19:30:22+00:00",
+ "size": 2114023,
+ "mime_type": "multipart",
+ "md5": "9e0176f87f6565a22f78e0f9b39a4d78",
+ "sha256": "89f8eb42a35208a17c85036e17237b0aa0657e1841efa6171dc5acbc0dea9e18",
+ "media_type": "image",
+ "resource_id": "1573541518:7985b6849a2bcb9ea66bd895258c91679013d04774e1f9bfca6a5a47d39c6895",
+ "revision": 1765395022182327,
+ "comment_ids": {
+  "public_resource": "1573541518:7985b6849a2bcb9ea66bd895258c91679013d04774e1f9bfca6a5a47d39c6895",
+  "private_resource": "1573541518:7985b6849a2bcb9ea66bd895258c91679013d04774e1f9bfca6a5a47d39c6895"
+ },
+ "exif": {},
+ "antivirus_status": "clean",
+ "file": "https://downloader.disk.yandex.ru/disk/909cb2f395335c1fac6dc8f39c415012207c729793cc825ff073a328038d4e28/693a028e/Kdpe3dFisZLPovVA4r-aBmpkby3AOQiLsayEHYapOMw2ylFGSbZZrsWtGPTvHxG_-QDrqSGFBOOsS3b3gKT1zA%3D%3D?uid=1573541518&filename=1ec77a3b-9df8-4d5d-a2e1-96f0a861d29c.png&disposition=attachment&hash=&limit=0&content_type=multipart&owner_uid=1573541518&fsize=2114023&hid=03d7263840468e281bd0b238a26e7d0d&media_type=image&tknv=v3&etag=9e0176f87f6565a22f78e0f9b39a4d78"
+}
+```

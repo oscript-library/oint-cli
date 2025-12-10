@@ -19,13 +19,11 @@ import TabItem from '@theme/TabItem';
   | URL | --url | Строка | &#x2714; | URL внешнего вебхука или адрес Bitrix24 при использовании токена |
   | IDВладельца | --owner | Строка, Число | &#x2714; | ID владельца календаря |
   | Тип | --type | Строка | &#x2714; | Тип календаря: user, group, company_calendar |
-  | Фильтр | --filter | Структура Из КлючИЗначение | &#x2716; | Фильтр событий. См. ПолучитьСтруктуруФильтраСобытийКалендарей |
+  | Фильтр | --filter | Структура Из КлючИЗначение | &#x2716; | Фильтр событий. См. [`ПолучитьСтруктуруФильтраСобытийКалендарей`](/docs/Bitrix24/Calendar-events-management/Get-calendar-events-filter-structure) |
   | Токен | --token | Строка | &#x2716; | Токен авторизации, если используется не вебхук |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrix24
-
-<br/>
 
 :::tip
 Метод в документации API: [calendar.event.get](https://apidocs.bitrix24.ru/api-reference/calendar/calendar-event/calendar-event-get.html)
@@ -41,10 +39,10 @@ import TabItem from '@theme/TabItem';
     Результат = OPI_Bitrix24.ПолучитьСобытияКалендарей(URL, IDВладельца, Тип);
 
     URL          = "b24-ar17wx.bitrix24.by";
-    Токен        = "8a1bee68006e9f06006b12e400000001000...";
-    IDСобытия    = "2752";
-    IDКалендаря1 = "1502";
-    IDКалендаря2 = "1504";
+    Токен        = "6ad03969006e9f06006b12e400000001000...";
+    IDСобытия    = "3300";
+    IDКалендаря1 = "1774";
+    IDКалендаря2 = "1776";
 
     Завтра      = OPI_Инструменты.ПолучитьТекущуюДату() + 86400;
     Послезавтра = Завтра + 86400;
@@ -72,7 +70,7 @@ import TabItem from '@theme/TabItem';
               --url "b24-ar17wx.bitrix24.by" \
               --owner 1 \
               --type "user" \
-              --filter "{'from':'10/15/2025 14:44:30','to':'10/16/2025 14:44:30','section':['1514','1516']}" \
+              --filter "{'from':'12/11/2025 10:32:15','to':'12/12/2025 10:32:15','section':['1762','1764']}" \
               --token "***"
         ```
     </TabItem>
@@ -85,7 +83,7 @@ import TabItem from '@theme/TabItem';
               --url "b24-ar17wx.bitrix24.by" ^
               --owner 1 ^
               --type "user" ^
-              --filter "{'from':'10/15/2025 14:44:30','to':'10/16/2025 14:44:30','section':['1514','1516']}" ^
+              --filter "{'from':'12/11/2025 10:32:15','to':'12/12/2025 10:32:15','section':['1762','1764']}" ^
               --token "***"
         ```
     </TabItem>
@@ -96,28 +94,28 @@ import TabItem from '@theme/TabItem';
 {
  "result": [
   {
-   "ID": "2780",
-   "PARENT_ID": "2780",
+   "ID": "3280",
+   "PARENT_ID": "3280",
    "ACTIVE": "Y",
    "DELETED": "N",
    "CAL_TYPE": "user",
    "OWNER_ID": "1",
    "NAME": "Новое событие",
-   "DATE_FROM": "15.10.2025 17:06:00",
-   "DATE_TO": "15.10.2025 18:06:00",
-   "ORIGINAL_DATE_FROM": null,
+   "DATE_FROM": "11.12.2025 14:59:00",
+   "DATE_TO": "11.12.2025 15:59:00",
+   "ORIGINAL_DATE_FROM": "***",
    "TZ_FROM": "Europe/Minsk",
    "TZ_TO": "Europe/Minsk",
    "TZ_OFFSET_FROM": "10800",
    "TZ_OFFSET_TO": "10800",
-   "DATE_FROM_TS_UTC": "1760526385",
-   "DATE_TO_TS_UTC": "1763132760",
+   "DATE_FROM_TS_UTC": "1765443521",
+   "DATE_TO_TS_UTC": "1768049940",
    "DT_SKIP_TIME": "N",
    "DT_LENGTH": 3600,
    "EVENT_TYPE": null,
    "CREATED_BY": "1",
-   "DATE_CREATE": "14.10.2025 20:06:25",
-   "TIMESTAMP_X": "14.10.2025 20:06:25",
+   "DATE_CREATE": "10.12.2025 14:58:41",
+   "TIMESTAMP_X": "10.12.2025 14:58:41",
    "DESCRIPTION": "Описание события",
    "DT_FROM": null,
    "DT_TO": null,
@@ -130,8 +128,8 @@ import TabItem from '@theme/TabItem';
    "MEETING": {
     "HOST_NAME": "Антон Титовец",
     "NOTIFY": true,
-    "REINVITE": false,
-    "ALLOW_INVITE": true,
+    "REINVITE": "***",
+    "ALLOW_INVITE": "***",
     "HIDE_GUESTS": true,
     "MEETING_CREATOR": 1,
     "LANGUAGE_ID": "ru",
@@ -150,46 +148,46 @@ import TabItem from '@theme/TabItem';
     "FREQ": "DAILY",
     "COUNT": 3,
     "INTERVAL": 10,
-    "UNTIL": "25.10.2025",
-    "~UNTIL": "25.10.2025",
-    "UNTIL_TS": 1761350400
+    "UNTIL": "21.12.2025",
+    "~UNTIL": "21.12.2025",
+    "UNTIL_TS": 1766275200
    },
    "EXDATE": "",
-   "DAV_XML_ID": "20251015T140600Z-55624fda902cf6e34bff560477bd1338@b24-ar17wx.bitrix24.by",
+   "DAV_XML_ID": "20251211T115900Z-aff7d8f226f248506094284ba43797b4@b24-ar17wx.bitrix24.by",
    "G_EVENT_ID": "",
    "DAV_EXCH_LABEL": "",
    "CAL_DAV_LABEL": "",
    "VERSION": "1",
    "ATTENDEES_CODES": [
-    "U1",
-    "U10"
+    "***",
+    "***"
    ],
    "RECURRENCE_ID": null,
    "RELATIONS": "",
-   "SECTION_ID": "1518",
+   "SECTION_ID": "1766",
    "SYNC_STATUS": null,
    "UF_CRM_CAL_EVENT": false,
    "UF_WEBDAV_CAL_EVENT": false,
    "SECTION_DAV_XML_ID": null,
-   "DATE_FROM_FORMATTED": "Wed Oct 15 2025 17:06:00",
-   "DATE_TO_FORMATTED": "Wed Oct 15 2025 18:06:00",
+   "DATE_FROM_FORMATTED": "Thu Dec 11 2025 14:59:00",
+   "DATE_TO_FORMATTED": "Thu Dec 11 2025 15:59:00",
    "IS_DAYLIGHT_SAVING_TZ": "N",
-   "SECT_ID": "1518",
+   "SECT_ID": "1766",
    "OPTIONS": null,
    "ATTENDEE_LIST": [
     {
      "id": 1,
-     "entryId": "2780",
+     "entryId": "3280",
      "status": "H"
     },
     {
      "id": 10,
-     "entryId": "2782",
+     "entryId": "3282",
      "status": "Q"
     }
    ],
    "COLLAB_ID": null,
-   "~RRULE_DESCRIPTION": "каждый 10-й день, от 15.10.2025 до 25.10.2025",
+   "~RRULE_DESCRIPTION": "каждый 10-й день, от 11.12.2025 до 21.12.2025",
    "attendeesEntityList": [
     {
      "entityId": "user",
@@ -200,35 +198,35 @@ import TabItem from '@theme/TabItem';
      "id": 10
     }
    ],
-   "~DATE_FROM": "15.10.2025 17:06:00",
-   "~DATE_TO": "15.10.2025 18:06:00",
+   "~DATE_FROM": "11.12.2025 14:59:00",
+   "~DATE_TO": "11.12.2025 15:59:00",
    "RINDEX": 0,
    "~USER_OFFSET_FROM": 0,
    "~USER_OFFSET_TO": 0
   },
   {
-   "ID": "2784",
-   "PARENT_ID": "2784",
+   "ID": "3284",
+   "PARENT_ID": "3284",
    "ACTIVE": "Y",
    "DELETED": "N",
    "CAL_TYPE": "user",
    "OWNER_ID": "1",
    "NAME": "Новое событие",
-   "DATE_FROM": "15.10.2025 17:06:00",
-   "DATE_TO": "15.10.2025 18:06:00",
-   "ORIGINAL_DATE_FROM": null,
+   "DATE_FROM": "11.12.2025 14:59:00",
+   "DATE_TO": "11.12.2025 15:59:00",
+   "ORIGINAL_DATE_FROM": "***",
    "TZ_FROM": "Europe/Minsk",
    "TZ_TO": "Europe/Minsk",
    "TZ_OFFSET_FROM": "10800",
    "TZ_OFFSET_TO": "10800",
-   "DATE_FROM_TS_UTC": "1760526385",
-   "DATE_TO_TS_UTC": "1763132760",
+   "DATE_FROM_TS_UTC": "1765443521",
+   "DATE_TO_TS_UTC": "1768049940",
    "DT_SKIP_TIME": "N",
    "DT_LENGTH": 3600,
    "EVENT_TYPE": null,
    "CREATED_BY": "1",
-   "DATE_CREATE": "14.10.2025 20:06:26",
-   "TIMESTAMP_X": "14.10.2025 20:06:26",
+   "DATE_CREATE": "10.12.2025 14:58:42",
+   "TIMESTAMP_X": "10.12.2025 14:58:42",
    "DESCRIPTION": "Описание события",
    "DT_FROM": null,
    "DT_TO": null,
@@ -241,7 +239,7 @@ import TabItem from '@theme/TabItem';
    "MEETING": {
     "HOST_NAME": "Антон Титовец",
     "NOTIFY": true,
-    "REINVITE": false,
-    "ALLOW_INVITE": true,
+    "REINVITE": "***",
+    "ALLOW_INVITE": "***",
 ...
 ```

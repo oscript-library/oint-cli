@@ -1,0 +1,66 @@
+﻿---
+sidebar_position: 3
+description: Изменить наименование книги и другие функции для работы с Google Sheets в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Sheets]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Изменить наименование книги
+ Изменяет наименование существующей книги
+
+
+
+`Функция ИзменитьНаименованиеКниги(Знач Токен, Знач Книга, Знач Наименование) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Книга | --spreadsheet | Строка | &#x2714; | ID книги |
+  | Наименование | --title | Строка | &#x2714; | Новое наименование |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен        = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Книга        = "13mnV79E8MBeQkwzcH3RTikriA3VsFKv89RnBkhGeNZA";
+    Наименование = "Тестовая таблица (изм.)";
+
+    Результат = OPI_GoogleSheets.ИзменитьНаименованиеКниги(Токен, Книга, Наименование);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gsheets ИзменитьНаименованиеКниги \
+              --token "***" \
+              --spreadsheet "1k5sv7I5U5OU_Q12RyLOphDrS_TcHNGKM5Ghl0q5oQws" \
+              --title "Тестовая таблица (изм.)"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gsheets ИзменитьНаименованиеКниги ^
+              --token "***" ^
+              --spreadsheet "1k5sv7I5U5OU_Q12RyLOphDrS_TcHNGKM5Ghl0q5oQws" ^
+              --title "Тестовая таблица (изм.)"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "spreadsheetId": "1r4p6pRgP5ebL-tgQ0ed3TvsfJwqC5KgwDsreX6he46s",
+ "replies": [
+  {}
+ ]
+}
+```

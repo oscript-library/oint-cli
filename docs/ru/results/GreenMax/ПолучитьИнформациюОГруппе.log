@@ -1,0 +1,24 @@
+﻿{
+ "chatId": "***",
+ "owner": "39888725",
+ "subject": "Новая группа",
+ "description": "",
+ "creation": 1765369955,
+ "groupInviteLink": "***",
+ "allowParticipantsAddMembers": true,
+ "allowParticipantsEditGroupSettings": true,
+ "allowParticipantsPinMessages": true,
+ "size": 2,
+ "participants": [
+  {
+   "chatId": "***",
+   "isAdmin": true,
+   "isSuperAdmin": true
+  },
+  {
+   "chatId": "***",
+   "isAdmin": false,
+   "isSuperAdmin": false
+  }
+ ]
+}

@@ -23,8 +23,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrxi24
 
-<br/>
-
 :::tip
 Метод в документации API: [disk.folder.markdeleted](https://dev.1c-bitrix.ru/rest_help/disk/folder/disk_folder_markdeleted.php)
 :::
@@ -33,12 +31,12 @@ import TabItem from '@theme/TabItem';
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     URL        = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    IDКаталога = "44682";
+    IDКаталога = "48402";
 
     Результат = OPI_Bitrix24.ПоместитьКаталогВКорзину(URL, IDКаталога);
 
     URL   = "b24-ar17wx.bitrix24.by";
-    Токен = "8a1bee68006e9f06006b12e400000001000...";
+    Токен = "6ad03969006e9f06006b12e400000001000...";
 
     Результат = OPI_Bitrix24.ПоместитьКаталогВКорзину(URL, IDКаталога, Токен);
 ```
@@ -50,7 +48,7 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint bitrix24 ПоместитьКаталогВКорзину \
               --url "b24-ar17wx.bitrix24.by" \
-              --folderid 44844 \
+              --folderid 48240 \
               --token "***"
         ```
     </TabItem>
@@ -59,7 +57,7 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint bitrix24 ПоместитьКаталогВКорзину ^
               --url "b24-ar17wx.bitrix24.by" ^
-              --folderid 44844 ^
+              --folderid 48240 ^
               --token "***"
         ```
     </TabItem>
@@ -69,30 +67,30 @@ import TabItem from '@theme/TabItem';
 ```json title="Результат"
 {
  "result": {
-  "ID": "44898",
+  "ID": "48294",
   "NAME": "Новый каталог",
   "CODE": null,
   "STORAGE_ID": "3",
   "TYPE": "folder",
-  "REAL_OBJECT_ID": "44898",
+  "REAL_OBJECT_ID": "48294",
   "PARENT_ID": "3",
   "DELETED_TYPE": "3",
-  "CREATE_TIME": "2025-10-14T17:03:09+00:00",
-  "UPDATE_TIME": "2025-10-14T17:03:21+00:00",
-  "DELETE_TIME": "2025-10-14T17:03:25+00:00",
+  "CREATE_TIME": "2025-12-10T14:55:43+03:00",
+  "UPDATE_TIME": "2025-12-10T14:55:54+03:00",
+  "DELETE_TIME": "2025-12-10T14:55:57+03:00",
   "CREATED_BY": "1",
   "UPDATED_BY": "1",
   "DELETED_BY": "1",
   "DETAIL_URL": "https://b24-ar17wx.bitrix24.by/docs/path/Новый каталог"
  },
  "time": {
-  "start": 1760461406,
-  "finish": 1760461406.36479,
-  "duration": 0.364788055419922,
+  "start": 1765367758,
+  "finish": 1765367758.25838,
+  "duration": 0.258374929428101,
   "processing": 0,
-  "date_start": "2025-10-14T17:03:26+00:00",
-  "date_finish": "2025-10-14T17:03:26+00:00",
-  "operating_reset_at": 1760462006,
+  "date_start": "2025-12-10T14:55:58+03:00",
+  "date_finish": "2025-12-10T14:55:58+03:00",
+  "operating_reset_at": 1765368358,
   "operating": 0
  }
 }

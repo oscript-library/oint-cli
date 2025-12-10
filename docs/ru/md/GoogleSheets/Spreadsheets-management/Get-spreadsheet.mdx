@@ -1,0 +1,207 @@
+﻿---
+sidebar_position: 2
+description: Получить книгу и другие функции для работы с Google Sheets в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Sheets]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Получить книгу
+ Получает информацию о книге по ID
+
+
+
+`Функция ПолучитьКнигу(Знач Токен, Знач Идентификатор) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Идентификатор | --spreadsheet | Строка | &#x2714; | Идентификатор книги |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен         = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Идентификатор = "13mnV79E8MBeQkwzcH3RTikriA3VsFKv89RnBkhGeNZA";
+
+    Результат = OPI_GoogleSheets.ПолучитьКнигу(Токен, Идентификатор);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gsheets ПолучитьКнигу \
+              --token "***" \
+              --spreadsheet "1k5sv7I5U5OU_Q12RyLOphDrS_TcHNGKM5Ghl0q5oQws"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gsheets ПолучитьКнигу ^
+              --token "***" ^
+              --spreadsheet "1k5sv7I5U5OU_Q12RyLOphDrS_TcHNGKM5Ghl0q5oQws"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "spreadsheetId": "1r4p6pRgP5ebL-tgQ0ed3TvsfJwqC5KgwDsreX6he46s",
+ "properties": {
+  "title": "Тестовая таблица",
+  "locale": "ru_RU",
+  "autoRecalc": "ON_CHANGE",
+  "timeZone": "Etc/GMT",
+  "defaultFormat": {
+   "backgroundColor": {
+    "red": 1,
+    "green": 1,
+    "blue": 1
+   },
+   "padding": {
+    "top": 2,
+    "right": 3,
+    "bottom": 2,
+    "left": 3
+   },
+   "verticalAlignment": "BOTTOM",
+   "wrapStrategy": "OVERFLOW_CELL",
+   "textFormat": {
+    "foregroundColor": {},
+    "fontFamily": "arial,sans,sans-serif",
+    "fontSize": 10,
+    "bold": false,
+    "italic": false,
+    "strikethrough": false,
+    "underline": false,
+    "foregroundColorStyle": {
+     "rgbColor": {}
+    }
+   },
+   "backgroundColorStyle": {
+    "rgbColor": {
+     "red": 1,
+     "green": 1,
+     "blue": 1
+    }
+   }
+  },
+  "spreadsheetTheme": {
+   "primaryFontFamily": "Arial",
+   "themeColors": [
+    {
+     "colorType": "TEXT",
+     "color": {
+      "rgbColor": {}
+     }
+    },
+    {
+     "colorType": "BACKGROUND",
+     "color": {
+      "rgbColor": {
+       "red": 1,
+       "green": 1,
+       "blue": 1
+      }
+     }
+    },
+    {
+     "colorType": "ACCENT1",
+     "color": {
+      "rgbColor": {
+       "red": 0.25882354,
+       "green": 0.52156866,
+       "blue": 0.95686275
+      }
+     }
+    },
+    {
+     "colorType": "ACCENT2",
+     "color": {
+      "rgbColor": {
+       "red": 0.91764706,
+       "green": 0.2627451,
+       "blue": 0.20784314
+      }
+     }
+    },
+    {
+     "colorType": "ACCENT3",
+     "color": {
+      "rgbColor": {
+       "red": 0.9843137,
+       "green": 0.7372549,
+       "blue": 0.015686275
+      }
+     }
+    },
+    {
+     "colorType": "ACCENT4",
+     "color": {
+      "rgbColor": {
+       "red": 0.20392157,
+       "green": 0.65882355,
+       "blue": 0.3254902
+      }
+     }
+    },
+    {
+     "colorType": "ACCENT5",
+     "color": {
+      "rgbColor": {
+       "red": 1,
+       "green": 0.42745098,
+       "blue": 0.003921569
+      }
+     }
+    },
+    {
+     "colorType": "ACCENT6",
+     "color": {
+      "rgbColor": {
+       "red": 0.27450982,
+       "green": 0.7411765,
+       "blue": 0.7764706
+      }
+     }
+    },
+    {
+     "colorType": "LINK",
+     "color": {
+      "rgbColor": {
+       "red": 0.06666667,
+       "green": 0.33333334,
+       "blue": 0.8
+      }
+     }
+    }
+   ]
+  }
+ },
+ "sheets": [
+  {
+   "properties": {
+    "sheetId": 299483510,
+    "title": "Лист1",
+    "index": 0,
+    "sheetType": "GRID",
+    "gridProperties": {
+     "rowCount": 1000,
+     "columnCount": 26
+    }
+   }
+  },
+  {
+   "properties": {
+    "sheetId": 3641883,
+    "title": "Лист2",
+...
+```

@@ -18,12 +18,10 @@ import TabItem from '@theme/TabItem';
   |-|-|-|-|-|
   | StartDate | --datefrom | Date | &#x2714; | Start date of the period |
   | EndDate | --dateto | Date | &#x2714; | End date of the period |
-  | Parameters | --auth | Structure Of String | &#x2716; | Authorization JSON or path to .json |
+  | Parameters | --auth | Structure Of String | &#x2716; | Authorization parameters. See GetAuthParameters |
 
   
   Returns:  Map Of KeyAndValue - serialized JSON response from VK
-
-<br/>
 
 
 
@@ -45,8 +43,8 @@ import TabItem from '@theme/TabItem';
             # JSON data can also be passed as a path to a .json file
             
             oint vk GetStatistics \
-             --datefrom "2025-10-15T00:00:00" \
-             --dateto "2025-10-15T23:59:59" \
+             --datefrom "2025-12-10T00:00:00" \
+             --dateto "2025-12-10T23:59:59" \
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
     </TabItem>
@@ -56,8 +54,8 @@ import TabItem from '@theme/TabItem';
             :: JSON data can also be passed as a path to a .json file
             
             oint vk GetStatistics ^
-             --datefrom "2025-10-15T00:00:00" ^
-             --dateto "2025-10-15T23:59:59" ^
+             --datefrom "2025-12-10T00:00:00" ^
+             --dateto "2025-12-10T23:59:59" ^
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
     </TabItem>
@@ -69,11 +67,11 @@ import TabItem from '@theme/TabItem';
  "response": [
   {
    "activity": {
-    "comments": 1,
-    "likes": 1
+    "comments": 7,
+    "likes": 7
    },
-   "period_from": 1760486400,
-   "period_to": 1760572799,
+   "period_from": 1765324800,
+   "period_to": 1765411199,
    "reach": {
     "age": [
      {
@@ -208,11 +206,11 @@ import TabItem from '@theme/TabItem';
   },
   {
    "activity": {
-    "comments": 10,
-    "likes": 10
+    "comments": 5,
+    "likes": 5
    },
-   "period_from": 1760400000,
-   "period_to": 1760486399,
+   "period_from": 1765238400,
+   "period_to": 1765324799,
    "reach": {
     "age": [
 ...

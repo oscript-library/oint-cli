@@ -1,28 +1,27 @@
 ﻿---
 sidebar_position: 1
-description: Create Connection  and other functions to work with TCP in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+description: Create connection  and other functions to work with TCP in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
 keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, TCP]
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create Connection 
+# Create connection 
  Creates a TCP connection
 
 
 
-`Function CreateConnection(Val Address, Val Tls = "") Export`
+`Function CreateConnection(Val Address, Val Tls = "", Val Proxy = "") Export`
 
   | Parameter | CLI option | Type | Required | Description |
   |-|-|-|-|-|
   | Address | - | String | &#x2714; | Address and port |
   | Tls | - | Structure Of KeyAndValue | &#x2716; | TLS settings, if necessary. See GetTlsSettings |
+  | Proxy | - | Structure Of KeyAndValue | &#x2716; | Proxy settings, if required. See GetProxySettings |
 
   
   Returns:  Map Of KeyAndValue, Arbitrary - Returns TCP client object on successful connection or error information
-
-<br/>
 
 
 :::caution
@@ -37,9 +36,18 @@ import TabItem from '@theme/TabItem';
 
     OPI_TCP.CloseConnection(Connection);
 
-    Address    = "tcpbin.com:4243";
-    Tls        = OPI_TCP.GetTLSSettings(True);
-    Connection = OPI_TCP.CreateConnection(Address, TLS);
+    Address = "tcpbin.com:4243";
+    Tls     = OPI_TCP.GetTLSSettings(True);
+
+    ProxtUser     = "proxyuser";
+    ProxyPassword = "12we...";
+    ProxyAddress  = "127.0.0.1";
+    ProxyPort     = "1080";
+
+    Proxy = OPI_TCP.GetProxySettings(ProxyAddress, ProxyPort, "socks5", ProxtUser, ProxyPassword);
+    Tls   = OPI_TCP.GetTLSSettings(True);
+
+    Connection = OPI_TCP.CreateConnection(Address, TLS, Proxy);
 ```
  
 

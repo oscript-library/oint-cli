@@ -1,0 +1,60 @@
+﻿---
+sidebar_position: 4
+description: Delete object and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Delete object
+ Deletes an object at the specified path
+
+
+
+`Function DeleteObject(Val Token, Val Path, Val ToCart = True) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Path | --path | String | &#x2714; | Path to the folder or file to be deleted |
+  | ToCart | --can | Boolean | &#x2716; | To cart |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Yandex
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Path  = "/91545929-5a34-49ca-82a2-878db543ac0a.png";
+
+    Result = OPI_YandexDisk.DeleteObject(Token, Path, False);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk DeleteObject \
+             --token "***" \
+             --path "/song.mp3" \
+             --can false
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk DeleteObject ^
+             --token "***" ^
+             --path "/song.mp3" ^
+             --can false
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{}
+```

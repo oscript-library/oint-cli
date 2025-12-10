@@ -1,0 +1,69 @@
+﻿---
+sidebar_position: 1
+description: Создать календарь и другие функции для работы с Google Calendar в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Создать календарь
+ Создает пустой календарь
+
+
+
+`Функция СоздатьКалендарь(Знач Токен, Знач Наименование) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Наименование | --title | Строка | &#x2714; | Наименование создаваемого календаря |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен        = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Наименование = "Тестовый календарь";
+
+    Результат = OPI_GoogleCalendar.СоздатьКалендарь(Токен, Наименование);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar СоздатьКалендарь \
+              --token "***" \
+              --title "Тестовый календарь"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar СоздатьКалендарь ^
+              --token "***" ^
+              --title "Тестовый календарь"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "kind": "calendar#calendar",
+ "etag": "\"rIeH7cW74Dpt0WEkfxDzfhHonVY\"",
+ "id": "9f04391ef4de8950aeed51283c1a49a6b2a5e0e79ae7d24df78cb3a7a5f722c3@group.calendar.google.com",
+ "summary": "Тестовый календарь",
+ "timeZone": "Europe/Moscow",
+ "dataOwner": "bayselonarrend@gmail.com",
+ "conferenceProperties": {
+  "allowedConferenceSolutionTypes": [
+   "***"
+  ]
+ }
+}
+```

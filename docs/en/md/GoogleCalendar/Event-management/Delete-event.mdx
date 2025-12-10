@@ -1,0 +1,61 @@
+﻿---
+sidebar_position: 7
+description: Delete event and other functions to work with Google Calendar in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Delete event
+ Deletes an event by ID
+
+
+
+`Function DeleteEvent(Val Token, Val Calendar, Val Event) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Calendar | --calendar | String | &#x2714; | Calendar ID |
+  | Event | --event | String | &#x2714; | Event ID |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token    = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Calendar = "0dc23447d3b0f439635aeee464d9e8db32a620027692352eb531d074f736c241@group.calendar.google.com";
+    Event    = "a55kkfscljqv4ikeu85sbau8g4";
+
+    Result = OPI_GoogleCalendar.DeleteEvent(Token, Calendar, Event);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar DeleteEvent \
+             --token "***" \
+             --calendar "a496c365852c9936527fa22bb23861c5b4d1e54beea67a875773f29e9ae7bc9c@group.calendar.google.com" \
+             --event "n80aqvjnnig91eb3208rrtfur8"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar DeleteEvent ^
+             --token "***" ^
+             --calendar "a496c365852c9936527fa22bb23861c5b4d1e54beea67a875773f29e9ae7bc9c@group.calendar.google.com" ^
+             --event "n80aqvjnnig91eb3208rrtfur8"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{}
+```

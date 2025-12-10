@@ -1,0 +1,33 @@
+{
+  "reportPath": "./test_results/MongoDB.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Тесты.Mongo_ОсновныеМетоды",
+"OPI_Тесты.Mongo_РаботаСБазами",
+"OPI_Тесты.Mongo_РаботаСКоллекциями",
+"OPI_Тесты.Mongo_РаботаСДокументами",
+"OPI_Тесты.Mongo_УправлениеПользователями",
+"OPI_Тесты.Mongo_УправлениеРолями"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/MongoDB.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

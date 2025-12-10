@@ -20,13 +20,11 @@ import TabItem from '@theme/TabItem';
   | IDЧата | --chat | Строка, Число | &#x2714; | ID целевого чата или IDЧата*IDТемы |
   | Текст | --text | Строка | &#x2714; | Текст сообщения |
   | Видео | --video | ДвоичныеДанные, Строка | &#x2714; | Файл видео |
-  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. СформироватьКлавиатуруПоМассивуКнопок |
+  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. [`СформироватьКлавиатуруПоМассивуКнопок`](/docs/Telegram/Data-sending/Form-keyboard-from-button-array) |
   | Разметка | --parsemode | Строка | &#x2716; | Вид обработки текста (HTML, Markdown, MarkdownV2) |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Telegram
-
-<br/>
 
 :::tip
 Метод в документации API: [sendVideo](https://core.telegram.org/bots/api#sendvideo)
@@ -65,9 +63,9 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint telegram ОтправитьВидео \
               --token "***" \
-              --chat "@testsichee" \
+              --chat "***" \
               --text "Строковое значение" \
-              --video "/tmp/z30rm0ti.e2l"
+              --video "/tmp/bmb0n0ux.knm"
         ```
     </TabItem>
   
@@ -75,9 +73,9 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint telegram ОтправитьВидео ^
               --token "***" ^
-              --chat "@testsichee" ^
+              --chat "***" ^
               --text "Строковое значение" ^
-              --video "/tmp/z30rm0ti.e2l"
+              --video "/tmp/bmb0n0ux.knm"
         ```
     </TabItem>
 </Tabs>
@@ -87,7 +85,7 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "result": {
-  "message_id": 17143,
+  "message_id": 18370,
   "from": {
    "id": 6129457865,
    "is_bot": true,
@@ -101,29 +99,29 @@ import TabItem from '@theme/TabItem';
    "username": "bayselonarrend",
    "type": "private"
   },
-  "date": 1760458270,
+  "date": 1765389142,
   "video": {
    "duration": 5,
-   "width": 640,
+   "width": "***",
    "height": 480,
    "file_name": "video",
    "mime_type": "video/mp4",
    "thumbnail": {
-    "file_id": "AAMCAgADGQMAAkL3aO52HmrOk5HbNLQi0d3liYW9348AAk6HAAI3b3FLHPUiLkEF3Y0BAAdtAAM2BA",
-    "file_unique_id": "AQADTocAAjdvcUty",
+    "file_id": "AAMCAgADGQMAAkfCaTmzVgsNpNR__hxsWF3Sg5N5Y4QAAvSPAAKK7MhJP4wI29Q6Z84BAAdtAAM2BA",
+    "file_unique_id": "AQAD9I8AAorsyEly",
     "file_size": 20106,
-    "width": 320,
+    "width": "***",
     "height": 240
    },
    "thumb": {
-    "file_id": "AAMCAgADGQMAAkL3aO52HmrOk5HbNLQi0d3liYW9348AAk6HAAI3b3FLHPUiLkEF3Y0BAAdtAAM2BA",
-    "file_unique_id": "AQADTocAAjdvcUty",
+    "file_id": "AAMCAgADGQMAAkfCaTmzVgsNpNR__hxsWF3Sg5N5Y4QAAvSPAAKK7MhJP4wI29Q6Z84BAAdtAAM2BA",
+    "file_unique_id": "AQAD9I8AAorsyEly",
     "file_size": 20106,
-    "width": 320,
+    "width": "***",
     "height": 240
    },
-   "file_id": "BAACAgIAAxkDAAJC92judh5qzpOR2zS0ItHd5YmFvd-PAAJOhwACN29xSxz1Ii5BBd2NNgQ",
-   "file_unique_id": "AgADTocAAjdvcUs",
+   "file_id": "BAACAgIAAxkDAAJHwmk5s1YLDaTUf_4cbFhd0oOTeWOEAAL0jwACiuzIST-MCNvUOmfONgQ",
+   "file_unique_id": "AgAD9I8AAorsyEk",
    "file_size": 1137878
   },
   "caption": "Строковое значение"

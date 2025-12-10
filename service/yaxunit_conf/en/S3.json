@@ -1,0 +1,30 @@
+{
+  "reportPath": "./test_results/S3.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Tests.AWS_CommonMethods",
+"OPI_Tests.AWS_BucketsManagement",
+"OPI_Tests.AWS_ObjectsManagement"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/S3.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

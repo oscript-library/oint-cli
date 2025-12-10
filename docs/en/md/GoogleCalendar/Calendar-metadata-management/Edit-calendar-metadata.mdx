@@ -1,0 +1,78 @@
+﻿---
+sidebar_position: 3
+description: Edit calendar and other functions to work with Google Calendar in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Edit calendar
+ Edits properties of an existing calendar
+
+
+
+`Function EditCalendarMetadata(Val Token, Val Calendar, Val Name = "", Val Description = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Calendar | --calendar | String | &#x2714; | Calendar ID |
+  | Name | --title | String | &#x2716; | New name |
+  | Description | --description | String | &#x2716; | New calendar description |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token       = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Calendar    = "0dc23447d3b0f439635aeee464d9e8db32a620027692352eb531d074f736c241@group.calendar.google.com";
+    Name        = "New name";
+    Description = "New description";
+
+    Result = OPI_GoogleCalendar.EditCalendarMetadata(Token, Calendar, Name, Description);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar EditCalendarMetadata \
+             --token "***" \
+             --calendar "03997e17b4c902c3a4a9d00cbce74d84f74447c1924226d9190c8b1d41aabce0@group.calendar.google.com" \
+             --title "New name" \
+             --description "New description"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar EditCalendarMetadata ^
+             --token "***" ^
+             --calendar "03997e17b4c902c3a4a9d00cbce74d84f74447c1924226d9190c8b1d41aabce0@group.calendar.google.com" ^
+             --title "New name" ^
+             --description "New description"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "kind": "calendar#calendar",
+ "etag": "\"OY0408d4jf66FCa71utYq0O1mw8\"",
+ "id": "03997e17b4c902c3a4a9d00cbce74d84f74447c1924226d9190c8b1d41aabce0@group.calendar.google.com",
+ "summary": "New name",
+ "description": "New description",
+ "timeZone": "Europe/Moscow",
+ "dataOwner": "bayselonarrend@gmail.com",
+ "conferenceProperties": {
+  "allowedConferenceSolutionTypes": [
+   "***"
+  ]
+ }
+}
+```

@@ -1,0 +1,77 @@
+﻿---
+sidebar_position: 3
+description: Получить объект и другие функции для работы с Yandex Disk в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Получить объект
+ Получает информацию об объекте диска по заданному пути
+
+
+
+`Функция ПолучитьОбъект(Знач Токен, Знач Путь) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Путь | --path | Строка | &#x2714; | Путь к папке или файлу |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Yandex
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Путь  = "/91545929-5a34-49ca-82a2-878db543ac0a.png";
+
+    Результат = OPI_YandexDisk.ПолучитьОбъект(Токен, Путь);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk ПолучитьОбъект \
+              --token "***" \
+              --path "/ea7d0b51-ea80-4eec-a5f7-0cdcb4ab1122.png"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk ПолучитьОбъект ^
+              --token "***" ^
+              --path "/ea7d0b51-ea80-4eec-a5f7-0cdcb4ab1122.png"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "path": "disk:/26dec057-9fd6-4c9d-938e-b44c4969cf2d.png",
+ "type": "file",
+ "name": "26dec057-9fd6-4c9d-938e-b44c4969cf2d.png",
+ "created": "2025-12-10T14:43:01+03:00",
+ "modified": "2025-12-10T14:43:01+03:00",
+ "size": 2114023,
+ "mime_type": "multipart",
+ "md5": "9e0176f87f6565a22f78e0f9b39a4d78",
+ "sha256": "89f8eb42a35208a17c85036e17237b0aa0657e1841efa6171dc5acbc0dea9e18",
+ "media_type": "image",
+ "resource_id": "1573541518:fd3479c3a54b53eb2898871f00378b083628e643652d2c2f06fdde2a5f3e46dd",
+ "revision": 1765366982510991,
+ "comment_ids": {
+  "public_resource": "1573541518:fd3479c3a54b53eb2898871f00378b083628e643652d2c2f06fdde2a5f3e46dd",
+  "private_resource": "1573541518:fd3479c3a54b53eb2898871f00378b083628e643652d2c2f06fdde2a5f3e46dd"
+ },
+ "exif": {},
+ "antivirus_status": "clean",
+ "file": "https://downloader.disk.yandex.ru/disk/ed5db110fff29a2a960281def0e63ed70c7fbf4e191d8f849bfaeab8479c45fd/69399507/Kdpe3dFisZLPovVA4r-aBmpkby3AOQiLsayEHYapOMw2ylFGSbZZrsWtGPTvHxG_-QDrqSGFBOOsS3b3gKT1zA%3D%3D?uid=1573541518&filename=26dec057-9fd6-4c9d-938e-b44c4969cf2d.png&disposition=attachment&hash=&limit=0&content_type=multipart&owner_uid=1573541518&fsize=2114023&hid=03d7263840468e281bd0b238a26e7d0d&media_type=image&tknv=v3&etag=9e0176f87f6565a22f78e0f9b39a4d78"
+}
+```

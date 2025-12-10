@@ -17,21 +17,19 @@ import TabItem from '@theme/TabItem';
   | Parameter | CLI option | Type | Required | Description |
   |-|-|-|-|-|
   | Product | --item | Number, String | &#x2714; | Identifier of the product being edited |
-  | ProductDescription | --product | Map Of KeyAndValue | &#x2714; | JSON description of the product or path |
+  | ProductDescription | --product | Map Of KeyAndValue | &#x2714; | Product description. See GetProductDescription |
   | Selection | --sel | String | &#x2716; | Identifier of the new selection, if needed |
-  | Parameters | --auth | Structure Of String | &#x2716; | Authorization JSON or path to .json |
+  | Parameters | --auth | Structure Of String | &#x2716; | Authorization parameters. See GetAuthParameters |
 
   
   Returns:  Map Of KeyAndValue - serialized JSON response from VK
-
-<br/>
 
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Parameters = GetVKParameters();
 
-    Product = "12007443";
+    Product = "12369877";
 
     ProductDescription = New Map;
     ProductDescription.Insert("Name", "EditedTestProduct");
@@ -47,7 +45,7 @@ import TabItem from '@theme/TabItem';
             # JSON data can also be passed as a path to a .json file
             
             oint vk EditProduct \
-             --item 12011945 \
+             --item 12369916 \
              --product "{'Name':'EditedTestProduct'}" \
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
@@ -58,7 +56,7 @@ import TabItem from '@theme/TabItem';
             :: JSON data can also be passed as a path to a .json file
             
             oint vk EditProduct ^
-             --item 12011945 ^
+             --item 12369916 ^
              --product "{'Name':'EditedTestProduct'}" ^
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```

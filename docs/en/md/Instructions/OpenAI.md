@@ -7,7 +7,7 @@ sidebar_class_name: OpenAI
 
 # OpenAI
 
-This section is devoted to the library for working with the OpenAI API in 1C:Enterprise, OneScript, and CLI. This page describes all actions required to fully start working with it.
+This section covers the library for working with OpenAI API in 1С:Enterprise, OneScript, and CLI. This page describes all the steps required to get started.
 
 ## Preface
 
@@ -23,4 +23,4 @@ After acquiring the token, it must be passed into the `Token` parameter of each 
 
 In addition to the token, every API-related function includes a `URL` parameter, where you should provide the base address of the provider without `/v1/` or other additional path segments.
 
-In functions where the set of fields can significantly vary depending on the model, there is also an `AdditionalParameters ` parameter, allowing you to add any necessary data to the request.
+In functions where the set of fields can significantly vary depending on the model, there is also an `AdditionalParameters` parameter, allowing you to add any necessary data to the request.

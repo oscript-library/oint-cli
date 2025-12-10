@@ -47,11 +47,11 @@
 
 #Region CommonMethods
 
-// Create Connection !NOCLI
+// Create connection !NOCLI
 // Creates a connection to the specified base
 //
 // Parameters:
-// ConnectionString - String - Connection string. See GenerateConnectionString - sting
+// ConnectionString - String - Connection string. See GenerateConnectionString - string
 // Tls - Structure Of KeyAndValue - TLS settings, if necessary. See GetTlsSettings - tls
 //
 // Returns:
@@ -218,7 +218,7 @@ Function GenerateConnectionString(Val Address
         StringTemplate = "Server=%1%2;%3IntegratedSecurity=True;";
         ConnectionString = StrTemplate(StringTemplate, Address, PortBlock, DBBlock);
     Else
-        StringTemplate = "Server=%1%2;%3User Id=%4;Password=%5;";
+        StringTemplate = "Server=%1%2;%3User Id=%4;Password=""%5"";";
         ConnectionString = StrTemplate(StringTemplate, Address, PortBlock, DBBlock, Login, Password);
     EndIf;
 
@@ -230,7 +230,7 @@ EndFunction
 // Forms settings for using TLS
 //
 // Note
-// Tls settings can only be set when a connection is created: explicitly, by using the `OpenConnection` function^^
+// Tls settings can only be set when a connection is created: explicitly, by using the `CreateConnection` function^^
 // or implicit, when passing the connection string to ORM methods.
 // Passing Tls settings together with passing an already created connection to the `Connection` parameter will be ignored
 // Tls settings can also be passed in the connection string

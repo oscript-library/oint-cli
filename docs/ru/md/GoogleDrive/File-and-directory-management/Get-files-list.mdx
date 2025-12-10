@@ -1,0 +1,211 @@
+﻿---
+sidebar_position: 3
+description: Получить список файлов и другие функции для работы с Google Drive в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Получить список файлов
+ Получает список файлов
+
+
+
+`Функция ПолучитьСписокФайлов(Знач Токен, Знач ИмяСодержит = "", Знач Каталог = "") Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | ИмяСодержит | --querry | Строка | &#x2716; | Отбор по имени |
+  | Каталог | --catalog | Строка | &#x2716; | Отбор по ID каталога родителя |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - Массив соответствий файлов
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен       = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Каталог     = "root";
+    ИмяСодержит = "data";
+
+    Результат = OPI_GoogleDrive.ПолучитьСписокФайлов(Токен, ИмяСодержит, Каталог);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive ПолучитьСписокФайлов \
+              --token "***" \
+              --querry "data" \
+              --catalog "root"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive ПолучитьСписокФайлов ^
+              --token "***" ^
+              --querry "data" ^
+              --catalog "root"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+[
+ {
+  "parents": [
+   "0AN2vrbrhqfJrUk9PVA"
+  ],
+  "lastModifyingUser": {
+   "displayName": "Антон Титовец",
+   "kind": "drive#user",
+   "me": true,
+   "permissionId": "07468399490707249352",
+   "emailAddress": "bayselonarrend@gmail.com",
+   "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocKYttNv2CZ-cTTuE90Zmht_PwnGc0YnjM1IUllXsTVORfZFVPU=s64"
+  },
+  "owners": [
+   {
+    "displayName": "Антон Титовец",
+    "kind": "drive#user",
+    "me": true,
+    "permissionId": "07468399490707249352",
+    "emailAddress": "bayselonarrend@gmail.com",
+    "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocKYttNv2CZ-cTTuE90Zmht_PwnGc0YnjM1IUllXsTVORfZFVPU=s64"
+   }
+  ],
+  "permissions": [
+   {
+    "kind": "drive#permission",
+    "id": "07468399490707249352",
+    "type": "user",
+    "emailAddress": "bayselonarrend@gmail.com",
+    "role": "owner",
+    "displayName": "Антон Титовец",
+    "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocKYttNv2CZ-cTTuE90Zmht_PwnGc0YnjM1IUllXsTVORfZFVPU=s64",
+    "deleted": false,
+    "pendingOwner": false
+   }
+  ],
+  "spaces": [
+   "drive"
+  ],
+  "capabilities": {
+   "canAcceptOwnership": false,
+   "canAddChildren": false,
+   "canAddMyDriveParent": false,
+   "canChangeCopyRequiresWriterPermission": true,
+   "canChangeItemDownloadRestriction": true,
+   "canChangeSecurityUpdateEnabled": false,
+   "canChangeViewersCanCopyContent": true,
+   "canComment": true,
+   "canCopy": true,
+   "canDelete": true,
+   "canDisableInheritedPermissions": false,
+   "canDownload": true,
+   "canEdit": true,
+   "canEnableInheritedPermissions": true,
+   "canListChildren": false,
+   "canModifyContent": true,
+   "canModifyContentRestriction": true,
+   "canModifyEditorContentRestriction": true,
+   "canModifyOwnerContentRestriction": true,
+   "canModifyLabels": false,
+   "canMoveChildrenWithinDrive": false,
+   "canMoveItemIntoTeamDrive": true,
+   "canMoveItemOutOfDrive": true,
+   "canMoveItemWithinDrive": true,
+   "canReadLabels": false,
+   "canReadRevisions": true,
+   "canRemoveChildren": false,
+   "canRemoveContentRestriction": false,
+   "canRemoveMyDriveParent": true,
+   "canRename": true,
+   "canShare": true,
+   "canTrash": true,
+   "canUntrash": true
+  },
+  "permissionIds": [
+   "07468399490707249352"
+  ],
+  "linkShareMetadata": {
+   "securityUpdateEligible": false,
+   "securityUpdateEnabled": true
+  },
+  "downloadRestrictions": {
+   "itemDownloadRestriction": {
+    "restrictedForReaders": false,
+    "restrictedForWriters": false
+   },
+   "effectiveDownloadRestrictionWithContext": {
+    "restrictedForReaders": false,
+    "restrictedForWriters": false
+   }
+  },
+  "kind": "drive#file",
+  "id": "1NKMmj4SJh3WUw74nhLuMofW7dfpUR520",
+  "name": "data.json",
+  "mimeType": "application/json",
+  "starred": false,
+  "trashed": false,
+  "explicitlyTrashed": false,
+  "version": "20468",
+  "webContentLink": "https://drive.google.com/uc?id=1NKMmj4SJh3WUw74nhLuMofW7dfpUR520&export=download",
+  "webViewLink": "https://drive.google.com/file/d/1NKMmj4SJh3WUw74nhLuMofW7dfpUR520/view?usp=drivesdk",
+  "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/json",
+  "hasThumbnail": false,
+  "thumbnailVersion": "0",
+  "viewedByMe": true,
+  "viewedByMeTime": "2025-12-09T15:50:24.289Z",
+  "createdTime": "2024-02-29T19:22:49.616Z",
+  "modifiedTime": "2025-12-09T15:50:24.289Z",
+  "modifiedByMeTime": "2025-12-09T15:50:24.289Z",
+  "modifiedByMe": true,
+  "shared": false,
+  "ownedByMe": true,
+  "viewersCanCopyContent": true,
+  "copyRequiresWriterPermission": false,
+  "writersCanShare": true,
+  "originalFilename": "data.json",
+  "fullFileExtension": "json",
+  "fileExtension": "json",
+  "md5Checksum": "52ac1bb3509e708d6a5805c15a150576",
+  "sha1Checksum": "81bad23314decdfe2ff3684cdca130681e02834f",
+  "sha256Checksum": "0b70db9753d8f8229427ee5cdf08c0305eb675b43a3c05b41e7e949fb2371396",
+  "size": "21294",
+  "quotaBytesUsed": "21294",
+  "headRevisionId": "0B92vrbrhqfJrNk55RXVjSjVBL2t4STUvK1RSWWpWanRSZm1rPQ",
+  "isAppAuthorized": false,
+  "inheritedPermissionsDisabled": false
+ },
+ {
+  "parents": [
+   "0AN2vrbrhqfJrUk9PVA"
+  ],
+  "lastModifyingUser": {
+   "displayName": "Антон Титовец",
+   "kind": "drive#user",
+   "me": true,
+   "permissionId": "07468399490707249352",
+   "emailAddress": "bayselonarrend@gmail.com",
+   "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocKYttNv2CZ-cTTuE90Zmht_PwnGc0YnjM1IUllXsTVORfZFVPU=s64"
+  },
+  "owners": [
+   {
+    "displayName": "Антон Титовец",
+    "kind": "drive#user",
+    "me": true,
+    "permissionId": "07468399490707249352",
+    "emailAddress": "bayselonarrend@gmail.com",
+    "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocKYttNv2CZ-cTTuE90Zmht_PwnGc0YnjM1IUllXsTVORfZFVPU=s64"
+   }
+  ],
+  "permissions": [
+...
+```

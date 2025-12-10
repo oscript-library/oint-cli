@@ -1,0 +1,53 @@
+﻿---
+sidebar_position: 4
+description: Очистить основной календарь и другие функции для работы с Google Calendar в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Очистить основной календарь
+ Очищает список событий основного календаря
+
+
+
+`Функция ОчиститьОсновнойКалендарь(Знач Токен) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+
+    Результат = OPI_GoogleCalendar.ОчиститьОсновнойКалендарь(Токен);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gcalendar ОчиститьОсновнойКалендарь \
+              --token "***"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gcalendar ОчиститьОсновнойКалендарь ^
+              --token "***"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{}
+```

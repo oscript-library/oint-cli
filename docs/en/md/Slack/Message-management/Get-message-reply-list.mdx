@@ -24,14 +24,12 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from Slack
 
-<br/>
-
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Token     = "xoxb-6965308400114-696804637...";
     Channel   = "C06UFNUTKUL";
-    Timestamp = "1760430062.629379";
+    Timestamp = "1765392210.321779";
 
     Result = OPI_Slack.GetMessageReplyList(Token, Channel, Timestamp);
 ```
@@ -44,7 +42,7 @@ import TabItem from '@theme/TabItem';
             oint slack GetMessageReplyList \
              --token "***" \
              --channel "C06UFNUTKUL" \
-             --stamp "1760521249.892539"
+             --stamp "1765395484.329079"
         ```
     </TabItem>
   
@@ -53,7 +51,7 @@ import TabItem from '@theme/TabItem';
             oint slack GetMessageReplyList ^
              --token "***" ^
              --channel "C06UFNUTKUL" ^
-             --stamp "1760521249.892539"
+             --stamp "1765395484.329079"
         ```
     </TabItem>
 </Tabs>
@@ -66,10 +64,10 @@ import TabItem from '@theme/TabItem';
   {
    "user": "U06UG1CAYH2",
    "type": "message",
-   "ts": "1760521249.892539",
+   "ts": "1765395484.329079",
    "edited": {
     "user": "B06TZ0MJV5M",
-    "ts": "1760521266.000000"
+    "ts": "1765395500.000000"
    },
    "bot_id": "B06TZ0MJV5M",
    "app_id": "A06TYNH45RV",
@@ -92,7 +90,7 @@ import TabItem from '@theme/TabItem';
    "blocks": [
     {
      "type": "rich_text",
-     "block_id": "kDi",
+     "block_id": "vkK8",
      "elements": [
       {
        "type": "rich_text_section",

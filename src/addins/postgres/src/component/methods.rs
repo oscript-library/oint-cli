@@ -1,28 +1,32 @@
 use postgres::types::{ToSql};
 use serde_json::{Value, json, Map};
 use base64::{engine::general_purpose, Engine as _};
-use crate::component::{format_json_error, AddIn};
+use crate::component::AddIn;
 use std::collections::HashMap;
 use std::net::IpAddr;
+use std::str::FromStr;
 use chrono::{NaiveDate, NaiveTime, FixedOffset, NaiveDateTime, DateTime};
+use common_utils::utils::json_error;
 use uuid::Uuid;
 use dateparser::parse;
+use rust_decimal::Decimal;
+use rust_decimal::prelude::FromPrimitive;
 
 pub fn execute_query(add_in: &mut AddIn, key: &str) -> String {
 
     let client_arc = match add_in.get_connection() {
         Some(c) => c,
-        None => return format_json_error("No connection initialized"),
+        None => return json_error("No connection initialized"),
     };
 
     let mut client = match client_arc.lock(){
         Ok(c) => c,
-        Err(_) => return format_json_error("Cannot acquire client lock"),
+        Err(_) => return json_error("Cannot acquire client lock"),
     };
 
     let query = match add_in.datasets.get_query(key){
         Some(q) => q,
-        None => return format_json_error(format!("No query found by key: {}", key).as_str()),
+        None => return json_error(format!("No query found by key: {}", key).as_str()),
     };
 
     let params = query.params;
@@ -31,7 +35,7 @@ pub fn execute_query(add_in: &mut AddIn, key: &str) -> String {
 
     let params_ref = match process_params(&params){
         Ok(params) => params,
-        Err(e) => return format_json_error(&e.to_string()),
+        Err(e) => return json_error(&e.to_string()),
     };
 
     let params_unboxed: Vec<_> = params_ref.iter().map(AsRef::as_ref).collect();
@@ -45,12 +49,12 @@ pub fn execute_query(add_in: &mut AddIn, key: &str) -> String {
                 json!({"result": true, "data": true}).to_string()
 
             }
-            Err(e) => format_json_error(&e.to_string()),
+            Err(e) => json_error(&e.to_string()),
         }
     } else {
         match client.execute(&text, &params_unboxed.as_slice()) {
             Ok(_) => json!({"result": true, "data": false}).to_string(),
-            Err(e) => format_json_error(&e.to_string()),
+            Err(e) => json_error(&e.to_string()),
         }
     }
 }
@@ -122,6 +126,22 @@ fn process_object(object: &Map<String, Value>) -> Result<Box<dyn ToSql + Sync>, 
             .as_f64()
             .map(|v| Box::new(v) as Box<dyn ToSql + Sync>)
             .ok_or_else(|| "Invalid value for DOUBLE PRECISION".to_string()),
+        "NUMERIC" | "DECIMAL" => {
+
+            if let Some(num_str) = value.as_str() {
+                Decimal::from_str(num_str)
+                    .map(|decimal| Box::new(decimal) as Box<dyn ToSql + Sync>)
+                    .map_err(|e| format!("Invalid numeric string '{}': {}", num_str, e))
+            } else if let Some(num) = value.as_f64() {
+                Decimal::from_f64(num)
+                    .map(|decimal| Box::new(decimal) as Box<dyn ToSql + Sync>)
+                    .ok_or_else(|| "Cannot convert f64 to Decimal".to_string())
+            } else if let Some(num) = value.as_i64() {
+                Ok(Box::new(Decimal::from(num)) as Box<dyn ToSql + Sync>)
+            } else {
+                Err("Invalid value for NUMERIC/DECIMAL: must be string or number".to_string())
+            }
+        }
         "VARCHAR" | "TEXT" | "CHAR" | "CITEXT" | "NAME" | "LTREE" | "LQUERY" | "LTXTQUERY" => value
             .as_str()
             .map(|v| Box::new(v.to_string()) as Box<dyn ToSql + Sync>)
@@ -235,7 +255,6 @@ fn rows_to_json(rows: Vec<postgres::Row>) ->  Vec<Value> {
 }
 
 fn process_sql_value(column_name: &str, column_type: &str, row: &postgres::Row) -> Result<Value, postgres::Error> {
-
     let value = match column_type.to_uppercase().as_str() {
         "BOOL" => row.try_get::<_, Option<bool>>(column_name)?
             .map(Value::Bool)
@@ -280,7 +299,7 @@ fn process_sql_value(column_name: &str, column_type: &str, row: &postgres::Row) 
                 .unwrap_or("Unable to make Base64 string".to_string());
 
             let mut blob_object = serde_json::Map::new();
-            blob_object.insert("BYTEA".to_string(), Value::String(base64_string)); // Оборачиваем в объект
+            blob_object.insert("BYTEA".to_string(), Value::String(base64_string));
             Value::Object(blob_object)
         },
         "HSTORE" => row.try_get::<_, Option<HashMap<String, Option<String>>>>(column_name)?
@@ -296,7 +315,7 @@ fn process_sql_value(column_name: &str, column_type: &str, row: &postgres::Row) 
             .map(|timestamp| Value::String(timestamp.format("%Y-%m-%dT%H:%M:%S").to_string()))
             .unwrap_or(Value::Null),
         "TIMESTAMP WITH TIME ZONE" | "TIMESTAMPTZ" => row.try_get::<_, Option<DateTime<FixedOffset>>>(column_name)?
-            .map(|timestamp| Value::String(timestamp.to_rfc3339())) // RFC3339 - это профиль ISO8601
+            .map(|timestamp| Value::String(timestamp.to_rfc3339()))
             .unwrap_or(Value::Null),
         "INET" => row.try_get::<_, Option<IpAddr>>(column_name)?
             .map(|ip| Value::String(ip.to_string()))
@@ -315,10 +334,15 @@ fn process_sql_value(column_name: &str, column_type: &str, row: &postgres::Row) 
             row.try_get::<_, Option<Uuid>>(column_name)?
                 .map(|uuid| Value::String(uuid.to_string()))
                 .unwrap_or(Value::Null)
-        }
+        },
+        "NUMERIC" | "DECIMAL" => {
+            row.try_get::<_, Option<Decimal>>(column_name)?
+                .map(|decimal| Value::String(decimal.to_string()))
+                .unwrap_or(Value::Null)
+        },
         current_type => {
-            match row.try_get::<_, Option<String>>(column_name){
-                Ok(v) => v.map(Value::String).unwrap_or(Value::Null),
+            match try_get_unknown_type(column_name, row) {
+                Ok(value) => value,
                 Err(_) => Value::String(format!("Unsupported type: {}", current_type)),
             }
         },
@@ -326,6 +350,55 @@ fn process_sql_value(column_name: &str, column_type: &str, row: &postgres::Row) 
     Ok(value)
 }
 
+fn try_get_unknown_type(column_name: &str, row: &postgres::Row) -> Result<Value, ()> {
+
+    if let Ok(value) = row.try_get::<_, Option<i16>>(column_name) {
+        return Ok(value.map(|v| Value::Number(v.into())).unwrap_or(Value::Null));
+    }
+
+    if let Ok(value) = row.try_get::<_, Option<i32>>(column_name) {
+        return Ok(value.map(|v| Value::Number(v.into())).unwrap_or(Value::Null));
+    }
+
+    if let Ok(value) = row.try_get::<_, Option<i64>>(column_name) {
+        return Ok(value.map(|v| Value::Number(v.into())).unwrap_or(Value::Null));
+    }
+
+    if let Ok(value) = row.try_get::<_, Option<f64>>(column_name) {
+        return Ok(value.map(|v| {
+            serde_json::Number::from_f64(v)
+                .map(Value::Number)
+                .unwrap_or_else(|| Value::String(v.to_string()))
+        }).unwrap_or(Value::Null));
+    }
+
+    if let Ok(value) = row.try_get::<_, Option<String>>(column_name) {
+        if let Some(ref str_val) = value {
+            if str_val.parse::<f64>().is_ok() || str_val.parse::<i64>().is_ok() {
+                return Ok(Value::String(str_val.clone()));
+            }
+        }
+        return Ok(value.map(Value::String).unwrap_or(Value::Null));
+    }
+
+    if let Ok(value) = row.try_get::<_, Option<bool>>(column_name) {
+        return Ok(value.map(Value::Bool).unwrap_or(Value::Null));
+    }
+
+    if let Ok(value) = row.try_get::<_, Option<String>>(column_name) {
+        return Ok(value.map(Value::String).unwrap_or(Value::Null));
+    }
+
+    if let Ok(value) = row.try_get::<_, Option<Vec<u8>>>(column_name) {
+        let base64_string = value.map(|v| general_purpose::STANDARD.encode(v))
+            .unwrap_or_else(|| "Unable to make Base64 string".to_string());
+        let mut blob_object = serde_json::Map::new();
+        blob_object.insert("BYTEA".to_string(), Value::String(base64_string));
+        return Ok(Value::Object(blob_object));
+    }
+
+    Err(())
+}
 
 fn parse_date(input: &str) -> Result<NaiveDateTime, String> {
     parse(input)

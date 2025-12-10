@@ -1,0 +1,78 @@
+﻿---
+sidebar_position: 2
+description: Create folder and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Create folder
+ Creates a directory on the disk
+
+
+
+`Function CreateFolder(Val Token, Val Path) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Path | --path | String | &#x2714; | Path to the created folder |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Yandex
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    Path  = "/" + String(New UUID);
+
+    Result = OPI_YandexDisk.CreateFolder(Token, Path);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk CreateFolder \
+             --token "***" \
+             --path "/c1bfe994-7ca3-4956-9272-6a2e93a22d68"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk CreateFolder ^
+             --token "***" ^
+             --path "/c1bfe994-7ca3-4956-9272-6a2e93a22d68"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "path": "disk:/c1bfe994-7ca3-4956-9272-6a2e93a22d68",
+ "type": "dir",
+ "name": "c1bfe994-7ca3-4956-9272-6a2e93a22d68",
+ "created": "2025-12-10T19:26:35+00:00",
+ "modified": "2025-12-10T19:26:35+00:00",
+ "_embedded": {
+  "path": "disk:/c1bfe994-7ca3-4956-9272-6a2e93a22d68",
+  "limit": 20,
+  "offset": 0,
+  "sort": "",
+  "total": 0,
+  "items": []
+ },
+ "resource_id": "1573541518:6db2e589d73288df2655197a4bc6135f25e1d8e26f32fffa34846687c367a6e6",
+ "revision": 1765394795659103,
+ "comment_ids": {
+  "public_resource": "1573541518:6db2e589d73288df2655197a4bc6135f25e1d8e26f32fffa34846687c367a6e6",
+  "private_resource": "1573541518:6db2e589d73288df2655197a4bc6135f25e1d8e26f32fffa34846687c367a6e6"
+ },
+ "exif": {}
+}
+```

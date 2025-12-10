@@ -11,9 +11,19 @@ pipeline {
 		label 'windows'
 	}
 	stages {
+
+        stage('Read stages config') {
+            steps {
+                script {
+                    def configText = readFile './service/tests_config.json'
+                    env.STAGES_CONFIG = configText
+                }
+            }
+        }
+
 		stage('Decrypt Data') {
             steps {
-                powershell encoding: 'UTF-8', script:'cd ./src/en/OInt; opm build; opm install oint-1.28.0.ospx; del oint-1.28.0.ospx'
+                powershell encoding: 'UTF-8', script:'cd ./src/en/OInt; opm build; opm install oint-1.30.0.ospx; del oint-1.30.0.ospx'
                 withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
                     bat encoding: 'UTF-8', script:'gpg --quiet --batch --yes --decrypt --passphrase="%GPGKEY%" --output ./data.json ./data.json.gpg'
                 }
@@ -80,7 +90,7 @@ pipeline {
         stage('Download Installer') {
             steps {
                 powershell encoding: 'UTF-8', script: '''
-                    $url = "https://jenkins.openintegrations.dev/job/OpiBuild/job/OpiRelease/lastSuccessfulBuild/artifact/1.28.0/oint_1.28.0_installer_en.exe "
+                    $url = "https://jenkins.openintegrations.dev/job/OpiBuild/job/OpiRelease/lastSuccessfulBuild/artifact/1.30.0/oint_1.30.0_installer_en.exe "
                     $output = "$env:USERPROFILE\\Downloads\\oint_installer.exe"
                     Invoke-WebRequest -Uri $url -OutFile $output
                     Write-Host "Инсталлер скачан в: $output"
@@ -132,11 +142,36 @@ pipeline {
 				}
 		}
 
-		stage('Testing-ReportPortal') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os" "RPortal_Authorization"')
+		stage('Testing-BuildCheck') {
+            when {
+                expression { return shouldRunStage('BuildCheck') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os', 'CheckIBToLastBuildCompliance'],
+					]
+					for (test in tests) {
+							runLibraryTest(test[0], test[1])
+					}
+				}
 			}
+		}
+		stage('Testing-ReportPortal') {
+            when {
+                expression { return shouldRunStage('ReportPortal') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_TestsCLI.os', 'RPortal_Authorization'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 
@@ -147,11 +182,6 @@ pipeline {
                 catchError() {   
 				    runCommand('oscript ./ci/os/rp_stop.os "en"')
 			    }
-				withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
-					bat encoding: 'UTF-8', script:'del "./data.json.gpg"'
-					bat encoding: 'UTF-8', script:'gpg --batch --symmetric --cipher-algo AES256 --passphrase="%GPGKEY%" ./data.json'
-					bat encoding: 'UTF-8', script:'del "./data.json"'
-				}
 				withCredentials([gitUsernamePassword(credentialsId: 'gitmain', gitToolName: 'Default')]) {
 					bat "git config user.email vitaly.the.alpaca@gmail.com"
 					bat 'git config user.name "Vitaly the Alpaca (bot)"'
@@ -163,4 +193,36 @@ pipeline {
 			}
 		}
 	}
+}
+
+def shouldRunStage(stageName) {
+    try {
+        if (!env.STAGES_CONFIG) {
+            echo "[WARN] STAGES_CONFIG not set. Assuming stage '${stageName}' is ENABLED."
+            return true
+        }
+        def config = readJSON text: env.STAGES_CONFIG
+        def value = config[stageName]
+        if (value == null) {
+            echo "[WARN] Stage '${stageName}' not found in config. Defaulting to DISABLED."
+            return false
+        }
+        return value == true
+    } catch (Exception e) {
+        echo "[ERROR] Failed to parse STAGES_CONFIG: ${e.message}"
+        echo "Raw config: ${env.STAGES_CONFIG}"
+        // Решите: включать stage по умолчанию или нет?
+        return false // или true — по вашему усмотрению
+    }
+}
+
+def runLibraryTest(String configPath, String libraryName) {
+    try {
+        echo "Executing: 1testrunner -run \"${configPath}\" \"${libraryName}\""
+        runCommand("1testrunner -run \"${configPath}\" \"${libraryName}\"")
+        echo "Test ${libraryName} completed successfully"
+    } catch (Exception e) {
+        echo "ERROR in test ${libraryName}: ${e.getMessage()}"
+        throw e 
+    }
 }

@@ -16,15 +16,13 @@ import TabItem from '@theme/TabItem';
 
   | Parameter | CLI option | Type | Required | Description |
   |-|-|-|-|-|
-  | Connection | - | Arbitrary | &#x2714; | Connection, see. CreateConnection |
+  | Connection | - | Arbitrary | &#x2714; | Connection, See CreateConnection |
   | Encoding | - | String | &#x2716; | Encoding of data conversion to string |
   | Marker | - | String, BinaryData | &#x2716; | End of message marker. Empty > without marker |
   | Timeout | - | Number | &#x2716; | Data waiting timeout (ms). 0 > no limit |
 
   
   Returns:  String - Received data as string
-
-<br/>
 
 :::tip
 If the connection is closed, an error occurs, or EOF is detected, the read is terminated in either case

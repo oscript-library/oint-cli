@@ -7,7 +7,7 @@ sidebar_class_name: MSSQL
 
 # MSSQL
 
-This section is dedicated to the MSSQL database library. On this page, all the steps necessary to start working are described
+This section covers the library for working with MS SQL Server in 1С:Enterprise, OneScript, and CLI. This page describes all the steps required to get started.
 
 <div class="theme-admonition theme-admonition-info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-Layout-styles-module alert alert--info">
 
@@ -26,9 +26,9 @@ Learn more: <a href="/docs/Start/Component-requirements#openssl" class="orangeli
 
 ## About implemented methods
 
-This library has two parts: basic methods, like connecting and executing SQL queries, and a small ORM for common operations like CREATE, SELECT, INSERT, DELETE, and so on. Working through the ORM and through the query texts executed through the `ExecuteSQLQuery()` function is technically the same: the ORM simply generates the SQL query text based on the layouts, but then also calls them through this function
+This library has two parts: basic methods, like connecting and executing SQL queries, and a small ORM for common operations like CREATE, SELECT, INSERT, DELETE, and so on. Working through the ORM and through the query texts executed through the `ExecuteSQLQuery` function is technically the same: the ORM simply generates the SQL query text based on the layouts, but then also calls them through this function
 
-By default, all SELECT queries return an array of selected data, while other queries return only `true` in the `result` field on success, or `false` and error text in the `result` and `error` fields, respectively. To execute queries that require data to be returned but are not SELECT queries, the `ExecuteSQLQuery()` function has a `ForceResult` parameter
+By default, all SELECT queries return an array of selected data, while other queries return only `true` in the `result` field on success, or `false` and error text in the `result` and `error` fields, respectively. To execute queries that require data to be returned but are not SELECT queries, the `ExecuteSQLQuery` function has a `ForceResult` parameter
 
 ## Query parameters
 
@@ -67,7 +67,3 @@ The library supports operation in TLS mode. To enable it, you need to configure 
 :::tip 
 TLS settings can only be applied when the connection is established — either explicitly when using the `CreateConnection` function or implicitly when passing a connection string to ORM methods. Providing TLS settings along with an already established connection (passed via the *Connection* parameter) will be ignored. 
 :::
-
-## Compatibility
-
-Technically, the client implementation is a Native component in Rust. It comes in a zip archive format, and, in theory, should work on all available platforms: x86 and x64 Windows and Linux. The actual testing was done on Windows x64 and, cossentially (via OneScript), on Linux x64

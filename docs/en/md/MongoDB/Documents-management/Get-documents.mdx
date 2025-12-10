@@ -1,0 +1,131 @@
+﻿---
+sidebar_position: 3
+description: Get documents and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get documents
+ Gets collection documents
+
+
+
+`Function GetDocuments(Val Connection, Val Collection, Val Base = Undefined, Val Filter = Undefined, Val Sort = Undefined, Val Parameters = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Collection | --coll | String | &#x2714; | Collection name |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+  | Filter | --query | Structure Of KeyAndValue | &#x2716; | Document filter |
+  | Sort | --sort | Structure Of KeyAndValue | &#x2716; | Selection sorting |
+  | Parameters | --params | Structure Of KeyAndValue | &#x2716; | Additional retrieval parameters |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+    Base     = "main";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+
+    // __4 = $
+    Filter = New Structure("stringField,doubleField", "Text", New Structure("__4gte, __4lte", 100, 150));
+    Sort = New Structure("doubleField", -1);
+    Parameters = New Structure("limit", 2);
+
+    Result = OPI_MongoDB.GetDocuments(Connection, Collection, Base, Filter, Sort, Parameters);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint mongodb GetDocuments \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+             --coll "new_collection" \
+             --db "main" \
+             --query "{'stringField':'Text','doubleField':'999'}"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint mongodb GetDocuments ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+             --coll "new_collection" ^
+             --db "main" ^
+             --query "{'stringField':'Text','doubleField':'999'}"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": [
+  {
+   "_id": "6939c896f1fedecc48aa21b9",
+   "stringField": "Text",
+   "oidField": "63ceed18f71dda7d8cf21e8e",
+   "jsField": "const result = [1, 2, 3].map(x => x * 2).filter(x => x > 3);",
+   "symbolField": "Y",
+   "int32Field": 10,
+   "int64Field": 1000,
+   "doubleField": 124.456,
+   "boolField": true,
+   "dateField": "2025-11-15T10:55:41Z",
+   "tsField": "Timestamp(1765394580, 0)",
+   "regexpField": "/[a-z]+@[a-z]+\\.[a-z]+/i",
+   "binaryField": {
+    "__B64_BINARY__": "VGV4dA=="
+   },
+   "nullField": null,
+   "minkeyField": "***",
+   "maxkeyField": "***",
+   "docField": {
+    "code": "const result = 1",
+    "number": 10
+   },
+   "arrayField": [
+    "***",
+    "***"
+   ]
+  },
+  {
+   "_id": "6939c896f1fedecc48aa21b8",
+   "stringField": "Text",
+   "intField": 200,
+   "doubleField": 123.456,
+   "boolField": true,
+   "arrayField": [
+    "***",
+    "***"
+   ],
+   "docField": {
+    "text": "Text",
+    "number": 10
+   },
+   "dateField": "2025-12-10T19:23:00.17Z",
+   "nullField": null
+  }
+ ]
+}
+```

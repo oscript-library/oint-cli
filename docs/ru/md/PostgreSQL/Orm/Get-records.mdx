@@ -18,16 +18,14 @@ import TabItem from '@theme/TabItem';
   |-|-|-|-|-|
   | Таблица | --table | Строка | &#x2714; | Имя таблицы |
   | Поля | --fields | Массив Из Строка | &#x2716; | Поля для выборки |
-  | Фильтры | --filter | Массив Из Структура | &#x2716; | Массив фильтров. См. ПолучитьСтруктуруФильтраЗаписей |
+  | Фильтры | --filter | Массив Из Структура | &#x2716; | Массив фильтров. См. [`ПолучитьСтруктуруФильтраЗаписей`](/docs/PostgreSQL/Orm/Get-records-filter-strucutre) |
   | Сортировка | --order | Структура Из КлючИЗначение | &#x2716; | Сортировка: Ключ > поле, Значение > направление (ASC, DESC) |
   | Количество | --limit | Число | &#x2716; | Ограничение количества получаемых строк |
   | Соединение | --dbc | Строка, Произвольный | &#x2716; | Соединение или строка подключения |
-  | Tls | --tls | Структура Из КлючИЗначение | &#x2716; | Настройки TLS, если необходимо. См. ПолучитьНастройкиTls |
+  | Tls | --tls | Структура Из КлючИЗначение | &#x2716; | Настройки TLS, если необходимо. См. [`ПолучитьНастройкиTls`](/docs/PostgreSQL/Common-methods/Get-tls-settings) |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - Результат выполнения запроса
-
-<br/>
 
 
 
@@ -139,19 +137,20 @@ import TabItem from '@theme/TabItem';
    },
    "char_field": "A",
    "charn_field": "AAA",
-   "date_field": "2025-10-14",
+   "date_field": "2025-12-10",
    "dp_field": 1.0002,
    "int_field": 100,
    "ip_field": "127.0.0.1",
    "json_field": {
-    "key": "ItsKey",
+    "key": "***",
     "value": 10
    },
    "jsonb_field": {
-    "key": "ItsKey",
+    "key": "***",
     "value": 10
    },
    "name_field": "Vitaly",
+   "numeric_field": "15.20",
    "oid_field": 24576,
    "oldchar_field": 1,
    "real_field": 15.1999998092651,
@@ -159,10 +158,10 @@ import TabItem from '@theme/TabItem';
    "smallint_field": 5,
    "smallserial_field": 6,
    "text_field": "Some text",
-   "time_field": "16:44:53",
-   "ts_field": "2025-10-14T16:44:53",
-   "tswtz_field": "2025-10-14T11:44:53.263071+00:00",
-   "uuid_field": "4d290c11-a827-4d06-8070-2fe6c0b81faf",
+   "time_field": "14:39:39",
+   "ts_field": "2025-12-10T14:39:39",
+   "tswtz_field": "2025-12-10T12:39:39.33642+03:00",
+   "uuid_field": "9c428344-94b1-45d0-9ac1-fe0826a53ce0",
    "varchar_field": "Some varchar"
   }
  ],

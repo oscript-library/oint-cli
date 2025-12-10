@@ -4,30 +4,42 @@ pipeline {
 	}
 
     stages {
-        stage('OpiMain') {
+        stage('OpenIntegrations - Build') {
             steps {
-                echo 'Main (OpenIntegrations)'
-                build job: 'OpiMain', wait: true
+                build job: 'OpiBuild/OpiMain', wait: true
             }
         }
-
-        stage('MelezhRelease') {
+        stage('Melezh - Main + Release') {
             steps {
-                echo 'Main + Release (Melezh)'
-                build job: 'MelezhRelease', wait: true
+                build job: 'Melezh/MelezhRelease', wait: true
             }
         }
-
-        stage('OpiRelease') {
+        stage('OpenIntegrations - 1C DB Update') {
+            steps {
+                build job: 'OpiBuild/OpiBaseUpdate', wait: true
+            }
+        }
+        stage('OpenIntegrations - Release') {
             steps {
                 echo 'Release (OpenIntegrations)'
-                build job: 'OpiRelease', wait: true
+                build job: 'OpiBuild/OpiRelease', wait: true
             }
         }
-        stage('OpiCliTestRu') {
+        stage('Melezh - Docker') {
             steps {
-                echo 'CLI Test (OpenIntegrations)'
-                build job: 'OpiCliTestRu', wait: true
+                build job: 'Melezh/MelezhDocker', wait: true,
+                    parameters: [
+                            [$class: 'StringParameterValue', name: 'VERSION', value: 'draft'],
+                            [$class: 'StringParameterValue', name: 'MELEZH_VERSION', value: '0.7.0'],
+                            [$class: 'StringParameterValue', name: 'OINT_VERSION', value: '1.30.0'],
+                            [$class: 'StringParameterValue', name: 'OINT_BUILD_ID', value: 'lastSuccessfulBuild']
+                    ]
+            }
+        }
+
+        stage('Melezh - Test') {
+            steps {
+                build job: 'Melezh/MelezhTests', wait: true
             }
         }
     }

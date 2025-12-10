@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - Result of query execution
 
-<br/>
-
 :::tip
 Binary data can also be transferred as a structure `{'blob':File path}`
 :::
@@ -39,7 +37,7 @@ Binary data can also be transferred as a structure `{'blob':File path}`
     PictureFile = GetTempFileName("png");
     Image.Write(PictureFile); // PictureFile - File to disk
 
-    Base  = "C:\Users\bayse\AppData\Local\Temp\v8_3DC8_294.sqlite";
+    Base  = "C:\Users\bayse\AppData\Local\Temp\v8_2812_2c.sqlite";
     Table = "test";
 
     DataArray = New Array;
@@ -76,7 +74,7 @@ Binary data can also be transferred as a structure `{'blob':File path}`
             oint sqlite AddRecords \
              --table "test1" \
              --rows "{'[An obscure column]':'yo'}" \
-             --db "/tmp/1q3umrdj.x1r.sqlite"
+             --db "/tmp/d2zko3pj.q0q.sqlite"
         ```
     </TabItem>
   
@@ -87,7 +85,7 @@ Binary data can also be transferred as a structure `{'blob':File path}`
             oint sqlite AddRecords ^
              --table "test1" ^
              --rows "{'[An obscure column]':'yo'}" ^
-             --db "/tmp/1q3umrdj.x1r.sqlite"
+             --db "/tmp/d2zko3pj.q0q.sqlite"
         ```
     </TabItem>
 </Tabs>

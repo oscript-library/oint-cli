@@ -1,0 +1,80 @@
+﻿---
+sidebar_position: 4
+description: Send part  and other functions to work with HTTP-client in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, HTTP-client]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Send part 
+ Sends a request with the specified part of the body and the Content-Range header
+
+
+
+`Function SendPart(Val StartPosition, Val ByteCount, Val Method = "PUT") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | StartPosition | - | Number | &#x2714; | Start position in request body |
+  | ByteCount | - | Number | &#x2714; | Number of bytes from the specified start position for sending |
+  | Method | - | String | &#x2716; | Request HTTP method |
+
+  
+  Returns:  DataProcessorObject.OPI_HTTPClient - This processor object
+
+
+:::caution
+**NOCLI:** this method is not available in CLI version
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    URL = "https://bin.openintegrations.dev";
+    URL = URL + "/put";
+
+    ChunkSize = 524288;
+    Data      = GetBinaryDataFromString("Some data for sending");
+
+    // Sending only "data for"
+    StartPosition = 5;
+    Bytes = 8;
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize(URL)
+        .SetBinaryBody(Data)
+        .SendPart(StartPosition, Bytes) // <---
+        .ReturnResponseAsJSONObject();
+```
+ 
+
+
+
+```json title="Result"
+{
+ "args": {},
+ "data": "data for",
+ "files": {},
+ "form": {},
+ "headers": {
+  "Accept": "*/*",
+  "Accept-Charset": "utf-8",
+  "Accept-Encoding": "gzip",
+  "Connection": "Keep-Alive",
+  "Content-Length": "8",
+  "Content-Range": "bytes 5-12/21",
+  "Content-Type": "application/octet-stream",
+  "Host": "localhost:2424",
+  "Max-Forwards": "10",
+  "User-Agent": "1Script v$2.0.0.0",
+  "X-Arr-Log-Id": "0f63538a-4561-44cd-9b3f-4c4c67070fc1",
+  "X-Arr-Ssl": "2048|256|C=BE, O=GlobalSign nv-sa, CN=GlobalSign GCC R6 AlphaSSL CA 2025|CN=*.openintegrations.dev",
+  "X-Forwarded-Host": "bin.openintegrations.dev",
+  "X-Original-Url": "***"
+ },
+ "json": null,
+ "origin": "***",
+ "url": "https://bin.openintegrations.dev/put"
+}
+```

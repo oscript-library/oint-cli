@@ -23,8 +23,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrxi24
 
-<br/>
-
 :::tip
 Метод в документации API: [tasks.task.history.list](https://dev.1c-bitrix.ru/rest_help/tasks/task/tasks/tasks_task_history_list.php)
 :::
@@ -33,13 +31,13 @@ import TabItem from '@theme/TabItem';
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     URL      = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    IDЗадачи = "8350";
+    IDЗадачи = "9036";
 
     Результат = OPI_Bitrix24.ПолучитьИсториюЗадачи(URL, IDЗадачи);
 
     URL      = "b24-ar17wx.bitrix24.by";
-    Токен    = "8a1bee68006e9f06006b12e400000001000...";
-    IDЗадачи = "8352";
+    Токен    = "6ad03969006e9f06006b12e400000001000...";
+    IDЗадачи = "9038";
 
     Результат = OPI_Bitrix24.ПолучитьИсториюЗадачи(URL, IDЗадачи, Токен);
 ```
@@ -51,7 +49,7 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint bitrix24 ПолучитьИсториюЗадачи \
               --url "b24-ar17wx.bitrix24.by" \
-              --task "8382" \
+              --task "9008" \
               --token "***"
         ```
     </TabItem>
@@ -60,7 +58,7 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint bitrix24 ПолучитьИсториюЗадачи ^
               --url "b24-ar17wx.bitrix24.by" ^
-              --task "8382" ^
+              --task "9008" ^
               --token "***"
         ```
     </TabItem>
@@ -72,8 +70,8 @@ import TabItem from '@theme/TabItem';
  "result": {
   "list": [
    {
-    "id": 105802,
-    "createdDate": "2025-10-14T17:01:36+00:00",
+    "id": 114366,
+    "createdDate": "2025-12-10T14:54:19+03:00",
     "field": "NEW",
     "value": {
      "from": null,
@@ -88,12 +86,12 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105804,
-    "createdDate": "2025-10-14T17:01:36+00:00",
+    "id": 114368,
+    "createdDate": "2025-12-10T14:54:20+03:00",
     "field": "START_DATE_PLAN",
     "value": {
      "from": "",
-     "to": "1760461296"
+     "to": "1765367659"
     },
     "user": {
      "id": 1,
@@ -104,12 +102,12 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105806,
-    "createdDate": "2025-10-14T17:01:36+00:00",
+    "id": 114370,
+    "createdDate": "2025-12-10T14:54:20+03:00",
     "field": "END_DATE_PLAN",
     "value": {
      "from": "",
-     "to": "1760475600"
+     "to": "1765400400"
     },
     "user": {
      "id": 1,
@@ -120,12 +118,12 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105808,
-    "createdDate": "2025-10-14T17:01:36+00:00",
+    "id": 114372,
+    "createdDate": "2025-12-10T14:54:20+03:00",
     "field": "DURATION_PLAN_SECONDS",
     "value": {
      "from": "",
-     "to": "14304"
+     "to": "32741"
     },
     "user": {
      "id": 1,
@@ -136,8 +134,8 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105822,
-    "createdDate": "2025-10-14T17:01:40+00:00",
+    "id": 114386,
+    "createdDate": "2025-12-10T14:54:23+03:00",
     "field": "TITLE",
     "value": {
      "from": "Новая задача",
@@ -152,8 +150,8 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105824,
-    "createdDate": "2025-10-14T17:01:40+00:00",
+    "id": 114388,
+    "createdDate": "2025-12-10T14:54:23+03:00",
     "field": "DESCRIPTION",
     "value": {
      "from": "",
@@ -168,8 +166,8 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105826,
-    "createdDate": "2025-10-14T17:01:40+00:00",
+    "id": 114390,
+    "createdDate": "2025-12-10T14:54:23+03:00",
     "field": "PRIORITY",
     "value": {
      "from": "2",
@@ -184,12 +182,12 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105832,
-    "createdDate": "2025-10-14T17:01:47+00:00",
+    "id": 114396,
+    "createdDate": "2025-12-10T14:54:29+03:00",
     "field": "RESPONSIBLE_ID",
     "value": {
      "from": "1",
-     "to": "2826"
+     "to": "2960"
     },
     "user": {
      "id": 1,
@@ -200,12 +198,12 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105834,
-    "createdDate": "2025-10-14T17:01:47+00:00",
+    "id": 114398,
+    "createdDate": "2025-12-10T14:54:29+03:00",
     "field": "COMMENT",
     "value": {
      "from": null,
-     "to": "19488"
+     "to": "20870"
     },
     "user": {
      "id": 1,
@@ -216,7 +214,7 @@ import TabItem from '@theme/TabItem';
     }
    },
    {
-    "id": 105838,
-    "createdDate": "2025-10-14T17:01:49+00:00",
+    "id": 114402,
+    "createdDate": "2025-12-10T14:54:30+03:00",
 ...
 ```

@@ -1,26 +1,31 @@
 ﻿{
  "entity": {
-  "uuid": "97b4636c-029b-4370-8e95-818972451eca",
-  "cdek_number": "1106626964",
-  "order_uuid": "986c27a6-ea8a-4126-b759-3599cb17fba4",
-  "intake_date": "2025-10-15",
+  "uuid": "6ff61a95-7e01-47e0-9447-aeb97a3f08e3",
+  "cdek_number": "1106697447",
+  "order_uuid": "79bc0112-f75e-43a4-a950-a328d289d058",
+  "intake_date": "2025-12-11",
+  "intake_number": "13310705",
   "intake_time_from": "10:00",
   "intake_time_to": "17:00",
   "name": "Консолидированный груз",
   "weight": 1000,
   "length": 10,
-  "width": 10,
+  "width": "***",
   "height": 10,
   "comment": "Комментарий курьеру",
   "sender": {
    "company": "Компания",
-   "name": "Иванов Иван",
+   "name": "Компания",
+   "contragent_type": "LEGAL_ENTITY",
    "phones": [
+    {
+     "number": "79589441654"
+    },
     {
      "number": "+79589441654"
     }
    ],
-   "passport_requirements_satisfied": false
+   "passport_requirements_satisfied": "***"
   },
   "from_location": {
    "code": 44,
@@ -36,31 +41,53 @@
    "latitude": 55.75222,
    "address": "ул. Блюхера, 32"
   },
+  "to_location": {
+   "code": 44,
+   "city_uuid": "7e8f36ba-d937-4ce4-8d53-e44177db6469",
+   "city": "Москва",
+   "country_code": "RU",
+   "country": "Россия",
+   "region": "Москва",
+   "region_code": 81,
+   "longitude": 37.831928,
+   "latitude": 55.644399,
+   "address": "Россия, Москва, Москва, ул. Энергетиков, 22 корп. 2",
+   "postal_code": "140091"
+  },
   "need_call": false,
   "statuses": [
    {
+    "code": "READY_FOR_APPOINTMENT",
+    "name": "Готова к назначению",
+    "date_time": "2025-12-10T15:02:31+03:00"
+   },
+   {
+    "code": "CREATED",
+    "name": "Создан",
+    "date_time": "2025-12-10T15:02:31+03:00"
+   },
+   {
     "code": "ACCEPTED",
     "name": "Принят",
-    "date_time": "2025-10-14T17:11:43+00:00"
+    "date_time": "2025-12-10T15:02:31+03:00"
    }
   ],
   "packages": [
    {
-    "package_id": "61badf7a-b3ca-483f-8528-f0ec2c4d63f1",
+    "package_id": "ee9eeffb-4d0d-4e56-904d-9975f47df3c9",
     "weight": 1000,
     "length": 10,
-    "width": 10,
+    "width": "***",
     "height": 10
    }
-  ],
-  "contragent_uuid": "ed75ecf4-30ed-4153-afe9-eb80bb512f22"
+  ]
  },
  "requests": [
   {
-   "request_uuid": "34a72636-577b-4089-b3bf-f0fe43506ab0",
+   "request_uuid": "09aaf864-8029-40a1-a506-6b926be60fbc",
    "type": "CREATE",
-   "date_time": "2025-10-14T17:11:42+00:00",
-   "state": "ACCEPTED"
+   "date_time": "2025-12-10T15:02:29+03:00",
+   "state": "SUCCESSFUL"
   }
  ]
 }

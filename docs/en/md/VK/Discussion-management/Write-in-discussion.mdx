@@ -18,18 +18,16 @@ import TabItem from '@theme/TabItem';
   |-|-|-|-|-|
   | DiscussionID | --topic | String, Number | &#x2714; | Discussion ID |
   | Text | --text | String | &#x2714; | Message text |
-  | Parameters | --auth | Structure Of String | &#x2716; | Authorization JSON or path to .json |
+  | Parameters | --auth | Structure Of String | &#x2716; | Authorization parameters. See GetAuthParameters |
 
   
   Returns:  Map Of KeyAndValue - serialized JSON response from VK
-
-<br/>
 
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Parameters   = GetVKParameters();
-    DiscussionID = "54340007";
+    DiscussionID = "54504754";
     Message      = "I like yellow more";
 
     Result = OPI_VK.WriteInDiscussion(DiscussionID, Message, Parameters);
@@ -43,7 +41,7 @@ import TabItem from '@theme/TabItem';
             # JSON data can also be passed as a path to a .json file
             
             oint vk WriteInDiscussion \
-             --topic 54343356 \
+             --topic 54504768 \
              --text "I like yellow more" \
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
@@ -54,7 +52,7 @@ import TabItem from '@theme/TabItem';
             :: JSON data can also be passed as a path to a .json file
             
             oint vk WriteInDiscussion ^
-             --topic 54343356 ^
+             --topic 54504768 ^
              --text "I like yellow more" ^
              --auth "{'access_token':'***','owner_id':'-218861756','app_id':'51694790','group_id':'218861756'}"
         ```
@@ -64,6 +62,6 @@ import TabItem from '@theme/TabItem';
 
 ```json title="Result"
 {
- "response": 3295
+ "response": 3499
 }
 ```

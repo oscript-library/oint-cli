@@ -1,5 +1,5 @@
 ﻿// OneScript: ./OInt/core/Modules/OPI_GreenAPI.os
-// Lib: Green API
+// Lib: GreenAPI
 // CLI: greenapi
 // Keywords: greenapi, whatsapp
 
@@ -40,6 +40,7 @@
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
 //@skip-check method-too-many-params
+//@skip-check bsl-legacy-check-string-literal
 
 #Region Public
 
@@ -708,7 +709,7 @@ EndFunction
 // AccessParameters - Structure Of KeyAndValue - Access parameters. See FormAccessParameters - access
 // ChatID - String - Chat identifier - chat
 // Text - String - Message text - text
-// Options - Array Of String - Answer options - options
+// Variants - Array Of String - Answer options - options
 // MultipleSelect - Boolean - Allows to select more than one answer choice - multi
 // ReplyID - String - Replying message id if necessary - quoted
 //
@@ -717,7 +718,7 @@ EndFunction
 Function SendPoll(Val AccessParameters
     , Val ChatID
     , Val Text
-    , Val Options
+    , Val Variants
     , Val MultipleSelect = False
     , Val ReplyID = "") Export
 
@@ -725,9 +726,9 @@ Function SendPoll(Val AccessParameters
     Parameters  = New Structure;
     OptionArray = New Array;
 
-    OPI_TypeConversion.GetArray(Options);
+    OPI_TypeConversion.GetArray(Variants);
 
-    For Each Option In Options Do
+    For Each Option In Variants Do
         OptionArray.Add(New Structure("optionName", Option));
     EndDo;
 
@@ -1223,13 +1224,13 @@ EndFunction
 
 Function FormPrimaryURL(Val AccessParameters, Val Method)
 
-        Return FormURL(AccessParameters, Method, "apiUrl");
+    Return FormURL(AccessParameters, Method, "apiUrl");
 
 EndFunction
 
 Function FormMediaURL(Val AccessParameters, Val Method)
 
-        Return FormURL(AccessParameters, Method, "mediaUrl");
+    Return FormURL(AccessParameters, Method, "mediaUrl");
 
 EndFunction
 

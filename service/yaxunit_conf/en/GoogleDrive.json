@@ -1,0 +1,32 @@
+{
+  "reportPath": "./test_results/GoogleDrive.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Tests.GD_Authorization",
+"OPI_Tests.GD_GetCatalogList",
+"OPI_Tests.GD_UploadDeleteFile",
+"OPI_Tests.GD_CreateDeleteComment",
+"OPI_Tests.GD_CreateCatalog"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/GoogleDrive.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

@@ -1,0 +1,117 @@
+﻿---
+sidebar_position: 6
+description: Edit event and other functions to work with Google Calendar in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Calendar]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Edit event
+ Edits an existing event
+
+
+
+`Function EditEvent(Val Token, Val Calendar, Val EventDescription, Val Event) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Calendar | --calendar | String | &#x2714; | Calendar ID |
+  | EventDescription | --props | String | &#x2714; | New event description |
+  | Event | --event | String | &#x2714; | Event ID |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token       = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Calendar    = "0dc23447d3b0f439635aeee464d9e8db32a620027692352eb531d074f736c241@group.calendar.google.com";
+    Event       = "a55kkfscljqv4ikeu85sbau8g4";
+    Description = "New event description";
+
+    EventDescription = New Map;
+    EventDescription.Insert("Description", Description);
+
+    Result = OPI_GoogleCalendar.EditEvent(Token, Calendar, EventDescription, Event);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint gcalendar EditEvent \
+             --token "***" \
+             --calendar "a496c365852c9936527fa22bb23861c5b4d1e54beea67a875773f29e9ae7bc9c@group.calendar.google.com" \
+             --props "{'Description':'New event description'}" \
+             --event "n80aqvjnnig91eb3208rrtfur8"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint gcalendar EditEvent ^
+             --token "***" ^
+             --calendar "a496c365852c9936527fa22bb23861c5b4d1e54beea67a875773f29e9ae7bc9c@group.calendar.google.com" ^
+             --props "{'Description':'New event description'}" ^
+             --event "n80aqvjnnig91eb3208rrtfur8"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "kind": "calendar#event",
+ "etag": "\"3530790297022462\"",
+ "id": "n80aqvjnnig91eb3208rrtfur8",
+ "status": "confirmed",
+ "htmlLink": "https://www.google.com/calendar/event?eid=bjgwYXF2am5uaWc5MWViMzIwOHJydGZ1cjggYTQ5NmMzNjU4NTJjOTkzNjUyN2ZhMjJiYjIzODYxYzViNGQxZTU0YmVlYTY3YTg3NTc3M2YyOWU5YWU3YmM5Y0Bn",
+ "created": "2025-12-10T19:32:25Z",
+ "updated": "2025-12-10T19:32:28.511Z",
+ "summary": "New event",
+ "description": "New event description",
+ "location": "InOffice",
+ "creator": {
+  "email": "bayselonarrend@gmail.com"
+ },
+ "organizer": {
+  "email": "a496c365852c9936527fa22bb23861c5b4d1e54beea67a875773f29e9ae7bc9c@group.calendar.google.com",
+  "displayName": "TestCalendar",
+  "self": true
+ },
+ "start": {
+  "dateTime": "2025-12-10T19:32:23+00:00",
+  "timeZone": "Europe/Moscow"
+ },
+ "end": {
+  "dateTime": "2025-12-10T20:32:23+00:00",
+  "timeZone": "Europe/Moscow"
+ },
+ "iCalUID": "n80aqvjnnig91eb3208rrtfur8@google.com",
+ "sequence": 0,
+ "reminders": {
+  "useDefault": true
+ },
+ "attachments": [
+  {
+   "fileUrl": "https://hut.openintegrations.dev/test_data/picture.jpg",
+   "title": "Image1",
+   "iconLink": ""
+  },
+  {
+   "fileUrl": "https://hut.openintegrations.dev/test_data/picture2.jpg",
+   "title": "Image2",
+   "iconLink": ""
+  }
+ ],
+ "eventType": "default"
+}
+```

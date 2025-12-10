@@ -1,5 +1,5 @@
 ﻿// OneScript: ./OInt/core/Modules/OPI_GreenAPI.os
-// Lib: Green API
+// Lib: GreenAPI
 // CLI: greenapi
 // Keywords: greenapi, whatsapp
 
@@ -40,6 +40,7 @@
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
 //@skip-check method-too-many-params
+//@skip-check bsl-legacy-check-string-literal
 
 #Область ПрограммныйИнтерфейс
 
@@ -1223,13 +1224,13 @@
 
 Функция СформироватьОсновнойURL(Знач ПараметрыДоступа, Знач Метод)
 
-        Возврат СформироватьURL(ПараметрыДоступа, Метод, "apiUrl");
+    Возврат СформироватьURL(ПараметрыДоступа, Метод, "apiUrl");
 
 КонецФункции
 
 Функция СформироватьМедиаURL(Знач ПараметрыДоступа, Знач Метод)
 
-        Возврат СформироватьURL(ПараметрыДоступа, Метод, "mediaUrl");
+    Возврат СформироватьURL(ПараметрыДоступа, Метод, "mediaUrl");
 
 КонецФункции
 

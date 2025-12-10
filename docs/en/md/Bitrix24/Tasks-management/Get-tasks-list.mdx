@@ -8,7 +8,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Get tasks list
- Get tasks list (50 at one response max))
+ Get tasks list (50 at one response max) with or without filtering
 
 
 
@@ -17,15 +17,13 @@ import TabItem from '@theme/TabItem';
   | Parameter | CLI option | Type | Required | Description |
   |-|-|-|-|-|
   | URL | --url | String | &#x2714; | URL of webhook or a Bitrix24 domain, when token used |
-  | Filter | --filter | Structure of KeyAndValue | &#x2716; | Structure of task filter (see GetTaskFieldsStructure) |
+  | Filter | --filter | Structure of KeyAndValue | &#x2716; | Lead filter structure. See GetLeadFilterStructure |
   | Indent | --offset | Number, String | &#x2716; | Offset of tasks list |
   | Token | --token | String | &#x2716; | Access token, when app auth method used |
   | Fields | --select | String, Array of String | &#x2716; | A list of task fields in the response. All non calculable by default |
 
   
   Returns:  Map Of KeyAndValue - serialized JSON of answer from Bitrix24 API
-
-<br/>
 
 :::tip
 Method at API documentation: [tasks.task.list](https://dev.1c-bitrix.ru/rest_help/tasks/task/tasks/tasks_task_list.php)
@@ -52,7 +50,7 @@ Method at API documentation: [tasks.task.list](https://dev.1c-bitrix.ru/rest_hel
     Result = OPI_Bitrix24.GetTasksList(URL, Filter, , , Fields);
 
     URL   = "b24-ar17wx.bitrix24.by";
-    Token = "8a1bee68006e9f06006b12e400000001000...";
+    Token = "6ad03969006e9f06006b12e400000001000...";
 
     Result = OPI_Bitrix24.GetTasksList(URL, , Indent, Token);
 ```
@@ -135,7 +133,8 @@ Method at API documentation: [tasks.task.list](https://dev.1c-bitrix.ru/rest_hel
     "isMuted": "N",
     "isPinned": "N",
     "isPinnedInGroup": "N",
-    "flowId": null,
+    "flowId": "***",
+    "chatId": "***",
     "descriptionInBbcode": "Y",
     "status": "2",
     "statusChangedDate": "2024-07-03T13:21:14+00:00",
@@ -216,7 +215,8 @@ Method at API documentation: [tasks.task.list](https://dev.1c-bitrix.ru/rest_hel
     "isMuted": "N",
     "isPinned": "N",
     "isPinnedInGroup": "N",
-    "flowId": null,
+    "flowId": "***",
+    "chatId": "***",
     "descriptionInBbcode": "Y",
     "status": "2",
     "statusChangedDate": "2024-07-03T13:21:14+00:00",
@@ -229,7 +229,5 @@ Method at API documentation: [tasks.task.list](https://dev.1c-bitrix.ru/rest_hel
     "newCommentsCount": 0,
     "group": [],
     "creator": {
-     "id": "1",
-     "name": "Антон Титовец",
 ...
 ```

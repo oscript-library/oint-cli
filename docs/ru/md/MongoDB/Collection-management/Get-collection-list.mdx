@@ -1,0 +1,110 @@
+﻿---
+sidebar_position: 1
+description: Получить список коллекций и другие функции для работы с MongoDB в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Получить список коллекций
+ Получает список коллекций базы данных
+
+
+
+`Функция ПолучитьСписокКоллекций(Знач Соединение, Знач База = Неопределено) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Соединение | --dbc | Строка, Произвольный | &#x2714; | Соединение или строка подключения |
+  | База | --db | Строка | &#x2716; | Имя базы. Текущая база, если не указано |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - Результат выполнения операции
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Адрес  = "127.0.0.1:1234";
+    Логин  = "bayselonarrend";
+    Пароль = "12we...";
+
+    ПараметрыПодключения = Новый Структура("authSource", "admin");
+    СтрокаПодключения    = OPI_MongoDB.СформироватьСтрокуПодключения(Адрес, , Логин, Пароль, ПараметрыПодключения);
+    Соединение           = OPI_MongoDB.ОткрытьСоединение(СтрокаПодключения);
+
+    База = "test_database";
+
+    Результат = OPI_MongoDB.ПолучитьСписокКоллекций(Соединение, База);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint mongodb ПолучитьСписокКоллекций \
+              --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+              --db "test_database"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint mongodb ПолучитьСписокКоллекций ^
+              --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+              --db "test_database"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "result": true,
+ "data": {
+  "cursor": {
+   "id": 0,
+   "ns": "test_database.$cmd.listCollections",
+   "firstBatch": [
+    {
+     "name": "test_collection",
+     "type": "collection",
+     "options": {
+      "validator": {
+       "$expr": [
+        {
+         "$gte": [
+          "***",
+          "***"
+         ]
+        },
+        {
+         "$lte": [
+          "***",
+          "***"
+         ]
+        }
+       ]
+      }
+     },
+     "info": {
+      "readOnly": false,
+      "uuid": {
+       "__B64_BINARY__": "rHC8UMJQStmsnbyNta1QVQ=="
+      }
+     },
+     "idIndex": {
+      "v": 2,
+      "key": {
+       "_id": 1
+      },
+      "name": "_id_"
+     }
+    }
+   ]
+  },
+  "ok": 1
+ }
+}
+```

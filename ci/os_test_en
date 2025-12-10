@@ -12,6 +12,15 @@ pipeline {
 	}
 	stages {
 
+        stage('Read stages config') {
+            steps {
+                script {
+                    def configText = readFile './service/tests_config.json'
+                    env.STAGES_CONFIG = configText
+                }
+            }
+        }
+
 		stage('Remove OInt from OneScript Lib') {
 			steps {
 				script {
@@ -48,7 +57,7 @@ pipeline {
 		}
       	stage('Build OInt from source and decrypt secret data'){
          		steps{
-            		powershell encoding: 'UTF-8', script:'cd ./src/en/OInt; opm build; opm install oint-1.28.0.ospx; del oint-1.28.0.ospx'
+            		powershell encoding: 'UTF-8', script:'cd ./src/en/OInt; opm build; opm install oint-1.30.0.ospx; del oint-1.30.0.ospx'
             		withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
               			bat encoding: 'UTF-8', script:'gpg --quiet --batch --yes --decrypt --passphrase="%GPGKEY%" --output ./data.json ./data.json.gpg'
             		}
@@ -60,641 +69,752 @@ pipeline {
 				}
 		}
 
+		stage('Testing-BuildCheck') {
+            when {
+                expression { return shouldRunStage('BuildCheck') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'CheckIBToLastBuildCompliance'],
+					]
+					for (test in tests) {
+							runLibraryTest(test[0], test[1])
+					}
+				}
+			}
+		}
 		stage('Testing-Telegram') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_GetBotInfo"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_GetUpdates"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SetWebhook"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendTextMessage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendImage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendVideo"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendAudio"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendDocument"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendGIF"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendMediaGroup"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendLocation"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendContact"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_SendPoll"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_ForwardMessage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_BanUnban"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_CreateInvitationLink"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_PinUnpinMessage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_GetMemberCount"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_GetForumAvatarsList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_CreateDeleteForumTopic"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_ChangeMainTopicName"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TelegramAPI_HideShowMainTopic"')
-			}
+            when {
+                expression { return shouldRunStage('Telegram') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_GetBotInfo'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_GetUpdates'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SetWebhook'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendTextMessage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendImage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendVideo'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendAudio'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendDocument'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendGIF'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendMediaGroup'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendLocation'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendContact'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_SendPoll'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_ForwardMessage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_BanUnban'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_CreateInvitationLink'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_PinUnpinMessage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_GetMemberCount'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_GetForumAvatarsList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_CreateDeleteForumTopic'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_ChangeMainTopicName'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TelegramAPI_HideShowMainTopic'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-VK') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreateTokenLink"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreateDeletePost"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreateCompositePost"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreatePoll"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_SaveDeleteImage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreateStory"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_DiscussionMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_LikeRepostComment"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_GetStatistics"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_GetPostStatistics"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreateAdCampaign"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_SendMessage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_GetProductCategories"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreateProductSelection"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_CreateProductWithProperties"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_GetProductList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_GetSelectionList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_GetPropertyList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_GetOrderList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKAPI_UploadVideo"')
-			}
+            when {
+                expression { return shouldRunStage('VK') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreateTokenLink'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreateDeletePost'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreateCompositePost'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreatePoll'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_SaveDeleteImage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreateStory'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_DiscussionMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_LikeRepostComment'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_GetStatistics'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_GetPostStatistics'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreateAdCampaign'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_SendMessage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_GetProductCategories'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreateProductSelection'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_CreateProductWithProperties'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_GetProductList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_GetSelectionList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_GetPropertyList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_GetOrderList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKAPI_UploadVideo'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Viber') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Viber_DataRetrieval"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Viber_MessagesSending"')
-			}
+            when {
+                expression { return shouldRunStage('Viber') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Viber_DataRetrieval'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Viber_MessagesSending'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Twitter') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TwitterAPI_AccountData"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TwitterAPI_Tweets"')
-			}
+            when {
+                expression { return shouldRunStage('Twitter') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TwitterAPI_AccountData'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TwitterAPI_Tweets'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-FTP') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "FT_DirecotryManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "FT_FileOperations"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "FT_CommonMethods"')
-			}
+            when {
+                expression { return shouldRunStage('FTP') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'FT_DirecotryManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'FT_FileOperations'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'FT_CommonMethods'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-SSH') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "SShell_CommonMethods"')
-			}
+            when {
+                expression { return shouldRunStage('SSH') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'SShell_CommonMethods'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-SFTP') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "SF_CommonMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "SF_DirectoryManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "SF_FileManagement"')
-			}
+            when {
+                expression { return shouldRunStage('SFTP') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'SF_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'SF_DirectoryManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'SF_FileManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-PostgreSQL') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Postgres_CommonMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Postgres_ORM"')
-			}
+            when {
+                expression { return shouldRunStage('PostgreSQL') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Postgres_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Postgres_ORM'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-MySQL') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "MYS_CommonMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "MYS_ORM"')
-			}
+            when {
+                expression { return shouldRunStage('MySQL') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'MYS_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'MYS_ORM'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-MSSQL') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "MSS_CommonMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "MSS_ORM"')
-			}
+            when {
+                expression { return shouldRunStage('MSSQL') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'MSS_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'MSS_ORM'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-SQLite') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "SQLL_CommonMethods"')
+            when {
+                expression { return shouldRunStage('SQLite') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'SQLL_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'SQLL_ORM'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "SQLL_ORM"')
-			}
+		}
+		stage('Testing-MongoDB') {
+            when {
+                expression { return shouldRunStage('MongoDB') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Mongo_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Mong_DatabaseManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Mongo_CollectionManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Mongo_DocumentsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Mongo_UserManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Mongo_RoleManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-RCON') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "RC_CommandsExecution"')
-			}
+            when {
+                expression { return shouldRunStage('RCON') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'RC_CommandsExecution'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-YandexDisk') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_GetDiskInfo"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_CreateFolder"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_UploadByUrlAndGetObject"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_UploadDeleteFile"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_CreateObjectCopy"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_GetDownloadLink"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_GetFileList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_MoveObject"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_PublicObjectActions"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YDisk_GetPublishedList"')
-			}
+            when {
+                expression { return shouldRunStage('YandexDisk') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_Authorization'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_GetDiskInfo'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_CreateFolder'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_UploadByUrlAndGetObject'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_UploadDeleteFile'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_CreateObjectCopy'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_GetDownloadLink'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_GetFileList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_MoveObject'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_PublicObjectActions'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YDisk_GetPublishedList'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-GoogleWorkspace') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GW_Auth"')
-			}
+            when {
+                expression { return shouldRunStage('GoogleWorkspace') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GW_Auth'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-GoogleCalendar') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GW_Auth"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GC_GetCalendarList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GC_CreateDeleteCalendar"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GC_CreateDeleteEvent"')
-			}
+            when {
+                expression { return shouldRunStage('GoogleCalendar') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GC_Authorization'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GC_GetCalendarList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GC_CreateDeleteCalendar'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GC_CreateDeleteEvent'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-GoogleDrive') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GW_Auth"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GD_GetCatalogList"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GD_UploadDeleteFile"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GD_CreateDeleteComment"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GD_CreateCatalog"')
-			}
+            when {
+                expression { return shouldRunStage('GoogleDrive') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GD_Authorization'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GD_GetCatalogList'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GD_UploadDeleteFile'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GD_CreateDeleteComment'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GD_CreateCatalog'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-GoogleSheets') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GW_Auth"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GT_CreateTable"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GT_FillClearCells"')
-			}
+            when {
+                expression { return shouldRunStage('GoogleSheets') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GT_Authorization'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GT_CreateTable'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GT_FillClearCells'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Notion') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "NotionAPI_CreatePage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "NotionAPI_CreateUpdateBase"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "NotionAPI_CreateDeleteBlock"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "NotionAPI_GetUsers"')
-			}
+            when {
+                expression { return shouldRunStage('Notion') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'NotionAPI_CreatePage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'NotionAPI_CreateUpdateBase'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'NotionAPI_CreateDeleteBlock'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'NotionAPI_GetUsers'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Slack') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "SlackGetData"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Slack_SendDeleteMessage"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Slack_CreateArchiveChannel"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Slack_OpenCloseDialog"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Slack_UploadDeleteFile"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "Slack_UploadDeleteExternalFile"')
-			}
+            when {
+                expression { return shouldRunStage('Slack') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'SlackGetData'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Slack_SendDeleteMessage'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Slack_CreateArchiveChannel'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Slack_OpenCloseDialog'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Slack_UploadDeleteFile'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'Slack_UploadDeleteExternalFile'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Airtable') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "AT_CreateDatabase"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "AT_CreateTable"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "AT_CreateField"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "AT_CreateDeleteRecords"')
-			}
+            when {
+                expression { return shouldRunStage('Airtable') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'AT_CreateDatabase'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'AT_CreateTable'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'AT_CreateField'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'AT_CreateDeleteRecords'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Dropbox') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_GetUpdateToken"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_UploadFile"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_UploadFileByURL"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_CreateFolder"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_CreateDeleteTag"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_GetAccount"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_AccessManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "DropboxAPI_GetFolderFileList"')
-			}
+            when {
+                expression { return shouldRunStage('Dropbox') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_GetUpdateToken'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_UploadFile'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_UploadFileByURL'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_CreateFolder'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_CreateDeleteTag'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_GetAccount'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_AccessManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'DropboxAPI_GetFolderFileList'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Bitrix24') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_TokenManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_ServerTime"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_PostsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_TaskManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_CommentsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_WorkingWithDrive"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_Kanban"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_Timekeeping"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_ChatManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_NotificationsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_TasksFieldsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_DepartmentsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B2_UsersManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_LeadsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_DealsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "B24_CalendarsManagement"')
-			}
+            when {
+                expression { return shouldRunStage('Bitrix24') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_TokenManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_ServerTime'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_PostsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_TaskManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_CommentsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_WorkingWithDrive'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_Kanban'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_Timekeeping'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_ChatManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_NotificationsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_TasksFieldsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_DepartmentsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B2_UsersManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_LeadsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_DealsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'B24_CalendarsManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-VkTeams') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKT_MessagesSending"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKT_CommonMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "VKT_ChatManagement"')
-			}
-			}
-		}
-		stage('Testing-Ozon') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OzonAPI_AttributesAndFeatures"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OzonAPI_UploadingAndUpdatingProducts"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OzonAPI_Barcodes"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OzonAPI_PricesAndStocks"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OzonAPI_PromotionsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OzonAPI_WarehousesManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OzonAPI_FBOScheme"')
-			}
+            when {
+                expression { return shouldRunStage('VkTeams') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKT_MessagesSending'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKT_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'VKT_ChatManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Neocities') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "NC_FilesManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "NC_DataRetrieving"')
-			}
+            when {
+                expression { return shouldRunStage('Neocities') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'NC_FilesManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'NC_DataRetrieving'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-CDEK') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "CdekAPI_CommonMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "CDEKAPI_OrdersManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "CdekAPI_CourierInvitationsManagement"')
-			}
+            when {
+                expression { return shouldRunStage('CDEK') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'CdekAPI_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'CDEKAPI_OrdersManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'CdekAPI_CourierInvitationsManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-YandexMetrika') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YaMetrika_TagsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YaMetrika_CountersManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "YaMetrika_ActionsManagement"')
-			}
+            when {
+                expression { return shouldRunStage('YandexMetrika') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YaMetrika_TagsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YaMetrika_CountersManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'YaMetrika_ActionsManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-S3') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "AWS_CommonMethods"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "AWS_BucketsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "AWS_ObjectsManagement"')
-			}
+            when {
+                expression { return shouldRunStage('S3') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'AWS_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'AWS_BucketsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'AWS_ObjectsManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-TCP') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "TC_Client"')
-			}
+            when {
+                expression { return shouldRunStage('TCP') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'TC_Client'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-GreenAPI') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GAPI_GroupManagement"')
+            when {
+                expression { return shouldRunStage('GreenAPI') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GAPI_GroupManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GAPI_MessageSending'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GAPI_NotificationsReceiving'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GAPI_MessageQueue'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GAPI_MessageLogs'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GAPI_Account'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GAPI_MessageSending"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GAPI_NotificationsReceiving"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GAPI_MessageQueue"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GAPI_MessageLogs"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "GAPI_Account"')
-			}
+		}
+		stage('Testing-GreenMax') {
+            when {
+                expression { return shouldRunStage('GreenMax') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GMax_GroupManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GMax_MessageSending'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GMax_Notifications'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GMax_MessageHistory'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GMax_Queues'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GMax_Account'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-Ollama') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OLLM_RequestsProcessing"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OLLM_ModelsManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OLLM_WorkingWithBlob"')
-			}
+            when {
+                expression { return shouldRunStage('Ollama') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OLLM_RequestsProcessing'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OLLM_ModelsManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OLLM_WorkingWithBlob'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-HTTPClient') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "HTTP_Initialization"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "HTTP_BodySet"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "HTTP_Settings"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "HTTP_HeadersSetting"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "HTTP_Authorization"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "HTTP_RequestProcessing"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "HTTP_ResponseReceiving"')
-			}
+            when {
+                expression { return shouldRunStage('HTTPClient') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'HTTP_Initialization'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'HTTP_BodySet'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'HTTP_Settings'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'HTTP_HeadersSetting'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'HTTP_Authorization'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'HTTP_RequestProcessing'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'HTTP_ResponseReceiving'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-OpenAI') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OAI_RequestsProcessing"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OAI_Assistants"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OAI_FileManagement"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OAI_AudioProcessing"')
-			}
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "OAI_ModelsManagement"')
-			}
+            when {
+                expression { return shouldRunStage('OpenAI') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OAI_RequestsProcessing'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OAI_Assistants'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OAI_FileManagement'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OAI_AudioProcessing'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'OAI_ModelsManagement'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 		stage('Testing-ReportPortal') {
-			steps {			
-			catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {   
-				runCommand('1testrunner -run "./src/en/OInt/tests/Modules/internal/OPI_Tests.os" "RPortal_Authorization"')
-			}
+            when {
+                expression { return shouldRunStage('ReportPortal') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'RPortal_Authorization'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
 			}
 		}
 
@@ -705,11 +825,6 @@ pipeline {
 				catchError() {   
 				    runCommand('oscript ./ci/os/rp_stop.os "en"')
 			    }
-				withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
-					bat encoding: 'UTF-8', script:'del "./data.json.gpg"'
-					bat encoding: 'UTF-8', script:'gpg --batch --symmetric --cipher-algo AES256 --passphrase="%GPGKEY%" ./data.json'
-					bat encoding: 'UTF-8', script:'del "./data.json"'
-				}
 				withCredentials([gitUsernamePassword(credentialsId: 'gitmain', gitToolName: 'Default')]) {
 					bat "git config user.email vitaly.the.alpaca@gmail.com"
 					bat 'git config user.name "Vitaly the Alpaca (bot)"'
@@ -721,4 +836,36 @@ pipeline {
 			}
 		}
 	}
+}
+
+def shouldRunStage(stageName) {
+    try {
+        if (!env.STAGES_CONFIG) {
+            echo "[WARN] STAGES_CONFIG not set. Assuming stage '${stageName}' is ENABLED."
+            return true
+        }
+        def config = readJSON text: env.STAGES_CONFIG
+        def value = config[stageName]
+        if (value == null) {
+            echo "[WARN] Stage '${stageName}' not found in config. Defaulting to DISABLED."
+            return false
+        }
+        return value == true
+    } catch (Exception e) {
+        echo "[ERROR] Failed to parse STAGES_CONFIG: ${e.message}"
+        echo "Raw config: ${env.STAGES_CONFIG}"
+        // Решите: включать stage по умолчанию или нет?
+        return false // или true — по вашему усмотрению
+    }
+}
+
+def runLibraryTest(String configPath, String libraryName) {
+    try {
+        echo "Executing: 1testrunner -run \"${configPath}\" \"${libraryName}\""
+        runCommand("1testrunner -run \"${configPath}\" \"${libraryName}\"")
+        echo "Test ${libraryName} completed successfully"
+    } catch (Exception e) {
+        echo "ERROR in test ${libraryName}: ${e.getMessage()}"
+        throw e 
+    }
 }

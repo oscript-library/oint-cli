@@ -10,12 +10,12 @@
     "format": "gguf",
     "family": "llama",
     "families": [
-     "llama"
+     "***"
     ],
     "parameter_size": "1.1B",
     "quantization_level": "Q4_0"
    },
-   "expires_at": "2025-10-15T11:07:46.134051146Z",
+   "expires_at": "2025-12-10T21:25:07.961672441Z",
    "size_vram": 0
   }
  ]

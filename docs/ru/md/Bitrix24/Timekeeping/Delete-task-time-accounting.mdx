@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrxi24
 
-<br/>
-
 :::tip
 Метод в документации API: [task.elapseditem.delete](https://dev.1c-bitrix.ru/rest_help/tasks/task/elapseditem/delete.php)
 :::
@@ -34,14 +32,14 @@ import TabItem from '@theme/TabItem';
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     URL      = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    IDЗадачи = "8358";
-    IDЗаписи = "3056";
+    IDЗадачи = "9044";
+    IDЗаписи = "3328";
 
     Результат = OPI_Bitrix24.УдалитьТрудозатратыЗадачи(URL, IDЗадачи, IDЗаписи);
 
     URL      = "b24-ar17wx.bitrix24.by";
-    Токен    = "8a1bee68006e9f06006b12e400000001000...";
-    IDЗаписи = "3058";
+    Токен    = "6ad03969006e9f06006b12e400000001000...";
+    IDЗаписи = "3330";
 
     Результат = OPI_Bitrix24.УдалитьТрудозатратыЗадачи(URL, IDЗадачи, IDЗаписи, Токен);
 ```
@@ -53,8 +51,8 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint bitrix24 УдалитьТрудозатратыЗадачи \
               --url "b24-ar17wx.bitrix24.by" \
-              --task "8388" \
-              --record 3070 \
+              --task "9014" \
+              --record 3318 \
               --token "***"
         ```
     </TabItem>
@@ -63,8 +61,8 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint bitrix24 УдалитьТрудозатратыЗадачи ^
               --url "b24-ar17wx.bitrix24.by" ^
-              --task "8388" ^
-              --record 3070 ^
+              --task "9014" ^
+              --record 3318 ^
               --token "***"
         ```
     </TabItem>
@@ -75,13 +73,13 @@ import TabItem from '@theme/TabItem';
 {
  "result": null,
  "time": {
-  "start": 1760461427,
-  "finish": 1760461427.35429,
-  "duration": 0.354288101196289,
+  "start": 1765367775,
+  "finish": 1765367775.65737,
+  "duration": 0.657371997833252,
   "processing": 0,
-  "date_start": "2025-10-14T17:03:47+00:00",
-  "date_finish": "2025-10-14T17:03:47+00:00",
-  "operating_reset_at": 1760462027,
+  "date_start": "2025-12-10T14:56:15+03:00",
+  "date_finish": "2025-12-10T14:56:15+03:00",
+  "operating_reset_at": 1765368375,
   "operating": 0
  }
 }

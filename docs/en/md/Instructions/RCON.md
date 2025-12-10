@@ -7,7 +7,7 @@ sidebar_class_name: RCON
 
 # RCON (Client)
 
-This section is dedicated to the library for working with the RCON. On this page, all the steps necessary to start working are described
+This section covers the library for working with RCON protocol in 1С:Enterprise, OneScript, and CLI. This page describes all the steps required to get started.
 
 <div class="theme-admonition theme-admonition-info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-Layout-styles-module alert alert--info">
 
@@ -30,7 +30,3 @@ Typically, control via RCON is available on servers for games such as:
  - etc.
 
 This library provides two main functions for operation: `CreateConnection` for connection and authorisation on the server, and `ExecuteCommand` for performing actions. It is also possible to execute single commands without creating a preliminary connection, passing connection parameters to the `ExecuteCommand` method (in this case the connection will be opened and closed within the function, the only option for CLI version).
-
-## Compatibility
-
-Technically, the client implementation is a Native component in Rust. It comes in a zip archive format, and, in theory, should work on all available platforms: x86 and x64 Windows and Linux. The actual testing was done on Windows x64 and, cossentially (via OneScript), on Linux x64

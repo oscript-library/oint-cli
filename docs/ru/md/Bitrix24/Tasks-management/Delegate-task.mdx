@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrxi24
 
-<br/>
-
 :::tip
 Метод в документации API: [tasks.task.delegate](https://dev.1c-bitrix.ru/rest_help/tasks/task/tasks/tasks_task_delegate.php)
 :::
@@ -34,14 +32,14 @@ import TabItem from '@theme/TabItem';
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     URL            = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    IDЗадачи       = "8350";
-    IDПользователя = "2814";
+    IDЗадачи       = "9036";
+    IDПользователя = "3084";
 
     Результат = OPI_Bitrix24.ДелегироватьЗадачу(URL, IDЗадачи, IDПользователя);
 
     URL      = "b24-ar17wx.bitrix24.by";
-    Токен    = "8a1bee68006e9f06006b12e400000001000...";
-    IDЗадачи = "8352";
+    Токен    = "6ad03969006e9f06006b12e400000001000...";
+    IDЗадачи = "9038";
 
     Результат = OPI_Bitrix24.ДелегироватьЗадачу(URL, IDЗадачи, IDПользователя, Токен);
 ```
@@ -53,8 +51,8 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint bitrix24 ДелегироватьЗадачу \
               --url "b24-ar17wx.bitrix24.by" \
-              --task "8382" \
-              --user 2822 \
+              --task "9008" \
+              --user 2960 \
               --token "***"
         ```
     </TabItem>
@@ -63,8 +61,8 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint bitrix24 ДелегироватьЗадачу ^
               --url "b24-ar17wx.bitrix24.by" ^
-              --task "8382" ^
-              --user 2822 ^
+              --task "9008" ^
+              --user 2960 ^
               --token "***"
         ```
     </TabItem>
@@ -75,7 +73,7 @@ import TabItem from '@theme/TabItem';
 {
  "result": {
   "task": {
-   "id": "8392",
+   "id": "9018",
    "parentId": null,
    "title": "Другой заголовок задачи",
    "description": "Другое описание задачи",
@@ -88,19 +86,19 @@ import TabItem from '@theme/TabItem';
    "sprintId": null,
    "backlogId": null,
    "createdBy": "1",
-   "createdDate": "2025-10-14T17:01:36+00:00",
-   "responsibleId": "2826",
+   "createdDate": "2025-12-10T14:54:19+03:00",
+   "responsibleId": "2960",
    "changedBy": "1",
-   "changedDate": "2025-10-14T17:01:47+00:00",
-   "statusChangedBy": "1",
-   "closedBy": "0",
+   "changedDate": "2025-12-10T14:54:29+03:00",
+   "statusChangedBy": null,
+   "closedBy": null,
    "closedDate": null,
-   "activityDate": "2025-10-14T17:01:47+00:00",
+   "activityDate": "2025-12-10T14:54:29+03:00",
    "dateStart": null,
-   "deadline": "2025-10-15T17:01:00+00:00",
-   "startDatePlan": "2025-10-14T17:01:36+00:00",
-   "endDatePlan": "2025-10-14T21:00:00+00:00",
-   "guid": "{5fb5659f-2403-48ed-bfa0-66c1e51725de}",
+   "deadline": "2025-12-11T17:54:00+03:00",
+   "startDatePlan": "2025-12-10T14:54:19+03:00",
+   "endDatePlan": "2025-12-11T00:00:00+03:00",
+   "guid": "{8cf320fd-8413-4cf1-aaa9-098f914d3bc0}",
    "xmlId": null,
    "commentsCount": "1",
    "serviceCommentsCount": "1",
@@ -112,23 +110,24 @@ import TabItem from '@theme/TabItem';
    "timeEstimate": "0",
    "timeSpentInLogs": null,
    "matchWorkTime": "N",
-   "forumTopicId": "5440",
+   "forumTopicId": "5814",
    "forumId": "11",
    "siteId": "s1",
    "subordinate": "Y",
    "exchangeModified": null,
    "exchangeId": null,
    "outlookVersion": "4",
-   "viewedDate": "2025-10-14T17:01:48+00:00",
+   "viewedDate": "2025-12-10T14:54:29+03:00",
    "sorting": null,
    "durationFact": null,
    "isMuted": "N",
    "isPinned": "N",
    "isPinnedInGroup": "N",
-   "flowId": null,
+   "flowId": "***",
+   "chatId": "***",
    "descriptionInBbcode": "Y",
    "status": "2",
-   "statusChangedDate": "2025-10-14T17:01:47+00:00",
+   "statusChangedDate": "2025-12-10T14:54:29+03:00",
    "durationPlan": null,
    "durationType": "days",
    "favorite": "N",
@@ -145,9 +144,9 @@ import TabItem from '@theme/TabItem';
     "workPosition": null
    },
    "responsible": {
-    "id": "2826",
-    "name": "Олег Лама",
-    "link": "/company/personal/user/2826/",
+    "id": "2960",
+    "name": "Oleg Lama",
+    "link": "/company/personal/user/2960/",
     "icon": "/bitrix/images/tasks/default_avatar.png",
     "workPosition": null
    },
@@ -174,7 +173,7 @@ import TabItem from '@theme/TabItem';
     "deleteFavorite": false,
     "rate": true,
     "take": false,
-    "edit.originator": false,
+    "edit.originator": "***",
     "checklist.reorder": true,
     "elapsedtime.add": true,
     "dayplan.timer.toggle": false,
@@ -209,14 +208,14 @@ import TabItem from '@theme/TabItem';
   }
  },
  "time": {
-  "start": 1760461307,
-  "finish": 1760461308.39546,
-  "duration": 1.39546394348145,
-  "processing": 1,
-  "date_start": "2025-10-14T17:01:47+00:00",
-  "date_finish": "2025-10-14T17:01:48+00:00",
-  "operating_reset_at": 1760461907,
-  "operating": 0.601902008056641
+  "start": 1765367669,
+  "finish": 1765367669.7827,
+  "duration": 0.782705068588257,
+  "processing": 0,
+  "date_start": "2025-12-10T14:54:29+03:00",
+  "date_finish": "2025-12-10T14:54:29+03:00",
+  "operating_reset_at": 1765368269,
+  "operating": 0.420215845108032
  }
 }
 ```

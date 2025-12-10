@@ -25,13 +25,11 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from Notion
 
-<br/>
-
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
     Token = "secret_9RsfMrRMqZwqp0Zl0B...";
-    Base  = "28c82aa7-fc4e-812a-85a6-d7e18ec38bd2";
+    Base  = "2c582aa7-fc4e-8189-8d86-cb479d8efdf9";
 
     Title       = "TestTitle";
     Description = "TestDescription";
@@ -52,7 +50,7 @@ import TabItem from '@theme/TabItem';
             
             oint notion EditDatabaseProperties \
              --token "***" \
-             --base "28d82aa7-fc4e-813c-9f5e-ecbe6ad80be3" \
+             --base "2c582aa7-fc4e-8102-bf01-e0852eafa54f" \
              --props "{'Email':'rich_text','Website':null}" \
              --title "TestTitle" \
              --description "TestDescription"
@@ -65,7 +63,7 @@ import TabItem from '@theme/TabItem';
             
             oint notion EditDatabaseProperties ^
              --token "***" ^
-             --base "28d82aa7-fc4e-813c-9f5e-ecbe6ad80be3" ^
+             --base "2c582aa7-fc4e-8102-bf01-e0852eafa54f" ^
              --props "{'Email':'rich_text','Website':null}" ^
              --title "TestTitle" ^
              --description "TestDescription"
@@ -77,10 +75,10 @@ import TabItem from '@theme/TabItem';
 ```json title="Result"
 {
  "object": "database",
- "id": "28d82aa7-fc4e-813c-9f5e-ecbe6ad80be3",
+ "id": "2c582aa7-fc4e-8102-bf01-e0852eafa54f",
  "cover": null,
  "icon": null,
- "created_time": "2025-10-15T09:39:00Z",
+ "created_time": "2025-12-10T19:37:00Z",
  "created_by": {
   "object": "user",
   "id": "8b07422e-eeea-40d1-8d5e-c784211825b0"
@@ -89,7 +87,7 @@ import TabItem from '@theme/TabItem';
   "object": "user",
   "id": "8b07422e-eeea-40d1-8d5e-c784211825b0"
  },
- "last_edited_time": "2025-10-15T09:39:00Z",
+ "last_edited_time": "2025-12-10T19:37:00Z",
  "title": [
   {
    "type": "text",
@@ -130,29 +128,43 @@ import TabItem from '@theme/TabItem';
  ],
  "is_inline": false,
  "properties": {
-  "Active": {
-   "id": "%3A%40sm",
-   "name": "Active",
+  "Status": {
+   "id": "Ki%5D%3D",
+   "name": "Status",
    "description": null,
-   "type": "checkbox",
-   "checkbox": {}
+   "type": "select",
+   "select": {
+    "options": [
+     {
+      "id": "70f27d60-9008-4f94-921e-e0a8600095ef",
+      "name": "New",
+      "color": "green",
+      "description": null
+     },
+     {
+      "id": "16f0ff4c-f167-432a-b1d6-edcbca96ffe2",
+      "name": "InProgress",
+      "color": "yellow",
+      "description": null
+     },
+     {
+      "id": "0ea86823-ae7e-4b20-ae92-fca7bf78f2df",
+      "name": "Remote",
+      "color": "red",
+      "description": null
+     }
+    ]
+   }
   },
-  "Phone": {
-   "id": "DKWY",
-   "name": "Phone",
+  "User": {
+   "id": "WCE%7D",
+   "name": "User",
    "description": null,
-   "type": "phone_number",
-   "phone_number": {}
-  },
-  "Description": {
-   "id": "EdER",
-   "name": "Description",
-   "description": null,
-   "type": "rich_text",
-   "rich_text": {}
+   "type": "people",
+   "people": {}
   },
   "Number": {
-   "id": "GBhx",
+   "id": "YE%3Ad",
    "name": "Number",
    "description": null,
    "type": "number",
@@ -160,61 +172,47 @@ import TabItem from '@theme/TabItem';
     "format": "number"
    }
   },
+  "Description": {
+   "id": "dx%3DX",
+   "name": "Description",
+   "description": null,
+   "type": "rich_text",
+   "rich_text": {}
+  },
   "CreationDate": {
-   "id": "JEML",
+   "id": "eD~z",
    "name": "CreationDate",
    "description": null,
    "type": "date",
    "date": {}
   },
   "Email": {
-   "id": "K%3Cjm",
+   "id": "fc%40n",
    "name": "Email",
    "description": null,
    "type": "rich_text",
    "rich_text": {}
   },
-  "User": {
-   "id": "%5Dopv",
-   "name": "User",
+  "Active": {
+   "id": "oZ%40b",
+   "name": "Active",
    "description": null,
-   "type": "people",
-   "people": {}
+   "type": "checkbox",
+   "checkbox": {}
   },
   "Image": {
-   "id": "iBvB",
+   "id": "oZNU",
    "name": "Image",
    "description": null,
    "type": "files",
    "files": {}
   },
-  "Status": {
-   "id": "qljD",
-   "name": "Status",
+  "Phone": {
+   "id": "urz%3B",
+   "name": "Phone",
    "description": null,
-   "type": "select",
-   "select": {
-    "options": [
-     {
-      "id": "0b75fd86-bd5d-4b3f-bf57-1090103376d1",
-      "name": "New",
-      "color": "green",
-      "description": null
-     },
-     {
-      "id": "a3cc9086-34c4-4b73-8eab-ddae9498b164",
-      "name": "InProgress",
-      "color": "yellow",
-      "description": null
-     },
-     {
-      "id": "dc85b516-6ea8-4435-8c48-e623fc013da8",
-      "name": "Remote",
-      "color": "red",
-      "description": null
-     }
-    ]
-   }
+   "type": "phone_number",
+   "phone_number": {}
   },
   "Name": {
    "id": "title",

@@ -20,14 +20,12 @@ import TabItem from '@theme/TabItem';
   | IDЧата | --chat | Строка,Число | &#x2714; | ID целевого чата или IDЧата*IDТемы |
   | Текст | --text | Строка | &#x2714; | Текст сообщения |
   | Документ | --doc | ДвоичныеДанные, Строка | &#x2714; | Файл документа |
-  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. СформироватьКлавиатуруПоМассивуКнопок |
+  | Клавиатура | --keyboard | Строка, Структура Из КлючИЗначение | &#x2716; | Клавиатура. См. [`СформироватьКлавиатуруПоМассивуКнопок`](/docs/Telegram/Data-sending/Form-keyboard-from-button-array) |
   | Разметка | --parsemode | Строка | &#x2716; | Вид обработки текста (HTML, Markdown, MarkdownV2) |
   | ИмяФайла | --filename | Строка | &#x2716; | Отображаемое имя файла c расширением, если необходимо |
 
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Telegram
-
-<br/>
 
 :::tip
 Метод в документации API: [sendDocument](https://core.telegram.org/bots/api#senddocument)
@@ -69,9 +67,9 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint telegram ОтправитьДокумент \
               --token "***" \
-              --chat "@testsichee" \
+              --chat "***" \
               --text "Строковое значение" \
-              --doc "/tmp/kb5z5xl3.n1z" \
+              --doc "/tmp/zzru2ta3.mi4" \
               --filename "customname.docx"
         ```
     </TabItem>
@@ -80,9 +78,9 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint telegram ОтправитьДокумент ^
               --token "***" ^
-              --chat "@testsichee" ^
+              --chat "***" ^
               --text "Строковое значение" ^
-              --doc "/tmp/kb5z5xl3.n1z" ^
+              --doc "/tmp/zzru2ta3.mi4" ^
               --filename "customname.docx"
         ```
     </TabItem>
@@ -93,7 +91,7 @@ import TabItem from '@theme/TabItem';
 {
  "ok": true,
  "result": {
-  "message_id": 17145,
+  "message_id": 18372,
   "from": {
    "id": 6129457865,
    "is_bot": true,
@@ -107,12 +105,12 @@ import TabItem from '@theme/TabItem';
    "username": "bayselonarrend",
    "type": "private"
   },
-  "date": 1760458335,
+  "date": 1765389200,
   "document": {
    "file_name": "document.docx",
    "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-   "file_id": "BQACAgIAAxkDAAJC-Wjudl-IA-Jf-il-q7DphkXWjLLyAAJUhwACN29xSxJhOzZrf9jFNgQ",
-   "file_unique_id": "AgADVIcAAjdvcUs",
+   "file_id": "BQACAgIAAxkDAAJHxGk5s5Bzq99MtJat5q1fQWG-IRSwAAL4jwACiuzISXY0W2aci9ccNgQ",
+   "file_unique_id": "AgAD-I8AAorsyEk",
    "file_size": 24069
   },
   "caption": "Строковое значение"

@@ -1,0 +1,66 @@
+﻿---
+sidebar_position: 3
+description: Обновить токен и другие функции для работы с Yandex Disk в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Обновить токен
+ Обновляет токен по Refresh token
+
+
+
+`Функция ОбновитьТокен(Знач ClientId, Знач ClientSecret, Знач RefreshToken) Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | ClientId | --id | Строка | &#x2714; | Client id |
+  | ClientSecret | --secret | Строка | &#x2714; | Client secret |
+  | RefreshToken | --refresh | Строка | &#x2714; | Refresh token |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Yandex
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    ClientID     = "cc2ce9d60deb4975be58866d32dbe7aa";
+    ClientSecret = "7cc0b903d33e41c1...";
+    RefreshToken = "2:AAA:AAAAAF3KVo4:1:7lDA887FZi3e_EYF:4LGI1j1d3RMVs-4532KZK7ZQbG0F...";
+
+    Результат = OPI_YandexDisk.ОбновитьТокен(ClientID, ClientSecret, RefreshToken);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk ОбновитьТокен \
+              --id "cc2ce9d60deb4975be58866d32dbe7aa" \
+              --secret "***" \
+              --refresh "***"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk ОбновитьТокен ^
+              --id "cc2ce9d60deb4975be58866d32dbe7aa" ^
+              --secret "***" ^
+              --refresh "***"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "access_token": "***",
+ "expires_in": 31375086,
+ "refresh_token": "***",
+ "token_type": "***"
+}
+```

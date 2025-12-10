@@ -1,0 +1,141 @@
+﻿---
+sidebar_position: 1
+description: Insert documents and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Insert documents
+ Inserts new documents into the collection
+
+
+
+`Function InsertDocuments(Val Connection, Val Collection, Val Values, Val Base = Undefined, Val Parameters = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Collection | --coll | String | &#x2714; | Collection name |
+  | Values | --docs | Array Of Arbitrary | &#x2714; | Array of docs objects |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+  | Parameters | --params | Structure Of KeyAndValue | &#x2716; | Additional insert options |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+    Base     = "main";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    Collection = "new_collection";
+    DocsArray  = New Array;
+
+    // With implicit type casting
+    DocumentStructure = New Structure;
+
+    TestArray = New Array;
+    TestArray.Add("Value1");
+    TestArray.Add("Value2");
+
+    TestStructure = New Structure("text,number", "Text", 10);
+    TestBinary    = GetBinaryDataFromString("Text");
+    CurrentDate   = OPI_Tools.GetCurrentDate();
+
+    DocumentStructure.Insert("stringField", "Text");
+    DocumentStructure.Insert("intField"   , 200);
+    DocumentStructure.Insert("doubleField", 123.456);
+    DocumentStructure.Insert("boolField"  , True);
+    DocumentStructure.Insert("arrayField" , TestArray);
+    DocumentStructure.Insert("docField"   , TestStructure);
+    DocumentStructure.Insert("dateField"  , CurrentDate);
+    DocumentStructure.Insert("nullField");
+
+    DocsArray.Add(DocumentStructure);
+
+    // With explicit type casting
+    DocumentStructure = New Structure;
+
+    RegExp = New Structure("pattern,options", "[a-z]+@[a-z]+\.[a-z]+", "i");
+    JSCode = "const result = [1, 2, 3].map(x => x * 2).filter(x => x > 3);";
+
+    DocumentStructure.Insert("stringField", New Structure("__OPI_STRING__"   , "Text"));
+    DocumentStructure.Insert("oidField"   , New Structure("__OPI_OBJECTID__" , "63ceed18f71dda7d8cf21e8e"));
+    DocumentStructure.Insert("jsField"    , New Structure("__OPI_JS__"       , JSCode));
+    DocumentStructure.Insert("symbolField", New Structure("__OPI_SYMBOL__"   , "Y"));
+    DocumentStructure.Insert("int32Field" , New Structure("__OPI_INT32__"    , 10));
+    DocumentStructure.Insert("int64Field" , New Structure("__OPI_INT64__"    , 1000));
+    DocumentStructure.Insert("doubleField", New Structure("__OPI_DOUBLE__"   , 124.456));
+    DocumentStructure.Insert("boolField"  , New Structure("__OPI_BOOLEAN__"  , True));
+    DocumentStructure.Insert("dateField"  , New Structure("__OPI_DATETIME__" , "1763204141"));
+    DocumentStructure.Insert("tsField"    , New Structure("__OPI_TIMESTAMP__", CurrentDate));
+    DocumentStructure.Insert("regexpField", New Structure("__OPI_REGEXP__"   , RegExp));
+    DocumentStructure.Insert("binaryField", New Structure("__OPI_BINARY__"   , TestBinary));
+    DocumentStructure.Insert("nullField"  , New Structure("__OPI_NULL__"));
+    DocumentStructure.Insert("minkeyField", New Structure("__OPI_MINKEY__"));
+    DocumentStructure.Insert("maxkeyField", New Structure("__OPI_MAXKEY__"));
+
+    TestArray = New Array;
+    TestArray.Add(New Structure("__OPI_SYMBOL__", "A"));
+    TestArray.Add(New Structure("__OPI_MINKEY__"));
+
+    TestStructure = New Structure("code,number"
+        , New Structure("__OPI_JS__", "const result = 1")
+        , New Structure("__OPI_DOUBLE__", 10));
+
+    // Documents and arrays are not wrapped in a structure
+    DocumentStructure.Insert("docField" , TestStructure);
+    DocumentStructure.Insert("arrayField" , TestArray);
+
+    DocsArray.Add(DocumentStructure);
+
+    Result = OPI_MongoDB.InsertDocuments(Connection, Collection, DocsArray, Base);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint mongodb InsertDocuments \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+             --coll "new_collection" \
+             --docs "[{'productName':'Product 1','category':'electronics','price':'80','quantity':'6','rating':'1','inStock':true,'tags':['new'],'createdDate':'12/09/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'0.3','dimensions':{'length':'8','width':'4','height':'2'}}},{'productName':'Product 2','category':'clothing','price':'110','quantity':'7','rating':'2','inStock':true,'tags':['new','sale'],'createdDate':'12/08/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'0.6','dimensions':{'length':'16','width':'8','height':'4'}}},{'productName':'Product 3','category':'books','price':'140','quantity':'8','rating':'3','inStock':false,'tags':['new','popular'],'createdDate':'12/07/2025 19:23:02','details':{'supplier':null,'weightKg':'0.9','dimensions':{'length':'24','width':'12','height':'6'}}},{'productName':'Product 4','category':null,'price':'170','quantity':'9','rating':'4','inStock':true,'tags':['sale'],'createdDate':'12/06/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'1.2','dimensions':{'length':'32','width':'16','height':'8'}}},{'productName':'Product 5','category':'electronics','price':'200','quantity':'10','rating':'5','inStock':true,'tags':[],'createdDate':'12/05/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'1.5','dimensions':{'length':'40','width':'20','height':'10'}}},{'productName':'Product 6','category':'clothing','price':'230','quantity':'11','rating':'1','inStock':false,'tags':['sale','popular'],'createdDate':'12/04/2025 19:23:02','details':{'supplier':null,'weightKg':'1.8','dimensions':{'length':'48','width':'24','height':'12'}}},{'productName':'Product 7','category':'books','price':'260','quantity':'12','rating':'1','inStock':true,'tags':[],'createdDate':'12/03/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'2.1','dimensions':{'length':'56','width':'28','height':'14'}}},{'productName':'Product 8','category':null,'price':'290','quantity':'13','rating':'2','inStock':true,'tags':['sale'],'createdDate':'12/02/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'2.4','dimensions':{'length':'64','width':'32','height':'16'}}},{'productName':'Product 9','category':'electronics','price':'320','quantity':'14','rating':'3','inStock':false,'tags':['popular'],'createdDate':'12/01/2025 19:23:02','details':{'supplier':null,'weightKg':'2.7','dimensions':{'length':'72','width':'36','height':'18'}}},{'productName':'Product 10','category':'clothing','price':'350','quantity':'5','rating':'4','inStock':true,'tags':['sale'],'createdDate':'11/30/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'3','dimensions':{'length':'80','width':'40','height':'20'}}},{'productName':'Product 11','category':'books','price':'380','quantity':'6','rating':'5','inStock':true,'tags':[],'createdDate':'11/29/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'3.3','dimensions':{'length':'88','width':'44','height':'22'}}},{'productName':'Product 12','category':null,'price':'410','quantity':'7','rating':'1','inStock':false,'tags':['sale','popular','hit'],'createdDate':'11/28/2025 19:23:02','details':{'supplier':null,'weightKg':'3.6','dimensions':{'length':'96','width':'48','height':'24'}}},{'productName':'Product 13','category':'electronics','price':'440','quantity':'8','rating':'1','inStock':true,'tags':['hit'],'createdDate':'11/27/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'3.9','dimensions':{'length':'104','width':'52','height':'26'}}},{'productName':'Product 14','category':'clothing','price':'470','quantity':'9','rating':'2','inStock':true,'tags':['sale','hit'],'createdDate':'11/26/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'4.2','dimensions':{'length':'112','width':'56','height':'28'}}},{'productName':'Product 15','category':'books','price':'500','quantity':'10','rating':'3','inStock':false,'tags':['popular','hit'],'createdDate':'11/25/2025 19:23:02','details':{'supplier':null,'weightKg':'4.5','dimensions':{'length':'120','width':'60','height':'30'}}},{'productName':'Item with zero price','category':'books','price':'0','quantity':'1','rating':'4','inStock':true,'tags':[]},{'productName':'Item without category','price':'250','quantity':'3','rating':'3','inStock':false}]" \
+             --db "main"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint mongodb InsertDocuments ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+             --coll "new_collection" ^
+             --docs "[{'productName':'Product 1','category':'electronics','price':'80','quantity':'6','rating':'1','inStock':true,'tags':['new'],'createdDate':'12/09/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'0.3','dimensions':{'length':'8','width':'4','height':'2'}}},{'productName':'Product 2','category':'clothing','price':'110','quantity':'7','rating':'2','inStock':true,'tags':['new','sale'],'createdDate':'12/08/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'0.6','dimensions':{'length':'16','width':'8','height':'4'}}},{'productName':'Product 3','category':'books','price':'140','quantity':'8','rating':'3','inStock':false,'tags':['new','popular'],'createdDate':'12/07/2025 19:23:02','details':{'supplier':null,'weightKg':'0.9','dimensions':{'length':'24','width':'12','height':'6'}}},{'productName':'Product 4','category':null,'price':'170','quantity':'9','rating':'4','inStock':true,'tags':['sale'],'createdDate':'12/06/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'1.2','dimensions':{'length':'32','width':'16','height':'8'}}},{'productName':'Product 5','category':'electronics','price':'200','quantity':'10','rating':'5','inStock':true,'tags':[],'createdDate':'12/05/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'1.5','dimensions':{'length':'40','width':'20','height':'10'}}},{'productName':'Product 6','category':'clothing','price':'230','quantity':'11','rating':'1','inStock':false,'tags':['sale','popular'],'createdDate':'12/04/2025 19:23:02','details':{'supplier':null,'weightKg':'1.8','dimensions':{'length':'48','width':'24','height':'12'}}},{'productName':'Product 7','category':'books','price':'260','quantity':'12','rating':'1','inStock':true,'tags':[],'createdDate':'12/03/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'2.1','dimensions':{'length':'56','width':'28','height':'14'}}},{'productName':'Product 8','category':null,'price':'290','quantity':'13','rating':'2','inStock':true,'tags':['sale'],'createdDate':'12/02/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'2.4','dimensions':{'length':'64','width':'32','height':'16'}}},{'productName':'Product 9','category':'electronics','price':'320','quantity':'14','rating':'3','inStock':false,'tags':['popular'],'createdDate':'12/01/2025 19:23:02','details':{'supplier':null,'weightKg':'2.7','dimensions':{'length':'72','width':'36','height':'18'}}},{'productName':'Product 10','category':'clothing','price':'350','quantity':'5','rating':'4','inStock':true,'tags':['sale'],'createdDate':'11/30/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'3','dimensions':{'length':'80','width':'40','height':'20'}}},{'productName':'Product 11','category':'books','price':'380','quantity':'6','rating':'5','inStock':true,'tags':[],'createdDate':'11/29/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'3.3','dimensions':{'length':'88','width':'44','height':'22'}}},{'productName':'Product 12','category':null,'price':'410','quantity':'7','rating':'1','inStock':false,'tags':['sale','popular','hit'],'createdDate':'11/28/2025 19:23:02','details':{'supplier':null,'weightKg':'3.6','dimensions':{'length':'96','width':'48','height':'24'}}},{'productName':'Product 13','category':'electronics','price':'440','quantity':'8','rating':'1','inStock':true,'tags':['hit'],'createdDate':'11/27/2025 19:23:02','details':{'supplier':'Supplier A','weightKg':'3.9','dimensions':{'length':'104','width':'52','height':'26'}}},{'productName':'Product 14','category':'clothing','price':'470','quantity':'9','rating':'2','inStock':true,'tags':['sale','hit'],'createdDate':'11/26/2025 19:23:02','details':{'supplier':'Supplier B','weightKg':'4.2','dimensions':{'length':'112','width':'56','height':'28'}}},{'productName':'Product 15','category':'books','price':'500','quantity':'10','rating':'3','inStock':false,'tags':['popular','hit'],'createdDate':'11/25/2025 19:23:02','details':{'supplier':null,'weightKg':'4.5','dimensions':{'length':'120','width':'60','height':'30'}}},{'productName':'Item with zero price','category':'books','price':'0','quantity':'1','rating':'4','inStock':true,'tags':[]},{'productName':'Item without category','price':'250','quantity':'3','rating':'3','inStock':false}]" ^
+             --db "main"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "n": 17,
+  "ok": 1
+ }
+}
+```

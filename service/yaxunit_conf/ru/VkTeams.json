@@ -1,0 +1,30 @@
+{
+  "reportPath": "./test_results/VkTeams.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Тесты.ВКТ_ОтправкаСообщений",
+"OPI_Тесты.ВКТ_ОбщиеМетоды",
+"OPI_Тесты.ВКТ_УправлениеЧатами"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/VkTeams.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

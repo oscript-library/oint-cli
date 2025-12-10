@@ -1,8 +1,8 @@
 ﻿{
  "result": [
   {
-   "ID": "5900",
-   "TASK_ID": "8392",
+   "ID": "6400",
+   "TASK_ID": "9018",
    "PARENT_ID": 0,
    "CREATED_BY": "1",
    "TITLE": "BX_CHECKLIST_1",
@@ -15,9 +15,9 @@
    "ATTACHMENTS": []
   },
   {
-   "ID": "5902",
-   "TASK_ID": "8392",
-   "PARENT_ID": "5900",
+   "ID": "6402",
+   "TASK_ID": "9018",
+   "PARENT_ID": "6400",
    "CREATED_BY": "1",
    "TITLE": "Новый текст пункта чек-листа",
    "SORT_INDEX": "1",
@@ -30,13 +30,13 @@
   }
  ],
  "time": {
-  "start": 1760461327,
-  "finish": 1760461327.58279,
-  "duration": 0.582792043685913,
+  "start": 1765367685,
+  "finish": 1765367685.86044,
+  "duration": 0.860435962677002,
   "processing": 0,
-  "date_start": "2025-10-14T17:02:07+00:00",
-  "date_finish": "2025-10-14T17:02:07+00:00",
-  "operating_reset_at": 1760461927,
+  "date_start": "2025-12-10T14:54:45+03:00",
+  "date_finish": "2025-12-10T14:54:45+03:00",
+  "operating_reset_at": 1765368285,
   "operating": 0
  }
 }

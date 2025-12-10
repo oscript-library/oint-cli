@@ -22,13 +22,11 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Slack
 
-<br/>
-
 
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     Токен = "xoxb-6965308400114-696804637...";
-    Канал = "C09M6UV9KT2";
+    Канал = "C0A3MS0PZS4";
 
     Результат = OPI_Slack.ПолучитьИсториюКанала(Токен, Канал);
 ```
@@ -40,7 +38,7 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint slack ПолучитьИсториюКанала \
               --token "***" \
-              --channel "C09LJE7APJQ"
+              --channel "C0A32KDCQEM"
         ```
     </TabItem>
   
@@ -48,7 +46,7 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint slack ПолучитьИсториюКанала ^
               --token "***" ^
-              --channel "C09LJE7APJQ"
+              --channel "C0A32KDCQEM"
         ```
     </TabItem>
 </Tabs>
@@ -62,9 +60,9 @@ import TabItem from '@theme/TabItem';
    "subtype": "channel_join",
    "user": "U06UABH3APP",
    "text": "<@U06UABH3APP> has joined the channel",
-   "inviter": "U06UG1CAYH2",
+   "inviter": "***",
    "type": "message",
-   "ts": "1760461033.970669"
+   "ts": "1765367438.365089"
   },
   {
    "subtype": "channel_purpose",
@@ -72,7 +70,7 @@ import TabItem from '@theme/TabItem';
    "purpose": "Тестовая цель",
    "text": "set the channel description: Тестовая цель",
    "type": "message",
-   "ts": "1760461032.584199"
+   "ts": "1765367437.195849"
   },
   {
    "subtype": "channel_topic",
@@ -80,14 +78,14 @@ import TabItem from '@theme/TabItem';
    "topic": "Тестовая тема",
    "text": "set the channel topic: Тестовая тема",
    "type": "message",
-   "ts": "1760461031.802069"
+   "ts": "1765367436.622239"
   },
   {
    "subtype": "channel_join",
    "user": "U06UG1CAYH2",
    "text": "<@U06UG1CAYH2> has joined the channel",
    "type": "message",
-   "ts": "1760461030.885699"
+   "ts": "1765367435.909769"
   }
  ],
  "has_more": false,

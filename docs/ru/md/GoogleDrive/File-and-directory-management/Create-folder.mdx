@@ -1,0 +1,64 @@
+﻿---
+sidebar_position: 5
+description: Создать папку и другие функции для работы с Google Drive в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Создать папку
+ Создает пустой каталог на диске
+
+
+
+`Функция СоздатьПапку(Знач Токен, Знач Имя, Знач Родитель = "") Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | Имя | --title | Строка | &#x2714; | Имя папки |
+  | Родитель | --catalog | Строка | &#x2716; | Родитель |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Google
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен   = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Каталог = "191iyaa6-2BCNRPOF0F8mQ0TuNWPNesdM";
+    Имя     = "Тестовая папка";
+
+    Результат = OPI_GoogleDrive.СоздатьПапку(Токен, Имя, Каталог);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive СоздатьПапку \
+              --token "***" \
+              --title "Тестовая папка"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive СоздатьПапку ^
+              --token "***" ^
+              --title "Тестовая папка"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "kind": "drive#file",
+ "id": "1tMZZ7trJL67sPSyrEeN-F8XrfTFbFHsP",
+ "name": "Тестовая папка",
+ "mimeType": "application/vnd.google-apps.folder"
+}
+```

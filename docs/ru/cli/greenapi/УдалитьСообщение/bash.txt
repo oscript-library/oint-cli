@@ -2,5 +2,5 @@
 
 oint greenapi УдалитьСообщение \
   --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}" \
-  --chat "120363410406221140@g.us" \
-  --message "BAE5BDDA56FAA465"
+  --chat "***" \
+  --message "3EB0A5CB8FFC0B67E26DE3"

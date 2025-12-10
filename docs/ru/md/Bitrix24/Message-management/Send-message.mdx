@@ -25,8 +25,6 @@ import TabItem from '@theme/TabItem';
   
   Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Bitrxi24
 
-<br/>
-
 :::tip
 Метод в документации API: [im.message.add](https://dev.1c-bitrix.ru/learning/course/?COURSE_ID=93&LESSON_ID=12115)
 :::
@@ -35,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
     URL    = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    IDЧата = "3244";
+    IDЧата = "3516";
 
     OPI_ПреобразованиеТипов.ПолучитьСтроку(IDЧата);
 
@@ -51,7 +49,7 @@ import TabItem from '@theme/TabItem';
     Результат = OPI_Bitrix24.ОтправитьСообщение(URL, СтрокаЧата, Текст, Вложения);
 
     URL            = "b24-ar17wx.bitrix24.by";
-    Токен          = "8a1bee68006e9f06006b12e400000001000...";
+    Токен          = "6ad03969006e9f06006b12e400000001000...";
     IDПользователя = 10;
 
     Результат = OPI_Bitrix24.ОтправитьСообщение(URL, IDПользователя, Текст, , Токен);
@@ -64,7 +62,7 @@ import TabItem from '@theme/TabItem';
         ```bash
             oint bitrix24 ОтправитьСообщение \
               --url "b24-ar17wx.bitrix24.by" \
-              --chat 10 \
+              --chat "***" \
               --text "Текст сообщения" \
               --token "***"
         ```
@@ -74,7 +72,7 @@ import TabItem from '@theme/TabItem';
         ```batch
             oint bitrix24 ОтправитьСообщение ^
               --url "b24-ar17wx.bitrix24.by" ^
-              --chat 10 ^
+              --chat "***" ^
               --text "Текст сообщения" ^
               --token "***"
         ```
@@ -84,15 +82,15 @@ import TabItem from '@theme/TabItem';
 
 ```json title="Результат"
 {
- "result": 64614,
+ "result": 70196,
  "time": {
-  "start": 1760461499,
-  "finish": 1760461499.55809,
-  "duration": 0.558094024658203,
+  "start": 1765367845,
+  "finish": 1765367845.08121,
+  "duration": 0.081212043762207,
   "processing": 0,
-  "date_start": "2025-10-14T17:04:59+00:00",
-  "date_finish": "2025-10-14T17:04:59+00:00",
-  "operating_reset_at": 1760462099,
+  "date_start": "2025-12-10T14:57:25+03:00",
+  "date_finish": "2025-12-10T14:57:25+03:00",
+  "operating_reset_at": 1765368445,
   "operating": 0
  }
 }

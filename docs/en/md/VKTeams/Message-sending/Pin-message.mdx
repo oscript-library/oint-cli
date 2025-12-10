@@ -23,8 +23,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from VK Teams
 
-<br/>
-
 :::tip
 To call this method, the bot must be an administrator in the chat room
 
@@ -36,7 +34,7 @@ Method at API documentation: [GET /chats/pinMessage](https://teams.vk.com/botapi
 ```bsl title="1C:Enterprise/OneScript code example"
     Token     = "001.3501506236.091...";
     ChatID    = "689203963@chat.agent";
-    MessageID = "7561001959935721300";
+    MessageID = "7582306518142305381";
 
     Result = OPI_VKTeams.PinMessage(Token, ChatID, MessageID);
 ```
@@ -48,8 +46,8 @@ Method at API documentation: [GET /chats/pinMessage](https://teams.vk.com/botapi
         ```bash
             oint vkteams PinMessage \
              --token "***" \
-             --chatid "689203963@chat.agent" \
-             --messageid "7561387639408967603"
+             --chatid "***" \
+             --messageid "7582322723053913208"
         ```
     </TabItem>
   
@@ -57,8 +55,8 @@ Method at API documentation: [GET /chats/pinMessage](https://teams.vk.com/botapi
         ```batch
             oint vkteams PinMessage ^
              --token "***" ^
-             --chatid "689203963@chat.agent" ^
-             --messageid "7561387639408967603"
+             --chatid "***" ^
+             --messageid "7582322723053913208"
         ```
     </TabItem>
 </Tabs>

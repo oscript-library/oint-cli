@@ -23,8 +23,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from CDEK
 
-<br/>
-
 :::tip
 Method at API documentation: [Passport data information](https://api-docs.cdek.ru/55343134.html)
 :::
@@ -32,8 +30,8 @@ Method at API documentation: [Passport data information](https://api-docs.cdek.r
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
-    Token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3NjA0MzY3MTIsImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJhcGktdmVyc2lvbjoxLjEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJjb250cmFnZW50L...";
-    UUID  = "c91d4e76-0b17-4e76-ae73-674bfdabecf9";
+    Token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3NjUzOTcwNTYsImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJhcGktdmVyc2lvbjoxLjEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJjb250cmFnZW50L...";
+    UUID  = "50fbb719-69d4-4ded-93ca-ff7d005c9fae";
 
     Result = OPI_CDEK.GetPassportDataStatus(Token, UUID, True);
 ```
@@ -45,7 +43,7 @@ Method at API documentation: [Passport data information](https://api-docs.cdek.r
         ```bash
             oint cdek GetPassportDataStatus \
              --token "***" \
-             --uuid "ae2ba595-fbac-4572-80f5-03f20395a70a" \
+             --uuid "30b65bfe-a4ac-46b8-96db-c692076c609b" \
              --testapi "***"
         ```
     </TabItem>
@@ -54,7 +52,7 @@ Method at API documentation: [Passport data information](https://api-docs.cdek.r
         ```batch
             oint cdek GetPassportDataStatus ^
              --token "***" ^
-             --uuid "ae2ba595-fbac-4572-80f5-03f20395a70a" ^
+             --uuid "30b65bfe-a4ac-46b8-96db-c692076c609b" ^
              --testapi "***"
         ```
     </TabItem>
@@ -65,8 +63,8 @@ Method at API documentation: [Passport data information](https://api-docs.cdek.r
 {
  "orders": [
   {
-   "order_uuid": "ae2ba595-fbac-4572-80f5-03f20395a70a",
-   "cdek_number": 1106627113,
+   "order_uuid": "3c80df8f-efd1-48ce-bd28-56bcd628eb82",
+   "cdek_number": 1106631933,
    "passport": [
     {
      "client": "SENDER",

@@ -26,8 +26,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  String - URL for object retrieving
 
-<br/>
-
 :::tip
 In Headers you need to add all x-amz headers that will be used when accessing the received URL
 
@@ -47,7 +45,7 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
     Name = "picture.jpg";
 
     Directory = True; // Formation URL in path-style
-    Bucket = "opi-dirbucket3";
+    Bucket = "";
     Result = OPI_S3.GetObjectDownloadLink(Name, Bucket, BasicData, 7200, , Directory);
 ```
  
@@ -60,8 +58,8 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
             
             oint s3 GetObjectDownloadLink \
              --name "picture.jpg" \
-             --bucket "opi-dirbucket3" \
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
+             --bucket "d09ba45c" \
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
              --expires 7200 \
              --dir true
         ```
@@ -73,8 +71,8 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
             
             oint s3 GetObjectDownloadLink ^
              --name "picture.jpg" ^
-             --bucket "opi-dirbucket3" ^
-             --basic "{'URL':'storage-155.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
+             --bucket "d09ba45c" ^
+             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
              --expires 7200 ^
              --dir true
         ```
@@ -83,5 +81,5 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
 
 
 ```json title="Result"
-"storage-155.s3hoster.by/opi-dirbucket3/picture.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=BRN5RKJE67YCVDZRRQVI%2F20251015%2FBTC%2Fs3%2Faws4_request&X-Amz-Date=20251015T103458Z&X-Amz-Expires=7200&X-Amz-SignedHeaders=host&X-Amz-Signature=01cf32313a9aefaa6460f58bbf34593ff45863949c46b89af75afb7f3be32e7d"
+"storage-564.s3hoster.by/d09ba45c/picture.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=H71HC7EBMR30IOA3DFNE%2F20251210%2FBTC%2Fs3%2Faws4_request&X-Amz-Date=20251210T204549Z&X-Amz-Expires=7200&X-Amz-SignedHeaders=host&X-Amz-Signature=8ff60527eb8abb4f05b70ad75fa68eb0004d832d14347db7dc979fd66590543c"
 ```

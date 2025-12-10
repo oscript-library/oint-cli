@@ -1,0 +1,238 @@
+﻿---
+sidebar_position: 3
+description: Get users and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get users
+ Gets data of one or more users
+
+
+
+`Function GetUsers(Val Connection, Val Users, Val Base = Undefined, Val GetPassword = False, Val GetPrivileges = False) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Users | --usrs | Arbitrary | &#x2714; | Username, structure, or array of user structures |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+  | GetPassword | --spwd | Boolean | &#x2716; | Adds user password hash to the returned data |
+  | GetPrivileges | --sprv | Boolean | &#x2716; | Adds a list of user privileges to the returned data |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+:::tip
+The user can be specified in one of the following formats:<br/>String: `name of user`<br/>Structure: `{ user: &lt;name&gt;, db: &lt;database&gt; }`<br/>Array: `[ { user: &lt;name&gt;, db: &lt;бaзa data&gt; }, { user: &lt;name&gt;, db: &lt;бaзa data&gt; }, ... ]`
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+    Base     = "main";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    UserName = "newuser";
+
+    Result = OPI_MongoDB.GetUsers(Connection, UserName, Base);
+
+    ArrayOfUsers = New Array;
+    ArrayOfUsers.Add(New Structure("user,db", "bayselonarrend", "admin"));
+    ArrayOfUsers.Add(New Structure("user,db", "newuser"       , "main"));
+
+    Result = OPI_MongoDB.GetUsers(Connection, ArrayOfUsers, Base, True, True);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint mongodb GetUsers \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+             --usrs "[{'user':'bayselonarrend','db':'admin'},{'user':'newuser','db':'main'}]" \
+             --db "main" \
+             --spwd true \
+             --sprv true
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint mongodb GetUsers ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+             --usrs "[{'user':'bayselonarrend','db':'admin'},{'user':'newuser','db':'main'}]" ^
+             --db "main" ^
+             --spwd true ^
+             --sprv true
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "users": [
+   {
+    "_id": "admin.bayselonarrend",
+    "userId": {
+     "__B64_BINARY__": "o/sTQLP2Q0Gh/ktdyTzYEw=="
+    },
+    "user": "bayselonarrend",
+    "db": "admin",
+    "mechanisms": [
+     "***",
+     "***"
+    ],
+    "credentials": {
+     "SCRAM-SHA-1": {
+      "iterationCount": 10000,
+      "salt": "uJIHxzZApTwt+kxKvyGNFQ==",
+      "storedKey": "***",
+      "serverKey": "***"
+     },
+     "SCRAM-SHA-256": {
+      "iterationCount": 15000,
+      "salt": "5AWQEtOv0LtrbiyyPowpiiixAz+yuDiU5ckYMQ==",
+      "storedKey": "***",
+      "serverKey": "***"
+     }
+    },
+    "roles": [
+     {
+      "role": "root",
+      "db": "admin"
+     }
+    ],
+    "inheritedRoles": [
+     {
+      "role": "root",
+      "db": "admin"
+     }
+    ],
+    "inheritedPrivileges": [
+     {
+      "resource": {
+       "cluster": true
+      },
+      "actions": [
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***"
+      ]
+     },
+     {
+      "resource": {
+       "db": "",
+       "collection": ""
+      },
+      "actions": [
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+       "***",
+...
+```

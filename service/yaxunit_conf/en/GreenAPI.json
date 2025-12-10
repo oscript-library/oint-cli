@@ -1,0 +1,33 @@
+{
+  "reportPath": "./test_results/GreenAPI.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Tests.GAPI_GroupManagement",
+"OPI_Tests.GAPI_MessageSending",
+"OPI_Tests.GAPI_NotificationsReceiving",
+"OPI_Tests.GAPI_MessageQueue",
+"OPI_Tests.GAPI_MessageLogs",
+"OPI_Tests.GAPI_Account"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/GreenAPI.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

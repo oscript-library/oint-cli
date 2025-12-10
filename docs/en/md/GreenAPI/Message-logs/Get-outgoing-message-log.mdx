@@ -1,0 +1,216 @@
+﻿---
+sidebar_position: 4
+description: Get outgoing message log and other functions to work with GreenAPI in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, GreenAPI]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get outgoing message log
+ Gets the list of outgoing messages of the instance for the specified period
+
+
+
+`Function GetOutgoingMessageLog(Val AccessParameters, Val Period = 1440) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | AccessParameters | --access | Structure Of KeyAndValue | &#x2714; | Access parameters. See FormAccessParameters |
+  | Period | --period | Number | &#x2716; | Time in minutes for which messages need to be received |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Green API
+
+:::tip
+Method at API documentation: [LastOutgoingMessages](https://green-api.com/docs/api/journals/LastOutgoingMessages/)
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    ApiUrl           = "https://7105.api.greenapi.com";
+    MediaUrl         = "https://7105.media.greenapi.com";
+    IdInstance       = "71051...";
+    ApiTokenInstance = "425010d90e114aa6b78f0969e...";
+
+    AccessParameters = OPI_GreenAPI.FormAccessParameters(ApiUrl, MediaUrl, IdInstance, ApiTokenInstance);
+    Result           = OPI_GreenAPI.GetOutgoingMessageLog(AccessParameters);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint greenapi GetOutgoingMessageLog \
+             --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint greenapi GetOutgoingMessageLog ^
+             --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+[
+ {
+  "type": "outgoing",
+  "idMessage": "3EB05C0B2CE797EA0EEE21",
+  "timestamp": 1765379507,
+  "typeMessage": "deletedMessage",
+  "chatId": "120363410406221140@g.us",
+  "deletedMessageData": {
+   "stanzaId": "3EB061F20B14D7DE3DDFFA"
+  },
+  "statusMessage": "sent",
+  "sendByApi": true
+ },
+ {
+  "type": "outgoing",
+  "idMessage": "3EB0A5871C3C08D09443DA",
+  "timestamp": 1765379498,
+  "typeMessage": "extendedTextMessage",
+  "chatId": "120363410406221140@g.us",
+  "textMessage": "New message",
+  "extendedTextMessage": {
+   "text": "New message",
+   "description": "",
+   "title": "",
+   "previewType": "None",
+   "jpegThumbnail": "",
+   "forwardingScore": 1,
+   "isForwarded": true
+  },
+  "statusMessage": "sent",
+  "sendByApi": true,
+  "deletedMessageId": "",
+  "editedMessageId": "",
+  "isEdited": false,
+  "isDeleted": false
+ },
+ {
+  "type": "outgoing",
+  "idMessage": "3EB087FD4865FE3EE22D14",
+  "timestamp": 1765379495,
+  "typeMessage": "contactMessage",
+  "chatId": "120363410406221140@g.us",
+  "contact": {
+   "displayName": "Bicycle",
+   "vcard": "BEGIN:VCARD\nVERSION:3.0\nN:;;;\nFN:Bicycle\nORG:Bicycle\nTEL;type=CELL;type=VOICE;waid=79001234568:+79001234568\nEND:VCARD",
+   "forwardingScore": 0,
+   "isForwarded": false
+  },
+  "quotedMessage": {
+   "stanzaId": "3EB0DB9EB1339F74422724",
+   "participant": "1234567890@c.us",
+   "typeMessage": "contactMessage",
+   "contact": {
+    "displayName": "Artem Evpatoriysky Petrovich",
+    "vcard": "BEGIN:VCARD\nVERSION:3.0\nN:Petrovich;Artem;Evpatoriysky;\nFN:Artem Evpatoriysky Petrovich\nORG:Bicycle\nTEL;type=CELL;type=VOICE;waid=79001234568:+79001234568\nEND:VCARD",
+    "forwardingScore": 0,
+    "isForwarded": false
+   },
+   "deletedMessageId": "",
+   "editedMessageId": "",
+   "isEdited": false,
+   "isDeleted": false
+  },
+  "statusMessage": "sent",
+  "sendByApi": true,
+  "deletedMessageId": "",
+  "editedMessageId": "",
+  "isEdited": false,
+  "isDeleted": false
+ },
+ {
+  "type": "outgoing",
+  "idMessage": "3EB0DB9EB1339F74422724",
+  "timestamp": 1765379492,
+  "typeMessage": "contactMessage",
+  "chatId": "120363410406221140@g.us",
+  "contact": {
+   "displayName": "Artem Evpatoriysky Petrovich",
+   "vcard": "BEGIN:VCARD\nVERSION:3.0\nN:Petrovich;Artem;Evpatoriysky;\nFN:Artem Evpatoriysky Petrovich\nORG:Bicycle\nTEL;type=CELL;type=VOICE;waid=79001234568:+79001234568\nEND:VCARD",
+   "forwardingScore": 0,
+   "isForwarded": false
+  },
+  "statusMessage": "sent",
+  "sendByApi": true,
+  "deletedMessageId": "",
+  "editedMessageId": "",
+  "isEdited": false,
+  "isDeleted": false
+ },
+ {
+  "type": "outgoing",
+  "idMessage": "3EB04E5B9AAA2C3F4FC9DA",
+  "timestamp": 1765379487,
+  "typeMessage": "locationMessage",
+  "chatId": "120363410406221140@g.us",
+  "location": {
+   "nameLocation": "",
+   "address": "",
+   "jpegThumbnail": "",
+   "latitude": 53.908522,
+   "longitude": 27.574821,
+   "forwardingScore": 0,
+   "isForwarded": false
+  },
+  "quotedMessage": {
+   "stanzaId": "3EB0AC0B23F42C0895C090",
+   "participant": "1234567890@c.us",
+   "typeMessage": "locationMessage",
+   "location": {
+    "nameLocation": "Victory Square, Minsk",
+    "address": "Victory sq.",
+    "jpegThumbnail": "",
+    "latitude": 53.908522,
+    "longitude": 27.574821,
+    "forwardingScore": 0,
+    "isForwarded": false
+   },
+   "deletedMessageId": "",
+   "editedMessageId": "",
+   "isEdited": false,
+   "isDeleted": false
+  },
+  "statusMessage": "sent",
+  "sendByApi": true,
+  "deletedMessageId": "",
+  "editedMessageId": "",
+  "isEdited": false,
+  "isDeleted": false
+ },
+ {
+  "type": "outgoing",
+  "idMessage": "3EB0AC0B23F42C0895C090",
+  "timestamp": 1765379484,
+  "typeMessage": "locationMessage",
+  "chatId": "120363410406221140@g.us",
+  "location": {
+   "nameLocation": "Victory Square, Minsk",
+   "address": "Victory sq.",
+   "jpegThumbnail": "",
+   "latitude": 53.908522,
+   "longitude": 27.574821,
+   "forwardingScore": 0,
+   "isForwarded": false
+  },
+  "statusMessage": "sent",
+  "sendByApi": true,
+  "deletedMessageId": "",
+  "editedMessageId": "",
+  "isEdited": false,
+  "isDeleted": false
+...
+```

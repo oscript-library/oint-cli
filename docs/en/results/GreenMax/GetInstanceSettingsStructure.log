@@ -1,0 +1,12 @@
+﻿{
+ "webhookUrl": "<URL for notification sending>",
+ "webhookUrlToken": "***",
+ "delaySendMessagesMilliseconds": "<message sending interval in milliseconds>",
+ "markIncomingMessagesReaded": "<mark incoming messages as read: yes, no>",
+ "markIncomingMessagesReadedOnReply": "<mark incoming messages as read when sending a message to chat: yes, no>",
+ "outgoingWebhook": "<receive notifications about the send/deliver/read status of outgoing messages: yes, no>",
+ "outgoingMessageWebhook": "<receive notifications of messages sent from phone: yes, no>",
+ "outgoingAPIMessageWebhook": "***",
+ "stateWebhook": "<receive notifications about changes in the authorization state of the instance: yes, no>",
+ "incomingWebhook": "<receive notifications of incoming messages and files: yes, no>"
+}

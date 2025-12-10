@@ -1,0 +1,38 @@
+{
+  "reportPath": "./test_results/YandexDisk.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Тесты.ЯДиск_Авторизация",
+"OPI_Тесты.ЯДиск_ПолучитьИнформациюОДиске",
+"OPI_Тесты.ЯДиск_СоздатьПапку",
+"OPI_Тесты.ЯДиск_ЗагрузитьПоАдресуПолучитьОбъект",
+"OPI_Тесты.ЯДиск_ЗагрузитьУдалитьФайл",
+"OPI_Тесты.ЯДиск_СоздатьКопиюОбъекта",
+"OPI_Тесты.ЯДиск_ПолучитьСсылкуНаСкачивание",
+"OPI_Тесты.ЯДиск_ПолучитьСписокФайлов",
+"OPI_Тесты.ЯДиск_ПереместитьОбъект",
+"OPI_Тесты.ЯДиск_ДействияПубличныхОбъектов",
+"OPI_Тесты.ЯДиск_ПолучитьСписокОпубликованных"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/YandexDisk.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

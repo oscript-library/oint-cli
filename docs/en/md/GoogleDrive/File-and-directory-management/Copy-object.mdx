@@ -1,0 +1,70 @@
+﻿---
+sidebar_position: 7
+description: Copy object and other functions to work with Google Drive in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Google Drive]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Copy object
+ Copies file or directory
+
+
+
+`Function CopyObject(Val Token, Val Identifier, Val NewName = "", Val NewParent = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Token | --token | String | &#x2714; | Token |
+  | Identifier | --object | String | &#x2714; | Object identifier |
+  | NewName | --title | String | &#x2716; | New object name |
+  | NewParent | --catalog | String | &#x2716; | New parent directory |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Google
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Token      = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
+    Identifier = "1umE7KLAm_0fhTK4faYc0jC5bKYOCmbdD";
+    NewName    = "CopiedFile.jpeg";
+    NewParent  = "root";
+
+    Result = OPI_GoogleDrive.CopyObject(Token, Identifier, NewName, NewParent);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint gdrive CopyObject \
+             --token "***" \
+             --object "1pHdCp7uXLdpChmiq9ZTAU1IrSlDlKOXn" \
+             --title "CopiedFile.jpeg" \
+             --catalog "root"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint gdrive CopyObject ^
+             --token "***" ^
+             --object "1pHdCp7uXLdpChmiq9ZTAU1IrSlDlKOXn" ^
+             --title "CopiedFile.jpeg" ^
+             --catalog "root"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "kind": "drive#file",
+ "id": "1KfGYgRg6ZT3nDXryAxad4Y_yW2WozkOi",
+ "name": "CopiedFile.jpeg",
+ "mimeType": "image/jpeg"
+}
+```

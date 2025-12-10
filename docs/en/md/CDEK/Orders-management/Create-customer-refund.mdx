@@ -24,8 +24,6 @@ import TabItem from '@theme/TabItem';
   
   Returns:  Map Of KeyAndValue - serialized JSON response from CDEK
 
-<br/>
-
 :::tip
 This method is used if the direct order was delivered by CDEK and the recipient wants to return it in full
 
@@ -37,8 +35,8 @@ Method at API documentation: [Registration of refusal](https://api-docs.cdek.ru/
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
-    Token  = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3NjA0MzY3MTIsImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJhcGktdmVyc2lvbjoxLjEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJjb250cmFnZW50L...";
-    UUID   = "c91d4e76-0b17-4e76-ae73-674bfdabecf9";
+    Token  = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3NjUzOTcwNTYsImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJhcGktdmVyc2lvbjoxLjEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJjb250cmFnZW50L...";
+    UUID   = "50fbb719-69d4-4ded-93ca-ff7d005c9fae";
     Tariff = 139;
 
     Result = OPI_CDEK.CreateCustomerRefund(Token, UUID, Tariff, True);
@@ -51,7 +49,7 @@ Method at API documentation: [Registration of refusal](https://api-docs.cdek.ru/
         ```bash
             oint cdek CreateCustomerRefund \
              --token "***" \
-             --uuid "ae2ba595-fbac-4572-80f5-03f20395a70a" \
+             --uuid "30b65bfe-a4ac-46b8-96db-c692076c609b" \
              --tariff 139 \
              --testapi "***"
         ```
@@ -61,7 +59,7 @@ Method at API documentation: [Registration of refusal](https://api-docs.cdek.ru/
         ```batch
             oint cdek CreateCustomerRefund ^
              --token "***" ^
-             --uuid "ae2ba595-fbac-4572-80f5-03f20395a70a" ^
+             --uuid "30b65bfe-a4ac-46b8-96db-c692076c609b" ^
              --tariff 139 ^
              --testapi "***"
         ```
@@ -72,13 +70,13 @@ Method at API documentation: [Registration of refusal](https://api-docs.cdek.ru/
 ```json title="Result"
 {
  "entity": {
-  "uuid": "ae2ba595-fbac-4572-80f5-03f20395a70a"
+  "uuid": "3c80df8f-efd1-48ce-bd28-56bcd628eb82"
  },
  "requests": [
   {
-   "request_uuid": "2a99ccd1-cb12-490a-b054-14d6811e40f4",
+   "request_uuid": "e0a542e5-b4e5-4d51-b54a-bebf384411de",
    "type": "CREATE_CLIENT_RETURN",
-   "date_time": "2025-10-15T10:15:15+00:00",
+   "date_time": "2025-10-31T12:03:24+00:00",
    "state": "ACCEPTED"
   }
  ],

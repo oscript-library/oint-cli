@@ -1,0 +1,43 @@
+{
+  "reportPath": "./test_results/Bitrix24.report",
+  "closeAfterTests": true,
+  "filter": {
+    "extensions": null,
+    "modules": null,
+    "suites": null,
+    "tags": null,
+    "contexts": null,
+    "paths": null,
+    "tests": [
+"OPI_Tests.B24_TokenManagement",
+"OPI_Tests.B24_ServerTime",
+"OPI_Tests.B24_PostsManagement",
+"OPI_Tests.B24_TaskManagement",
+"OPI_Tests.B24_CommentsManagement",
+"OPI_Tests.B24_WorkingWithDrive",
+"OPI_Tests.B24_Kanban",
+"OPI_Tests.B24_Timekeeping",
+"OPI_Tests.B24_ChatManagement",
+"OPI_Tests.B24_NotificationsManagement",
+"OPI_Tests.B24_TasksFieldsManagement",
+"OPI_Tests.B24_DepartmentsManagement",
+"OPI_Tests.B2_UsersManagement",
+"OPI_Tests.B24_LeadsManagement",
+"OPI_Tests.B24_DealsManagement",
+"OPI_Tests.B24_CalendarsManagement"
+    ]
+  },
+  "settings": {
+    "ВТранзакции": false
+  },
+  "reportFormat": "dumpjson",
+  "showReport": false,
+  "logging": {
+    "file": "",
+    "console": false,
+    "enable": null,
+    "level": "info"
+  },
+  "exitCode": "./test_results/Bitrix24.code",
+  "ПодключатьВнешниеКомпоненты": true
+}

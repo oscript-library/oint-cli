@@ -1,0 +1,66 @@
+﻿---
+sidebar_position: 3
+description: Refresh token and other functions to work with Yandex Disk in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Refresh token
+ Updates token by Refresh token
+
+
+
+`Function RefreshToken(Val ClientId, Val ClientSecret, Val RefreshToken) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | ClientId | --id | String | &#x2714; | Client id |
+  | ClientSecret | --secret | String | &#x2714; | Client secret |
+  | RefreshToken | --refresh | String | &#x2714; | Refresh token |
+
+  
+  Returns:  Map Of KeyAndValue - serialized JSON response from Yandex
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    ClientID     = "cc2ce9d60deb4975be58866d32dbe7aa";
+    ClientSecret = "7cc0b903d33e41c1...";
+    RefreshToken = "2:AAA:AAAAAF3KVo4:1:7lDA887FZi3e_EYF:4LGI1j1d3RMVs-4532KZK7ZQbG0F...";
+
+    Result = OPI_YandexDisk.RefreshToken(ClientID, ClientSecret, RefreshToken);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk RefreshToken \
+             --id "cc2ce9d60deb4975be58866d32dbe7aa" \
+             --secret "***" \
+             --refresh "***"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk RefreshToken ^
+             --id "cc2ce9d60deb4975be58866d32dbe7aa" ^
+             --secret "***" ^
+             --refresh "***"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "access_token": "***",
+ "expires_in": 29005780,
+ "refresh_token": "***",
+ "token_type": "***"
+}
+```

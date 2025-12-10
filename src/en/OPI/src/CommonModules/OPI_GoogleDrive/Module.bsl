@@ -32,12 +32,93 @@
 // BSLLS:IncorrectLineBreak-off
 // BSLLS:UsingServiceTag-off
 // BSLLS:UsingSynchronousCalls-off
+// BSLLS:LineLength-off
+// BSLLS:MagicNumber-off
 
 //@skip-check module-structure-top-region
 //@skip-check module-structure-method-in-regions
 //@skip-check wrong-string-literal-content
 
 #Region Public
+
+#Region Authorization
+
+// Generate code retrieval link
+// Returns URL for browser authorization
+//
+// Parameters:
+// ClientID - String - Client ID - id
+// Calendar - Boolean - Calendar methods permission - calendar
+// Drive - Boolean - Drive methods permission - drive
+// Sheets - Boolean - Sheets methods permission - sheets
+//
+// Returns:
+// String - Code retrieval link
+Function FormCodeRetrievalLink(Val ClientID
+    , Val Calendar = True
+    , Val Drive = True
+    , Val Sheets = True) Export
+
+    Result = OPI_GoogleWorkspace.FormCodeRetrievalLink(ClientID, Calendar, Drive, Sheets);
+    Return Result;
+
+EndFunction
+
+// Get token by code
+// Gets token by code from browser authorization
+//
+// Parameters:
+// ClientID - String - Client ID - id
+// ClientSecret - String - Client secret - secret
+// Code - String - Code from browser - code
+//
+// Returns:
+// Map Of KeyAndValue - serialized JSON response from Google
+Function GetTokenByCode(Val ClientID, Val ClientSecret, Val Code) Export
+
+    Result = OPI_GoogleWorkspace.GetTokenByCode(ClientID, ClientSecret, Code);
+    Return Result;
+
+EndFunction
+
+// Refresh token
+// Updates token by Refresh token
+//
+// Parameters:
+// ClientID - String - Client ID - id
+// ClientSecret - String - Client secret - secret
+// RefreshToken - String - Refresh token - refresh
+//
+// Returns:
+// Map Of KeyAndValue - serialized JSON response from Google
+Function RefreshToken(Val ClientID, Val ClientSecret, Val RefreshToken) Export
+
+    Result = OPI_GoogleWorkspace.RefreshToken(ClientID, ClientSecret, RefreshToken);
+    Return Result;
+
+EndFunction
+
+// Get service account token
+// Gets authorization token by service account data
+//
+// Note
+// List of available scopes: [developers.google.com](https://developers.google.com/identity/protocols/oauth2/scopes)
+//
+// Parameters:
+// Data - Arbitrary - JSON authorization data as a file, collection or binary data - auth
+// Scope - Array Of String - Scope or array of scopes - scope
+// Expire - Number - Token lifetime in seconds - exp
+//
+// Returns:
+// Map Of KeyAndValue - serialized JSON response from Google
+Function GetServiceAccountToken(Val Data, Val Scope, Val Expire = 3600) Export
+
+    Result = OPI_GoogleWorkspace.GetServiceAccountToken(Data, Scope, Expire);
+    Return Result;
+
+EndFunction
+
+#EndRegion
 
 #Region FileAndDirectoryManagement
 
@@ -639,139 +720,15 @@ Function UploadLargeFile(Val Description, Val FileMapping, Val Headers, Val Iden
         Return HttpClient.ReturnResponseAsJSONObject(True, True);
     EndIf;
 
-    HttpUploadClient = UploadFileInParts(Binary, UploadURL);
+    ChunkSize = 268435456;
 
-    If HttpUploadClient <> Undefined Then
-        Response = HttpUploadClient.ReturnResponseAsJSONObject(True, True);
-    Else
-        Response = HttpClient.ReturnResponseAsJSONObject(True, True);
-    EndIf;
+    Response = OPI_HTTPRequests.NewRequest()
+        .Initialize(UploadURL)
+        .SetBinaryBody(Binary)
+        .SendDataInParts(ChunkSize)
+        .ReturnResponseAsJSONObject(True, True);
 
     Return Response;
-
-EndFunction
-
-Function UploadFileInParts(Val Binary, Val UploadURL)
-
-    HttpClient      = Undefined;
-    ChunkSize       = 268435456;
-    BytesRead       = 0;
-    CurrentPosition = 0;
-    TotalSize       = Binary.Size();
-    StrTotalSize    = OPI_Tools.NumberToString(TotalSize);
-    DataReader      = New DataReader(Binary);
-    SourceStream    = DataReader.SourceStream();
-
-    KBytes = 1024;
-    MByte  = KBytes * KBytes;
-
-    While BytesRead < TotalSize Do
-
-        BytesRead    = SourceStream.CurrentPosition();
-        Result       = DataReader.Read(ChunkSize);
-        CurrentData  = Result.GetBinaryData();
-        CurrentSize  = CurrentData.Size();
-        NextPosition = CurrentPosition + CurrentSize - 1;
-
-        If Not ValueIsFilled(CurrentData) Then
-            Break;
-        EndIf;
-
-        StreamHeader = "bytes "
-            + OPI_Tools.NumberToString(CurrentPosition)
-            + "-"
-            + OPI_Tools.NumberToString(NextPosition)
-            + "/"
-            + StrTotalSize;
-
-        AdditionalHeaders = New Map;
-        AdditionalHeaders.Insert("Content-Length", OPI_Tools.NumberToString(CurrentSize));
-        AdditionalHeaders.Insert("Content-Range" , StreamHeader);
-        AdditionalHeaders.Insert("Content-Type"  , "application/octet-stream");
-
-        HttpClient = OPI_HTTPRequests
-            .NewRequest()
-            .Initialize(UploadURL)
-            .SetHeaders(AdditionalHeaders)
-            .SetBinaryBody(CurrentData)
-            .ProcessRequest("PUT");
-
-        CheckResult = CheckPartUpload(HttpClient
-            , StrTotalSize
-            , AdditionalHeaders
-            , UploadURL
-            , CurrentPosition);
-
-        If CheckResult <> Undefined Then
-            Return CheckResult;
-        EndIf;
-
-        OPI_Tools.ProgressInformation(CurrentPosition, TotalSize, "MB", MByte);
-
-        // !OInt RunGarbageCollection();
-        // !OInt FreeObject(CurrentData);
-
-    EndDo;
-
-    OPI_Tools.ProgressInformation(TotalSize, TotalSize, "MB", MByte);
-
-    Return HttpClient;
-
-EndFunction
-
-Function CheckPartUpload(HttpClient, StrTotalSize, AdditionalHeaders, UploadURL, CurrentPosition)
-
-    StartOfErrorCodes   = 400;
-    EndOfFailureCodes   = 600;
-    StartOfSuccessCodes = 200;
-    EndOfSuccessCodes   = 300;
-    Redirection         = 308;
-
-    Response = HttpClient.ReturnResponse(False, True);
-
-    If Response.StatusCode >= StartOfErrorCodes And Response.StatusCode < EndOfFailureCodes Then
-
-        StreamHeader = "bytes */" + StrTotalSize;
-        AdditionalHeaders.Insert("Content-Range" , StreamHeader);
-
-        HttpCheckClient = OPI_HTTPRequests.NewRequest().Initialize(UploadURL);
-        CheckResponse   = HttpCheckClient.SetHeaders(AdditionalHeaders)
-            .ProcessRequest("PUT")
-            .ReturnResponse(False, True);
-
-        If CheckResponse.StatusCode >= StartOfSuccessCodes And CheckResponse.StatusCode < EndOfSuccessCodes Then
-
-            Return HttpCheckClient;
-
-        ElsIf CheckResponse.StatusCode = Redirection Then
-
-            UploadedData = Response.Headers["Range"];
-
-        Else
-
-            Return HttpClient;
-
-        EndIf;
-
-    Else
-        UploadedData = Response.Headers["Range"];
-    EndIf;
-
-    If Not ValueIsFilled(UploadedData) Then
-        Return HttpClient;
-    EndIf;
-
-    UploadedData = StrReplace(UploadedData, "bytes=", "");
-    ArrayOfInformation = StrSplit(UploadedData, "-", False);
-    PartsRequired      = 2;
-
-    If Not ArrayOfInformation.Count() = PartsRequired Then
-        Return HttpClient;
-    EndIf;
-
-    CurrentPosition = Number(ArrayOfInformation[1]) + 1;
-
-    Return Undefined;
 
 EndFunction
 

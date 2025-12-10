@@ -1,0 +1,90 @@
+﻿---
+sidebar_position: 2
+description: Update user and other functions to work with MongoDB in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, MongoDB]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Update user
+ Modifies existing user data
+
+
+
+`Function UpdateUser(Val Connection, Val Name, Val UserRoles = Undefined, Val Base = Undefined, Val Password = Undefined, Val Parameters = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --dbc | String, Arbitrary | &#x2714; | Connection or connection string |
+  | Name | --name | String | &#x2714; | Users name |
+  | UserRoles | --roles | Array Of Arbitrary | &#x2716; | Array of roles as strings or structures specifying the DB |
+  | Base | --db | String | &#x2716; | Database name. Current database if not specified |
+  | Password | --pwd | String | &#x2716; | Users password |
+  | Parameters | --params | Structure Of KeyAndValue | &#x2716; | Additional parameters |
+
+  
+  Returns:  Map Of KeyAndValue - Operation result
+
+:::tip
+The passed roles completely replace the user's role list
+
+Role can be defined in one of the following formats:<br/>Structure: `{ role: "name", db: "database" }`<br/>String: `name рoлand`
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address  = "127.0.0.1:1234";
+    Login    = "bayselonarrend";
+    Password = "12we...";
+    Base     = "main";
+
+    ConnectionParams = New Structure("authSource", "admin");
+    ConnectionString = OPI_MongoDB.GenerateConnectionString(Address, , Login, Password, ConnectionParams);
+    Connection       = OPI_MongoDB.CreateConnection(ConnectionString);
+
+    RoleArray = New Array;
+    RoleArray.Add("readWrite");
+
+    UserName     = "newuser";
+    UserPassword = "4321";
+
+    Result = OPI_MongoDB.UpdateUser(Connection, UserName, RoleArray, Base, UserPassword);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint mongodb UpdateUser \
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" \
+             --name "anotheruser" \
+             --roles "['readWrite']" \
+             --db "main" \
+             --pwd "4321"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint mongodb UpdateUser ^
+             --dbc "mongodb://bayselonarrend:12we3456!2154@127.0.0.1:27017/?authSource=admin" ^
+             --name "anotheruser" ^
+             --roles "['readWrite']" ^
+             --db "main" ^
+             --pwd "4321"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": {
+  "ok": 1
+ }
+}
+```

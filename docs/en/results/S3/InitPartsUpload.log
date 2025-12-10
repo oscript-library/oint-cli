@@ -2,22 +2,22 @@
  "status": 200,
  "response": {
   "InitiateMultipartUploadResult": {
-   "Bucket": "opi-dirbucket3",
-   "Key": "fileChunked.mp3",
-   "UploadId": "MDk2NGE5MDUtNDcxZS00ZDljLTkzYjMtODM5ZDM4NGMyMWVhLmY4ODdhOWUyLTdmMGItNDRhZC1iMzFhLWJiM2RhMTBlYTRmNw"
+   "Bucket": "d09ba45c",
+   "Key": "***",
+   "UploadId": "NjdmMzY2OTktYjA2ZC00MTViLTkwOGUtZDM2NmI5MDk1NTllLmQwOGZhMTAxLWMwODMtNGUzNi04OGEyLTAxZmNlNmYxYzhlNA"
   }
  },
  "headers": {
   "Accept-Ranges": "bytes",
-  "Date": "Wed, 15 Oct 2025 10:29:39 GMT",
+  "Date": "Wed, 10 Dec 2025 20:37:22 GMT",
   "Server": "MinIO",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
   "Vary": "Origin, Accept-Encoding",
-  "X-Amz-Id-2": "93c576aa54c960b355da9e2934476635fe3243f5df9dbb4db8b7c0d94bec7cd1",
-  "X-Amz-Request-Id": "186EA369E7516BEA",
+  "X-Amz-Id-2": "0eb49e91e4cb899a0af3fcfe75973892594fa8211551eba0f72840fc567c152b",
+  "X-Amz-Request-Id": "187FF51343217100",
   "X-Content-Type-Options": "nosniff",
   "X-XSS-Protection": "1; mode=block",
-  "Content-Length": "326",
+  "Content-Length": "320",
   "Content-Type": "application/xml"
  }
 }

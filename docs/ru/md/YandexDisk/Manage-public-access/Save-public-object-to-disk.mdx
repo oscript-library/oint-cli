@@ -1,0 +1,79 @@
+﻿---
+sidebar_position: 6
+description: Сохранить публичный объект на диск и другие функции для работы с Yandex Disk в Открытом пакете интеграций - бесплатной open-source библиотеке интеграций для 1С:Предприятие 8, OneScript и CLI
+keywords: [1C, 1С, 1С:Предприятие, 1С:Предприятие 8.3, API, Интеграция, Сервисы, Обмен, OneScript, CLI, Yandex Disk]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Сохранить публичный объект на диск
+ Сохраняет публичный объект на ваш диск
+
+
+
+`Функция СохранитьПубличныйОбъектНаДиск(Знач Токен, Знач URL, Откуда = "", Куда = "") Экспорт`
+
+  | Параметр | CLI опция | Тип | Обяз. | Назначение |
+  |-|-|-|-|-|
+  | Токен | --token | Строка | &#x2714; | Токен |
+  | URL | --url | Строка | &#x2714; | Адрес объекта |
+  | Откуда | --from | Строка | &#x2716; | Путь внутри публичного каталога (только для папок) |
+  | Куда | --to | Строка | &#x2716; | Путь сохранения файла |
+
+  
+  Возвращаемое значение:   Соответствие Из КлючИЗначение - сериализованный JSON ответа от Yandex
+
+
+
+```bsl title="Пример использования для 1С:Предприятие/OneScript"
+    Токен = "y0__xCOranuBRj1uTsgs8z_iRV...";
+    URL   = "https://yadi.sk/d/gZohv2qv6Lky-Q";
+
+    Результат = OPI_YandexDisk.СохранитьПубличныйОбъектНаДиск(Токен, URL);
+```
+    
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint yadisk СохранитьПубличныйОбъектНаДиск \
+              --token "***" \
+              --url "https://yadi.sk/d/mcFkssfbEsn6cg"
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint yadisk СохранитьПубличныйОбъектНаДиск ^
+              --token "***" ^
+              --url "https://yadi.sk/d/mcFkssfbEsn6cg"
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Результат"
+{
+ "path": "disk:/Загрузки/6044a209-54df-40a9-8d54-463e82ff1497.png",
+ "type": "file",
+ "name": "6044a209-54df-40a9-8d54-463e82ff1497.png",
+ "created": "2025-12-10T14:45:58+03:00",
+ "modified": "2025-12-10T14:45:58+03:00",
+ "size": 2114023,
+ "mime_type": "multipart",
+ "md5": "9e0176f87f6565a22f78e0f9b39a4d78",
+ "sha256": "89f8eb42a35208a17c85036e17237b0aa0657e1841efa6171dc5acbc0dea9e18",
+ "media_type": "image",
+ "resource_id": "1573541518:cf7b55a69ee488696539e18c91f0844551cc68269fa9d78645f175a09d9bef37",
+ "revision": 1765367158888172,
+ "comment_ids": {
+  "public_resource": "1573541518:cf7b55a69ee488696539e18c91f0844551cc68269fa9d78645f175a09d9bef37",
+  "private_resource": "1573541518:cf7b55a69ee488696539e18c91f0844551cc68269fa9d78645f175a09d9bef37"
+ },
+ "exif": {},
+ "antivirus_status": "clean",
+ "file": "https://downloader.disk.yandex.ru/disk/fad212a51e304cebbb3968e54729af2068ddaa3f95d8a2cbdcd40e0bab5ae0f1/693995b7/Kdpe3dFisZLPovVA4r-aBmpkby3AOQiLsayEHYapOMw2ylFGSbZZrsWtGPTvHxG_-QDrqSGFBOOsS3b3gKT1zA%3D%3D?uid=1573541518&filename=6044a209-54df-40a9-8d54-463e82ff1497.png&disposition=attachment&hash=&limit=0&content_type=multipart&owner_uid=1573541518&fsize=2114023&hid=03d7263840468e281bd0b238a26e7d0d&media_type=image&tknv=v3&etag=9e0176f87f6565a22f78e0f9b39a4d78"
+}
+```

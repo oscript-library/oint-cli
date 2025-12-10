@@ -1,0 +1,62 @@
+﻿---
+sidebar_position: 16
+description: Get instance settings structure and other functions to work with GreenMax in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, GreenMax]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get instance settings structure
+ Gets the structure template for instance settings
+
+
+
+`Function GetInstanceSettingsStructure(Val Clear = False) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Clear | --empty | Boolean | &#x2716; | True > structure with empty valuse, False > field descriptions at values |
+
+  
+  Returns:  Structure Of KeyAndValue - Structure of instance settings
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Result = OPI_GreenMax.GetInstanceSettingsStructure();
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint greenmax GetInstanceSettingsStructure \
+             --empty true
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint greenmax GetInstanceSettingsStructure ^
+             --empty true
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "webhookUrl": "<URL for notification sending>",
+ "webhookUrlToken": "***",
+ "delaySendMessagesMilliseconds": "<message sending interval in milliseconds>",
+ "markIncomingMessagesReaded": "<mark incoming messages as read: yes, no>",
+ "markIncomingMessagesReadedOnReply": "<mark incoming messages as read when sending a message to chat: yes, no>",
+ "outgoingWebhook": "<receive notifications about the send/deliver/read status of outgoing messages: yes, no>",
+ "outgoingMessageWebhook": "<receive notifications of messages sent from phone: yes, no>",
+ "outgoingAPIMessageWebhook": "***",
+ "stateWebhook": "<receive notifications about changes in the authorization state of the instance: yes, no>",
+ "incomingWebhook": "<receive notifications of incoming messages and files: yes, no>"
+}
+```

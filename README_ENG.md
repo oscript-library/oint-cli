@@ -8,12 +8,11 @@
 [![OneScript](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Bayselonarrend/OpenIntegrations/refs/heads/main/media/os-logo.json)](https://github.com/EvilBeaver/OneScript)
 [![Boosty](media/boosty.svg)](https://boosty.to/bayselonarrend)
 
-<br>
-A set of integration tools with popular APIs: console application (Windows/Linux) and library (extension) for 1C:Enterprise/OneScript, consisting of a common set of ready-made functions for working with multiple well-known cloud services <br>
+**OpenIntegrations** is a set of tools for working with external APIs, available as a library (extension) for 1C:Enterprise / OneScript and a cross-platform console application for Windows and Linux. The project provides ready-made methods for performing application tasks (sending messages, creating documents, SQL queries, etc.) across more than 30 services and technologies, including Telegram, VK, Bitrix24, Google and Yandex services, as well as various DBMS and exchange protocols.
 
 <br>
 
-All implemented methods from the set perform specific application tasks, such as `SendMessage` or `CreatePost`, allowing them to be used without deep diving into the implementation. However, the code is well-decomposed: authorization methods, data retrieval, etc., are separated into distinct functions where possible. This facilitates easy addition of new methods based on existing ones without unraveling the implementation chain from the very beginning of API interaction <br><br>
+The project code is organized as a set of independent modules, each responsible for working with a specific service. Common logic, such as HTTP or JSON handling, is extracted into reusable components. This allows for both quick application of ready-made functions and easy extension of functionality by adding new methods based on existing components. The source code is open, providing full control over implementation and enabling community participation in development. <br><br>
 
 📋 Currently implemented methods for working with the following services ([list](/media/catalogs/Catalog.md))
 <br>
@@ -24,13 +23,14 @@ All implemented methods from the set perform specific application tasks, such as
   <a href="https://en.openintegrations.dev/docs/Instructions/VK/"><img src="media/VK.png" width="40"></a>
   <a href="https://en.openintegrations.dev/docs/Instructions/VKTeams/"><img src="media/VKTeams.png" width="40"></a>
   <a href="https://en.openintegrations.dev/docs/Instructions/Viber/"><img src="media/Viber.png" width="40"></a>
-  <a href="https://en.openintegrations.dev/docs/Instructions/Ozon/"><img src="media/Ozon.png" width="40"></a>
+    <a href="https://en.openintegrations.dev/docs/Instructions/GreenMax/"><img src="media/GreenMax.png" width="40"></a>
     <a href="https://en.openintegrations.dev/docs/Instructions/GreenAPI/"><img src="media/GreenAPI.png" width="40"></a>
   <a href="https://en.openintegrations.dev/docs/Instructions/S3/"><img src="media/S3.png" width="40"></a>
     <a href="https://en.openintegrations.dev/docs/Instructions/PostgreSQL/"><img src="media/PostgreSQL.png" width="40"></a>
   <a href="https://en.openintegrations.dev/docs/Instructions/SQLite/"><img src="media/SQLite.png" width="40"></a>
     <a href="https://en.openintegrations.dev/docs/Instructions/MSSQL/"><img src="media/MSSQL.png" width="40"></a>
     <a href="https://en.openintegrations.dev/docs/Instructions/MySQL/"><img src="media/MySQL.png" width="40"></a>
+     <a href="https://en.openintegrations.dev/docs/Instructions/MongoDB/"><img src="media/MongoDB.png" width="40"></a>
   <a href="https://en.openintegrations.dev/docs/Instructions/Twitter/"><img src="media/Twitter.png" width="40"></a>
   <a href="https://en.openintegrations.dev/docs/Instructions/Notion/"><img src="media/Notion.png" width="40"></a>
   <a href="https://en.openintegrations.dev/docs/Instructions/YandexDisk/"><img src="media/YandexDisk.png" width="40"></a>

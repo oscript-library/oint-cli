@@ -1,4 +1,4 @@
 oint cdek DeleteCourierInvitation \
  --token "***" \
- --uuid "59932fd2-48d1-4326-a0af-138a254bd292" \
+ --uuid "2a75c7f0-9f49-4667-802c-eeed87903e84" \
  --testapi "***"
