@@ -1,6 +1,6 @@
-﻿    Token  = "ya29.a0Aa7pCA9fmPZk2eeWvC-VVPtSY4UzLqhBxacbBQw80RgQUw_wRm7_TGYppXdco1mWX6DVhkJklByQ4epXj_yOMf3j0BVPvNq966JHEVow5jOasNoGJdGn27Rq4...";
-    From   = "13mnV79E8MBeQkwzcH3RTikriA3VsFKv89RnBkhGeNZA";
-    Target = "104DNjQH6em-GAJetD-G3N_rp57fN2R6eWnau0C8mp6A";
-    Sheet  = "849342275";
+﻿    Token  = "ya29.a0Aa7pCA_GKuTstHik6bj1MJWZFLq6Rw5mQEZ6UpvNp9rgAbC-k5fpzhJPU_c4cEvVXwDo6GAXMYcBuPpzfZoPNP2pKbXWwL-bwnzotcuHaeGL9ZoSxPM95kRPm...";
+    From   = "1TC5gL5uyyNxhwUXNahIl6hKHdaiPJoTZ7laHMtjhMUU";
+    Target = "1RCsvGZDc9yDcOlrMgLoQSEMO9IDS87DRwGp6AnD0J-Y";
+    Sheet  = "597491382";
 
     Result = OPI_GoogleSheets.CopySheet(Token, From, Target, Sheet);

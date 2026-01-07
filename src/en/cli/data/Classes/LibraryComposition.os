@@ -9,7 +9,7 @@ Var PackagesDirectory;
 
 Procedure OnObjectCreate()
 
-    Version = "1.30.0";
+    Version = "1.31.0";
     InitializeCommonLists();
 
     CurrentDirectory = CurrentScript().Path;
@@ -35,6 +35,7 @@ Procedure InitializeCommonLists() Export
     ModuleCommandMapping.Insert("google", "OPI_GoogleWorkspace");
     ModuleCommandMapping.Insert("greenapi", "OPI_GreenAPI");
     ModuleCommandMapping.Insert("greenmax", "OPI_GreenMax");
+    ModuleCommandMapping.Insert("grpc", "OPI_GRPC");
     ModuleCommandMapping.Insert("mongodb", "OPI_MongoDB");
     ModuleCommandMapping.Insert("mssql", "OPI_MSSQL");
     ModuleCommandMapping.Insert("mysql", "OPI_MySQL");

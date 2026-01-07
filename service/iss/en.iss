@@ -1,5 +1,5 @@
 ﻿#define MyAppName "OInt"
-#define MyAppVersion "1.30.0"
+#define MyAppVersion "1.31.0"
 #define MyAppPublisher "bayselonarrend"
 #define MyAppURL "https://github.com/Bayselonarrend/OpenIntegrations"
 #define MyAppExeName "oint.bat"
@@ -123,15 +123,14 @@ begin
   AddonDescription.Caption := 'Melezh is a small (~6 MB) server-side add-on for OInt that allows you to run a customizable gateway for any of its methods. Melezh can listen on a port of your choice and interpret incoming HTTP requests as OInt commands for further execution. It features built-in logging and a Web UI for convenient configuration';
   AddonDescription.WordWrap := True;
   AddonDescription.Width := 350;
-  AddonDescription.Height := 300;
+  AddonDescription.Height := 120; 
   AddonDescription.Top := 85;
-  AddonDescription.AutoSize := False;
+  AddonDescription.AutoSize := True;
     
-  // Флажок слева от картинки
   AddonCheckBox := TNewCheckBox.Create(WizardForm);
   AddonCheckBox.Parent := AddonTaskPage.Surface;
   AddonCheckBox.Left := 2;
-  AddonCheckBox.Top := 185;
+  AddonCheckBox.Top := AddonDescription.Top + AddonDescription.Height + 5; 
   AddonCheckBox.Width := 300;
   AddonCheckBox.Caption := 'Install Melezh';
   AddonCheckBox.Checked := True;

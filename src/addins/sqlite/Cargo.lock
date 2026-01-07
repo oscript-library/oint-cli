@@ -64,6 +64,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "common-binary"
+version = "0.1.0"
+dependencies = [
+ "base64",
+ "serde_json",
+]
+
+[[package]]
+name = "common-core"
+version = "0.1.0"
+dependencies = [
+ "addin1c",
+]
+
+[[package]]
 name = "common-dataset"
 version = "0.1.0"
 dependencies = [
@@ -218,8 +233,9 @@ checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
 name = "opi_sqlite"
 version = "0.1.0"
 dependencies = [
- "addin1c",
  "base64",
+ "common-binary",
+ "common-core",
  "common-dataset",
  "common-utils",
  "rusqlite",

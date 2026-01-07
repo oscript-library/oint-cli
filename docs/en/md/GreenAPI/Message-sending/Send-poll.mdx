@@ -39,7 +39,7 @@ Method at API documentation: [SendPoll](https://green-api.com/docs/api/sending/S
     ApiTokenInstance = "425010d90e114aa6b78f0969e...";
 
     ChatID = "120363410406221140@g.us";
-    Text   = "What's your favorite color?";
+    Text   = "What's your favorite color??";
 
     Variants = New Array;
     Variants.Add("Red");
@@ -60,10 +60,10 @@ Method at API documentation: [SendPoll](https://green-api.com/docs/api/sending/S
             oint greenapi SendPoll \
              --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}" \
              --chat "***" \
-             --text "What's your favorite color?" \
+             --text "What's your favorite color??" \
              --options "['Red','Yellow','Green']" \
              --multi true \
-             --quoted "3EB0DE8616BD3A27F17FB3"
+             --quoted "3EB0196E58CAD5D884F79C"
         ```
     </TabItem>
   
@@ -74,10 +74,10 @@ Method at API documentation: [SendPoll](https://green-api.com/docs/api/sending/S
             oint greenapi SendPoll ^
              --access "{'apiUrl':'***','mediaUrl':'https://7105.media.greenapi.com','idInstance':'7105187566','apiTokenInstance':'***'}" ^
              --chat "***" ^
-             --text "What's your favorite color?" ^
+             --text "What's your favorite color??" ^
              --options "['Red','Yellow','Green']" ^
              --multi true ^
-             --quoted "3EB0DE8616BD3A27F17FB3"
+             --quoted "3EB0196E58CAD5D884F79C"
         ```
     </TabItem>
 </Tabs>
@@ -85,6 +85,6 @@ Method at API documentation: [SendPoll](https://green-api.com/docs/api/sending/S
 
 ```json title="Result"
 {
- "idMessage": "3EB0DE8616BD3A27F17FB3"
+ "idMessage": "3EB0686E75F7E0C9076408"
 }
 ```

@@ -389,6 +389,7 @@ li > a.menu__link {
 .GoogleSheets a::before,
 .GreenAPI a::before,
 .GreenMax a::before,
+.GRPC a::before,
 .MongoDB a::before,
 .MSSQL a::before,
 .MySQL a::before,
@@ -455,6 +456,10 @@ li > a.menu__link {
 
 .GreenMax > div > a::before{
   content: url(../../static/img/APIs/small/GreenMax.png);
+}
+
+.GRPC > div > a::before{
+  content: url(../../static/img/APIs/small/GRPC.png);
 }
 
 .MongoDB > div > a::before{

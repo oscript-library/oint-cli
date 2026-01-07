@@ -71,7 +71,7 @@ import TabItem from '@theme/TabItem';
               --url "https://hut.openintegrations.dev/ollama" \
               --model "tinyllama" \
               --msgs "[{'role':'user','content':'Hello!'}]" \
-              --options "{'options':{'seed':'555','temperature':'10'}}" \
+              --options "{'options':{'seed':'101','temperature':'0'}}" \
               --headers "{'Authorization':'***'}"
         ```
     </TabItem>
@@ -84,7 +84,7 @@ import TabItem from '@theme/TabItem';
               --url "https://hut.openintegrations.dev/ollama" ^
               --model "tinyllama" ^
               --msgs "[{'role':'user','content':'Hello!'}]" ^
-              --options "{'options':{'seed':'555','temperature':'10'}}" ^
+              --options "{'options':{'seed':'101','temperature':'0'}}" ^
               --headers "{'Authorization':'***'}"
         ```
     </TabItem>
@@ -94,18 +94,18 @@ import TabItem from '@theme/TabItem';
 ```json title="Результат"
 {
  "model": "tinyllama",
- "created_at": "2025-12-10T12:36:27.713392452Z",
+ "created_at": "2026-01-06T19:51:53.281044985Z",
  "message": {
   "role": "assistant",
-  "content": "The first version of 1C:Enterprise was released in 2004. It underwent several major updates and upgrades throughout its lifespan, including the following:\n\n- 2006: The software received significant improvements to its user interface, including new features such as mobile applications for iOS and Android devices.\n\n- 2012: In response to customer feedback, 1C:Enterprise was updated with a redesigned user interface that streamlined the application's navigation and made it easier to use for novice users.\n\n- 2015: The system received enhancements focused on improving its integration capabilities, including the ability to integrate with third-party software and services.\n\n- 2018: In a bid to stay ahead of competing products in the marketplace, 1C:Enterprise was revised again, this time focusing on improving its security features and protecting business data from cyber threats.\n\nThe latest version of 1C:Enterprise is 1C:Cloud, which was released in January 2020. It includes the same robust set of functionalities as the previous versions, but it also offers a cloud-based platform that provides users with access to all their business data from anywhere and at any time."
+  "content": "The first version of 1C:Enterprise was released in 2005. The product has been continuously updated since then with various improvements, updates, and bug fixes to meet the evolving needs of its customers and users. Recently, the latest version of 1C:Enterprise (19.6) has been released."
  },
  "done_reason": "stop",
  "done": true,
- "total_duration": 38370603125,
- "load_duration": 22233365,
- "prompt_eval_count": 260,
- "prompt_eval_duration": 7392049426,
- "eval_count": 284,
- "eval_duration": 30946417199
+ "total_duration": 15581160405,
+ "load_duration": 20370632,
+ "prompt_eval_count": 248,
+ "prompt_eval_duration": 8410367790,
+ "eval_count": 73,
+ "eval_duration": 7142918126
 }
 ```

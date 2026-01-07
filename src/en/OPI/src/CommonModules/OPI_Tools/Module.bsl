@@ -673,6 +673,75 @@ Function GetOr(Val Collection, Val Field, Val DefaultValue) Export
 
 EndFunction
 
+Function CompareTwoCollections(Val FirstCollection
+    , Val SecondCollection
+    , Val ExcludedFields = Undefined
+    , Val ParrentField   = "Root") Export
+
+    If TypeOf(FirstCollection) <> TypeOf(SecondCollection) Then
+        If Not (ThisIsCollection(FirstCollection, True) And ThisIsCollection(SecondCollection, True)) Then
+            DebugInfo(StrTemplate("%1: Collections types are not equal", ParrentField), True);
+            Return False;
+        EndIf;
+    EndIf;
+
+    ExcludedList = New ValueList();
+
+    If Not ExcludedFields = Undefined Then
+        OPI_TypeConversion.GetArray(ExcludedFields);
+        ExcludedList.LoadValues(ExcludedFields);
+    EndIf;
+
+    Try
+
+        If ThisIsCollection(FirstCollection, True) Then
+
+            For Each CollectionItem In FirstCollection Do
+
+                If ExcludedList.FindByValue(CollectionItem.Key) <> Undefined Then
+                    Continue;
+                EndIf;
+
+                CurrentKey   = CollectionItem.Key;
+                CurrentValue = CollectionItem.Value;
+                CurrentField = StrTemplate("%1.%2", ParrentField, String(CollectionItem.Key));
+
+                If Not CompareTwoCollections(CurrentValue, SecondCollection[CurrentKey], , CurrentField) Then
+                    Return False;
+                EndIf;
+
+            EndDo;
+
+        ElsIf ThisIsCollection(FirstCollection) Then
+
+            For N = 0 To FirstCollection.UBound() Do
+
+                CurrentField = StrTemplate("%1.%2", ParrentField, String(N));
+
+                If Not CompareTwoCollections(FirstCollection[N], SecondCollection[N], , CurrentField) Then
+                    Return False;
+                EndIf;
+
+            EndDo;
+
+        Else
+
+             If FirstCollection <> SecondCollection Then
+                 DebugInfo(StrTemplate("%1: Values ​​are not equal", ParrentField), True);
+                 Return False;
+             EndIf;
+
+        EndIf;
+
+    Except
+        DebugInfo(StrTemplate("Exception: %1", DetailErrorDescription(ErrorInfo())));
+        Return False;
+    EndTry;
+
+    Return True;
+
+EndFunction
+
 #EndRegion
 
 #Region OneScript
@@ -756,7 +825,7 @@ Procedure ProgressInformation(Val Current, Val Total, Val Unit, Val Divider = 1)
 
 EndProcedure
 
-Procedure DebugInfo(Val Text) Export
+Procedure DebugInfo(Val Text, Val Forced = False) Export
 
     If Not IsOneScript() Then
         Return;
@@ -772,7 +841,7 @@ Procedure DebugInfo(Val Text) Export
        IsDebug = "NO";
     EndTry;
 
-    If IsDebug = "YES" Then
+    If IsDebug = "YES" Or Forced Then
 
         // BSLLS:DeprecatedMessage-off
 
@@ -1014,7 +1083,7 @@ Function GetLastBuildHashSum() Export
 EndFunction
 
 Function OPIVersion() Export
-    Return "1.30.0";
+    Return "1.31.0";
 EndFunction
 
 Function OPILanguage() Export

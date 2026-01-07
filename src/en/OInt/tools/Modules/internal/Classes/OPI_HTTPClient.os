@@ -118,7 +118,7 @@ Var LineSeparator; // Body line separator
 // Initialize !NOCLI
 // Initializes a new empty request
 //
-// Note
+// Note:
 // The function must be called first when creating a new processor object
 // The URL can be set later using the `SetURL` function
 //
@@ -128,6 +128,10 @@ Var LineSeparator; // Body line separator
 // Returns:
 // DataProcessorObject.OPI_HTTPClient - This processor object
 Function Initialize(Val URL = "") Export
+
+    If ValueIsFilled(Initialized) Then
+        ResetObjectFields();
+    EndIf;
 
     Log = New Array;
 
@@ -149,7 +153,6 @@ Function Initialize(Val URL = "") Export
     BodyTemporaryFile = False;
 
     ResponseStatusCode = 0;
-    ResponseBody       = Undefined;
     ResponseHeaders    = New Map;
 
     Multipart = False;
@@ -268,7 +271,7 @@ EndFunction
 // Set data type !NOCLI
 // Sets the Content-Type of the request
 //
-// Note
+// Note:
 // If the data type is not set manually, it will be matched during the process of setting the request body
 //
 // Parameters:
@@ -330,7 +333,7 @@ EndFunction
 // Set timeout !NOCLI
 // Sets the connection timeout
 //
-// Note
+// Note:
 // Default timeout is 3600 seconds
 //
 // Parameters:
@@ -374,9 +377,13 @@ Function GetLog(Val AsString = False) Export
     OPI_TypeConversion.GetBoolean(AsString);
 
     If Not ValueIsFilled(Log) Then
-        Return ?(AsString, ""           , New Array);
+
+        Return ?(AsString, "", New Array);
+
     Else
+
         Return ?(AsString, StrConcat(Log, Chars.LF), Log);
+
     EndIf;
 
 EndFunction
@@ -388,7 +395,7 @@ EndFunction
 // Use encoding !NOCLI
 // Sets the encoding of the request body
 //
-// Note
+// Note:
 // UTF-8 is used by default
 //
 // Parameters:
@@ -418,7 +425,7 @@ EndFunction
 // Use Gzip compression !NOCLI
 // Enables or disables the header for receiving data from the server in compressed form
 //
-// Note
+// Note:
 // By default, the response from the server is requested with gzip compression
 //
 // Parameters:
@@ -448,7 +455,7 @@ EndFunction
 // Use body fields at OAuth !NOCLI
 // Includes or excludes body fields when calculating the OAuth signature depending on server requirements
 //
-// Note
+// Note:
 // By default, the body data is used in the signature calculation if it was set using the `SetFormBody` function
 //
 // Parameters:
@@ -478,7 +485,7 @@ EndFunction
 // Use URL encoding !NOCLI
 // Enables or disables standard encoding of special characters in URLs
 //
-// Note
+// Note:
 // URL encoding is enabled by default
 //
 // Parameters:
@@ -505,10 +512,70 @@ Function UseURLEncoding(Val Flag) Export
 
 EndFunction
 
+// Max attempts !NOCLI
+// Sets the maximum number of retry attempts for request submission on code 5**
+//
+// Note:
+// By default: `0`
+//
+// Parameters:
+// Value - Number - Retry count - val
+//
+// Returns:
+// DataProcessorObject.OPI_HTTPClient - This processor object
+Function MaxAttempts(Val Value) Export
+
+    Try
+
+        If StopExecution() Then Return ЭтотОбъект; EndIf;
+
+        AddLog("MaxAttempts: setting the value");
+
+        OPI_TypeConversion.GetNumber(Value);
+        SetSetting("MaxAttempts", Value);
+
+        Return ЭтотОбъект;
+
+    Except
+        Return Error(DetailErrorDescription(ErrorInfo()));
+    EndTry;
+
+EndFunction
+
+// Max redirects !NOCLI
+// Sets the maximum number of allowed redirects
+//
+// Note:
+// By default: `5`
+//
+// Parameters:
+// Value - Number - Redirect count - val
+//
+// Returns:
+// DataProcessorObject.OPI_HTTPClient - This processor object
+Function MaxRedirects(Val Value) Export
+
+    Try
+
+        If StopExecution() Then Return ЭтотОбъект; EndIf;
+
+        AddLog("MaxRedirects: setting the value");
+
+        OPI_TypeConversion.GetNumber(Value);
+        SetSetting("MaxRedirects", Value);
+
+        Return ЭтотОбъект;
+
+    Except
+        Return Error(DetailErrorDescription(ErrorInfo()));
+    EndTry;
+
+EndFunction
+
 // Split arrays in URL
 // Defines the representation of arrays in URL parameters: as a whole JSON array or separate parameters for each element
 //
-// Note
+// Note:
 // By default, arrays are interpreted as a single parameter with JSON array in value
 // By default, square brackets to parameter keys are not set when array splitting is performed
 //
@@ -539,6 +606,60 @@ Function SplitArraysInURL(Val Flag, Val SquareBrackets = Undefined) Export
         SetSetting("SplitArrayParams", Flag);
 
         Return ЭтотОбъект;
+
+    Except
+        Return Error(DetailErrorDescription(ErrorInfo()));
+    EndTry;
+
+EndFunction
+
+// Return settings
+//
+// Parameters:
+// Filter - String, Array of String - Filter by setting name or names for retrieval - filter
+//
+// Returns:
+// Arbitrary - Settings structure, specific setting value, or handler object (on error)
+Function ReturnSettings(Val Filter = Undefined) Export
+
+    Try
+
+        If StopExecution() Then Return ЭтотОбъект; EndIf;
+
+        AddLog("ReturnSettings: getting the value");
+
+        CurrentSettings = OPI_Tools.CopyCollection(Settings);
+
+        If Filter <> Undefined Then
+
+            OPI_TypeConversion.GetArray(Filter);
+
+            If Filter.Count() = 1 Then
+
+                CurrentSettings = OPI_Tools.GetOr(CurrentSettings, String(Filter[0]), Undefined);
+
+            Else
+
+                FilterList = New ValueList();
+                FilterList.LoadValues(Filter);
+
+                CurrentSettings_ = New Structure;
+
+                For Each Setting In CurrentSettings Do
+
+                    If FilterList.FindByValue(Setting.Key) <> Undefined Then
+                        CurrentSettings_.Insert(Setting.Key, Setting.Value);
+                    EndIf;
+
+                EndDo;
+
+                CurrentSettings = CurrentSettings_;
+
+            EndIf;
+
+        EndIf;
+
+        Return CurrentSettings;
 
     Except
         Return Error(DetailErrorDescription(ErrorInfo()));
@@ -750,7 +871,7 @@ EndFunction
 // Start Multipart body !NOCLI
 // Initializes writing data to the body in multipart format
 //
-// Note
+// Note:
 // The `AddMultipartFormDataFile` and `AddMultipartFormDataField` methods are used for further body formation
 //
 // Parameters:
@@ -822,7 +943,7 @@ EndFunction
 // Add Multipart file !NOCLI
 // Adds a file block to the multipart/form-data body
 //
-// Note
+// Note:
 // The Multipart record must first be initialized using the `StartMultipartBody` function
 //
 // Parameters:
@@ -876,7 +997,7 @@ EndFunction
 // Add Multipart field !NOCLI
 // Adds a form field to the multipart/form-data body
 //
-// Note
+// Note:
 // The Multipart record must first be initialized using the `StartMultipartBody` function
 //
 // Parameters:
@@ -936,7 +1057,7 @@ EndFunction
 // Add data as Related !NOCLI
 // Adds data to the multipart/related body
 //
-// Note
+// Note:
 // The Multipart record must first be initialized using the `StartMultipartBody` function
 //
 // Parameters:
@@ -1150,7 +1271,7 @@ EndFunction
 // Add OAuth V1 authorization
 // Adds data for OAuth v1 authorization
 //
-// Note
+// Note:
 // By default, HMAC-SHA256 is used to create the signature. To change the algorithm, you can use^^
 // `SetOAuthV1Algorithm`
 //
@@ -1226,7 +1347,7 @@ EndFunction
 // Process request !NOCLI
 // Creates a request based on the entered data with or without execution
 //
-// Note
+// Note:
 // `ExecuteRequest=False` can be used to get ready^^
 // HTTPConnection and HTTPConnection objects without executing them. See `ReturnRequest` and `ReturnConnection`.
 //
@@ -1282,7 +1403,7 @@ Function ExecuteRequest(Forced = False) Export
 
         AddLog("ExecuteRequest: executing");
 
-        Return ExecuteMethod(0, Forced);
+        Return ExecuteMethod(0, 0, Forced);
 
     Except
         Return Error(DetailErrorDescription(ErrorInfo()));
@@ -1464,7 +1585,7 @@ EndFunction
 // Return response as JSON object !NOCLI
 // Returns the response body as a collection from JSON
 //
-// Note
+// Note:
 // If it is not possible to obtain a collection from the body, binary data will be returned
 //
 // Parameters:
@@ -2024,7 +2145,7 @@ Function SetRequestBody()
 
 EndFunction
 
-Function ExecuteMethod(Val RedirectCount = 0, Val Forced = False)
+Function ExecuteMethod(Val RedirectCount = 0, Val ErrorCount = 0, Val Forced = False)
 
     OPI_TypeConversion.GetBoolean(Forced);
 
@@ -2033,27 +2154,87 @@ Function ExecuteMethod(Val RedirectCount = 0, Val Forced = False)
     EndIf;
 
     If ValueIsFilled(RequestOutputFile) Then
+
+        LogText = StrTemplate("ExecuteMethod: sending request with response written to file %1", RequestOutputFile);
+        AddLog(LogText);
+
         Response = Connection.CallHTTPMethod(RequestMethod, Request, RequestOutputFile);
+
     Else
+
+        AddLog("ExecuteMethod: sending request");
         Response = Connection.CallHTTPMethod(RequestMethod, Request);
+
     EndIf;
+
+    LogText = StrTemplate("ExecuteMethod: response received, code %1", Response.StatusCode);
+    AddLog(LogText);
 
     If ThisIsRedirection(Response) Then
 
-        MaximumNumberOfRedirects = 5;
+        MaximumNumberOfRedirects = GetSetting("MaxRedirects");
 
-        If RedirectCount = MaximumNumberOfRedirects Then
-            Error("ExecuteMethod: the number of redirects has been exceeded");
-            Return ЭтотОбъект;
+        If RedirectCount < MaximumNumberOfRedirects Then
+
+            URL = Response.Headers["Location"];
+
+            If ValueIsFilled(URL) Then
+
+                NewRedirectCount = RedirectCount + 1;
+
+                LogText = StrTemplate("ExecuteMethod: redirection %1/%2, moving to %3"
+                    , NewRedirectCount
+                    , MaximumNumberOfRedirects
+                    , URL);
+
+                AddLog(LogText);
+                SetURL(URL);
+                CreateConnection();
+
+                Request.ResourceAddress = RequestAdress;
+
+                If OPI_Tools.IsOneScript() Then
+                    FormRequest();
+                EndIf;
+
+                ExecuteMethod(NewRedirectCount, ErrorCount, Forced);
+
+            Else
+
+                LogText = "ExecuteMethod: redirection, Location missing, termination";
+                AddLog(LogText);
+
+            EndIf;
+
+        Else
+            AddLog("ExecuteMethod: maximum number of redirections reached, termination");
         EndIf;
 
-        URL = Response.Headers["Location"];
-        SetURL(URL);
+    EndIf;
 
-        CreateConnection();
-        Request.ResourceAddress = RequestAdress;
+    If ThisIsServerError(Response) Then
 
-        ExecuteMethod(RedirectCount + 1, Forced);
+        MaximumRetryCount = GetSetting("MaxAttempts");
+
+        If ErrorCount < MaximumRetryCount Then
+
+            NewErrorCount = ErrorCount + 1;
+
+            LogText = StrTemplate("ExecuteMethod: server error, retry attempt %1/%2"
+                , NewErrorCount
+                , MaximumRetryCount);
+
+            AddLog(LogText);
+
+            If OPI_Tools.IsOneScript() Then
+                FormRequest();
+            EndIf;
+
+            ExecuteMethod(RedirectCount, NewErrorCount, Forced);
+
+        Else
+            AddLog("ExecuteMethod: maximum number of server errors reached, termination");
+        EndIf;
 
     EndIf;
 
@@ -2103,10 +2284,21 @@ Function ThisIsRedirection(Val Response)
     Redirection  = 300;
     RequestError = 400;
 
-    ThisIsRedirection = Response.StatusCode >= Redirection And Response.StatusCode < RequestError And ValueIsFilled(
-        Response.Headers["Location"]);
+    ThisIsRedirection = Response.StatusCode >= Redirection
+        And Response.StatusCode < RequestError
+        And ValueIsFilled(Response.Headers["Location"]);
 
     Return ThisIsRedirection;
+
+EndFunction
+
+Function ThisIsServerError(Val Response)
+
+    ServerError = 500;
+
+    ThisIsServerError = Response.StatusCode >= ServerError;
+
+    Return ThisIsServerError;
 
 EndFunction
 
@@ -3008,6 +3200,8 @@ Procedure SetDefaultSettings()
     Settings.Insert("URLencoding"          , True);
     Settings.Insert("EncodeRequestBody"    , "UTF-8");
     Settings.Insert("BodyFieldsAtOAuth"    , False);
+    Settings.Insert("MaxAttempts"          , 0);
+    Settings.Insert("MaxRedirects"         , 5);
 
 EndProcedure
 
@@ -3036,6 +3230,51 @@ Procedure GuaranteeBodyCollection()
         RequestBodyCollection = ?(ValueIsFilled(RequestBodyCollection), RequestBodyCollection, New Structure);
 
     EndIf;
+
+EndProcedure
+
+Procedure ResetObjectFields()
+
+    Request                = Undefined;
+    Connection             = Undefined;
+    Settings               = Undefined;
+    Repeats                = Undefined;
+    RequestURL             = Undefined;
+    RequestServer          = Undefined;
+    RequestPort            = Undefined;
+    RequestAdress          = Undefined;
+    RequestAdressFull      = Undefined;
+    RequestSection         = Undefined;
+    RequestProtected       = Undefined;
+    RequestDomain          = Undefined;
+    RequestMethod          = Undefined;
+    RequestURLParams       = Undefined;
+    RequestBody            = Undefined;
+    RequestBodyCollection  = Undefined;
+    RequestBodyCurrentSend = Undefined;
+    RequestHeaders         = Undefined;
+    RequestUser            = Undefined;
+    RequestPassword        = Undefined;
+    RequestTimeout         = Undefined;
+    RequestProxy           = Undefined;
+    RequestOutputFile      = Undefined;
+    RequestBodyFile        = Undefined;
+    RequestBodyStream      = Undefined;
+    RequestReadBodyStream  = Undefined;
+    RequestDataWriter      = Undefined;
+    RequestDataReader      = Undefined;
+    RequestDataType        = Undefined;
+    RequestTypeSetManualy  = Undefined;
+    RequestPartSize        = Undefined;
+    BodyTemporaryFile      = Undefined;
+    AuthType               = Undefined;
+    AuthData               = Undefined;
+    Response               = Undefined;
+    ResponseStatusCode     = Undefined;
+    ResponseHeaders        = Undefined;
+    Multipart              = Undefined;
+    Boundary               = Undefined;
+    LineSeparator          = Undefined;
 
 EndProcedure
 
@@ -3095,8 +3334,20 @@ Function ИспользоватьКодированиеURL(Val Флаг) Export
 	Return UseURLEncoding(Флаг);
 EndFunction
 
+Function МаксимумПопыток(Val Значение) Export
+	Return MaxAttempts(Значение);
+EndFunction
+
+Function МаксимумПереадресаций(Val Значение) Export
+	Return MaxRedirects(Значение);
+EndFunction
+
 Function РазделятьМассивыВURL(Val Флаг, Val КвадратныеСкобки = Undefined) Export
 	Return SplitArraysInURL(Флаг, КвадратныеСкобки);
+EndFunction
+
+Function ВернутьНастройки(Val Отбор = Undefined) Export
+	Return ReturnSettings(Отбор);
 EndFunction
 
 Function УстановитьДвоичноеТело(Val Данные, Val УстанавливатьПустое = False) Export

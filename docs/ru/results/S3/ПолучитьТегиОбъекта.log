@@ -18,15 +18,18 @@
  },
  "headers": {
   "Accept-Ranges": "bytes",
-  "Date": "Tue, 09 Dec 2025 21:08:00 GMT",
-  "Server": "MinIO",
+  "Vary": "Accept-Encoding",
+  "Server": "Microsoft-IIS/10.0",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  "Vary": "Origin, Accept-Encoding",
-  "X-Amz-Id-2": "9db21855adaa63c98221e7a7db59c17bf693f4833027894c70082214acf3a007",
-  "X-Amz-Request-Id": "187FA82AB9B2A5E8",
+  "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+  "X-Amz-Request-Id": "18883BD7A2F69969",
   "X-Content-Type-Options": "nosniff",
+  "X-Ratelimit-Limit": "2955",
+  "X-Ratelimit-Remaining": "2955",
   "X-XSS-Protection": "1; mode=block",
-  "Content-Length": "180",
-  "Content-Type": "application/xml"
+  "X-Powered-By": "ARR/3.0",
+  "Date": "Tue, 06 Jan 2026 19:44:10 GMT",
+  "Content-Type": "application/xml",
+  "Content-Length": "180"
  }
 }

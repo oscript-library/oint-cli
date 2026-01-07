@@ -35,9 +35,9 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
-    URL       = "storage-155.s3hoster.by";
-    AccessKey = "BRN5RKJE67...";
-    SecretKey = "NNhv+i9PrytpT8Tu0C1N...";
+    URL       = "s3.openintegrations.dev";
+    AccessKey = "bayselo...";
+    SecretKey = "12we34...";
     Region    = "BTC";
 
     BasicData = OPI_S3.GetBasicDataStructure(URL, AccessKey, SecretKey, Region);
@@ -60,7 +60,7 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
             oint s3 GetObjectUploadLink \
              --name "pictureU.jpg" \
              --bucket "newbucket2" \
-             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
+             --basic "{'URL':'s3.openintegrations.dev','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
              --expires 7200 \
              --dir true
         ```
@@ -73,7 +73,7 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
             oint s3 GetObjectUploadLink ^
              --name "pictureU.jpg" ^
              --bucket "newbucket2" ^
-             --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
+             --basic "{'URL':'s3.openintegrations.dev','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
              --expires 7200 ^
              --dir true
         ```
@@ -82,5 +82,5 @@ Process at AWS documentation: [Download and upload objects with presigned URLs](
 
 
 ```json title="Result"
-"storage-564.s3hoster.by/newbucket2/pictureU.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=H71HC7EBMR30IOA3DFNE%2F20251210%2FBTC%2Fs3%2Faws4_request&X-Amz-Date=20251210T204603Z&X-Amz-Expires=7200&X-Amz-SignedHeaders=host&X-Amz-Signature=d65fc6fbd3375f80b1f01a3ea31c6194908f2a47a014075fe467d46513efe8ff"
+"s3.openintegrations.dev/newbucket2/pictureU.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=bayselonarrend%2F20260106%2FBTC%2Fs3%2Faws4_request&X-Amz-Date=20260106T143338Z&X-Amz-Expires=7200&X-Amz-SignedHeaders=host&X-Amz-Signature=1d4ebea3b0d22ca1a919d0fdfdbd20da153df8d74008ae98eef1ec301a8c2ec0"
 ```

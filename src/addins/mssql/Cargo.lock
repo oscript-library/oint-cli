@@ -266,6 +266,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "common-binary"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "serde_json",
+]
+
+[[package]]
+name = "common-core"
+version = "0.1.0"
+dependencies = [
+ "addin1c",
+]
+
+[[package]]
 name = "common-dataset"
 version = "0.1.0"
 dependencies = [
@@ -871,9 +886,10 @@ dependencies = [
 name = "opi_mssql"
 version = "0.1.0"
 dependencies = [
- "addin1c",
  "base64 0.21.7",
  "chrono",
+ "common-binary",
+ "common-core",
  "common-dataset",
  "common-tcp",
  "common-utils",

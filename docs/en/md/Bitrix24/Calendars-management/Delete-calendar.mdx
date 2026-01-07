@@ -33,15 +33,15 @@ Method at API documentation: [calendar.section.delete](https://apidocs.bitrix24.
 
 ```bsl title="1C:Enterprise/OneScript code example"
     URL        = "https://b24-ar17wx.bitrix24.by/rest/1/h0m...";
-    CalendarID = "1774";
+    CalendarID = "1898";
     OwnerID    = 1;
     Type       = "user";
 
     Result = OPI_Bitrix24.DeleteCalendar(URL, CalendarID, OwnerID, Type);
 
     URL        = "b24-ar17wx.bitrix24.by";
-    Token      = "6ad03969006e9f06006b12e400000001000...";
-    CalendarID = "1776";
+    Token      = "bafe5c69006e9f06006b12e400000001000...";
+    CalendarID = "1900";
 
     Result = OPI_Bitrix24.DeleteCalendar(URL, CalendarID, OwnerID, Type, Token);
 ```
@@ -53,7 +53,7 @@ Method at API documentation: [calendar.section.delete](https://apidocs.bitrix24.
         ```bash
             oint bitrix24 DeleteCalendar \
              --url "b24-ar17wx.bitrix24.by" \
-             --calendar 1780 \
+             --calendar 1896 \
              --owner 1 \
              --type "user" \
              --token "***"
@@ -64,7 +64,7 @@ Method at API documentation: [calendar.section.delete](https://apidocs.bitrix24.
         ```batch
             oint bitrix24 DeleteCalendar ^
              --url "b24-ar17wx.bitrix24.by" ^
-             --calendar 1780 ^
+             --calendar 1896 ^
              --owner 1 ^
              --type "user" ^
              --token "***"
@@ -77,13 +77,13 @@ Method at API documentation: [calendar.section.delete](https://apidocs.bitrix24.
 {
  "result": true,
  "time": {
-  "start": 1765397040,
-  "finish": 1765397040.39736,
-  "duration": 0.397357940673828,
+  "start": 1767709491,
+  "finish": 1767709491.34,
+  "duration": 0.339998006820679,
   "processing": 0,
-  "date_start": "2025-12-10T20:04:00+00:00",
-  "date_finish": "2025-12-10T20:04:00+00:00",
-  "operating_reset_at": 1765397640,
+  "date_start": "2026-01-06T14:24:51+00:00",
+  "date_finish": "2026-01-06T14:24:51+00:00",
+  "operating_reset_at": 1767710091,
   "operating": 0
  }
 }

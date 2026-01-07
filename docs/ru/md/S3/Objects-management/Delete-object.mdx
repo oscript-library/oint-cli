@@ -33,9 +33,9 @@ import TabItem from '@theme/TabItem';
 
 
 ```bsl title="Пример использования для 1С:Предприятие/OneScript"
-    URL       = "storage-155.s3hoster.by";
-    AccessKey = "BRN5RKJE67...";
-    SecretKey = "NNhv+i9PrytpT8Tu0C1N...";
+    URL       = "s3.openintegrations.dev";
+    AccessKey = "bayselo...";
+    SecretKey = "12we34...";
     Region    = "BTC";
 
     ОсновныеДанные = OPI_S3.ПолучитьСтруктуруДанных(URL, AccessKey, SecretKey, Region);
@@ -56,8 +56,8 @@ import TabItem from '@theme/TabItem';
             
             oint s3 УдалитьОбъект \
               --name "picture.jpg" \
-              --bucket "a72c0726" \
-              --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
+              --bucket "2cdff8b0" \
+              --basic "{'URL':'s3.openintegrations.dev','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" \
               --dir true
         ```
     </TabItem>
@@ -68,8 +68,8 @@ import TabItem from '@theme/TabItem';
             
             oint s3 УдалитьОбъект ^
               --name "picture.jpg" ^
-              --bucket "a72c0726" ^
-              --basic "{'URL':'storage-564.s3hoster.by','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
+              --bucket "2cdff8b0" ^
+              --basic "{'URL':'s3.openintegrations.dev','AccessKey':'***','SecretKey':'***','Region':'BTC','Service':'s3'}" ^
               --dir true
         ```
     </TabItem>
@@ -82,15 +82,17 @@ import TabItem from '@theme/TabItem';
  "response": {},
  "headers": {
   "Accept-Ranges": "bytes",
-  "Date": "Tue, 09 Dec 2025 21:09:18 GMT",
-  "Server": "MinIO",
+  "Vary": "Accept-Encoding",
+  "Server": "Microsoft-IIS/10.0",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  "Vary": "Origin, Accept-Encoding",
-  "X-Amz-Id-2": "ce258a107703b2b071aa1a8145ffe6228f368a6d9b7af539b99dbf83a96b1e00",
-  "X-Amz-Request-Id": "187FA83CFA549EB0",
+  "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+  "X-Amz-Request-Id": "18883BE3F857E015",
   "X-Content-Type-Options": "nosniff",
+  "X-Ratelimit-Limit": "2955",
+  "X-Ratelimit-Remaining": "2955",
   "X-XSS-Protection": "1; mode=block",
-  "Content-Type": "text/plain; charset=utf-8"
+  "X-Powered-By": "ARR/3.0",
+  "Date": "Tue, 06 Jan 2026 19:45:03 GMT"
  }
 }
 ```

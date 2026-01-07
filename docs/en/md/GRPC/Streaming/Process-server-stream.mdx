@@ -1,0 +1,162 @@
+﻿---
+sidebar_position: 8
+description: Process server stream and other functions to work with GRPC in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, GRPC]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Process server stream
+ Initializes the server stream and returns an array of received messages
+
+
+
+`Function ProcessServerStream(Val Connection, Val Service, Val Method, Val Request, Val Timeout = 10000, Val Tls = Undefined, Val MessageCount = Undefined) Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | Connection | --conn | Arbitrary | &#x2714; | Existing connection or connection parameters |
+  | Service | --service | String | &#x2714; | Service name |
+  | Method | --method | String | &#x2714; | Method name |
+  | Request | --data | Structure Of KeyAndValue | &#x2714; | First request data |
+  | Timeout | --tout | Number | &#x2716; | Timeout for individual operation (in ms)) |
+  | Tls | --tls | Structure Of KeyAndValue | &#x2716; | TLS settings, if necessary. See GetTlsSettings |
+  | MessageCount | --count | Number | &#x2716; | Maximum messages to retrieve. Unlimited by default |
+
+  
+  Returns:  Map Of KeyAndValue - Processing result
+
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Address = "https://grpcb.in:9001";
+
+    Proto1 = "https://hut.openintegrations.dev/test_data/grpcbin_with_import.proto"; // String, path to file or URL
+    Proto2 = "https://hut.openintegrations.dev/test_data/mt.proto"; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Parameters = OPI_GRPC.GetConnectionParameters(Address, Scheme);
+    Tls        = OPI_GRPC.GetTlsSettings(True);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyServerStream";
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Result = OPI_GRPC.ProcessServerStream(Parameters, Service, Method, Data, , Tls, 3);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            # JSON data can also be passed as a path to a .json file
+            
+            oint grpc ProcessServerStream \
+             --conn "{'address':'https://grpcb.in:9001','proto':{'main.proto':'https://hut.openintegrations.dev/test_data/grpcbin_with_import.proto','my_types.proto':'https://hut.openintegrations.dev/test_data/mt.proto'}}" \
+             --service "grpcbin.GRPCBin" \
+             --method "DummyServerStream" \
+             --data "{'f_string':'Test message','f_int32':'123','f_bool':true,'f_sub':{'f_string':'Nested value'}}" \
+             --tls "{'use_tls':true,'accept_invalid_certs':true}" \
+             --count 3
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            :: JSON data can also be passed as a path to a .json file
+            
+            oint grpc ProcessServerStream ^
+             --conn "{'address':'https://grpcb.in:9001','proto':{'main.proto':'https://hut.openintegrations.dev/test_data/grpcbin_with_import.proto','my_types.proto':'https://hut.openintegrations.dev/test_data/mt.proto'}}" ^
+             --service "grpcbin.GRPCBin" ^
+             --method "DummyServerStream" ^
+             --data "{'f_string':'Test message','f_int32':'123','f_bool':true,'f_sub':{'f_string':'Nested value'}}" ^
+             --tls "{'use_tls':true,'accept_invalid_certs':true}" ^
+             --count 3
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "result": true,
+ "data": [
+  {
+   "f_bool": true,
+   "f_bools": [],
+   "f_bytes": {
+    "BYTES": ""
+   },
+   "f_bytess": [],
+   "f_enum": "ENUM_0",
+   "f_enums": [],
+   "f_float": 0,
+   "f_floats": [],
+   "f_int32": 123,
+   "f_int32s": [],
+   "f_int64": 0,
+   "f_int64s": [],
+   "f_string": "Test message",
+   "f_strings": [],
+   "f_sub": {
+    "f_string": "Nested value"
+   },
+   "f_subs": []
+  },
+  {
+   "f_bool": true,
+   "f_bools": [],
+   "f_bytes": {
+    "BYTES": ""
+   },
+   "f_bytess": [],
+   "f_enum": "ENUM_0",
+   "f_enums": [],
+   "f_float": 0,
+   "f_floats": [],
+   "f_int32": 123,
+   "f_int32s": [],
+   "f_int64": 0,
+   "f_int64s": [],
+   "f_string": "Test message",
+   "f_strings": [],
+   "f_sub": {
+    "f_string": "Nested value"
+   },
+   "f_subs": []
+  },
+  {
+   "f_bool": true,
+   "f_bools": [],
+   "f_bytes": {
+    "BYTES": ""
+   },
+   "f_bytess": [],
+   "f_enum": "ENUM_0",
+   "f_enums": [],
+   "f_float": 0,
+   "f_floats": [],
+   "f_int32": 123,
+   "f_int32s": [],
+   "f_int64": 0,
+   "f_int64s": [],
+   "f_string": "Test message",
+   "f_strings": [],
+   "f_sub": {
+    "f_string": "Nested value"
+   },
+   "f_subs": []
+  }
+ ]
+}
+```

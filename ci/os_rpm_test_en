@@ -60,7 +60,7 @@ pipeline {
 
       	stage('Prepare'){
          		steps{
-					sh 'cd ./src/en/OInt && opm build && opm install oint-1.30.0.ospx && rm oint-1.30.0.ospx'
+					sh 'cd ./src/en/OInt && opm build && opm install oint-1.31.0.ospx && rm oint-1.31.0.ospx'
             		withCredentials([string(credentialsId: 'gpgkey', variable: 'GPGKEY')]) {
               			sh 'gpg --quiet --batch --yes --decrypt --passphrase="$GPGKEY" --output ./data.json ./data.json.gpg'
             		}
@@ -811,6 +811,25 @@ pipeline {
 				script {
 					def tests = [
 						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'RPortal_Authorization'],
+					]
+					for (test in tests) {
+						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+							runLibraryTest(test[0], test[1])
+						}
+					}
+				}
+			}
+		}
+		stage('Testing-GRPC') {
+            when {
+                expression { return shouldRunStage('GRPC') }
+            }
+			steps {
+				script {
+					def tests = [
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GR_CommonMethods'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GR_Introspection'],
+						['./src/en/OInt/tests/Modules/internal/OPI_Tests.os', 'GR_Streaming'],
 					]
 					for (test in tests) {
 						catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {

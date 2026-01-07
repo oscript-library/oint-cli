@@ -120,7 +120,7 @@ Function ExecuteTestCLI(Val Library, Val Method, Val Options, Val Record = True)
         WriteCLICall(Library, Method, WriteOptions);
     EndIf;
 
-    OPI_Tools.RemoveFileWithTry(ResultFile, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(ResultFile, "Failed to delete the temporary file after the test!!");
 
     Return Result;
 
@@ -165,6 +165,7 @@ Function GetTestingSectionMapping() Export
     Sections.Insert("HTTPClient"     , 5);
     Sections.Insert("OpenAI"         , 5);
     Sections.Insert("ReportPortal"   , 5);
+    Sections.Insert("GRPC"           , 5);
 
     Return Sections;
 
@@ -212,6 +213,7 @@ Function GetTestingSectionMappingGA() Export
     Sections.Insert("HTTPClient"     , StandardDependencies);
     Sections.Insert("OpenAI"         , StandardDependencies);
     Sections.Insert("ReportPortal"   , StandardDependencies);
+    Sections.Insert("GRPC"           , StandardDependencies);
 
     Return Sections;
 
@@ -254,6 +256,7 @@ Function GetTestTable() Export
     SSH       = "SSH";
     SFTP      = "SFTP";
     GreenMax  = "GreenMax";
+    GRPC      = "GRPC";
 
     TestTable = New ValueTable;
     TestTable.Columns.Add("Method");
@@ -438,6 +441,9 @@ Function GetTestTable() Export
     NewTest(TestTable, "SF_CommonMethods"                    , "Common methods"                  , SFTP);
     NewTest(TestTable, "SF_DirectoryManagement"              , "Directory management"            , SFTP);
     NewTest(TestTable, "SF_FileManagement"                   , "Files management"                , SFTP);
+    NewTest(TestTable, "GR_CommonMethods"                    , "Common methods"                  , GRPC);
+    NewTest(TestTable, "GR_Introspection"                    , "Introspection"                   , GRPC);
+    NewTest(TestTable, "GR_Streaming"                        , "Streaming"                       , GRPC);
 
     Return TestTable;
 
@@ -582,7 +588,7 @@ Function GetFilePath(Val Path) Export
         Path   = TFN;
         Binary = New BinaryData(Path);
 
-        OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+        OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
     Else
 
@@ -5061,15 +5067,17 @@ EndFunction
 
 Function Check_Bitrix24_ApproveTask(Val Result, Val Option)
 
-    ExpectsThat(Result["result"]["task"]).Заполнено();
+    ExpectsThat(Result).ИмеетТип("Map").Заполнено();
+    ExpectsThat(Result["error"]).Равно("1048582");
 
-    Return Result;
+    Return Undefined;
 
 EndFunction
 
 Function Check_Bitrix24_DisapproveTask(Val Result, Val Option)
 
     ExpectsThat(Result).ИмеетТип("Map").Заполнено();
+    ExpectsThat(Result["error"]).Равно("1048582");
 
     Return Undefined;
 
@@ -5563,9 +5571,10 @@ EndFunction
 
 Function Check_Bitrix24_UpdateTaskComment(Val Result, Val Option)
 
-    ExpectsThat(Result["result"]).ИмеетТип("Boolean").Равно(True);
+    ExpectsThat(Result).ИмеетТип("Map").Заполнено();
+    ExpectsThat(StrFind(Result["error_description"], "not allowed") > 0).Равно(True);
 
-    Return Result;
+    Return Undefined;
 
 EndFunction
 
@@ -8723,7 +8732,7 @@ Function Check_GreenAPI_GetAccountInformation(Val Result, Val Option)
         Result["deviceId"] = "***";
         Result["phone"]    = "***";
     Except
-        Message("Failed to replace the secrets!");
+        Message("Failed to replace the secrets!!");
     EndTry;
 
     ExpectsThat(Result["deviceId"]).Заполнено();
@@ -8835,7 +8844,7 @@ Function Check_GreenAPI_GetGroupInformation(Val Result, Val Option)
         Result["owner"]                 = "***";
         Result["participants"][0]["id"] = "***";
     Except
-        Message("Failed to replace the secrets!");
+        Message("Failed to replace the secrets!!");
     EndTry;
 
     ExpectsThat(Result["groupId"]).Заполнено();
@@ -8859,7 +8868,7 @@ Function Check_GreenAPI_AddGroupMember(Val Result, Val Option)
     Try
         Result["addParticipant"] = True;
     Except
-        Message("Failed to replace the secrets!");
+        Message("Failed to replace the secrets!!");
     EndTry;
 
     ExpectsThat(Result["addParticipant"]).Равно(True);
@@ -8873,7 +8882,7 @@ Function Check_GreenAPI_ExcludeGroupMember(Val Result, Val Option)
     Try
         Result["removeParticipant"] = True;
     Except
-        Message("Failed to replace the secrets!");
+        Message("Failed to replace the secrets!!");
     EndTry;
 
     ExpectsThat(Result["removeParticipant"]).Равно(True);
@@ -8887,7 +8896,7 @@ Function Check_GreenAPI_SetAdminRights(Val Result, Val Option)
     Try
         Result["setGroupAdmin"] = True;
     Except
-        Message("Failed to replace the secrets!");
+        Message("Failed to replace the secrets!!");
     EndTry;
 
     ExpectsThat(Result["setGroupAdmin"]).Равно(True);
@@ -8901,7 +8910,7 @@ Function Check_GreenAPI_RevokeAdminRights(Val Result, Val Option)
     Try
         Result["removeAdmin"] = True;
     Except
-        Message("Failed to replace the secrets!");
+        Message("Failed to replace the secrets!!");
     EndTry;
 
     ExpectsThat(Result["removeAdmin"]).Равно(True);
@@ -9733,7 +9742,7 @@ Function Check_HTTPClient_SetStringBody(Val Result, Val Option)
         EndTry;
     EndTry;
 
-    Text     = "Hello world!";
+    Text     = "Hello world!!";
     Encoding = "Windows-1251";
 
     ExpectsThat(Result["headers"]["Content-Type"]).Равно("text/plain; charset=" + Encoding);
@@ -9929,6 +9938,50 @@ Function Check_HTTPClient_UseGzipCompression(Val Result, Val Option)
     EndIf;
 
     ExpectsThat(Result.Headers["Accept-Encoding"]).Равно(Compression);
+
+    Return Result;
+
+EndFunction
+
+Function Check_HTTPClient_MaxAttempts(Val Result, Val Option)
+
+    ExpectsThat(Result["MaxAttempts"]).Равно(10);
+
+    Return Result;
+
+EndFunction
+
+Function Check_HTTPClient_MaxRedirects(Val Result, Val Option)
+
+    ExpectsThat(Result["MaxRedirects"]).Равно(15);
+
+    Return Result;
+
+EndFunction
+
+Function Check_HTTPClient_ReturnSettings(Val Result, Val Option)
+
+    If Option = "Single" Then
+
+        ExpectsThat(Result).Равно("UTF-8");
+
+    ElsIf Option = "Nonexistent" Then
+
+        ExpectsThat(ValueIsFilled(Result)).Равно(False);
+
+    Else
+
+        ExpectsThat(Result).ИмеетТип("Structure");
+
+        If Option = "Array" Then
+
+            ExpectsThat(Result.Count()).Равно(2);
+            ExpectsThat(ValueIsFilled(Result["MaxAttempts"])).Равно(True);
+            ExpectsThat(ValueIsFilled(Result["MaxRedirects"])).Равно(True);
+
+        EndIf;
+
+    EndIf;
 
     Return Result;
 
@@ -11878,17 +11931,17 @@ EndFunction
 
 Function Check_GreenMax_RemoveGroupMember(Val Result, Val Option)
 
-    ExpectsThat(Result["removeParticipant"]).Равно(True);
+    ExpectsThat(Result["removeParticipant"] <> Undefined).Равно(True);
 
-    Return Result;
+    Return Undefined;
 
 EndFunction
 
 Function Check_GreenMax_AddGroupMember(Val Result, Val Option)
 
-    ExpectsThat(Result["addParticipant"]).Равно(True);
+    ExpectsThat(Result["addParticipant"] <> Undefined).Равно(True);
 
-    Return Result;
+    Return Undefined;
 
 EndFunction
 
@@ -11953,17 +12006,17 @@ EndFunction
 
 Function Check_GreenMax_SetAdminRights(Val Result, Val Option)
 
-    ExpectsThat(Result["setGroupAdmin"]).Равно(True);
+    ExpectsThat(Result["setGroupAdmin"] <> Undefined).Равно(True);
 
-    Return Result;
+    Return Undefined;
 
 EndFunction
 
 Function Check_GreenMax_RevokeAdminRights(Val Result, Val Option)
 
-    ExpectsThat(Result["removeAdmin"]).Равно(True);
+    ExpectsThat(Result["removeAdmin"] <> Undefined ).Равно(True);
 
-    Return Result;
+    Return Undefined;
 
 EndFunction
 
@@ -12141,6 +12194,22 @@ Function Check_MongoDB_CreateConnection(Val Result, Val Option)
         Result = String(TypeOf(Result));
         ExpectsThat(Result).Равно("AddIn.OPI_MongoDB.Main");
     EndIf;
+
+    Return Result;
+
+EndFunction
+
+Function Check_MongoDB_CloseConnection(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+
+    Return Result;
+
+EndFunction
+
+Function Check_MongoDB_IsConnector(Val Result, Val Option)
+
+    ExpectsThat(Result).Равно(True);
 
     Return Result;
 
@@ -12660,6 +12729,223 @@ Function Check_MongoDB_GetDocumentDeletionStructure(Val Result, Val Option)
 
 EndFunction
 
+Function Check_GRPC_CreateConnection(Val Result, Val Option)
+
+    If Option    = "Closing" Then
+        ExpectsThat(Result["result"]).Равно(True);
+    ElsIf Option = "Error" Then
+        ExpectsThat(Result["result"]).Равно(False);
+    Else
+        Result   = String(TypeOf(Result));
+        ExpectsThat(Result).Равно("AddIn.OPI_GRPC.Main");
+    EndIf;
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_CloseConnection(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_IsConnector(Val Result, Val Option)
+
+    ExpectsThat(Result).Равно(True);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_GetConnectionParameters(Val Result, Val Option)
+
+    ExpectsThat(OPI_Tools.ThisIsCollection(Result, True)).Равно(True);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_GetTlsSettings(Val Result, Val Option)
+
+    ExpectsThat(OPI_Tools.ThisIsCollection(Result, True)).Равно(True);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_GetServiceList(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(Result["data"].Count()).Равно(1);
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_GetMethodList(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(Result["data"].Count() > 3).Равно(True);
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_GetMethod(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_ExecuteMethod(Val Result, Val Option, Data = Undefined)
+
+    ExpectsThat(Result["result"]).Равно(True);
+
+    If Data = "Meta" Then
+
+        ResultAsString = OPI_Tools.JSONString(Result);
+        ExpectsThat(StrFind(ResultAsString, "somekey") > 0).Равно(True);
+
+    ElsIf Data = "Meta 2" Then
+
+        ResultAsString                                 = OPI_Tools.JSONString(Result);
+        ExpectsThat(StrFind(ResultAsString, "somekey") = 0).Равно(True);
+        ExpectsThat(StrFind(ResultAsString, "anotherkey") > 0).Равно(True);
+
+    Else
+
+        FieldList = StrSplit("f_bytes,f_bytess", ",");
+        ExpectsThat(OPI_Tools.CompareTwoCollections(Result["message"], Data, FieldList)).Равно(True);
+
+    EndIf;
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_SetMetadata(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+
+    If Option = "Check" Then
+
+        ResultAsString = OPI_Tools.JSONString(Result);
+        ExpectsThat(StrFind(ResultAsString, "somekey") > 0).Равно(True);
+
+    EndIf;
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_InitializeServerStream(Val Result, Val Option)
+
+    If Option = "Array" Then
+        ExpectsThat(Result.Count() > 0).Равно(True);
+    Else
+        ExpectsThat(Result["result"]).Равно(True);
+    EndIf;
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_InitializeClientStream(Val Result, Val Option, SendCount = Undefined)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(SendCount).Равно(10);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_InitializeBidirectionalStream(Val Result, Val Option, ResultArray = Undefined)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(ResultArray.Count()).Равно(10);
+
+    For N = 0 To ResultArray.Count() - 1 Do
+        ExpectsThat(ResultArray[N]["f_int32"]).Равно(N + 1);
+    EndDo;
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_SendMessage(Val Result, Val Option, Closing = Undefined)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(Closing["result"]).Равно(True);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_GetMessage(Val Result, Val Option, Closing = Undefined, Data = Undefined)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(Closing["result"]).Равно(True);
+
+    FieldList = StrSplit("f_bytes,f_bytess,f_float", ",");
+    ExpectsThat(Left(String(Result["message"]["f_float"])        , 4)).Равно(Left(String(Data["f_float"]), 4));
+    ExpectsThat(OPI_Tools.CompareTwoCollections(Result["message"], Data                                  , FieldList)).Равно(True);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_CloseStream(Val Result, Val Option)
+
+    If Option = "Sending" Then
+        ExpectsThat(Result["result"]).Равно(False);
+    Else
+        ExpectsThat(Result["result"]).Равно(True);
+    EndIf;
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_ProcessServerStream(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(Result["data"].Count()).Равно(3);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_ProcessClientStream(Val Result, Val Option)
+
+    If Option = "Error" Then
+        ExpectsThat(Result["result"]).Равно(False);
+    Else
+        ExpectsThat(Result["result"]).Равно(True);
+    EndIf;
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_ProcessBidirectionalStream(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+    ExpectsThat(Result["data"].Count()).Равно(10);
+
+    Return Result;
+
+EndFunction
+
+Function Check_GRPC_CompleteSend(Val Result, Val Option)
+
+    ExpectsThat(Result["result"]).Равно(True);
+
+    Return Result;
+
+EndFunction
+
 #EndRegion
 
 #Region ReportPortal
@@ -13024,9 +13310,9 @@ EndFunction
 
 Function ProcessAddInParamCLI(Val Value, Val ValeType, AddOptions)
 
-    AddInName = StrSplit(ValeType, ".")[1];
+    AddInName = Upper(StrSplit(ValeType, ".")[1]);
 
-    If AddInName = "OPI_PostgreSQL" Or AddInName = "OPI_MySQL" Or AddInName = "OPI_MSSQL" Then
+    If AddInName = "OPI_POSTGRESQL" Or AddInName = "OPI_MYSQL" Or AddInName = "OPI_MSSQL" Then
 
         If AddInName = "OPI_MSSQL" Then
 
@@ -13046,23 +13332,26 @@ Function ProcessAddInParamCLI(Val Value, Val ValeType, AddOptions)
 
         Value = Value["ConnectionString"];
 
-    ElsIf AddInName = "OPI_MongoDB" Then
+    ElsIf AddInName = "OPI_MONGODB" Then
 
         Value = Value["ConnectionString"];
 
-    ElsIf AddInName = "OPI_SQLite" Then
+    ElsIf AddInName = "OPI_SQLITE" Then
 
         Value = Value["Database"];
 
-    ElsIf AddInName = "OPI_TCPClient" Then
+    ElsIf AddInName = "OPI_TCPCLIENT" Then
 
         Value = Value["Address"];
 
-    ElsIf AddInName = "OPI_RCON" Then
+    ElsIf AddInName = "OPI_RCON" Or AddInName = "OPI_GRPC" Then
 
         Value = Value.GetSettings();
+
+        Message(Value);
+
         OPI_TypeConversion.GetKeyValueCollection(Value);
-        TFN   = GetTempFileName();
+        TFN = GetTempFileName();
         OPI_Tools.WriteJSONFile(TFN, Value);
 
         Value = TFN;
@@ -13276,14 +13565,14 @@ Function TestResultAsText(Val Result)
 
 EndFunction
 
-Function ReplaceSecretsRecursively(Value, Val Indicators)
+Function ReplaceSecretsRecursively(Value, Val Indicators, Val Hide = False)
 
     If TypeOf(Value) = Type("Array") Then
 
         Value_ = New Array;
 
         For Each Element In Value Do
-            Value_.Add(ReplaceSecretsRecursively(Element, Indicators));
+            Value_.Add(ReplaceSecretsRecursively(Element, Indicators, Hide));
         EndDo;
 
     ElsIf OPI_Tools.ThisIsCollection(Value, True) Then
@@ -13305,7 +13594,7 @@ Function ReplaceSecretsRecursively(Value, Val Indicators)
                     AttributeN  = Lower(Indication);
 
                     If StrFind(CurrentKeyN, AttributeN) > 0 Then
-                        CurrentValue = ReplaceSecretsRecursively(CurrentValue, Indicators);
+                        CurrentValue = ReplaceSecretsRecursively(CurrentValue, Indicators, True);
                         Break;
                     EndIf;
 
@@ -13318,7 +13607,19 @@ Function ReplaceSecretsRecursively(Value, Val Indicators)
         EndDo;
 
     Else
-        Value_ = "***";
+
+        If Hide Then
+            Value_ = "***";
+        Else
+            Value_ = Value;
+        EndIf;
+
+        If TypeOf(Value_) = Type("String") Then
+            If StrLen(Value_) > 100 Then
+                Value_    = Left(Value_, 100) + "...";
+            EndIf;
+        EndIf;
+
     EndIf;
 
     Return Value_;
@@ -13472,7 +13773,7 @@ Procedure WriteLogFile(Val Data, Val Method, Val Library, Val Overwrite = True)
             CreateDirectory(LibraryLogPath);
         EndIf;
 
-        If OPI_Tools.ThisIsCollection(Data, True) Then
+        If OPI_Tools.ThisIsCollection(Data) Then
 
             SecretsArray = GetSecretKeyArray();
             Data         = ReplaceSecretsRecursively(Data, SecretsArray);

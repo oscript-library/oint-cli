@@ -1,3 +1,3 @@
 oint yadisk СоздатьПапку ^
   --token "***" ^
-  --path "/e1352a54-e2db-4f61-96aa-57dec8d20fb1"
+  --path "/71923848-a287-4705-ba1e-533e53aee381"

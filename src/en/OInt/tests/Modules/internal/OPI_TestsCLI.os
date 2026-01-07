@@ -1669,12 +1669,12 @@ Procedure B24_CommentsManagement() Export
 
     Bitrix24_AddTaskComment(TestParameters);
     Bitrix24_UpdateTaskComment(TestParameters);
-    Bitrix24_CreateResultFromComment(TestParameters);
-    Bitrix24_GetResultsList(TestParameters);
-    Bitrix24_DeleteResultFromComment(TestParameters);
-    Bitrix24_GetTaskCommentsList(TestParameters);
-    Bitrix24_GetTaskComment(TestParameters);
-    Bitrix24_DeleteTaskComment(TestParameters);
+    // !DISABLED! Bitrix24_CreateResultFromComment(TestParameters);
+    // !DISABLED! Bitrix24_GetResultsList(TestParameters);
+    // !DISABLED! Bitrix24_DeleteResultFromComment(TestParameters);
+    // !DISABLED! Bitrix24_GetTaskCommentsList(TestParameters);
+    // !DISABLED! Bitrix24_GetTaskComment(TestParameters);
+    // !DISABLED! Bitrix24_DeleteTaskComment(TestParameters);
     Bitrix24_GetCommentStructure(TestParameters);
 
     OPI_Bitrix24.DeleteTask(URL, TaskID);
@@ -2680,6 +2680,9 @@ Procedure HTTP_Settings() Export
     HTTPClient_UseBodyFiledsAtOAuth(TestParameters);
     HTTPClient_UseURLEncoding(TestParameters);
     HTTPClient_SplitArraysInURL(TestParameters);
+    HTTPClient_MaxRedirects(TestParameters);
+    HTTPClient_MaxAttempts(TestParameters);
+    HTTPClient_ReturnSettings(TestParameters);
 
 EndProcedure
 
@@ -3064,6 +3067,7 @@ Procedure GMax_GroupManagement() Export
     OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Token"      , TestParameters);
     OPI_TestDataRetrieval.ParameterToCollection("GreenMax_Phone"      , TestParameters);
     OPI_TestDataRetrieval.ParameterToCollection("GreenMax_AccountID"  , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GreenMax_MainGroupID", TestParameters);
     OPI_TestDataRetrieval.ParameterToCollection("Picture"             , TestParameters);
     OPI_TestDataRetrieval.ParameterToCollection("Picture3"            , TestParameters);
 
@@ -3199,6 +3203,8 @@ Procedure Mongo_CommonMethods() Export
 
     MongoDB_GenerateConnectionString(TestParameters);
     MongoDB_CreateConnection(TestParameters);
+    MongoDB_CloseConnection(TestParameters);
+    MongoDB_IsConnector(TestParameters);
     MongoDB_ExecuteCommand(TestParameters);
 
 EndProcedure
@@ -3287,6 +3293,66 @@ Procedure Mongo_RoleManagement() Export
     MongoDB_UpdateRole(TestParameters);
     MongoDB_DeleteRole(TestParameters);
     MongoDB_GetRolePrivilegeStructure(TestParameters);
+
+EndProcedure
+
+#EndRegion
+
+#Region GRPC
+
+Procedure GR_CommonMethods() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_Address"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_AddressNoTls", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_Proto"       , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_ProtoTS"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_ProtoImport" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Document"         , TestParameters);
+
+    GRPC_CreateConnection(TestParameters);
+    GRPC_CloseConnection(TestParameters);
+    GRPC_IsConnector(TestParameters);
+    GRPC_SetMetadata(TestParameters);
+    GRPC_ExecuteMethod(TestParameters);
+    GRPC_GetTlsSettings(TestParameters);
+    GRPC_GetConnectionParameters(TestParameters);
+
+EndProcedure
+
+Procedure GR_Introspection() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_Address"    , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_Proto"      , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_ProtoImport", TestParameters);
+
+    GRPC_GetServiceList(TestParameters);
+    GRPC_GetMethodList(TestParameters);
+    GRPC_GetMethod(TestParameters);
+
+EndProcedure
+
+Procedure GR_Streaming() Export
+
+    TestParameters = New Structure;
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_Address"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_AddressNoTls", TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_Proto"       , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_ProtoTS"     , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("GRPC_ProtoImport" , TestParameters);
+    OPI_TestDataRetrieval.ParameterToCollection("Document"         , TestParameters);
+
+    GRPC_InitializeServerStream(TestParameters);
+    GRPC_InitializeClientStream(TestParameters);
+    GRPC_InitializeBidirectionalStream(TestParameters);
+    GRPC_SendMessage(TestParameters);
+    GRPC_GetMessage(TestParameters);
+    GRPC_CloseStream(TestParameters);
+    GRPC_ProcessServerStream(TestParameters);
+    GRPC_ProcessClientStream(TestParameters);
+    GRPC_ProcessBidirectionalStream(TestParameters);
+    GRPC_CompleteSend(TestParameters);
 
 EndProcedure
 
@@ -3517,10 +3583,10 @@ Procedure Telegram_SendTextMessage(FunctionParameters)
     |
     |%F0%9F%8F%B0 *Repository*: [240596448/devtools](https://github.com/240596448/devtools)
     |%F0%9F%94%A2 *Version*: \{0.6.0}
-    |%F0%9F%93%85 *Date release*: 6 december 2025.
+    |%F0%9F%93%85 *Date release*: 6 december 2025 y.
     |
     |>*AI summary*
-    |>Devtools — this tool for automation work with configurations\extensions 1C:Enterprise and integration with Git. Application allows dump and upload objects, a also synchronize change between Git and repository 1C. In release 0.6.0 realized optimization logic work and added logging, that contributes stability and simplifies analysis work applications.
+    |>Devtools - this tool for automation work with configurations\extensions 1C:Enterprise and integration with Git. Application allows dump and upload objects, a also synchronize change between Git and repository 1C. In release 0.6.0 realized optimization logic work and added logging, that contributes stability and simplifies analysis work applications.
     |
     |
     |_Not forget put %E2%AD%90 liked projects_";
@@ -3652,10 +3718,10 @@ Procedure Telegram_SendImage(FunctionParameters)
     |
     |%F0%9F%8F%B0 *Repository*: [240596448/devtools](https://github.com/240596448/devtools)
     |%F0%9F%94%A2 *Version*: \{0.6.0}
-    |%F0%9F%93%85 *Date release*: 6 december 2025.
+    |%F0%9F%93%85 *Date release*: 6 december 2025 y.
     |
     |>*AI summary*
-    |>Devtools — this tool for automation work with configurations\extensions 1C:Enterprise and integration with Git. Application allows dump and upload objects, a also synchronize change between Git and repository 1C. In release 0.6.0 realized optimization logic work and added logging, that contributes stability and simplifies analysis work applications.
+    |>Devtools - this tool for automation work with configurations\extensions 1C:Enterprise and integration with Git. Application allows dump and upload objects, a also synchronize change between Git and repository 1C. In release 0.6.0 realized optimization logic work and added logging, that contributes stability and simplifies analysis work applications.
     |
     |
     |_Not forget put %E2%AD%90 liked projects_";
@@ -3671,7 +3737,7 @@ Procedure Telegram_SendImage(FunctionParameters)
 
     Process(Result, "Telegram", "SendImage", "Complex");
 
-    OPI_Tools.RemoveFileWithTry(ImagePath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(ImagePath, "Failed to delete the temporary file after the test!!");
 
     OPI_Tools.Pause(5);
 
@@ -3723,7 +3789,7 @@ Procedure Telegram_SendVideo(FunctionParameters)
 
     // END
 
-    OPI_Tools.RemoveFileWithTry(VideoPath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(VideoPath, "Failed to delete the temporary file after the test!!");
     Process(Result, "Telegram", "SendVideo", "Binary", FunctionParameters, Text);
 
     OPI_Tools.Pause(5);
@@ -3776,7 +3842,7 @@ Procedure Telegram_SendAudio(FunctionParameters)
 
     // END
 
-    OPI_Tools.RemoveFileWithTry(AudioPath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(AudioPath, "Failed to delete the temporary file after the test!!");
     Process(Result, "Telegram", "SendAudio", "Binary", FunctionParameters, Text);
 
     OPI_Tools.Pause(5);
@@ -3842,7 +3908,7 @@ Procedure Telegram_SendDocument(FunctionParameters)
 
     // END
 
-    OPI_Tools.RemoveFileWithTry(DocumentPath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(DocumentPath, "Failed to delete the temporary file after the test!!");
     Process(Result, "Telegram", "SendDocument", "Binary", FunctionParameters, Text);
 
     OPI_Tools.Pause(5);
@@ -3895,7 +3961,7 @@ Procedure Telegram_SendGif(FunctionParameters)
 
     // END
 
-    OPI_Tools.RemoveFileWithTry(GifPath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(GifPath, "Failed to delete the temporary file after the test!!");
     Process(Result, "Telegram", "SendGif", "Binary", FunctionParameters, Text);
 
     OPI_Tools.Pause(5);
@@ -3952,9 +4018,9 @@ Procedure Telegram_SendMediaGroup(FunctionParameters)
 
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("telegram", "SendMediaGroup", Options);
 
-    OPI_Tools.RemoveFileWithTry(VideoPath   , "Failed to delete the temporary file after the test!");
-    OPI_Tools.RemoveFileWithTry(ImagePath   , "Failed to delete the temporary file after the test!");
-    OPI_Tools.RemoveFileWithTry(DocumentPath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(VideoPath   , "Failed to delete the temporary file after the test!!");
+    OPI_Tools.RemoveFileWithTry(ImagePath   , "Failed to delete the temporary file after the test!!");
+    OPI_Tools.RemoveFileWithTry(DocumentPath, "Failed to delete the temporary file after the test!!");
 
     Process(Result, "Telegram", "SendMediaGroup", "Documents");
 
@@ -4036,7 +4102,7 @@ Procedure Telegram_SendPoll(FunctionParameters)
     Token     = FunctionParameters["Telegram_Token"];
     ChatID    = FunctionParameters["Telegram_ChatID"];
     ChannelID = FunctionParameters["Telegram_ChannelID"];
-    Question  = "What's your favorite color?";
+    Question  = "What's your favorite color??";
 
     AnswersArray = New Array;
     AnswersArray.Add("Red");
@@ -4649,7 +4715,7 @@ Procedure VK_CreatePost(FunctionParameters)
 
     Process(Result, "VK", "CreatePost", "Path", FunctionParameters);
 
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -4712,14 +4778,14 @@ Procedure VK_CreateCompositePost(FunctionParameters)
     // END
 
     Process(Result, "VK", "CreateCompositePost");
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
 Procedure VK_CreatePoll(FunctionParameters)
 
     Parameters = GetVKParameters();
-    Question   = "What's your favorite color?";
+    Question   = "What's your favorite color??";
 
     OptionArray = New Array;
     OptionArray.Add("Red");
@@ -4863,15 +4929,15 @@ Procedure VK_CreateStory(FunctionParameters)
 
     Process(Result, "VK", "CreateStory", "Path");
 
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
 Procedure VK_CreateDiscussion(FunctionParameters)
 
     Parameters = GetVKParameters();
-    Name       = "Discussing: Which color is better?";
-    Message    = "Red, yellow, blue, or some other?";
+    Name       = "Discussing: Which color is better??";
+    Message    = "Red, yellow, blue, or some other??";
 
     Options = New Structure;
     Options.Insert("title", Name);
@@ -5905,7 +5971,7 @@ Procedure YandexDisk_UploadFile(FunctionParameters)
 
     // END
 
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
     Process(Result, "YandexDisk", "UploadFile");
 
@@ -9632,7 +9698,7 @@ Procedure Dropbox_UploadFile(FunctionParameters)
 
     Process(Result, "Dropbox", "UploadFile", , Path);
 
-    OPI_Tools.RemoveFileWithTry(ImagePath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(ImagePath, "Failed to delete the temporary file after the test!!");
 
     If Not OPI_Tools.IsOneScript() And FunctionParameters.Property("Big") Then
 
@@ -16063,7 +16129,7 @@ Procedure VKTeams_SendFile(FunctionParameters)
 
     Process(Result, "VKTeams", "SendFile", , FunctionParameters);
 
-    OPI_Tools.RemoveFileWithTry(FilePath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(FilePath, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -16202,7 +16268,7 @@ Procedure VKTeams_SendVoice(FunctionParameters)
 
     Process(Result, "VKTeams", "SendVoice", , FunctionParameters);
 
-    OPI_Tools.RemoveFileWithTry(FilePath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(FilePath, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -16285,7 +16351,7 @@ Procedure VKTeams_ChangeChatPicture(FunctionParameters)
 
     Process(Result, "VKTeams", "ChangeChatPicture");
 
-    OPI_Tools.RemoveFileWithTry(FilePath, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(FilePath, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -16581,7 +16647,7 @@ Procedure VKTeams_AnswerButtonEvent(FunctionParameters)
                 If callbackData["callbackData"] = "ButtonEvent1" Then
 
                     EventID = callbackData["queryId"];
-                    Result  = OPI_VKTeams.AnswerButtonEvent(Token, EventID, "Get it!");
+                    Result  = OPI_VKTeams.AnswerButtonEvent(Token, EventID, "Get it!!");
 
                     Process(Result, "VKTeams", "AnswerButtonEvent"); // SKIP
 
@@ -18797,8 +18863,8 @@ Procedure S3_GetObject(FunctionParameters)
 
     Process(Result, "S3", "GetObject", "Big BD", 34432400);
 
-    OPI_Tools.RemoveFileWithTry(BigTempFile, "Failed to delete the temporary file after the test!");
-    OPI_Tools.RemoveFileWithTry(TempFile   , "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(BigTempFile, "Failed to delete the temporary file after the test!!");
+    OPI_Tools.RemoveFileWithTry(TempFile   , "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -19830,7 +19896,7 @@ Procedure SQLite_AddRecords(FunctionParameters)
     Result = OPI_TestDataRetrieval.ExecuteTestCLI("sqlite", "AddRecords", Options);
     Process(Result, "SQLite", "AddRecords", "An obscure column");
 
-    OPI_Tools.RemoveFileWithTry(PictureFile, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(PictureFile, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -23716,7 +23782,7 @@ Procedure GreenAPI_SendPoll(FunctionParameters)
     ApiTokenInstance = FunctionParameters["GreenAPI_Token"];
 
     ChatID = FunctionParameters["GreenAPI_TestGroupID"];
-    Text   = "What's your favorite color?";
+    Text   = "What's your favorite color??";
 
     Variants = New Array;
     Variants.Add("Red");
@@ -25255,7 +25321,7 @@ Procedure HTTPClient_SetResponseFile(FunctionParameters)
 
     Process(CheckResult, "HTTPClient", "SetResponseFile", "Body", TFN);
 
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -25268,7 +25334,7 @@ Procedure HTTPClient_SetDataType(FunctionParameters)
 
     Result = OPI_HTTPRequests.NewRequest()
         .Initialize(URL)
-        .SetStringBody("# Hello world!")
+        .SetStringBody("# Hello world!!")
         .SetDataType(MIMEType) // <---
         .ProcessRequest("POST")
         .ReturnResponseAsJSONObject();
@@ -25325,7 +25391,7 @@ Procedure HTTPClient_SetStringBody(FunctionParameters)
     URL = FunctionParameters["HTTP_URL"];
     URL = URL + "/post";
 
-    Text     = "Hello world!";
+    Text     = "Hello world!!";
     Encoding = "Windows-1251";
 
     Result = OPI_HTTPRequests.NewRequest()
@@ -25480,7 +25546,7 @@ Procedure HTTPClient_UseEncoding(FunctionParameters)
     URL = FunctionParameters["HTTP_URL"];
     URL = URL + "/post";
 
-    Text     = "Hello world!";
+    Text     = "Hello world!!";
     Encoding = "Windows-1251";
 
     Result = OPI_HTTPRequests.NewRequest()
@@ -25948,7 +26014,7 @@ Procedure HTTPClient_ReturnResponseFilename(FunctionParameters)
 
     Process(Result, "HTTPClient", "ReturnResponseFilename", , TFN);
 
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -26115,6 +26181,67 @@ Procedure HTTPClient_SendPart(FunctionParameters)
     // END
 
     Process(Result, "HTTPClient", "SendPart");
+
+EndProcedure
+
+Procedure HTTPClient_MaxAttempts(FunctionParameters)
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize()
+        .MaxAttempts(10)
+        .ReturnSettings();
+
+    // END
+
+    Process(Result, "HTTPClient", "MaxAttempts");
+
+EndProcedure
+
+Procedure HTTPClient_MaxRedirects(FunctionParameters)
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize()
+        .MaxRedirects(15)
+        .ReturnSettings();
+
+    // END
+
+    Process(Result, "HTTPClient", "MaxRedirects");
+
+EndProcedure
+
+Procedure HTTPClient_ReturnSettings(FunctionParameters)
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize()
+        .ReturnSettings();
+
+    // END
+
+    Process(Result, "HTTPClient", "ReturnSettings");
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize()
+        .ReturnSettings("EncodeRequestBody");
+
+    Process(Result, "HTTPClient", "ReturnSettings", "Single");
+
+    SettingArray = New Array;
+    SettingArray.Add("MaxAttempts");
+    SettingArray.Add("MaxRedirects");
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize()
+        .MaxAttempts(5)
+        .ReturnSettings(SettingArray);
+
+    Process(Result, "HTTPClient", "ReturnSettings", "Array");
+
+    Result = OPI_HTTPRequests.NewRequest()
+        .Initialize()
+        .ReturnSettings("AAA");
+
+    Process(Result, "HTTPClient", "ReturnSettings", "Nonexistent");
 
 EndProcedure
 
@@ -26481,7 +26608,7 @@ Procedure OpenAI_CreateTranscription(FunctionParameters)
 
     // END
 
-    OPI_Tools.RemoveFileWithTry(Audio, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(Audio, "Failed to delete the temporary file after the test!!");
 
     Process(Result, "OpenAI", "CreateTranscription");
 
@@ -28423,7 +28550,7 @@ Procedure FTP_UploadFile(FunctionParameters)
 
     EndDo;
 
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -28981,7 +29108,7 @@ Procedure FTP_SaveFile(FunctionParameters)
 
     EndDo;
 
-    OPI_Tools.RemoveFileWithTry(FileName, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(FileName, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -30632,7 +30759,7 @@ Procedure SFTP_UploadFile(FunctionParameters)
 
     EndDo;
 
-    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(TFN, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -31180,7 +31307,7 @@ Procedure SFTP_SaveFile(FunctionParameters)
 
     EndDo;
 
-    OPI_Tools.RemoveFileWithTry(FileName, "Failed to delete the temporary file after the test!");
+    OPI_Tools.RemoveFileWithTry(FileName, "Failed to delete the temporary file after the test!!");
 
 EndProcedure
 
@@ -32169,7 +32296,7 @@ Procedure GreenMax_SetAdminRights(FunctionParameters)
     ChatID   = 12345678;
     MemberID = 87654321;
 
-    ChatID   = FunctionParameters["GreenMax_GroupID"]; // SKIP
+    ChatID   = FunctionParameters["GreenMax_MainGroupID"]; // SKIP
     MemberID = FunctionParameters["GreenMax_ContactID"]; // SKIP
 
     Options = New Structure;
@@ -32202,7 +32329,7 @@ Procedure GreenMax_RevokeAdminRights(FunctionParameters)
     ChatID   = 12345678;
     MemberID = 87654321;
 
-    ChatID   = FunctionParameters["GreenMax_GroupID"]; // SKIP
+    ChatID   = FunctionParameters["GreenMax_MainGroupID"]; // SKIP
     MemberID = FunctionParameters["GreenMax_ContactID"]; // SKIP
 
     Options = New Structure;
@@ -32778,6 +32905,62 @@ Procedure MongoDB_CreateConnection(FunctionParameters)
     Result = OPI_MongoDB.CloseConnection(Result);
 
     Process(Result, "MongoDB", "CreateConnection", "Closing");
+
+EndProcedure
+
+Procedure MongoDB_CloseConnection(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("db", Base);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+
+    Connection = OPI_MongoDB.CreateConnection(ConnectionString);
+    Result     = OPI_MongoDB.CloseConnection(Connection);
+
+    // END
+
+    Process(Result, "MongoDB", "CloseConnection");
+
+EndProcedure
+
+Procedure MongoDB_IsConnector(FunctionParameters)
+
+    Address  = "127.0.0.1:1234";
+    Login    = FunctionParameters["MongoDB_User"];
+    Password = FunctionParameters["MongoDB_Password"];
+    Base     = FunctionParameters["MongoDB_DB"];
+
+    Address = OPI_TestDataRetrieval.GetLocalhost() + ":" + FunctionParameters["MongoDB_Port"]; // SKIP
+
+    ConnectionParams = New Structure("authSource", "admin");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("db", Base);
+    Options.Insert("usr", Login);
+    Options.Insert("pwd", Password);
+    Options.Insert("params", ConnectionParams);
+
+    ConnectionString = OPI_TestDataRetrieval.ExecuteTestCLI("mongodb", "GenerateConnectionString", Options);
+
+    Connection = OPI_MongoDB.CreateConnection(ConnectionString);
+    Result     = OPI_MongoDB.IsConnector(Connection);
+
+    // END
+
+    Process(Result, "MongoDB", "IsConnector");
 
 EndProcedure
 
@@ -34446,6 +34629,1105 @@ Procedure MongoDB_RevokeRoles(FunctionParameters)
     // END
 
     Process(Result, "MongoDB", "RevokeRoles");
+
+EndProcedure
+
+#EndRegion
+
+#Region GRPC
+
+Procedure GRPC_CreateConnection(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Meta       = New Structure("somekey", "somevalue");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+    Options.Insert("meta", Meta);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Result = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    // END
+
+    Process(Result, "GRPC", "CreateConnection");
+
+    Result = OPI_GRPC.CloseConnection(Result);
+
+    Process(Result, "GRPC", "CreateConnection", "Closing");
+
+    Address    = FunctionParameters["GRPC_AddressNoTls"];
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Result     = OPI_GRPC.CreateConnection(Parameters);
+
+    Process(Result, "GRPC", "CreateConnection", "No TLS");
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto", Proto1);
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Result     = OPI_GRPC.CreateConnection(Parameters);
+
+    Process(Result, "GRPC", "CreateConnection", "Error");
+
+EndProcedure
+
+Procedure GRPC_CloseConnection(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Meta       = New Structure("somekey", "somevalue");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+    Options.Insert("meta", Meta);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+    Result     = OPI_GRPC.CloseConnection(Connection);
+
+    // END
+
+    Process(Result, "GRPC", "CloseConnection");
+
+EndProcedure
+
+Procedure GRPC_IsConnector(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Meta       = New Structure("somekey", "somevalue");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+    Options.Insert("meta", Meta);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+    Result     = OPI_GRPC.IsConnector(Connection);
+
+    // END
+
+    Process(Result, "GRPC", "IsConnector");
+
+EndProcedure
+
+Procedure GRPC_GetConnectionParameters(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Meta   = New Structure("somekey", "somevalue");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+    Options.Insert("meta", Meta);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+
+    // END
+
+    Process(Result, "GRPC", "GetConnectionParameters");
+
+EndProcedure
+
+Procedure GRPC_GetTlsSettings(FunctionParameters)
+
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    // END
+
+    Process(Result, "GRPC", "GetTlsSettings");
+
+EndProcedure
+
+Procedure GRPC_SetMetadata(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    Meta   = New Structure("somekey", "somevalue");
+    Result = OPI_GRPC.SetMetadata(Connection, Meta);
+
+    // END
+
+    Process(Result, "GRPC", "SetMetadata");
+
+    If Not OPI_TestDataRetrieval.IsCLITest() Then
+
+        Service = "grpcbin.GRPCBin";
+        Method  = "HeadersUnary";
+
+        Options = New Structure;
+        Options.Insert("conn", Connection);
+        Options.Insert("service", Service);
+        Options.Insert("method", Method);
+        Options.Insert("data", Неопределено);
+        Options.Insert("tls", Tls);
+
+        Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ExecuteMethod", Options);
+
+        Process(Result, "GRPC", "SetMetadata", "Check");
+
+     EndIf;
+
+EndProcedure
+
+Procedure GRPC_ExecuteMethod(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Meta       = New Structure("somekey", "somevalue");
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+    Options.Insert("meta", Meta);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyUnary";
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    NumberArray = New Array;
+    NumberArray.Add(1);
+    NumberArray.Add(10);
+    NumberArray.Add(100);
+
+    StructuresArray = New Array;
+    StructuresArray.Add(New Structure("f_string", "Nested value 1"));
+    StructuresArray.Add(New Structure("f_string", "Nested value 2"));
+
+    BoolArray = New Array;
+    BoolArray.Add(True);
+    BoolArray.Add(False);
+
+    File = FunctionParameters["Document"];
+    OPI_TypeConversion.GetBinaryData(File);
+
+    TFN = GetTempFileName();
+    File.Write(TFN);
+
+    BinaryDataArray = New Array;
+    BinaryDataArray.Add(File); // How Data
+    BinaryDataArray.Add(TFN); // How path to file
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_int64"  , 123);
+    Data.Insert("f_float"  , 123.22000122070312);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_enum"   , "ENUM_1");
+    Data.Insert("f_bytes"  , File);
+    Data.Insert("f_sub"    , New Structure("f_string" , "Nested value"));
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_int32s" , NumberArray);
+    Data.Insert("f_int64s" , NumberArray);
+    Data.Insert("f_floats" , NumberArray);
+    Data.Insert("f_bytess" , BinaryDataArray);
+    Data.Insert("f_subs"   , StructuresArray);
+    Data.Insert("f_bools"  , BoolArray);
+    Data.Insert("f_enums"  , StrSplit("ENUM_1,ENUM_2" , ","));
+
+    Options = New Structure;
+    Options.Insert("conn", Parameters);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+    Options.Insert("data", Data);
+    Options.Insert("tls", Tls);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ExecuteMethod", Options);
+
+    // END
+
+    Process(Result, "GRPC", "ExecuteMethod");
+
+    Options = New Structure;
+    Options.Insert("conn", Parameters);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+    Options.Insert("data", Неопределено);
+    Options.Insert("tls", Tls);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ExecuteMethod", Options);
+
+    Process(Result, "GRPC", "ExecuteMethod", "Empty");
+
+    Method = "HeadersUnary";
+    Options = New Structure;
+    Options.Insert("conn", Parameters);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+    Options.Insert("data", Неопределено);
+    Options.Insert("tls", Tls);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ExecuteMethod", Options);
+
+    Process(Result, "GRPC", "ExecuteMethod", "Meta");
+
+EndProcedure
+
+Procedure GRPC_GetServiceList(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+    Scheme  = FunctionParameters["GRPC_Proto"]; // String, path to file or URL
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+    Options = New Structure;
+    Options.Insert("conn", Connection);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetServiceList", Options);
+
+    // END
+
+    Process(Result, "GRPC", "GetServiceList");
+
+EndProcedure
+
+Procedure GRPC_GetMethodList(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+    Scheme  = FunctionParameters["GRPC_Proto"]; // String, path to file or URL
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+    Service    = "grpcbin.GRPCBin";
+
+    Options = New Structure;
+    Options.Insert("conn", Connection);
+    Options.Insert("service", Service);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetMethodList", Options);
+
+    // END
+
+    Process(Result, "GRPC", "GetMethodList");
+
+EndProcedure
+
+Procedure GRPC_GetMethod(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+    Scheme  = FunctionParameters["GRPC_Proto"]; // String, path to file or URL
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+    Service    = "grpcbin.GRPCBin";
+    Method     = "Index";
+
+    Options = New Structure;
+    Options.Insert("conn", Connection);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetMethod", Options);
+
+    // END
+
+    Process(Result, "GRPC", "GetMethod");
+
+EndProcedure
+
+Procedure GRPC_InitializeServerStream(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyServerStream";
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    If Not OPI_GRPC.IsConnector(Connection) Then
+        Raise Connection["error"];
+    EndIf;
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Result = OPI_GRPC.InitializeServerStream(Connection, Service, Method, Data); // <---
+
+    If Not Result["result"] Then
+        Raise Result["error"];
+    Else
+        StreamID = Result["streamId"];
+    EndIf;
+
+    MessagesArray = New Array;
+
+    While True Do
+
+        CurrentMessage = OPI_GRPC.GetMessage(Connection, StreamID);
+
+        If Not CurrentMessage["result"] Then
+
+            Error = CurrentMessage["error"];
+
+            If Error    = "Timeout" Then
+                Continue;
+            ElsIf Error = "Closed" Then
+                Break;
+            Else
+                Raise Error;
+            EndIf;
+
+        Else
+
+            MessageData = CurrentMessage["message"];
+
+            If ValueIsFilled(MessageData) Then
+                MessagesArray.Add(MessageData);
+            EndIf;
+
+        EndIf;
+
+    EndDo;
+
+    // END
+
+    Process(Result       , "GRPC", "InitializeServerStream");
+    Process(MessagesArray, "GRPC", "InitializeServerStream", "Array");
+
+EndProcedure
+
+Procedure GRPC_InitializeClientStream(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyClientStream";
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    If Not OPI_GRPC.IsConnector(Connection) Then
+        Raise Connection["error"];
+    EndIf;
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Result = OPI_GRPC.InitializeClientStream(Connection, Service, Method); // <---
+
+    If Not Result["result"] Then
+        Raise Result["error"];
+    Else
+        StreamID = Result["streamId"];
+    EndIf;
+
+    FinalMessage = Undefined;
+
+    Counter = 0;
+    While True Do
+
+        CurrentSend = OPI_GRPC.SendMessage(Connection, StreamID, Data);
+        Counter     = Counter + 1;
+
+        If Not CurrentSend["result"] Then
+
+            Error = CurrentSend["error"];
+
+            If Error         = "Timeout" Then
+                Continue;
+            ElsIf Error      = "Closed" Then
+                FinalMessage = OPI_GRPC.GetMessage(Connection, StreamID);
+                Break;
+            Else
+                Raise StrTemplate("%1 (sent messages %2)", Error, Counter);
+            EndIf;
+
+        Else
+
+            If Counter       = 10 Then
+                Completion   = OPI_GRPC.CompleteSend(Connection, StreamID);
+                FinalMessage = OPI_GRPC.GetMessage(Connection, StreamID);
+                Break;
+            EndIf;
+
+        EndIf;
+
+    EndDo;
+
+    // END
+
+    Process(FinalMessage, "GRPC", "InitializeClientStream", , Counter);
+
+EndProcedure
+
+Procedure GRPC_InitializeBidirectionalStream(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyBidirectionalStreamStream";
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    If Not OPI_GRPC.IsConnector(Connection) Then
+        Raise Connection["error"];
+    EndIf;
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Result = OPI_GRPC.InitializeBidirectionalStream(Connection, Service, Method); // <---
+
+    If Not Result["result"] Then
+        Raise Result["error"];
+    Else
+        StreamID = Result["streamId"];
+    EndIf;
+
+    ResultArray = New Array;
+    Counter     = 0;
+
+    While Counter < 10 Do
+
+        Data.Insert("f_int32", Counter + 1);
+
+        CurrentSend = OPI_GRPC.SendMessage(Connection, StreamID, Data);
+
+        If Not CurrentSend["result"] Then
+
+            Error = CurrentSend["error"];
+
+            If Error = "Timeout" Then
+                Continue;
+            Else
+                 Raise StrTemplate("Send error: %1 (processed messages %2)", Error, Counter);
+            EndIf;
+
+        EndIf;
+
+        CurrentReceive = OPI_GRPC.GetMessage(Connection, StreamID);
+
+        If Not CurrentReceive["result"] Then
+            Raise StrTemplate("Receive error: %1 (processed messages %2)", Error, Counter);
+        EndIf;
+
+        ResultArray.Add(CurrentReceive["message"]);
+        Counter = Counter + 1;
+
+    EndDo;
+
+    OPI_GRPC.CloseStream(Connection, StreamID);
+
+    // END
+
+    Process(Result, "GRPC", "InitializeBidirectionalStream", , ResultArray);
+
+EndProcedure
+
+Procedure GRPC_SendMessage(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyClientStream";
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    If Not OPI_GRPC.IsConnector(Connection) Then
+        Raise Connection["error"];
+    EndIf;
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Result = OPI_GRPC.InitializeClientStream(Connection, Service, Method);
+
+    If Not Result["result"] Then
+        Raise Result["error"];
+    Else
+        StreamID = Result["streamId"];
+    EndIf;
+
+    Result  = OPI_GRPC.SendMessage(Connection, StreamID, Data); // <---
+    Closing = OPI_GRPC.CloseStream(Connection, StreamID);
+
+    // END
+
+    Process(Result, "GRPC", "SendMessage", , Closing);
+
+EndProcedure
+
+Procedure GRPC_GetMessage(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyServerStream";
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    If Not OPI_GRPC.IsConnector(Connection) Then
+        Raise Connection["error"];
+    EndIf;
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    NumberArray = New Array;
+    NumberArray.Add(1);
+    NumberArray.Add(10);
+    NumberArray.Add(100);
+
+    File = FunctionParameters["Document"];
+    OPI_TypeConversion.GetBinaryData(File);
+
+    TFN = GetTempFileName();
+    File.Write(TFN);
+
+    BinaryDataArray = New Array;
+    BinaryDataArray.Add(File); // How Data
+    BinaryDataArray.Add(TFN); // How path to file
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_int64"  , 123);
+    Data.Insert("f_float"  , 123.22000122070312);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_enum"   , "ENUM_1");
+    Data.Insert("f_bytes"  , File);
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_int32s" , NumberArray);
+    Data.Insert("f_bytess" , BinaryDataArray);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Result = OPI_GRPC.InitializeServerStream(Connection, Service, Method, Data);
+
+    If Not Result["result"] Then
+        Raise Result["error"];
+    Else
+        StreamID = Result["streamId"];
+    EndIf;
+
+    Result  = OPI_GRPC.GetMessage(Connection, StreamID); // <---
+    Closing = OPI_GRPC.CloseStream(Connection, StreamID);
+
+    // END
+
+    Data.Insert("f_int64s", New Array);
+    Data.Insert("f_enums" , New Array);
+    Data.Insert("f_floats", New Array);
+    Data.Insert("f_bools" , New Array);
+    Data.Insert("f_subs"  , New Array);
+
+    Process(Result, "GRPC", "GetMessage", , Closing, Data);
+
+EndProcedure
+
+Procedure GRPC_CloseStream(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyServerStream";
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    If Not OPI_GRPC.IsConnector(Connection) Then
+        Raise Connection["error"];
+    EndIf;
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Result = OPI_GRPC.InitializeServerStream(Connection, Service, Method, Data);
+
+    If Not Result["result"] Then
+        Raise Result["error"];
+    Else
+        StreamID = Result["streamId"];
+    EndIf;
+
+    Result = OPI_GRPC.CloseStream(Connection, StreamID); // <---
+
+    // END
+
+    Process(Result, "GRPC", "CloseStream");
+
+    Result = OPI_GRPC.GetMessage(Connection, StreamID);
+
+    Process(Result, "GRPC", "CloseStream", "Sending");
+
+EndProcedure
+
+Procedure GRPC_ProcessServerStream(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyServerStream";
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Options = New Structure;
+    Options.Insert("conn", Parameters);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+    Options.Insert("data", Data);
+    Options.Insert("tls", Tls);
+    Options.Insert("count", 3);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ProcessServerStream", Options);
+
+    // END
+
+    Process(Result, "GRPC", "ProcessServerStream");
+
+EndProcedure
+
+Procedure GRPC_ProcessClientStream(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyClientStream";
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_int32"  , 123);
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    ArrayOfRequests = New Array;
+
+    For N = 1 To 10 Do
+        ArrayOfRequests.Add(Data);
+    EndDo;
+
+    Options = New Structure;
+    Options.Insert("conn", Parameters);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+    Options.Insert("data", ArrayOfRequests);
+    Options.Insert("tls", Tls);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ProcessClientStream", Options);
+
+    // END
+
+    Process(Result, "GRPC", "ProcessClientStream");
+
+    ArrayOfRequests.Delete(ArrayOfRequests.UBound());
+
+    Options = New Structure;
+    Options.Insert("conn", Parameters);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+    Options.Insert("data", ArrayOfRequests);
+    Options.Insert("tls", Tls);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ProcessClientStream", Options);
+
+    Process(Result, "GRPC", "ProcessClientStream", "Error");
+
+EndProcedure
+
+Procedure GRPC_ProcessBidirectionalStream(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    StingsArray = New Array;
+    StingsArray.Add("one");
+    StingsArray.Add("two");
+    StingsArray.Add("three");
+
+    Data = New Map;
+    Data.Insert("f_string" , "Test message");
+    Data.Insert("f_bool"   , True);
+    Data.Insert("f_strings", StingsArray);
+    Data.Insert("f_sub"    , New Structure("f_string", "Nested value"));
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyBidirectionalStreamStream";
+
+    ExchangeOrder = New Array;
+
+    For N = 1 To 10 Do
+
+        ExchangeOrder.Add(Data); // Single send
+        ExchangeOrder.Add(Undefined); // Single get
+
+    EndDo;
+
+    Options = New Structure;
+    Options.Insert("conn", Parameters);
+    Options.Insert("service", Service);
+    Options.Insert("method", Method);
+    Options.Insert("exch", ExchangeOrder);
+    Options.Insert("tls", Tls);
+
+    Result = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "ProcessBidirectionalStream", Options);
+
+    // END
+
+    Process(Result, "GRPC", "ProcessBidirectionalStream");
+
+EndProcedure
+
+Procedure GRPC_CompleteSend(FunctionParameters)
+
+    Address = FunctionParameters["GRPC_Address"];
+
+    Proto1 = FunctionParameters["GRPC_ProtoImport"]; // String, path to file or URL
+    Proto2 = FunctionParameters["GRPC_ProtoTS"]; // String, path to file or URL
+
+    Scheme = New Map;
+    Scheme.Insert("main.proto"    , Proto1); // Primary
+    Scheme.Insert("my_types.proto", Proto2); // For import in primary
+
+    Options = New Structure;
+    Options.Insert("addr", Address);
+    Options.Insert("proto", Scheme);
+
+    Parameters = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetConnectionParameters", Options);
+    Options = New Structure;
+    Options.Insert("trust", Истина);
+
+    Tls = OPI_TestDataRetrieval.ExecuteTestCLI("grpc", "GetTlsSettings", Options);
+
+    Service = "grpcbin.GRPCBin";
+    Method  = "DummyClientStream";
+
+    Connection = OPI_GRPC.CreateConnection(Parameters, Tls);
+
+    If Not OPI_GRPC.IsConnector(Connection) Then
+        Raise Connection["error"];
+    EndIf;
+
+    Result = OPI_GRPC.InitializeClientStream(Connection, Service, Method);
+
+    If Not Result["result"] Then
+        Raise Result["error"];
+    Else
+        StreamID = Result["streamId"];
+    EndIf;
+
+    Result = OPI_GRPC.CompleteSend(Connection, StreamID);
+
+    // END
+
+    Process(Result, "GRPC", "CompleteSend");
 
 EndProcedure
 

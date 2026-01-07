@@ -1,4 +1,4 @@
 oint cdek DeleteOrder ^
  --token "***" ^
- --uuid "0387cdd8-1d6f-4906-ab7d-713f1f1b7544" ^
+ --uuid "736aef31-7f81-46b3-b545-805dd763d79d" ^
  --testapi "***"

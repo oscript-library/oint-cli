@@ -1,7 +1,7 @@
 ﻿{
  "kind": "calendar#calendarListEntry",
- "etag": "\"1765367220586159\"",
- "id": "3a5afb41219875ba37442ca0cb63038dd73b45abccc86306787747222ca0706d@group.calendar.google.com",
+ "etag": "\"1767727493314143\"",
+ "id": "c84db3c3fd7c5af14052b04339a67c54d13df79f164e77e8631be3c769b41b4b@group.calendar.google.com",
  "summary": "Новое наименование",
  "description": "Новое описание",
  "timeZone": "Europe/Moscow",
@@ -13,7 +13,7 @@
  "defaultReminders": [],
  "conferenceProperties": {
   "allowedConferenceSolutionTypes": [
-   "***"
+   "hangoutsMeet"
   ]
  }
 }

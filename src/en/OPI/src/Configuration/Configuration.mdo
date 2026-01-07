@@ -26,7 +26,7 @@
   <usePurposes>PersonalComputer</usePurposes>
   <scriptVariant>English</scriptVariant>
   <vendor>https://github.com/Bayselonarrend</vendor>
-  <version>1.30.0</version>
+  <version>1.31.0</version>
   <detailedInformation>
     <key>en</key>
     <value>The Open Integration Package is a set of libraries for integrating with some popular APIs for 1C:Enterprise. It consists of common modules, each responsible for its own API, as well as several shared tool modules..</value>
@@ -46,6 +46,7 @@
   <subsystems>Subsystem.OPI_Integrations</subsystems>
   <commonTemplates>CommonTemplate.OPI_Cryptography</commonTemplates>
   <commonTemplates>CommonTemplate.OPI_FTP</commonTemplates>
+  <commonTemplates>CommonTemplate.OPI_GRPC</commonTemplates>
   <commonTemplates>CommonTemplate.OPI_MongoDB</commonTemplates>
   <commonTemplates>CommonTemplate.OPI_MSSQL</commonTemplates>
   <commonTemplates>CommonTemplate.OPI_MySQL</commonTemplates>
@@ -65,6 +66,7 @@
   <commonModules>CommonModule.OPI_GoogleWorkspace</commonModules>
   <commonModules>CommonModule.OPI_GreenAPI</commonModules>
   <commonModules>CommonModule.OPI_GreenMax</commonModules>
+  <commonModules>CommonModule.OPI_GRPC</commonModules>
   <commonModules>CommonModule.OPI_MongoDB</commonModules>
   <commonModules>CommonModule.OPI_MSSQL</commonModules>
   <commonModules>CommonModule.OPI_MySQL</commonModules>

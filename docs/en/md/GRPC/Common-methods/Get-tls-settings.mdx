@@ -1,0 +1,59 @@
+﻿---
+sidebar_position: 7
+description: Get TLS Settings and other functions to work with GRPC in the Open Integration Package, a free open-source integration library for 1C:Enterprise 8, OneScript and CLI
+keywords: [1C, 1С, 1С:Enterprise, 1С:Enterprise 8.3, API, Integration, Services, Exchange, OneScript, CLI, GRPC]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get TLS Settings
+ Forms settings for using TLS
+
+
+
+`Function GetTlsSettings(Val DisableCertVerification, Val CertFilepath = "") Export`
+
+  | Parameter | CLI option | Type | Required | Description |
+  |-|-|-|-|-|
+  | DisableCertVerification | --trust | Boolean | &#x2714; | Allows to work with invalid certificates, including self signed |
+  | CertFilepath | --cert | String | &#x2716; | Path to the root PEM file of the certificate if it is not in the system repository |
+
+  
+  Returns:  Structure Of KeyAndValue - Structure of TLS connection settings
+
+:::tip
+Tls settings can only be set when a connection is created: explicitly, by using the `CreateConnection` function or implicit, when passing settings
+:::
+<br/>
+
+
+```bsl title="1C:Enterprise/OneScript code example"
+    Result = OPI_GRPC.GetTlsSettings(True);
+```
+ 
+
+ <Tabs>
+  
+    <TabItem value="bash" label="Bash" default>
+        ```bash
+            oint grpc GetTlsSettings \
+             --trust true
+        ```
+    </TabItem>
+  
+    <TabItem value="bat" label="CMD/Bat" default>
+        ```batch
+            oint grpc GetTlsSettings ^
+             --trust true
+        ```
+    </TabItem>
+</Tabs>
+
+
+```json title="Result"
+{
+ "use_tls": true,
+ "accept_invalid_certs": true
+}
+```

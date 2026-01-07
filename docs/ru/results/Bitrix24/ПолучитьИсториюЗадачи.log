@@ -2,8 +2,8 @@
  "result": {
   "list": [
    {
-    "id": 114366,
-    "createdDate": "2025-12-10T14:54:19+03:00",
+    "id": 118710,
+    "createdDate": "2026-01-06T22:32:32+03:00",
     "field": "NEW",
     "value": {
      "from": null,
@@ -18,12 +18,12 @@
     }
    },
    {
-    "id": 114368,
-    "createdDate": "2025-12-10T14:54:20+03:00",
+    "id": 118712,
+    "createdDate": "2026-01-06T22:32:32+03:00",
     "field": "START_DATE_PLAN",
     "value": {
      "from": "",
-     "to": "1765367659"
+     "to": "1767727951"
     },
     "user": {
      "id": 1,
@@ -34,12 +34,12 @@
     }
    },
    {
-    "id": 114370,
-    "createdDate": "2025-12-10T14:54:20+03:00",
+    "id": 118714,
+    "createdDate": "2026-01-06T22:32:32+03:00",
     "field": "END_DATE_PLAN",
     "value": {
      "from": "",
-     "to": "1765400400"
+     "to": "1767733200"
     },
     "user": {
      "id": 1,
@@ -50,24 +50,8 @@
     }
    },
    {
-    "id": 114372,
-    "createdDate": "2025-12-10T14:54:20+03:00",
-    "field": "DURATION_PLAN_SECONDS",
-    "value": {
-     "from": "",
-     "to": "32741"
-    },
-    "user": {
-     "id": 1,
-     "name": "Антон",
-     "lastName": "Титовец",
-     "secondName": "",
-     "login": "VKuser657846756"
-    }
-   },
-   {
-    "id": 114386,
-    "createdDate": "2025-12-10T14:54:23+03:00",
+    "id": 118726,
+    "createdDate": "2026-01-06T22:32:35+03:00",
     "field": "TITLE",
     "value": {
      "from": "Новая задача",
@@ -82,8 +66,8 @@
     }
    },
    {
-    "id": 114388,
-    "createdDate": "2025-12-10T14:54:23+03:00",
+    "id": 118728,
+    "createdDate": "2026-01-06T22:32:35+03:00",
     "field": "DESCRIPTION",
     "value": {
      "from": "",
@@ -98,8 +82,8 @@
     }
    },
    {
-    "id": 114390,
-    "createdDate": "2025-12-10T14:54:23+03:00",
+    "id": 118730,
+    "createdDate": "2026-01-06T22:32:35+03:00",
     "field": "PRIORITY",
     "value": {
      "from": "2",
@@ -114,8 +98,8 @@
     }
    },
    {
-    "id": 114396,
-    "createdDate": "2025-12-10T14:54:29+03:00",
+    "id": 118734,
+    "createdDate": "2026-01-06T22:32:40+03:00",
     "field": "RESPONSIBLE_ID",
     "value": {
      "from": "1",
@@ -130,24 +114,8 @@
     }
    },
    {
-    "id": 114398,
-    "createdDate": "2025-12-10T14:54:29+03:00",
-    "field": "COMMENT",
-    "value": {
-     "from": null,
-     "to": "20870"
-    },
-    "user": {
-     "id": 1,
-     "name": "Антон",
-     "lastName": "Титовец",
-     "secondName": "",
-     "login": "VKuser657846756"
-    }
-   },
-   {
-    "id": 114402,
-    "createdDate": "2025-12-10T14:54:30+03:00",
+    "id": 118738,
+    "createdDate": "2026-01-06T22:32:42+03:00",
     "field": "STATUS",
     "value": {
      "from": "2",
@@ -162,8 +130,8 @@
     }
    },
    {
-    "id": 114408,
-    "createdDate": "2025-12-10T14:54:32+03:00",
+    "id": 118742,
+    "createdDate": "2026-01-06T22:32:43+03:00",
     "field": "STATUS",
     "value": {
      "from": "6",
@@ -178,24 +146,8 @@
     }
    },
    {
-    "id": 114410,
-    "createdDate": "2025-12-10T14:54:32+03:00",
-    "field": "COMMENT",
-    "value": {
-     "from": null,
-     "to": "20874"
-    },
-    "user": {
-     "id": 1,
-     "name": "Антон",
-     "lastName": "Титовец",
-     "secondName": "",
-     "login": "VKuser657846756"
-    }
-   },
-   {
-    "id": 114416,
-    "createdDate": "2025-12-10T14:54:35+03:00",
+    "id": 118746,
+    "createdDate": "2026-01-06T22:32:46+03:00",
     "field": "STATUS",
     "value": {
      "from": "5",
@@ -210,24 +162,8 @@
     }
    },
    {
-    "id": 114418,
-    "createdDate": "2025-12-10T14:54:35+03:00",
-    "field": "COMMENT",
-    "value": {
-     "from": null,
-     "to": "20878"
-    },
-    "user": {
-     "id": 1,
-     "name": "Антон",
-     "lastName": "Титовец",
-     "secondName": "",
-     "login": "VKuser657846756"
-    }
-   },
-   {
-    "id": 114422,
-    "createdDate": "2025-12-10T14:54:36+03:00",
+    "id": 118750,
+    "createdDate": "2026-01-06T22:32:47+03:00",
     "field": "STATUS",
     "value": {
      "from": "2",
@@ -242,8 +178,8 @@
     }
    },
    {
-    "id": 114426,
-    "createdDate": "2025-12-10T14:54:40+03:00",
+    "id": 118754,
+    "createdDate": "2026-01-06T22:32:50+03:00",
     "field": "STATUS",
     "value": {
      "from": "3",
@@ -260,13 +196,13 @@
   ]
  },
  "time": {
-  "start": 1765367681,
-  "finish": 1765367681.46167,
-  "duration": 0.461668968200684,
+  "start": 1767727971,
+  "finish": 1767727971.29768,
+  "duration": 0.297682046890259,
   "processing": 0,
-  "date_start": "2025-12-10T14:54:41+03:00",
-  "date_finish": "2025-12-10T14:54:41+03:00",
-  "operating_reset_at": 1765368281,
+  "date_start": "2026-01-06T22:32:51+03:00",
+  "date_finish": "2026-01-06T22:32:51+03:00",
+  "operating_reset_at": 1767728571,
   "operating": 0
  }
 }

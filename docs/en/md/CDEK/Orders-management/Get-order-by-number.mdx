@@ -31,9 +31,9 @@ Method at API documentation: [Order details](https://api-docs.cdek.ru/33828849.h
 
 
 ```bsl title="1C:Enterprise/OneScript code example"
-    Token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3NjUzOTcwNTYsImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJhcGktdmVyc2lvbjoxLjEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJjb250cmFnZW50L...";
+    Token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJsb2NhdGlvbjphbGwiLCJvcmRlcjphbGwiLCJwYXltZW50OmFsbCJdLCJleHAiOjE3Njc3MDI2NTksImF1dGhvcml0aWVzIjpbInNoYXJkLWlkOnJ1LTAxIiwiY2xpZW50LWNpdHk60J3QvtCy0L7RgdC40LHQuNGA0YHQuiwg0J3QvtCy0L7RgdC40LHQuNGA0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwiLCJhY2NvdW50LWxhbmc6cnVzIiwiY29udHJhY3Q60JjQnC3QoNCkLdCT0JvQky0yMiIsImFwaS12ZXJzaW9uOjEuMSIsImFjY291bnQtdXVpZDplOTI1YmQwZi0wNWE2LTRjNTYtYjczNy00Yjk5YzE0ZjY2OWEiLCJjbGllbnQtaWQtZWM1OmVkNzVlY2Y0LTMwZWQtNDE1My1hZmU5LWViODBiYjUxMmYyMiIsImNvbnRyYWN0LWlkOmRlNDJjYjcxLTZjOGMtNGNmNS04MjIyLWNmYjY2MDQ0ZThkZiIsImNsaWVudC1pZC1lYzQ6MTQzNDgyMzEiLCJzb2xpZC1hZGRyZ...";
 
-    OrderNumber = "7bda22cf-cd98-4d8c-8b16-30083263cb8e";
+    OrderNumber = "d6100745-0639-4374-97dd-fcd4dc56c9b8";
     Result      = OPI_CDEK.GetOrderByNumber(Token, OrderNumber, True, True);
 ```
  
@@ -44,7 +44,7 @@ Method at API documentation: [Order details](https://api-docs.cdek.ru/33828849.h
         ```bash
             oint cdek GetOrderByNumber \
              --token "***" \
-             --number "03e987ac-3fea-462a-9650-56de28f5e1df" \
+             --number "9ed71068-7bbb-4936-8e73-dc83a3c2b5cf" \
              --internal true \
              --testapi "***"
         ```
@@ -54,7 +54,7 @@ Method at API documentation: [Order details](https://api-docs.cdek.ru/33828849.h
         ```batch
             oint cdek GetOrderByNumber ^
              --token "***" ^
-             --number "03e987ac-3fea-462a-9650-56de28f5e1df" ^
+             --number "9ed71068-7bbb-4936-8e73-dc83a3c2b5cf" ^
              --internal true ^
              --testapi "***"
         ```
@@ -65,28 +65,34 @@ Method at API documentation: [Order details](https://api-docs.cdek.ru/33828849.h
 ```json title="Result"
 {
  "entity": {
-  "uuid": "9e15fe3c-2071-4ed8-9ded-70df723825d3",
+  "uuid": "8969dc56-4158-41a5-bc1d-39a0deeb3099",
   "type": 1,
   "is_return": false,
   "is_reverse": false,
-  "number": "03e987ac-3fea-462a-9650-56de28f5e1df",
+  "cdek_number": "1106860233",
+  "number": "dd4c8270-d14a-4f9a-885a-69c20dc46229",
   "tariff_code": 139,
   "comment": "New order",
+  "items_cost_currency": "RUB",
+  "recipient_currency": "RUB",
   "delivery_recipient_cost": {
-   "value": 50
+   "value": 50,
+   "vat_sum": 0
   },
   "delivery_recipient_cost_adv": [
    {
     "threshold": 200,
-    "sum": 3000
+    "sum": 3000,
+    "vat_sum": 0
    }
   ],
   "sender": {
+   "company": "Тестирование Интеграции ИМ",
    "name": "Petrov Petr",
    "contragent_type": "LEGAL_ENTITY",
    "phones": [
     {
-     "number": "+79529287654"
+     "number": "79529287654"
     }
    ],
    "passport_requirements_satisfied": "***"
@@ -95,10 +101,11 @@ Method at API documentation: [Order details](https://api-docs.cdek.ru/33828849.h
    "name": "Тестирование Интеграции ИМ"
   },
   "recipient": {
+   "company": "Ivaniv Ivan",
    "name": "Ivaniv Ivan",
    "phones": [
     {
-     "number": "+79134637228"
+     "number": "79134637228"
     }
    ],
    "passport_requirements_satisfied": "***"
@@ -133,59 +140,78 @@ Method at API documentation: [Order details](https://api-docs.cdek.ru/33828849.h
   },
   "services": [
    {
+    "code": "INSURANCE",
+    "parameter": "600.00",
+    "sum": 4.5,
+    "total_sum": 5.4,
+    "discount_percent": 0,
+    "discount_sum": 0,
+    "vat_rate": 20,
+    "vat_sum": 0.9
+   },
+   {
     "code": "SECURE_PACKAGE_A2",
-    "parameter": "10"
+    "parameter": "10",
+    "sum": 500,
+    "total_sum": 600,
+    "discount_percent": 0,
+    "discount_sum": 0,
+    "vat_rate": 20,
+    "vat_sum": 100
    }
   ],
   "packages": [
    {
     "number": "bar-001",
+    "barcode": "000001522785",
     "weight": 4000,
     "length": 10,
     "width": "***",
+    "weight_volume": 200,
+    "weight_calc": 4000,
     "height": 10,
-    "comment": "Packaging",
+    "comment": "приложена опись",
     "items": [
      {
       "name": "Product",
       "ware_key": "***",
       "payment": {
-       "value": 3000
+       "value": 3000,
+       "vat_sum": 0
       },
       "weight": 700,
+      "weight_gross": 700,
       "amount": 2,
+      "delivery_amount": 0,
       "url": "www.item.ru",
       "return_item_detail": {},
       "excise": false,
       "cost": 300
      }
-    ]
+    ],
+    "package_id": "340b55df-9c3b-41da-b0be-b4c95d32b60d"
    }
   ],
   "statuses": [
    {
+    "code": "CREATED",
+    "name": "Создан",
+    "date_time": "2026-01-06T14:27:46+00:00",
+    "city": "Офис СДЭК",
+    "deleted": false
+   },
+   {
     "code": "ACCEPTED",
     "name": "Принят",
-    "date_time": "2025-12-10T20:08:52+00:00",
+    "date_time": "2026-01-06T14:27:45+00:00",
     "city": "Офис СДЭК",
     "deleted": false
    }
   ],
   "is_client_return": "***",
+  "delivery_mode": "1",
+  "has_reverse_order": false,
   "delivery_detail": {
-   "total_sum": 0,
-   "payment_info": []
-  },
-  "calls": {}
- },
- "requests": [
-  {
-   "request_uuid": "1868796e-a192-4287-ba89-6881bd28a878",
-   "type": "CREATE",
-   "date_time": "2025-12-10T20:08:53+00:00",
-   "state": "ACCEPTED"
-  }
- ],
- "related_entities": []
-}
+   "delivery_sum": 1315,
+...
 ```

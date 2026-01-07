@@ -2,24 +2,27 @@
  "status": 200,
  "response": {
   "CompleteMultipartUploadResult": {
-   "Location": "https://0043dc57.storage-564.s3hoster.by/fileChunked.mp3",
-   "Bucket": "0043dc57",
+   "Location": "http://s3.openintegrations.dev/437b7309/fileChunked.mp3",
+   "Bucket": "437b7309",
    "Key": "***",
    "ETag": "\"22c09aeeb42144b375de8a4c1a1bb573-2\""
   }
  },
  "headers": {
   "Accept-Ranges": "bytes",
-  "Date": "Wed, 10 Dec 2025 12:28:47 GMT",
   "ETag": "\"22c09aeeb42144b375de8a4c1a1bb573-2\"",
-  "Server": "MinIO",
+  "Vary": "Accept-Encoding",
+  "Server": "Microsoft-IIS/10.0",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  "Vary": "Origin, Accept-Encoding",
-  "X-Amz-Id-2": "9db21855adaa63c98221e7a7db59c17bf693f4833027894c70082214acf3a007",
-  "X-Amz-Request-Id": "187FDA62F218EF2B",
+  "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+  "X-Amz-Request-Id": "18883BD733DFD67F",
   "X-Content-Type-Options": "nosniff",
+  "X-Ratelimit-Limit": "2955",
+  "X-Ratelimit-Remaining": "2955",
   "X-XSS-Protection": "1; mode=block",
-  "Content-Length": "335",
-  "Content-Type": "application/xml"
+  "X-Powered-By": "ARR/3.0",
+  "Date": "Tue, 06 Jan 2026 19:44:08 GMT",
+  "Content-Type": "application/xml",
+  "Content-Length": "334"
  }
 }

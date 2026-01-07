@@ -1,15 +1,33 @@
 ﻿{
  "receiptId": 1,
  "body": {
-  "typeWebhook": "outgoingMessageStatus",
-  "chatId": "***",
+  "typeWebhook": "outgoingAPIMessageReceived",
   "instanceData": {
    "idInstance": "***",
    "wid": "***",
    "typeInstance": "v3"
   },
-  "timestamp": 1765353698,
-  "idMessage": "1765353556610",
-  "status": "notInGroup"
+  "timestamp": 1767727868,
+  "idMessage": "1767727866832",
+  "senderData": {
+   "chatId": "***",
+   "chatName": "***",
+   "sender": "***",
+   "senderName": "***",
+   "senderContactName": "***",
+   "senderPhoneNumber": "***"
+  },
+  "messageData": {
+   "typeMessage": "extendedTextMessage",
+   "extendedTextMessageData": {
+    "text": "Message text",
+    "description": "",
+    "title": "",
+    "previewType": "None",
+    "jpegThumbnail": "",
+    "forwardingScore": 0,
+    "isForwarded": false
+   }
+  }
  }
 }

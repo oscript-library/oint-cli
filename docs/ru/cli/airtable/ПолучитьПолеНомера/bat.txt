@@ -1,2 +1,2 @@
 oint airtable ПолучитьПолеНомера ^
-  --title "d8140561-bb26-4325-a047-7515953eae7f"
+  --title "c7f27fc6-f578-4c09-8b4a-ed47d17cb459"
